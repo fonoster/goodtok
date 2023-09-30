@@ -26,11 +26,11 @@ GoodTok helps businesses enhance their customer service right from their website
 - [Authors](#authors)
 - [License](#license)
 
-# Architecture
+## Architecture
 
 Coming soon.
 
-# Installation
+## Installation
 
 I'm aiming to make this as easy as possible to install. I'm working on a docker image allowing you to run this application with a single command. When it is ready, you will be able to run the following command to get started:
 
@@ -53,7 +53,7 @@ In the website where you want to integrate GoodTok, you will need to add the fol
   <!-- GoodTok video client end -->
 ```
 
-# Usage
+## Usage
 
 I'm still refining the usage of this application. But the core flow will be as follows:
 
@@ -63,24 +63,24 @@ I'm still refining the usage of this application. But the core flow will be as f
 4. The user gets placed in a queue and waits for an agent to become available.
 5. When an agent becomes available, the customer is notified, and the video chat starts.
 
-# Bugs and Feature Requests
+## Bugs and Feature Requests
 
 For bugs or feature requests, please create an issue [here](https://github.com/psanders/goodtok/issues). For questions, please see the [Discussions](https://github.com/psanders/goodtok/issues) section.
 
-# Contributing
+## Contributing
 
 If you want to contribute to this project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 (I am still working on this section; please come soon.)
 
-# Questions
+## Questions
 
 If you have any questions about this project, please look at my [GitHub profile](https://github.com/psanders) to find the most up-to-date contact information for me.
 
-# Authors
+## Authors
 
 - [Pedro Sanders](https://github.com/psanders)
 
-# License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
