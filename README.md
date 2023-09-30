@@ -43,7 +43,14 @@ The previous command will start the front-office application. You will then be a
 In the website where you want to integrate GoodTok, you will need to add the following script tag:
 
 ```html
-<script src="http://localhost:3000/goodtok.js"></script>
+  <!-- GoodTok video client -->
+  <script
+    id="goodtok-script"
+    type="text/javascript"
+    src="https://goodtok.com/assistant/web.js?key=1413d7-031-13bWa28"
+  >
+  </script>
+  <!-- GoodTok video client end -->
 ```
 
 # Usage
