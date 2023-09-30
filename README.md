@@ -61,11 +61,11 @@ In the website where you want to integrate GoodTok, you will need to add the fol
 
 I'm still refining the usage of this application. But the core flow will be as follows:
 
-1. A customer visits your website and clicks on the GoodTok widget.
-2. The customer is prompted to enter their name and email address.
-3. If the customer is "logged in," they get to skip the previous step.
-4. The user gets placed in a queue and waits for an agent to become available.
-5. When an agent becomes available, the customer is notified, and the video chat starts.
+1. A customer visits your website and clicks on the GoodTok widget
+2. The customer is prompted to enter their name and email address
+3. If the customer is "logged in," they get to skip the previous step
+4. The user gets placed in a queue and waits for an agent to become available
+5. When an agent becomes available, the customer is notified, and the video chat starts
 
 ## Bugs and Feature Requests
 
