@@ -1,6 +1,22 @@
-import { getAudio, getButton } from "wphone";
 import { Web } from "sip.js";
 import { mediaToggle } from "../client/utils";
+
+// Placeholder, needs testing
+function getButton (id: string): HTMLButtonElement {
+  const el = document.getElementById(id);
+  if (!(el instanceof HTMLButtonElement)) {
+    throw new Error(`Element "${id}" not found or not a button element.`);
+  }
+  return el;
+}
+
+function getAudio (id: string): HTMLAudioElement {
+  const el = document.getElementById(id);
+  if (!(el instanceof HTMLAudioElement)) {
+    throw new Error(`Element "${id}" not found or not an audio element.`);
+  }
+  return el;
+}
 
 const callButton = getButton("goodtok-call");
 const muteAudioButton = getButton("goodtok-mute");
