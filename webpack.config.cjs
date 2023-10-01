@@ -2,8 +2,8 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    "client": "./dist/client.js",
-    "frontoffice": "./dist/frontoffice.js",
+    "client": "./dist/client/index.js",
+    "frontoffice": "./dist/frontoffice/index.js",
   },
   devtool: "inline-source-map",
   mode: "development",
