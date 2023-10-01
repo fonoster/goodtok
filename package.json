@@ -33,7 +33,7 @@
     "type": "git",
     "url": "git+https://github.com/psanders/goodtok.git"
   },
-  "unpkg": "lib/client.js",
+  "unpkg": "public/lib/client.js",
   "bugs": {
     "url": "https://github.com/psanders/goodtok/issues"
   }
