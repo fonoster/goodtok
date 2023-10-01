@@ -1,12 +1,14 @@
 {
   "name": "goodtok",
+  "author": "Pedro Sanders <psanders@fonoster.com>",
+  "license": "MIT",  
   "private": true,
   "version": "0.0.1",
   "description": "GoodTok CX",
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {
-    "start": "http-server public -o -c10",
+    "start": "http-server public -c10",
     "build": "tsc && webpack --progress --config webpack.config.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,9 +34,8 @@
     "type": "git",
     "url": "git+https://github.com/psanders/goodtok.git"
   },
+  "unpkg": "dist/client/index.js",
   "bugs": {
     "url": "https://github.com/psanders/goodtok/issues"
-  },
-  "author": "Pedro Sanders <psanders@fonoster.com>",
-  "license": "MIT"
+  }
 }

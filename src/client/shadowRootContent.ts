@@ -1,11 +1,11 @@
-export const shadowRootContent =`
+export const shadowRootContent = `
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
   .video {
     width: 400px;
     height: 225px;
     margin: 0;
-    bottom: 00px;
+    bottom: 0;
     contain: content;
     border-radius: 10px;
   }
@@ -57,7 +57,7 @@ export const shadowRootContent =`
 
   .wrapper #goodtok-phone {
     background-color: rgba(255, 0, 0, .7);
-    rotate: 135deg;
+    transform: rotate(135deg);
   }
 
   .wrapper button:hover {
@@ -71,18 +71,73 @@ export const shadowRootContent =`
     right: 20px;
     z-index: 1000;
     background-color: #053204;
-    border-radius: 0;
+    border-radius: 10px;
     width: 60px;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px solid #053204;
-    box-shadow: 0 0 10px #CCEFE1;
+    // box-shadow: 0 0 10px #CCEFE1;
   }
 
   .wrapper.shown #toggle-btn {
       display: none;
+  }
+
+  #chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: #f7f7f7;
+    // border: 1px solid #ccc;
+    // box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 0;
+    z-index: 1000;
+    display: none;
+    border-radius: 10px;
+  }
+
+  #chat-widget #chat-widget-image {
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .chat-content {
+    padding: 10px;
+    height: calc(100% - 10px - 10px - 10px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+
+  .chat-link {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #333;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .chat-link:last-child {
+    margin-bottom: 0;
+  }
+
+  .chat-link i {
+    margin-right: 10px;
+    font-size: 20px;
+    min-width: 20px;
+    text-align: center;
+  }
+
+  .chat-link:hover {
+    text-decoration: underline;
   }
 
   svg {
@@ -106,6 +161,20 @@ export const shadowRootContent =`
     <p>Your browser doesn't support HTML5 audio.</p>
   </audio>
   <script src="/lib/client.js?ref=1"></script>
+</div>
+
+<div id="chat-widget">
+  <img id="chat-widget-image" src="https://raw.githubusercontent.com/psanders/goodtok/main/assets/meet.jpeg">
+  <div class="chat-content">
+    <a href="https://cal.com/ref=tbt" class="chat-link" target="_blank">
+      <i id="goodtok-calendar-icon"></i>
+      Schedule a later meet
+    </a>
+    <a id="goodtok-meet-now" href="javascript:void(0);" class="chat-link">
+      <i id="goodtok-meet-now-icon"></i>
+      Meet now
+    </a>
+  </div>
 </div>
 
 <button id="toggle-btn">Toggle</button>`;

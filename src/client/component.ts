@@ -1,5 +1,5 @@
 import { Web } from "sip.js";
-import { getVideoLogoSVG, getVideoSVG, getPhoneSVG, getVideoSlashSVG, getMicrophoneSVG, getMicrophoneSlashSVG } from "./icons";
+import { getVideoLogoSVG, getVideoSVG, getPhoneSVG, getVideoSlashSVG, getMicrophoneSVG, getMicrophoneSlashSVG, getCalendarSVG, getVideoBlack } from "./icons";
 import { shadowRootContent } from "./shadowRootContent";
 import { mediaToggle } from "./utils";
 
@@ -19,9 +19,16 @@ class GoodTokComponent extends HTMLElement {
     const phoneButton = this.shadowRoot.querySelector("#goodtok-phone");
     const microphoneButton = this.shadowRoot.querySelector("#goodtok-microphone");
     const cameraButton = this.shadowRoot.querySelector("#goodtok-camera");
+    const meetNow = this.shadowRoot.querySelector("#goodtok-meet-now");
+    const calendarIcon = this.shadowRoot.querySelector("#goodtok-calendar-icon");
+    const meetNowIcon = this.shadowRoot.querySelector("#goodtok-meet-now-icon");
+
+    // Set icons
     microphoneButton.innerHTML = getMicrophoneSVG();
     cameraButton.innerHTML = getVideoSVG();
     phoneButton.innerHTML = getPhoneSVG();
+    calendarIcon.innerHTML = getCalendarSVG();
+    meetNowIcon.innerHTML = getVideoBlack();
 
     // Media elements
     const audioElement = this.shadowRoot.querySelector("#goodtok-audio") as HTMLAudioElement;
@@ -30,6 +37,7 @@ class GoodTokComponent extends HTMLElement {
     // Toggle button
     const toggleButton = this.shadowRoot.querySelector("#toggle-btn");
     const goodTokWrapper = this.shadowRoot.querySelector(".wrapper");
+    const chatWidget = this.shadowRoot.querySelector("#chat-widget");
     toggleButton.innerHTML = getVideoLogoSVG();
 
     // State variables
@@ -37,15 +45,11 @@ class GoodTokComponent extends HTMLElement {
     let cameraEnabled = true;
 
     toggleButton.addEventListener("click", () => {
-      const wrapper = goodTokWrapper as HTMLElement | HTMLDivElement;
       const toggleBtn = toggleButton as HTMLButtonElement;
-      if (wrapper.style.display === "none") {
-        wrapper.style.display = "block";
-        toggleBtn.style.display = "none";
-      } else {
-        wrapper.style.display = "none";
-        toggleBtn.style.display = "block";
-      }
+      const chatWidgetBtn = chatWidget as HTMLElement | HTMLDivElement;
+
+      chatWidgetBtn.style.display = "block";
+      toggleBtn.style.display = "none";
     });
 
     const options: Web.SimpleUserOptions = {
@@ -117,13 +121,24 @@ class GoodTokComponent extends HTMLElement {
       }
     })
 
-    simpleUser.connect()
+    meetNow.addEventListener("click", () => {
+      alert("Your meettings has been scheduled. The next available agent will contact you shortly.");
+
+      console.log("Sending registration message and adding user to the queue");
+      const toggleBtn = toggleButton as HTMLButtonElement;
+      const chatWidgetBtn = chatWidget as HTMLElement | HTMLDivElement;
+
+      toggleBtn.style.display = "block";
+      chatWidgetBtn.style.display = "none";
+
+      simpleUser.connect()
       .then(() => {
         simpleUser.register();
       })
       .catch((error: Error) => {
         console.error("Failed to connect to server");
       });
+    })
   }
 }
 
