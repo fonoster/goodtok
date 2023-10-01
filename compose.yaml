@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  routr:
+    image: fonoster/routr-one:latest
+    environment:
+      LOGS_LEVEL: verbose
+      EXTERNAL_ADDRS: ${DOCKER_HOST_ADDRESS}
+    ports:
+      - 51908:51908
+      - 5062:5062
+      - 5063:5063
+    volumes:
+      - shared:/var/lib/postgresql/data
+
+volumes:
+  shared:
