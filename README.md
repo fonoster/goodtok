@@ -51,7 +51,7 @@ In the website where you want to integrate GoodTok, you will need to add the fol
 <script
   id="goodtok-script"
   type="text/javascript"
-  src="https://goodtok.com/assistant/web.js?key=1413d7-031-13bWa28"
+  src="https://goodtok.com/client/web.js?key=1413d7-031-13bWa28"
 >
 </script>
 <!-- GoodTok video client end -->
@@ -69,7 +69,7 @@ I'm still refining the usage of this application. But the core flow will be as f
 
 ## Bugs and Feature Requests
 
-For bugs or feature requests, please create an issue [here](https://github.com/psanders/goodtok/issues). For questions, please see the [Discussions](https://github.com/psanders/goodtok/issues) section.
+For bugs or feature requests, please create an issue [here](https://github.com/psanders/goodtok/issues). For questions, please see the [Discussions](https://github.com/psanders/goodtok/discussions) section.
 
 ## Contributing
 
