@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8" />
+  <title>GoodTok Front Office</title>
+  <style>
+    .video {
+      display: flex;
+      background: black;
+      position: relative;
+      border: 1px solid lightgrey;
+      height: 300px;
+      width: 400px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>GoodTok Front Office</h1>
+  <div class="video">
+    <video id="goodtok-video" width="100%" muted="muted">
+      <p>Your browser doesn't support HTML5 video.</p>
+    </video>
+  </div>
+
+  <button id="goodtok-call">Call</button>
+  <button id="goodtok-mute">Mute</button>
+
+  <audio style="display: none" id="goodtok-audio" controls>
+    <p>Your browser doesn't support HTML5 audio.</p>
+  </audio>
+  <script src="/lib/frontoffice.js?ref=22"
+    onerror="alert('To run this demo you must first build the library and demo source! Check the Documentation for more information.')">
+    </script>
+</body>
+
+</html>
