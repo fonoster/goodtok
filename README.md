@@ -51,7 +51,7 @@ In the website where you want to integrate GoodTok, you will need to add the fol
 <script
   id="goodtok-script"
   type="text/javascript"
-  src="https://goodtok.com/client/web.js?key=1413d7-031-13bWa28"
+  src="https://unpkg.com/goodtok?key=1413d7-031-13bWa28"
 >
 </script>
 <!-- GoodTok video client end -->
