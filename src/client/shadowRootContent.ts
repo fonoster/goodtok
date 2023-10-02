@@ -27,6 +27,10 @@ export const shadowRootContent = `
     padding: 0px;
   }
 
+  .wrapper.shown {
+    opacity: 1;
+  }
+
   .button-container {
     position: absolute;
     width: 100%;
@@ -65,6 +69,10 @@ export const shadowRootContent = `
     color: white;
   }
 
+  .wrapper.shown #toggle-btn {
+    display: none;
+  }
+
   #toggle-btn {
     position: fixed;
     bottom: 20px;
@@ -77,12 +85,12 @@ export const shadowRootContent = `
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #053204;
-    // box-shadow: 0 0 10px #CCEFE1;
+    border: 2px solid #CCEFE1;
+    transition: transform 0.3s ease-in-out;
   }
 
-  .wrapper.shown #toggle-btn {
-      display: none;
+  #toggle-btn:hover {
+    transform: scale(1.1);
   }
 
   #chat-widget {
@@ -91,13 +99,12 @@ export const shadowRootContent = `
     right: 20px;
     width: 300px;
     height: 400px;
-    background-color: #f7f7f7;
-    // border: 1px solid #ccc;
-    // box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
     padding: 0;
     z-index: 1000;
     display: none;
     border-radius: 10px;
+    border: 2px solid #CCEFE1;
   }
 
   #chat-widget #chat-widget-image {
@@ -120,7 +127,7 @@ export const shadowRootContent = `
     align-items: center;
     margin-bottom: 10px;
     text-decoration: none;
-    color: #333;
+    color: #053204;
     width: 100%;
     justify-content: flex-start;
   }
@@ -144,6 +151,17 @@ export const shadowRootContent = `
     width: 24px;
     height: 24px;
   }
+
+  .close-widget-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 10px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, .5);
+  }
 </style>
 
 <div class="wrapper">
@@ -164,6 +182,7 @@ export const shadowRootContent = `
 </div>
 
 <div id="chat-widget">
+  <button class="close-widget-btn" title="Close Widget"></button>
   <img id="chat-widget-image" src="https://raw.githubusercontent.com/psanders/goodtok/main/assets/meet.jpeg">
   <div class="chat-content">
     <a href="https://cal.com/ref=tbt" class="chat-link" target="_blank">

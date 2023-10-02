@@ -1,5 +1,15 @@
 import { Web } from "sip.js";
-import { getVideoLogoSVG, getVideoSVG, getPhoneSVG, getVideoSlashSVG, getMicrophoneSVG, getMicrophoneSlashSVG, getCalendarSVG, getVideoBlack } from "./icons";
+import { 
+  getVideoLogoSVG, 
+  getVideoSVG, 
+  getPhoneSVG, 
+  getVideoSlashSVG, 
+  getMicrophoneSVG, 
+  getMicrophoneSlashSVG, 
+  getCalendarSVG, 
+  getVideoDarkSVG, 
+  getCloseWidgetVG 
+} from "./icons";
 import { shadowRootContent } from "./shadowRootContent";
 import { mediaToggle } from "./utils";
 
@@ -22,13 +32,7 @@ class GoodTokComponent extends HTMLElement {
     const meetNow = this.shadowRoot.querySelector("#goodtok-meet-now");
     const calendarIcon = this.shadowRoot.querySelector("#goodtok-calendar-icon");
     const meetNowIcon = this.shadowRoot.querySelector("#goodtok-meet-now-icon");
-
-    // Set icons
-    microphoneButton.innerHTML = getMicrophoneSVG();
-    cameraButton.innerHTML = getVideoSVG();
-    phoneButton.innerHTML = getPhoneSVG();
-    calendarIcon.innerHTML = getCalendarSVG();
-    meetNowIcon.innerHTML = getVideoBlack();
+    const closeWidgetBtn = this.shadowRoot.querySelector(".close-widget-btn");
 
     // Media elements
     const audioElement = this.shadowRoot.querySelector("#goodtok-audio") as HTMLAudioElement;
@@ -40,14 +44,21 @@ class GoodTokComponent extends HTMLElement {
     const chatWidget = this.shadowRoot.querySelector("#chat-widget");
     toggleButton.innerHTML = getVideoLogoSVG();
 
-    // State variables
+    // Set icons
+    microphoneButton.innerHTML = getMicrophoneSVG();
+    cameraButton.innerHTML = getVideoSVG();
+    phoneButton.innerHTML = getPhoneSVG();
+    calendarIcon.innerHTML = getCalendarSVG();
+    meetNowIcon.innerHTML = getVideoDarkSVG();
+    closeWidgetBtn.innerHTML = getCloseWidgetVG();
+
+    // Initial state
     let microphoneEnabled = true;
     let cameraEnabled = true;
 
     toggleButton.addEventListener("click", () => {
       const toggleBtn = toggleButton as HTMLButtonElement;
       const chatWidgetBtn = chatWidget as HTMLElement | HTMLDivElement;
-
       chatWidgetBtn.style.display = "block";
       toggleBtn.style.display = "none";
     });
@@ -138,6 +149,13 @@ class GoodTokComponent extends HTMLElement {
       .catch((error: Error) => {
         console.error("Failed to connect to server");
       });
+    })
+
+    closeWidgetBtn.addEventListener("click", () => {
+      const toggleBtn = toggleButton as HTMLButtonElement;
+      const chatWidgetBtn = chatWidget as HTMLElement | HTMLDivElement;
+      toggleBtn.style.display = "block";
+      chatWidgetBtn.style.display = "none";
     })
   }
 }
