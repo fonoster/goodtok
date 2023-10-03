@@ -18,7 +18,7 @@ const domain = "sip.goodtok.io";
 const frontOfficeAgentRef = "front-office-agent";
 const customerAgentRef = "customer-agent";
 // const signalingServer = "wss://sip.goodtok.io:5062";
-const signalingServer = "ws://192.168.1.2:5062";
+const signalingServer = "ws://sip.goodtok.io:5062";
 
 const frontOfficeAgent = {
   ref: customerAgentRef,

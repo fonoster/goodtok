@@ -8,7 +8,6 @@ services:
       EXTERNAL_ADDRS: ${DOCKER_HOST_ADDRESS}
       CONNECT_VERIFIER_PUBLIC_KEY_PATH: /keys/public.key
     ports:
-      - 51908:51908
       - 5062:5062
       - 5063:5063
     volumes:
