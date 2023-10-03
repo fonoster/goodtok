@@ -80,7 +80,6 @@ A GoodTok token is a [JSON Web Token](https://jwt.io/). Here is an example of th
   "aorLink": "sip:anonymous@sip.goodtok.io",
   "domain": "sip.goodtok.io",
   "privacy": "PRIVATE",
-  // Customer can only register to Routr server
   "allowedMethods": ["REGISTER"],
   "signalingServer": "wss://sip.goodtok.io:5062",
 }
