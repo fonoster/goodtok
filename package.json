@@ -9,6 +9,8 @@
   "scripts": {
     "start": "http-server public -c10",
     "build": "tsc && webpack --progress --config webpack.config.cjs",
+    "keys:generate": "./.scripts/create-keys.sh",
+    "token:generate": "./.scripts/create-jwt.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -27,7 +29,10 @@
     "Fonoster",
     "SIP.js",
     "Web Phone",
-    "Phone"
+    "Phone",
+    "Routr",
+    "SIP",
+    "Contact Center"
   ],
   "repository": {
     "type": "git",
