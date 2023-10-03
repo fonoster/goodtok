@@ -1,19 +1,18 @@
 import { Web } from "sip.js";
-import { 
-  getVideoLogoSVG, 
-  getVideoSVG, 
-  getPhoneSVG, 
-  getVideoSlashSVG, 
-  getMicrophoneSVG, 
-  getMicrophoneSlashSVG, 
-  getCalendarSVG, 
-  getVideoDarkSVG, 
-  getCloseWidgetVG 
+import {
+  getVideoLogoSVG,
+  getVideoSVG,
+  getPhoneSVG,
+  getVideoSlashSVG,
+  getMicrophoneSVG,
+  getMicrophoneSlashSVG,
+  getCalendarSVG,
+  getVideoDarkSVG,
+  getCloseWidgetVG
 } from "./icons";
 import { shadowRootContent } from "./shadowRootContent";
 import { mediaToggle } from "./utils";
-
-const server = "ws://192.168.1.2:5062";
+import { getConnectionObject } from "./connection";
 
 class GoodTokComponent extends HTMLElement {
   
@@ -25,6 +24,8 @@ class GoodTokComponent extends HTMLElement {
   }
 
   initGoodTok() {
+    const connectionObject = getConnectionObject(this.ownerDocument);
+
     // Control elements
     const phoneButton = this.shadowRoot.querySelector("#goodtok-phone");
     const microphoneButton = this.shadowRoot.querySelector("#goodtok-microphone");
@@ -64,22 +65,18 @@ class GoodTokComponent extends HTMLElement {
     });
 
     const options: Web.SimpleUserOptions = {
-      aor: "sip:anonymous@sip.goodtok.com",
+      aor: connectionObject.aor,
       media: {
         constraints: { audio: true, video: true },
         remote: {
           audio: audioElement,
           video: videoElement
         }
-      },
-      userAgentOptions: {
-        authorizationUsername: "anonymous",
-        authorizationPassword: "1234"
       }
     };
- 
-    const simpleUser = new Web.SimpleUser(server, options);
-    
+
+    const simpleUser = new Web.SimpleUser(connectionObject.signalingServer, options);
+
     const delegate: Web.SimpleUserDelegate = {
       onCallReceived: () => {
         simpleUser.answer();
@@ -143,12 +140,16 @@ class GoodTokComponent extends HTMLElement {
       chatWidgetBtn.style.display = "none";
 
       simpleUser.connect()
-      .then(() => {
-        simpleUser.register();
-      })
-      .catch((error: Error) => {
-        console.error("Failed to connect to server");
-      });
+        .then(() => {
+          simpleUser.register({ 
+            requestOptions: { 
+              extraHeaders: [`X-Connect-Token: ${connectionObject.token}`] 
+            } 
+          });
+        })
+        .catch((error: Error) => {
+          console.error("Failed to connect to server");
+        });
     })
 
     closeWidgetBtn.addEventListener("click", () => {

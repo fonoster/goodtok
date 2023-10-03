@@ -17,6 +17,8 @@ const privacy = "NONE";
 const domain = "sip.goodtok.io";
 const frontOfficeAgentRef = "front-office-agent";
 const customerAgentRef = "customer-agent";
+// const signalingServer = "wss://sip.goodtok.io:5062";
+const signalingServer = "ws://192.168.1.2:5062";
 
 const frontOfficeAgent = {
   ref: customerAgentRef,
@@ -27,7 +29,8 @@ const frontOfficeAgent = {
   domain,
   privacy,
   // Only allow INVITE requests for this agent
-  allowedMethods: ["INVITE"]
+  allowedMethods: ["INVITE"],
+  signalingServer
 };
 
 const customerAgent = {
@@ -38,7 +41,8 @@ const customerAgent = {
   domain,
   privacy,
   // Only allow REGISTER requests for this agent
-  allowedMethods: ["REGISTER"]
+  allowedMethods: ["REGISTER"],
+  signalingServer
 };
 
 const frontOfficeToken = jwt.sign(frontOfficeAgent, privateKey, signOptions);

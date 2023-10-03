@@ -1,22 +1,8 @@
 import { Web } from "sip.js";
 import { mediaToggle } from "../client/utils";
+import { getAudio, getButton, getConnectionObject, getVideoElement } from "./utils";
 
-// Placeholder, needs testing
-function getButton (id: string): HTMLButtonElement {
-  const el = document.getElementById(id);
-  if (!(el instanceof HTMLButtonElement)) {
-    throw new Error(`Element "${id}" not found or not a button element.`);
-  }
-  return el;
-}
-
-function getAudio (id: string): HTMLAudioElement {
-  const el = document.getElementById(id);
-  if (!(el instanceof HTMLAudioElement)) {
-    throw new Error(`Element "${id}" not found or not an audio element.`);
-  }
-  return el;
-}
+const connectionObject = getConnectionObject(document);
 
 const callButton = getButton("goodtok-call");
 const muteAudioButton = getButton("goodtok-mute");
@@ -24,32 +10,16 @@ const muteAudioButton = getButton("goodtok-mute");
 let isAnswered = false;
 let isMuted = false;
 
-// Helper function to get an HTML audio element
-function getVideoElement(id: string): HTMLVideoElement {
-  const el = document.getElementById(id);
-  if (!(el instanceof HTMLVideoElement)) {
-    throw new Error(`Element "${id}" not found or not an audio element.`);
-  }
-  return el;
-}
-
 const options: Web.SimpleUserOptions = {
-  aor: "sip:goodtok@sip.goodtok.com",
+  aor: connectionObject.aor,
   media: {
     constraints: { audio: true, video: true },
     remote: {
       audio: getAudio("goodtok-audio"),
       video: getVideoElement("goodtok-video")
     }
-  },
-  userAgentOptions: {
-    authorizationUsername: "goodtok",
-    authorizationPassword: "1234"
   }
 };
-
-// WebSocket server to connect with
-const server = "ws://192.168.1.2:5062";
 
 const delegate: Web.SimpleUserDelegate = {
   onCallAnswered: () => {
@@ -62,13 +32,14 @@ const delegate: Web.SimpleUserDelegate = {
   }
 }
 
-const simpleUser = new Web.SimpleUser(server, options);
+const simpleUser = new Web.SimpleUser(connectionObject.signalingServer, options);
 simpleUser.delegate = delegate;
 
 callButton.addEventListener("click", async () => {
   if (!isAnswered) {
     await simpleUser.connect();
-    await simpleUser.call("sip:anonymous@sip.goodtok.com");
+    await simpleUser.call(connectionObject.aorLink, 
+      { extraHeaders: [`X-Connect-Token: ${connectionObject.token}`] });
   } else {
     await simpleUser.disconnect();
     await simpleUser.hangup();

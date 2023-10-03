@@ -32,7 +32,7 @@ Coming soon.
 
 ## Give a star! ⭐
 
-I would mean a lot to me if you could give this project a star. It helps me identify if I'm doing a good job or not. Also, it helps me attract potential contributors and users. 🙏
+It would mean a lot to me if you could give this project a star. It helps me identify if I'm doing a good job or not. Also, it helps me attract potential contributors and users. 🙏
 
 # Installation
 
@@ -44,28 +44,49 @@ docker compose up -d
 
 The previous command will start the front-office application. You will then be able to access the application at http://localhost:3000 and start sending requests from the client application.
 
+## Usage
+
 In the website where you want to integrate GoodTok, you will need to add the following script tag:
 
 ```html
 <!-- GoodTok video client -->
 <script
-  id="goodtok-script"
   type="text/javascript"
-  src="https://unpkg.com/goodtok?key=1413d7-031-13bWa28"
+  src="https://unpkg.com/goodtok?key=Z3RpZD0xMjM0LHNlcnZlcj1hcGkuZ29vZHRvay5pbyxjdXN0b21lcj10b2tlbg==&token=OPTIONAL_CUSTOMER_TOKEN"
 >
 </script>
 <!-- GoodTok video client end -->
 ```
 
-## Usage
+The key is a base64 encoded value containing the account `id` and `server` of your GoodTok instance. You can generate this value by running the following command:
 
-I'm still refining the usage of this application. But the core flow will be as follows:
+```bash
+echo -n '{"id":"1234","server":"api.yourinstance.com"}' | base64
+```
 
-1. A customer visits your website and clicks on the GoodTok widget
-2. The customer is prompted to enter their name and email address
-3. If the customer is "logged in," they get to skip the previous step
-4. The user gets placed in a queue and waits for an agent to become available
-5. When an agent becomes available, the customer is notified, and the video chat starts
+The client will use the default server at `api.goodtok.io` if no server is specified.
+
+The video widget will request an anonymous token from the server if non is provided. The server will generate a token only if the owner of the `id` has enabled anonymous access. The server will return an error if the owner has not allowed anonymous access.
+
+> Remember that enabling anonymous will require you to implement security measures to prevent abuse ⚠️
+
+A GoodTok token is a [JSON Web Token](https://jwt.io/). Here is an example of the claims for a customer token:
+
+```json
+{
+  "ref": "customer-agent",
+  "domainRef": "goodtok-01",
+  "aor": "sip:anonymous@sip.goodtok.io",
+  "aorLink": "sip:anonymous@sip.goodtok.io",
+  "domain": "sip.goodtok.io",
+  "privacy": "PRIVATE",
+  // Customer can only register to Routr server
+  "allowedMethods": ["REGISTER"],
+  "signalingServer": "wss://sip.goodtok.io:5062",
+}
+```
+
+> The Front Office application will look similar but has different allowed methods.
 
 ## Bugs and Feature Requests
 
