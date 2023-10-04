@@ -166,7 +166,7 @@ export const shadowRootContent = `
 
 <div class="wrapper">
   <div class="video">
-    <video id="goodtok-video">
+    <video id="goodtok-video" muted>
       <p>Your browser doesn't support HTML5 video.</p>
     </video>
     <div class="button-container">
@@ -178,7 +178,6 @@ export const shadowRootContent = `
   <audio style="display: none" id="goodtok-audio" controls>
     <p>Your browser doesn't support HTML5 audio.</p>
   </audio>
-  <script src="/lib/client.js?ref=1"></script>
 </div>
 
 <div id="chat-widget">

@@ -5,7 +5,8 @@ import { getAudio, getButton, getConnectionObject, getVideoElement } from "./uti
 const connectionObject = getConnectionObject(document);
 
 const callButton = getButton("goodtok-call");
-const muteAudioButton = getButton("goodtok-mute");
+const muteAudioButton = getButton("goodtok-mute-audio");
+const videoMuteButton = getButton("goodtok-mute-video");
 
 let isAnswered = false;
 let isMuted = false;
@@ -27,7 +28,7 @@ const delegate: Web.SimpleUserDelegate = {
     isAnswered = true;
   },
   onCallHangup: () => {
-    callButton.textContent = "Answer";
+    callButton.textContent = "Call";
     isAnswered = false;
   }
 }
@@ -50,10 +51,22 @@ muteAudioButton.addEventListener("click", () => {
   if (isMuted) {
     mediaToggle(simpleUser, true, "audio")
     isMuted = false;
-    muteAudioButton.textContent = "Mute";
+    muteAudioButton.textContent = "Mute Audio";
   } else {
     mediaToggle(simpleUser, false, "audio")
     isMuted = true;
-    muteAudioButton.textContent = "Unmute";
+    muteAudioButton.textContent = "Unmute Audio";
+  }
+})
+
+videoMuteButton.addEventListener("click", () => {
+  if (isMuted) {
+    mediaToggle(simpleUser, true, "video")
+    isMuted = false;
+    videoMuteButton.textContent = "Mute Video";
+  } else {
+    mediaToggle(simpleUser, false, "video")
+    isMuted = true;
+    videoMuteButton.textContent = "Unmute Video";
   }
 })

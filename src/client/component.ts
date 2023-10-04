@@ -108,24 +108,24 @@ class GoodTokComponent extends HTMLElement {
     cameraButton.addEventListener("click", () => {
       if (cameraEnabled) {
         cameraEnabled = false;
+        mediaToggle(simpleUser, cameraEnabled, "video")
         cameraButton.innerHTML = getVideoSlashSVG();
-        mediaToggle(simpleUser, false, "video")
       } else {
         cameraEnabled = true;
+        mediaToggle(simpleUser, cameraEnabled, "video")
         cameraButton.innerHTML = getVideoSVG();
-        mediaToggle(simpleUser, true, "video")
       }
     })
 
     microphoneButton.addEventListener("click", () => {
       if (microphoneEnabled) {
         microphoneEnabled = false;
+        mediaToggle(simpleUser, microphoneEnabled, "audio")
         microphoneButton.innerHTML = getMicrophoneSlashSVG();
-        mediaToggle(simpleUser, false, "audio")
       } else {
         microphoneEnabled = true;
+        mediaToggle(simpleUser, microphoneEnabled, "audio")
         microphoneButton.innerHTML = getMicrophoneSVG();
-        mediaToggle(simpleUser, true, "audio")
       }
     })
 
