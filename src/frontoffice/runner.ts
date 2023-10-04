@@ -16,8 +16,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type GoodTokConnectionObject = {
-  signalingServer: string;
-  aor: string;
-  token: string;
-};
+import express, { Express, Request, Response } from "express";
+import logger from "@fonoster/logger";
+
+/**
+ * This is the entry point for the service. It will be called by
+ * the service runner.
+ *
+ * @param {number} port - The port the service will listen on.
+ */
+export default function start(port: number | string = 3000): void {
+  const app: Express = express();
+
+  app.get("/", (req: Request, res: Response) => {
+    res.send("Express + TypeScript Server");
+  });
+
+  app.listen(port, () => {
+    logger.info(`⚡️[server]: Server is running at https://localhost:${port}`);
+  });
+}
+
+start();

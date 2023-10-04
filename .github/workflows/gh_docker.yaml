@@ -1,0 +1,22 @@
+name: publish to docker hub
+
+on: [push, workflow_dispatch]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(node -e "console.log(require('./package.json').version)")
+      - name: Publish
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: psanders/goodtok
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          workdir: .
+          tags: "latest, ${{ steps.get_version.outputs.VERSION }}"

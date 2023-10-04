@@ -1,0 +1,28 @@
+## Learn more about this file at 'https://www.gitpod.io/docs/references/gitpod-yml'
+##
+## This '.gitpod.yml' file when placed at the root of a project instructs
+## Gitpod how to prepare & build the project, start development environments
+## and configure continuous prebuilds. Prebuilds when enabled builds a project
+## like a CI server so you can start coding right away - no more waiting for
+## dependencies to download and builds to finish when reviewing pull-requests
+## or hacking on something new.
+##
+tasks:
+  - name: Setup & start
+    init: npm install
+    command: npm start
+
+ports:
+  - port: 8080
+    visibility: public
+    onOpen: notify
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
+    pullRequestsFromForks: true
+    addCheck: true
+    addComment: false
+    addBadge: true

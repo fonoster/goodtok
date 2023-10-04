@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * Copyright (C) <%= YEAR %> by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
  *
  * This file is part of GoodTok
@@ -16,8 +16,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type GoodTokConnectionObject = {
-  signalingServer: string;
-  aor: string;
-  token: string;
-};

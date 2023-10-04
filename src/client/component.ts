@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * http://github.com/fonoster/goodtok
+ *
+ * This file is part of GoodTok
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *    https://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import { Web } from "sip.js";
 import {
   getVideoLogoSVG,
@@ -15,11 +33,10 @@ import { mediaToggle } from "./utils";
 import { getConnectionObject } from "./connection";
 
 class GoodTokComponent extends HTMLElement {
-  
   constructor() {
     super();
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-    shadowRoot.innerHTML = shadowRootContent
+    const shadowRoot = this.attachShadow({ mode: "open" });
+    shadowRoot.innerHTML = shadowRootContent;
     this.initGoodTok();
   }
 
@@ -28,16 +45,24 @@ class GoodTokComponent extends HTMLElement {
 
     // Control elements
     const phoneButton = this.shadowRoot.querySelector("#goodtok-phone");
-    const microphoneButton = this.shadowRoot.querySelector("#goodtok-microphone");
+    const microphoneButton = this.shadowRoot.querySelector(
+      "#goodtok-microphone"
+    );
     const cameraButton = this.shadowRoot.querySelector("#goodtok-camera");
     const meetNow = this.shadowRoot.querySelector("#goodtok-meet-now");
-    const calendarIcon = this.shadowRoot.querySelector("#goodtok-calendar-icon");
+    const calendarIcon = this.shadowRoot.querySelector(
+      "#goodtok-calendar-icon"
+    );
     const meetNowIcon = this.shadowRoot.querySelector("#goodtok-meet-now-icon");
     const closeWidgetBtn = this.shadowRoot.querySelector(".close-widget-btn");
 
     // Media elements
-    const audioElement = this.shadowRoot.querySelector("#goodtok-audio") as HTMLAudioElement;
-    const videoElement = this.shadowRoot.querySelector("#goodtok-video") as HTMLVideoElement;
+    const audioElement = this.shadowRoot.querySelector(
+      "#goodtok-audio"
+    ) as HTMLAudioElement;
+    const videoElement = this.shadowRoot.querySelector(
+      "#goodtok-video"
+    ) as HTMLVideoElement;
 
     // Toggle button
     const toggleButton = this.shadowRoot.querySelector("#toggle-btn");
@@ -75,7 +100,10 @@ class GoodTokComponent extends HTMLElement {
       }
     };
 
-    const simpleUser = new Web.SimpleUser(connectionObject.signalingServer, options);
+    const simpleUser = new Web.SimpleUser(
+      connectionObject.signalingServer,
+      options
+    );
 
     const delegate: Web.SimpleUserDelegate = {
       onCallReceived: () => {
@@ -92,8 +120,8 @@ class GoodTokComponent extends HTMLElement {
         const wrapper = goodTokWrapper as HTMLElement | HTMLDivElement;
         wrapper.style.display = "none";
         toggleBtn.style.display = "block";
-      },
-    }
+      }
+    };
 
     simpleUser.delegate = delegate;
 
@@ -108,56 +136,58 @@ class GoodTokComponent extends HTMLElement {
     cameraButton.addEventListener("click", () => {
       if (cameraEnabled) {
         cameraEnabled = false;
-        mediaToggle(simpleUser, cameraEnabled, "video")
+        mediaToggle(simpleUser, cameraEnabled, "video");
         cameraButton.innerHTML = getVideoSlashSVG();
       } else {
         cameraEnabled = true;
-        mediaToggle(simpleUser, cameraEnabled, "video")
+        mediaToggle(simpleUser, cameraEnabled, "video");
         cameraButton.innerHTML = getVideoSVG();
       }
-    })
+    });
 
     microphoneButton.addEventListener("click", () => {
       if (microphoneEnabled) {
         microphoneEnabled = false;
-        mediaToggle(simpleUser, microphoneEnabled, "audio")
+        mediaToggle(simpleUser, microphoneEnabled, "audio");
         microphoneButton.innerHTML = getMicrophoneSlashSVG();
       } else {
         microphoneEnabled = true;
-        mediaToggle(simpleUser, microphoneEnabled, "audio")
+        mediaToggle(simpleUser, microphoneEnabled, "audio");
         microphoneButton.innerHTML = getMicrophoneSVG();
       }
-    })
+    });
 
     meetNow.addEventListener("click", () => {
-      alert("Your meettings has been scheduled. The next available agent will contact you shortly.");
+      alert(
+        "Your meettings has been scheduled. The next available agent will contact you shortly."
+      );
 
-      console.log("Sending registration message and adding user to the queue");
       const toggleBtn = toggleButton as HTMLButtonElement;
       const chatWidgetBtn = chatWidget as HTMLElement | HTMLDivElement;
 
       toggleBtn.style.display = "block";
       chatWidgetBtn.style.display = "none";
 
-      simpleUser.connect()
+      simpleUser
+        .connect()
         .then(() => {
-          simpleUser.register({ 
-            requestOptions: { 
-              extraHeaders: [`X-Connect-Token: ${connectionObject.token}`] 
-            } 
+          simpleUser.register({
+            requestOptions: {
+              extraHeaders: [`X-Connect-Token: ${connectionObject.token}`]
+            }
           });
         })
-        .catch((error: Error) => {
+        .catch(() => {
           console.error("Failed to connect to server");
         });
-    })
+    });
 
     closeWidgetBtn.addEventListener("click", () => {
       const toggleBtn = toggleButton as HTMLButtonElement;
       const chatWidgetBtn = chatWidget as HTMLElement | HTMLDivElement;
       toggleBtn.style.display = "block";
       chatWidgetBtn.style.display = "none";
-    })
+    });
   }
 }
 

@@ -1,4 +1,23 @@
-import jwtDecode from 'jwt-decode';
+/*
+ * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * http://github.com/fonoster/goodtok
+ *
+ * This file is part of GoodTok
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *    https://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import jwtDecode from "jwt-decode";
+import { FOConnectionObject } from "./types";
 
 export function getButton(id: string): HTMLButtonElement {
   const el = document.getElementById(id);
@@ -26,24 +45,24 @@ export function getVideoElement(id: string): HTMLVideoElement {
 }
 
 export function getConnectionObject(document: Document): FOConnectionObject {
-  const scriptTag = document.querySelector('script[src*="lib/frontoffice.js"]');
+  const scriptTag = document.querySelector("script[src*='lib/frontoffice.js']");
   if (scriptTag) {
-    const srcValue = scriptTag.getAttribute('src');
+    const srcValue = scriptTag.getAttribute("src");
 
-    let url = new URL(srcValue, window.location.href);
+    const url = new URL(srcValue, window.location.href);
 
-    const token = url.searchParams.get('token');
+    const token = url.searchParams.get("token");
 
     // Needs error handling
 
     // Now lets decode the JWT token
-    const payload = jwtDecode(token) as { [key: string]: any };
+    const payload = jwtDecode(token) as { [key: string]: string };
 
     return {
       aor: payload.aor,
       aorLink: payload.aorLink,
       token,
-      signalingServer: payload.signalingServer,
+      signalingServer: payload.signalingServer
     };
   }
 }

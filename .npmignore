@@ -1,0 +1,13 @@
+node_modules
+.nyc_output
+coverage
+src
+test
+*.log
+README.md
+tsconfig.json
+.dockerignore
+.mocharc.json
+*.ts
+webpack.config.cjs
+compose.*

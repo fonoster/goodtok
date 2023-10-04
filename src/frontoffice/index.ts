@@ -1,6 +1,29 @@
+/*
+ * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * http://github.com/fonoster/goodtok
+ *
+ * This file is part of GoodTok
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *    https://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import { Web } from "sip.js";
 import { mediaToggle } from "../client/utils";
-import { getAudio, getButton, getConnectionObject, getVideoElement } from "./utils";
+import {
+  getAudio,
+  getButton,
+  getConnectionObject,
+  getVideoElement
+} from "./utils";
 
 const connectionObject = getConnectionObject(document);
 
@@ -31,16 +54,20 @@ const delegate: Web.SimpleUserDelegate = {
     callButton.textContent = "Call";
     isAnswered = false;
   }
-}
+};
 
-const simpleUser = new Web.SimpleUser(connectionObject.signalingServer, options);
+const simpleUser = new Web.SimpleUser(
+  connectionObject.signalingServer,
+  options
+);
 simpleUser.delegate = delegate;
 
 callButton.addEventListener("click", async () => {
   if (!isAnswered) {
     await simpleUser.connect();
-    await simpleUser.call(connectionObject.aorLink, 
-      { extraHeaders: [`X-Connect-Token: ${connectionObject.token}`] });
+    await simpleUser.call(connectionObject.aorLink, {
+      extraHeaders: [`X-Connect-Token: ${connectionObject.token}`]
+    });
   } else {
     await simpleUser.disconnect();
     await simpleUser.hangup();
@@ -49,24 +76,24 @@ callButton.addEventListener("click", async () => {
 
 muteAudioButton.addEventListener("click", () => {
   if (isMuted) {
-    mediaToggle(simpleUser, true, "audio")
+    mediaToggle(simpleUser, true, "audio");
     isMuted = false;
     muteAudioButton.textContent = "Mute Audio";
   } else {
-    mediaToggle(simpleUser, false, "audio")
+    mediaToggle(simpleUser, false, "audio");
     isMuted = true;
     muteAudioButton.textContent = "Unmute Audio";
   }
-})
+});
 
 videoMuteButton.addEventListener("click", () => {
   if (isMuted) {
-    mediaToggle(simpleUser, true, "video")
+    mediaToggle(simpleUser, true, "video");
     isMuted = false;
     videoMuteButton.textContent = "Mute Video";
   } else {
-    mediaToggle(simpleUser, false, "video")
+    mediaToggle(simpleUser, false, "video");
     isMuted = true;
     videoMuteButton.textContent = "Unmute Video";
   }
-})
+});
