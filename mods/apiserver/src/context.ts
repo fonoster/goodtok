@@ -20,12 +20,19 @@ import { TRPCError } from "@trpc/server";
 import type {} from "@trpc/server/adapters/standalone";
 
 export async function createContext(opts: any) {
-  if (!opts.req.headers.authorization)
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (opts.req._parsedUrl.pathname === "/user.login") {
+    return {};
+  }
 
-  // return {
-  //   session: opts.req
-  // };
+  if (!opts.req.headers.authorization)
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "No credentials found"
+    });
+
+  // Lastly lets check if the token is valid with JWT verification
+  // const token = opts.req.headers.authorization.split(" ")[1];
+  // const user = await verifyToken(token);
 
   return {};
 }

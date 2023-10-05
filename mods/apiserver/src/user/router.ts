@@ -18,13 +18,13 @@
  */
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
-import { users } from "./db";
-import { User } from "./types";
+import { login } from "./login";
 
 export const userRouter = router({
-  getUsers: publicProcedure.query(() => {
-    return users;
-  }),
+  login: publicProcedure
+    .input(z.object({ username: z.string(), password: z.string() }))
+    .mutation((req) => login(req.input.username, req.input.password)),
+
   getUserById: publicProcedure
     .input((val: unknown) => {
       if (typeof val === "string") return val;
@@ -33,21 +33,13 @@ export const userRouter = router({
     .query((req) => {
       const { input } = req;
 
-      const user = users.find((user) => user.id === input);
-
-      return user;
-    }),
-  createUser: publicProcedure
-    .input(z.object({ name: z.string() }))
-    .mutation((req) => {
-      const { input } = req;
-
-      const user: User = {
-        id: `${Math.random()}`,
-        name: input.name
+      const user = {
+        id: input,
+        username: "admin",
+        password: "admin",
+        firstName: "Admin",
+        lastName: "Admin"
       };
-
-      users.push(user);
 
       return user;
     })

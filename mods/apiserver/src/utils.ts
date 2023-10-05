@@ -16,4 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from "./users";
+import crypto from "crypto";
+
+export function hashPassword(password: string) {
+  const hash = crypto.createHash("sha256");
+  hash.update(password);
+  return hash.digest("hex");
+}

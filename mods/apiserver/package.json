@@ -39,6 +39,7 @@
   },
   "gitHead": "476d11cfb4fd3dc9847a0829cae6fece84d048df",
   "devDependencies": {
-    "@types/cors": "^2.8.14"
+    "@types/cors": "^2.8.14",
+    "prisma": "^5.4.1"
   }
 }

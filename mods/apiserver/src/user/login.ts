@@ -16,15 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from "./types";
+import { PrismaClient } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
+import { hashPassword } from "../utils";
 
-export const users: User[] = [
-  {
-    id: "0",
-    name: "Robin Wieruch"
-  },
-  {
-    id: "1",
-    name: "Neil Kammen"
-  }
-];
+const prisma = new PrismaClient();
+
+export async function login(
+  username: string,
+  password: string
+): Promise<string> {
+  const hashedPassword = hashPassword(password);
+  const user = await prisma.user.findUnique({
+    where: {
+      username
+    }
+  });
+
+  if (!user) throw new TRPCError({ code: "UNAUTHORIZED" });
+
+  if (user.password !== hashedPassword)
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+
+  return "token";
+}

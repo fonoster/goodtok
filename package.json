@@ -16,13 +16,16 @@
   ],
   "scripts": {
     "start:apiserver": "cross-env NODE_ENV=dev nodemon mods/apiserver/src/index.ts",
-    "run:client": "cross-env NODE_ENV=dev nodemon mods/sdk/src/index.ts",
     "test": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha mods/**/test/*.test.ts --exit",
     "lint": "eslint mods --ext .ts --fix",
     "format": "prettier --write mods/**/src",
     "gen:docs": "node .scripts/docs-generator.js && cp docs/service.md",
     "prepare": "husky install",
     "start:old": "http-server public -c10",
+    "db:up": "docker compose -f compose.dev.yaml up postgres adminer -d",
+    "db:down": "docker compose -f compose.dev.yaml down",
+    "db:migrate": "npx prisma migrate dev --schema ./mods/apiserver/schema.prisma --name init --preview-feature",
+    "prebuild": "npx prisma generate --schema ./mods/apiserver/schema.prisma",
     "build": "lerna run build",
     "postbuild": "webpack --progress --config .scripts/webpack.config.js",
     "keys:generate": "./.scripts/create-keys.sh",
@@ -30,6 +33,7 @@
   },
   "dependencies": {
     "@fonoster/logger": "^0.3.6",
+    "@prisma/client": "^5.4.1",
     "express": "^4.18.1",
     "jwt-decode": "^3.1.2",
     "sip.js": "^0.21.2"
