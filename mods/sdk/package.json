@@ -1,0 +1,36 @@
+{
+  "name": "@goodtok/sdk",
+  "version": "0.0.1",
+  "description": "SDK for Goodtok",
+  "author": "Pedro Sanders <psanders@fonoster.com>",
+  "homepage": "https://github.com/fonoster/goodtok#readme",
+  "license": "MIT",
+  "main": "dist/index",
+  "types": "dist/index",
+  "directories": {
+    "src": "src",
+    "test": "test"
+  },
+  "scripts": {
+    "prebuild": "rimraf ./dist tsconfig.tsbuildinfo",
+    "build": "tsc -b tsconfig.json"
+  },
+  "dependencies": {
+    "@fonoster/logger": "0.3.24",
+    "@goodtok/common": "0.0.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fonoster/goodtok.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fonoster/goodtok/issues"
+  },
+  "gitHead": "476d11cfb4fd3dc9847a0829cae6fece84d048df"
+}

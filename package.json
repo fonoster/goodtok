@@ -2,21 +2,30 @@
   "name": "goodtok",
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "license": "MIT",
-  "version": "0.0.3",
+  "version": "0.0.1",
   "description": "GoodTok CX",
+  "private": true,
   "main": "dist/index",
   "types": "dist/index",
+  "workspaces": [
+    "mods/common",
+    "mods/sdk",
+    "mods/apiserver",
+    "mods/frontoffice",
+    "mods/widget"
+  ],
   "scripts": {
     "start:frontoffice": "http-server public -c10",
     "start": "cross-env NODE_ENV=dev nodemon src/frontoffice/runner.ts",
     "start:prod": "cross-env NODE_ENV=prod nodemon dist/bundle.js",
-    "test": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha test/*.test.ts --exit",
-    "lint": "eslint src --ext .ts --fix",
-    "format": "prettier --write src",
+    "test": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha mods/**/test/*.test.ts --exit",
+    "lint": "eslint mods --ext .ts --fix",
+    "format": "prettier --write mods/**/**/*.ts",
     "gen:docs": "node .scripts/docs-generator.js && cp docs/service.md",
     "prepare": "husky install",
     "start:old": "http-server public -c10",
-    "build": "tsc && webpack --progress --config webpack.config.cjs",
+    "build": "tsc",
+    "postbuild": "webpack --progress --config .scripts/webpack.config.js",
     "keys:generate": "./.scripts/create-keys.sh",
     "token:generate": "./.scripts/create-jwt.js"
   },
@@ -36,6 +45,7 @@
     "@types/sinon": "^10.0.11",
     "@types/sinon-chai": "^3.2.8",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
@@ -50,6 +60,7 @@
     "husky": "^8.0.1",
     "jsdoc-to-markdown": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
+    "lerna": "^7.3.0",
     "mocha": "^10.0.0",
     "nodemon": "^3.0.1",
     "nyc": "^15.1.0",
@@ -96,8 +107,5 @@
   },
   "files": [
     "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }

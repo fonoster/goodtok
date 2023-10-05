@@ -29,7 +29,7 @@ import {
   getCloseWidgetVG
 } from "./icons";
 import { shadowRootContent } from "./shadowRootContent";
-import { mediaToggle } from "./utils";
+import { mediaToggle } from "@goodtok/common";
 import { getConnectionObject } from "./connection";
 
 class GoodTokComponent extends HTMLElement {

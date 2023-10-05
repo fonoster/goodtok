@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { Web } from "sip.js";
-import { mediaToggle } from "../client/utils";
+import { mediaToggle } from "@goodtok/common";
 import {
   getAudio,
   getButton,
