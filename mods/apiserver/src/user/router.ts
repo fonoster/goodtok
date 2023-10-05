@@ -20,6 +20,7 @@ import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 import { login } from "./login";
 import { getUserById } from "./getUserById";
+import { updateUser } from "./updateUser";
 
 export const userRouter = router({
   login: publicProcedure
@@ -31,5 +32,9 @@ export const userRouter = router({
       if (typeof val === "string") return val;
       throw new Error(`Invalid input: ${typeof val}`);
     })
-    .query((req) => getUserById(req.input))
+    .query((req) => getUserById(req.input)),
+
+  updateUser: publicProcedure
+    .input(z.object({ id: z.string(), data: z.any() }))
+    .mutation((req) => updateUser(req.input.id, req.input.data))
 });

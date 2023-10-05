@@ -21,25 +21,40 @@ import { Client } from "../src/client";
 import chai from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
+
+const expect = chai.expect;
 chai.use(sinonChai);
 const sandbox = sinon.createSandbox();
 
 const DEFAULT_ENDPOINT = "http://localhost:5000/v1";
 const DEFAULT_WORKSPACE_ID = "default";
 
+const client = new Client({
+  endpoint: DEFAULT_ENDPOINT,
+  workspaceId: DEFAULT_WORKSPACE_ID
+});
+
 describe("goodtok sdk", () => {
   afterEach(() => sandbox.restore());
 
-  it.only("gets user by its identifier", async () => {
-    const client = new Client({
-      endpoint: DEFAULT_ENDPOINT,
-      workspaceId: DEFAULT_WORKSPACE_ID
-    });
+  it("gets user by its identifier", async () => {
     await client.login("goodtok", "changeme");
 
     const users = new Users(client);
     const user = await users.getUserById(
       "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1"
     );
+    expect(user).to.be.an("object").that.has.property("id");
+  });
+
+  it("updates user", async () => {
+    await client.login("goodtok", "changeme");
+
+    const users = new Users(client);
+    const user = await users.updateUser({
+      id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
+      name: "GoodTok"
+    });
+    expect(user).to.be.an("object").that.has.property("id");
   });
 });

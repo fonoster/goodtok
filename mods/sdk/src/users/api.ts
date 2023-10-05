@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { User } from "@goodtok/apiserver/src/user/types";
 import { UsersClient, UpdateUserRequest, UpdateUserResponse } from "./types";
 import { Client } from "../client";
@@ -46,6 +45,10 @@ export class Users implements UsersClient {
   }
 
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
-    throw new Error("Method not implemented.");
+    const { id } = await this.trpc.user.updateUser.mutate({
+      id: request.id,
+      data: request
+    });
+    return { id };
   }
 }
