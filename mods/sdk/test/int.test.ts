@@ -35,9 +35,11 @@ describe("goodtok sdk", () => {
       endpoint: DEFAULT_ENDPOINT,
       workspaceId: DEFAULT_WORKSPACE_ID
     });
-    await client.login("admin", "1234");
+    await client.login("goodtok", "changeme");
 
     const users = new Users(client);
-    const user = await users.getUserById("1234");
+    const user = await users.getUserById(
+      "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1"
+    );
   });
 });

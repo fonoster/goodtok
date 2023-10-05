@@ -19,6 +19,7 @@
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 import { login } from "./login";
+import { getUserById } from "./getUserById";
 
 export const userRouter = router({
   login: publicProcedure
@@ -30,17 +31,5 @@ export const userRouter = router({
       if (typeof val === "string") return val;
       throw new Error(`Invalid input: ${typeof val}`);
     })
-    .query((req) => {
-      const { input } = req;
-
-      const user = {
-        id: input,
-        username: "admin",
-        password: "admin",
-        firstName: "Admin",
-        lastName: "Admin"
-      };
-
-      return user;
-    })
+    .query((req) => getUserById(req.input))
 });

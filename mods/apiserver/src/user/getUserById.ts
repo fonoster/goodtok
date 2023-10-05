@@ -16,25 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from "@prisma/client";
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
+import { PrismaClient } from "@prisma/client";
+import { User } from "./types";
+import { TRPCError } from "@trpc/server";
 
-export function hashPassword(password: string) {
-  const hash = crypto.createHash("sha256");
-  hash.update(password);
-  return hash.digest("hex");
-}
+export async function getUserById(id: string): Promise<User> {
+  const prisma = new PrismaClient();
+  const userFromDB = await prisma.user.findUnique({
+    where: {
+      id
+    }
+  });
 
-export function generateToken(user: User, salt: string): string {
-  const payload = {
-    sub: user.id,
-    username: user.username,
-    workspaces: [
-      { id: "252", role: "owner" },
-      { id: "324", role: "member" }
-    ]
+  if (!userFromDB) throw new TRPCError({ code: "NOT_FOUND" });
+
+  return {
+    id: userFromDB.id,
+    username: userFromDB.username,
+    name: userFromDB.name,
+    email: userFromDB.email,
+    avatar: userFromDB.avatar,
+    createdAt: userFromDB.createdAt,
+    updatedAt: userFromDB.updatedAt
   };
-
-  return jwt.sign(payload, salt, { expiresIn: "1h" });
 }
