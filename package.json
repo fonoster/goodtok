@@ -15,16 +15,15 @@
     "mods/widget"
   ],
   "scripts": {
-    "start:frontoffice": "http-server public -c10",
-    "start": "cross-env NODE_ENV=dev nodemon src/frontoffice/runner.ts",
-    "start:prod": "cross-env NODE_ENV=prod nodemon dist/bundle.js",
+    "start:apiserver": "cross-env NODE_ENV=dev nodemon mods/apiserver/src/index.ts",
+    "run:client": "cross-env NODE_ENV=dev nodemon mods/sdk/src/index.ts",
     "test": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha mods/**/test/*.test.ts --exit",
     "lint": "eslint mods --ext .ts --fix",
-    "format": "prettier --write mods/**/**/*.ts",
+    "format": "prettier --write mods/**/src",
     "gen:docs": "node .scripts/docs-generator.js && cp docs/service.md",
     "prepare": "husky install",
     "start:old": "http-server public -c10",
-    "build": "tsc",
+    "build": "lerna run build",
     "postbuild": "webpack --progress --config .scripts/webpack.config.js",
     "keys:generate": "./.scripts/create-keys.sh",
     "token:generate": "./.scripts/create-jwt.js"
@@ -95,7 +94,7 @@
   },
   "nodemonConfig": {
     "watch": [
-      "./src/"
+      "./mods/**"
     ],
     "ext": "ts",
     "exec": "ts-node",

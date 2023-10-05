@@ -17,7 +17,10 @@
   },
   "dependencies": {
     "@fonoster/logger": "0.3.24",
-    "@goodtok/common": "0.0.1"
+    "@goodtok/apiserver": "0.0.1",
+    "@goodtok/common": "0.0.1",
+    "@trpc/client": "^10.38.5",
+    "@trpc/server": "^10.38.5"
   },
   "files": [
     "dist"
