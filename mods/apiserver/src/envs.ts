@@ -17,3 +17,7 @@
  * limitations under the License.
  */
 export const BIND_PORT = process.env.BIND_PORT ?? "5000";
+import crypto from "crypto";
+
+export const SALT =
+  process.env.SALT ?? crypto.getRandomValues(new Uint32Array(1)).toString();

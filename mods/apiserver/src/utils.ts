@@ -16,10 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { User } from "@prisma/client";
+import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
 export function hashPassword(password: string) {
   const hash = crypto.createHash("sha256");
   hash.update(password);
   return hash.digest("hex");
+}
+
+export function generateToken(user: User, salt: string): string {
+  const payload = {
+    sub: user.id,
+    name: user.name,
+    email: user.email,
+    // Fix hardcode values
+    workspaces: [
+      { id: "252", role: "owner" },
+      { id: "324", role: "member" }
+    ]
+  };
+
+  return jwt.sign(payload, salt, { expiresIn: "1h" });
 }

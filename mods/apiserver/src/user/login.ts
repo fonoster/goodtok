@@ -18,7 +18,8 @@
  */
 import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { hashPassword } from "../utils";
+import { generateToken, hashPassword } from "../utils";
+import { SALT } from "../envs";
 
 const prisma = new PrismaClient();
 
@@ -38,5 +39,5 @@ export async function login(
   if (user.password !== hashedPassword)
     throw new TRPCError({ code: "UNAUTHORIZED" });
 
-  return "token";
+  return generateToken(user, SALT);
 }
