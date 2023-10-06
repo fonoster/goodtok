@@ -20,11 +20,12 @@ import { PrismaClient } from "@prisma/client";
 import { User } from "./types";
 import { TRPCError } from "@trpc/server";
 
+const prisma = new PrismaClient();
+
 export async function updateUser(
   id: string,
   data: Partial<User>
 ): Promise<User> {
-  const prisma = new PrismaClient();
   const userFromDB = await prisma.user.findUnique({
     where: {
       id

@@ -4,6 +4,9 @@ CREATE TYPE "WorkspaceMemberStatus" AS ENUM ('PENDING', 'ACTIVE');
 -- CreateEnum
 CREATE TYPE "WorkspaceMemberRole" AS ENUM ('MEMBER');
 
+-- CreateEnum
+CREATE TYPE "QueueEntryStatus" AS ENUM ('ONLINE', 'OFFLINE', 'DEQUEUED', 'IN_PROGRESS');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -42,6 +45,19 @@ CREATE TABLE "WorkspaceMember" (
     CONSTRAINT "WorkspaceMember_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "QueueEntry" (
+    "id" SERIAL NOT NULL,
+    "customerId" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "registered_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "status" "QueueEntryStatus" NOT NULL,
+    "workspaceId" TEXT NOT NULL,
+
+    CONSTRAINT "QueueEntry_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -57,6 +73,12 @@ CREATE INDEX "Workspace_name_idx" ON "Workspace" USING HASH ("name");
 -- CreateIndex
 CREATE UNIQUE INDEX "WorkspaceMember_userId_workspaceId_key" ON "WorkspaceMember"("userId", "workspaceId");
 
+-- CreateIndex
+CREATE INDEX "QueueEntry_workspaceId_idx" ON "QueueEntry" USING HASH ("workspaceId");
+
+-- CreateIndex
+CREATE INDEX "QueueEntry_customerId_idx" ON "QueueEntry" USING HASH ("customerId");
+
 -- AddForeignKey
 ALTER TABLE "Workspace" ADD CONSTRAINT "Workspace_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -65,3 +87,6 @@ ALTER TABLE "WorkspaceMember" ADD CONSTRAINT "WorkspaceMember_userId_fkey" FOREI
 
 -- AddForeignKey
 ALTER TABLE "WorkspaceMember" ADD CONSTRAINT "WorkspaceMember_workspaceId_fkey" FOREIGN KEY ("workspaceId") REFERENCES "Workspace"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "QueueEntry" ADD CONSTRAINT "QueueEntry_workspaceId_fkey" FOREIGN KEY ("workspaceId") REFERENCES "Workspace"("id") ON DELETE CASCADE ON UPDATE CASCADE;

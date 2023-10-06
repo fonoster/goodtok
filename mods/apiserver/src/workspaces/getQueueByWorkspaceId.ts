@@ -17,22 +17,28 @@
  * limitations under the License.
  */
 import { PrismaClient } from "@prisma/client";
-import { Member } from "./types";
 import { TRPCError } from "@trpc/server";
+import { QueueEntry } from "./types";
+import { getCustomerFromCRM } from "../crm";
 
 const prisma = new PrismaClient();
 
-export async function getMembersByWorkspaceId(
+export async function getQueueByWorkspaceId(
   workspaceId: string
-): Promise<Member[]> {
+): Promise<QueueEntry[]> {
   const workspace = await prisma.workspace.findUnique({
     where: {
       id: workspaceId
     },
     include: {
-      members: {
-        include: {
-          user: true
+      queue: {
+        where: {
+          status: {
+            in: ["ONLINE", "OFFLINE"]
+          }
+        },
+        orderBy: {
+          createdAt: "asc"
         }
       }
     }
@@ -40,14 +46,17 @@ export async function getMembersByWorkspaceId(
 
   if (!workspace) throw new TRPCError({ code: "NOT_FOUND" });
 
-  const members = workspace.members.map((member) => {
+  const queueEntries = workspace.queue.map((queueEntry) => {
     return {
-      userId: member.userId,
-      name: member.user.name,
-      status: member.status,
-      avatar: member.user.avatar
+      customerId: queueEntry.customerId,
+      createdAt: queueEntry.createdAt,
+      updatedAt: queueEntry.updatedAt,
+      status: queueEntry.status.toString(),
+      workspaceId: queueEntry.workspaceId,
+      // This will be an API call to the customer service
+      customer: getCustomerFromCRM(queueEntry.customerId)
     };
   });
 
-  return members;
+  return queueEntries;
 }

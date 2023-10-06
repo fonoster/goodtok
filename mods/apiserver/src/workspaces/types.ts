@@ -22,3 +22,17 @@ export type Member = {
   status: string;
   avatar: string;
 };
+
+export type Customer = {
+  name: string;
+  avatar: string;
+};
+
+export type QueueEntry = {
+  customerId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+  workspaceId: string;
+  customer: Customer;
+};

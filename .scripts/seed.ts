@@ -40,6 +40,38 @@ async function main() {
       role: "MEMBER"
     },
   });
+
+  await prisma.queueEntry.create({
+    data: {
+      customerId: "external-customer-id-1",
+      workspaceId: "default",
+      status: "ONLINE"
+    },
+  });
+
+  await prisma.queueEntry.create({
+    data: {
+      customerId: "external-customer-id-2",
+      workspaceId: "default",
+      status: "OFFLINE"
+    },
+  });
+
+  await prisma.queueEntry.create({
+    data: {
+      customerId: "external-customer-id-3",
+      workspaceId: "default",
+      status: "ONLINE"
+    },
+  });
+
+  await prisma.queueEntry.create({
+    data: {
+      customerId: "external-customer-id-5",
+      workspaceId: "default",
+      status: "DEQUEUED"
+    },
+  });
 }
 
 main()

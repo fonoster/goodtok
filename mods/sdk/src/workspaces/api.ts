@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Member, WorkspacesClient } from "./types";
+import { Member, QueueEntry, WorkspacesClient } from "./types";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 import Client from "../client";
@@ -41,5 +41,9 @@ export default class Workspaces implements WorkspacesClient {
 
   async getMembersByWorkspaceId(id: string): Promise<Member> {
     return this.trpc.workspaces.getMembersByWorkspaceId.query(id);
+  }
+
+  async getQueueByWorkspaceId(id: string): Promise<QueueEntry> {
+    return this.trpc.workspaces.getQueueByWorkspaceId.query(id);
   }
 }

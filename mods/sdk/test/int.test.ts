@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Users } from "../src/users";
-import { Workspaces } from "../src/workspaces";
-import { Client } from "../src/client";
+import Users from "../src/users";
+import Workspaces from "../src/workspaces";
+import Client from "../src/client";
 import chai from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
@@ -63,7 +63,17 @@ describe("goodtok sdk", () => {
     await client.login("goodtok", "changeme");
 
     const workspaces = new Workspaces(client);
-    const workspace = await workspaces.getMembersByWorkspaceId("default");
-    expect(workspace).to.be.an("array").that.has.least(1);
+    const members = await workspaces.getMembersByWorkspaceId("default");
+
+    expect(members).to.be.an("array").that.has.lengthOf(1);
+  });
+
+  it("gets all queue entries for a workspace", async () => {
+    await client.login("goodtok", "changeme");
+
+    const workspaces = new Workspaces(client);
+    const queueEntries = await workspaces.getQueueByWorkspaceId("default");
+
+    expect(queueEntries).to.be.an("array");
   });
 });

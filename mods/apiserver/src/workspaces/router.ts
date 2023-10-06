@@ -19,9 +19,14 @@
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 import { getMembersByWorkspaceId } from "./getMembersByWorkspaceId";
+import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
 
 export const workspacesRouter = router({
   getMembersByWorkspaceId: publicProcedure
     .input(z.string())
-    .query((req) => getMembersByWorkspaceId(req.input))
+    .query((req) => getMembersByWorkspaceId(req.input)),
+
+  getQueueByWorkspaceId: publicProcedure
+    .input(z.string())
+    .query((req) => getQueueByWorkspaceId(req.input))
 });
