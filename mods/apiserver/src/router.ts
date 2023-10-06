@@ -17,10 +17,12 @@
  * limitations under the License.
  */
 import { router } from "./trpc";
-import { userRouter } from "./user/router";
+import { usersRouter } from "./users/router";
+import { workspacesRouter } from "./workspaces/router";
 
 export const appRouter = router({
-  user: userRouter
+  users: usersRouter,
+  workspaces: workspacesRouter
 });
 
 export type AppRouter = typeof appRouter;

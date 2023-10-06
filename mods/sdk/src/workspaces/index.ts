@@ -16,23 +16,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from "@goodtok/apiserver/src/users/types";
-
-export type UsersClient = {
-  getUserById: (id: string) => Promise<User>;
-  updateUser: (request: UpdateUserRequest) => Promise<UpdateUserResponse>;
-};
-
-export type UpdateUserRequest = {
-  id: string;
-  name?: string;
-  username?: string;
-  email?: string;
-  avatar?: string;
-};
-
-export type UpdateUserResponse = {
-  id: string;
-};
-
-export { User };
+export * from "./api";

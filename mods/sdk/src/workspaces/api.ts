@@ -16,13 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from "@goodtok/apiserver/src/users/types";
-import { UsersClient, UpdateUserRequest, UpdateUserResponse } from "./types";
+import { Member, WorkspacesClient } from "./types";
 import { Client } from "../client";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 
-export class Users implements UsersClient {
+export class Workspaces implements WorkspacesClient {
   client: Client;
   trpc: any;
   constructor(client: Client) {
@@ -40,15 +39,7 @@ export class Users implements UsersClient {
     });
   }
 
-  async getUserById(id: string): Promise<User> {
-    return this.trpc.users.getUserById.query(id);
-  }
-
-  async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
-    const { id } = await this.trpc.users.updateUser.mutate({
-      id: request.id,
-      data: request
-    });
-    return { id };
+  async getMembersByWorkspaceId(id: string): Promise<Member> {
+    return this.trpc.workspaces.getMembersByWorkspaceId.query(id);
   }
 }

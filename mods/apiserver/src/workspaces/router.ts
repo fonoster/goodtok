@@ -18,23 +18,10 @@
  */
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
-import { login } from "./login";
-import { getUserById } from "./getUserById";
-import { updateUser } from "./updateUser";
+import { getMembersByWorkspaceId } from "./getMembersByWorkspaceId";
 
-export const userRouter = router({
-  login: publicProcedure
-    .input(z.object({ username: z.string(), password: z.string() }))
-    .mutation((req) => login(req.input.username, req.input.password)),
-
-  getUserById: publicProcedure
-    .input((val: unknown) => {
-      if (typeof val === "string") return val;
-      throw new Error(`Invalid input: ${typeof val}`);
-    })
-    .query((req) => getUserById(req.input)),
-
-  updateUser: publicProcedure
-    .input(z.object({ id: z.string(), data: z.any() }))
-    .mutation((req) => updateUser(req.input.id, req.input.data))
+export const workspacesRouter = router({
+  getMembersByWorkspaceId: publicProcedure
+    .input(z.string())
+    .query((req) => getMembersByWorkspaceId(req.input))
 });

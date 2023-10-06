@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 import { Users } from "../src/users";
+import { Workspaces } from "../src/workspaces";
 import { Client } from "../src/client";
 import chai from "chai";
 import sinon from "sinon";
@@ -56,5 +57,13 @@ describe("goodtok sdk", () => {
       name: "GoodTok"
     });
     expect(user).to.be.an("object").that.has.property("id");
+  });
+
+  it("gets a workspace by its identifier", async () => {
+    await client.login("goodtok", "changeme");
+
+    const workspaces = new Workspaces(client);
+    const workspace = await workspaces.getMembersByWorkspaceId("default");
+    expect(workspace).to.be.an("array").that.has.least(1);
   });
 });

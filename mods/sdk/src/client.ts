@@ -42,7 +42,7 @@ export class Client {
       transformer: undefined
     });
 
-    this.token = await trpc.user.login.mutate({ username, password });
+    this.token = await trpc.users.login.mutate({ username, password });
   }
 
   getToken() {

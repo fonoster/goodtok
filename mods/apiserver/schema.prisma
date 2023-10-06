@@ -12,6 +12,10 @@ enum WorkspaceMemberStatus {
   ACTIVE
 }
 
+enum WorkspaceMemberRole {
+  MEMBER
+}
+
 model User {
   id        String   @id @default(uuid())
   username  String   @unique
@@ -33,8 +37,8 @@ model User {
 model Workspace {
   id        String   @id @default(uuid())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
 
   // Relations
   owner   User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
@@ -48,12 +52,15 @@ model Workspace {
 model WorkspaceMember {
   id     String                @id @default(uuid())
   status WorkspaceMemberStatus
+  role   WorkspaceMemberRole   @default(MEMBER)
 
   // Relations
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamptz(3)
 
   @@unique([userId, workspaceId])
 }
