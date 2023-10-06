@@ -93,7 +93,8 @@ const people = [
     name: "Emily Selman",
     email: "",
     role: "VP, User Experience",
-    imageUrl: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    imageUrl:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   },
   {
     name: "Kristin Watson",
