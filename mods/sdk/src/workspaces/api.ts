@@ -17,11 +17,11 @@
  * limitations under the License.
  */
 import { Member, WorkspacesClient } from "./types";
-import { Client } from "../client";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
+import Client from "../client";
 
-export class Workspaces implements WorkspacesClient {
+export default class Workspaces implements WorkspacesClient {
   client: Client;
   trpc: any;
   constructor(client: Client) {

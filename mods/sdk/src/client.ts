@@ -19,8 +19,9 @@
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { ClientOptions } from "./types";
 import type { AppRouter } from "@goodtok/apiserver";
+import { Buffer } from "buffer";
 
-export class Client {
+export default class Client {
   private options: ClientOptions;
   private token: string;
   constructor(options: ClientOptions) {
@@ -43,6 +44,10 @@ export class Client {
     });
 
     this.token = await trpc.users.login.mutate({ username, password });
+  }
+
+  setToken(token: string) {
+    this.token = token;
   }
 
   getToken() {

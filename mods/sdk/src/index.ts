@@ -1,5 +1,3 @@
-import { Workspaces } from "./workspaces";
-
 /*
  * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
@@ -18,5 +16,14 @@ import { Workspaces } from "./workspaces";
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * as Users from "./users";
-export * as Workspaces from "./workspaces";
+import Client from "./client";
+import Users from "./users";
+import Workspaces from "./workspaces";
+
+const SDK = {
+  Client,
+  Users,
+  Workspaces
+};
+
+export default SDK;

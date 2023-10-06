@@ -18,11 +18,11 @@
  */
 import { User } from "@goodtok/apiserver/src/users/types";
 import { UsersClient, UpdateUserRequest, UpdateUserResponse } from "./types";
-import { Client } from "../client";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
+import Client from "../client";
 
-export class Users implements UsersClient {
+export default class Users implements UsersClient {
   client: Client;
   trpc: any;
   constructor(client: Client) {
