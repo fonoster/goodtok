@@ -51,6 +51,7 @@ export async function getQueueByWorkspaceId(
       customerId: queueEntry.customerId,
       createdAt: queueEntry.createdAt,
       updatedAt: queueEntry.updatedAt,
+      registeredAt: queueEntry.registeredAt,
       status: queueEntry.status.toString(),
       workspaceId: queueEntry.workspaceId,
       // This will be an API call to the customer service

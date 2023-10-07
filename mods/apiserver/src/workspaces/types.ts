@@ -30,6 +30,7 @@ export type Customer = {
 
 export type QueueEntry = {
   customerId: string;
+  registeredAt: Date;
   createdAt: Date;
   updatedAt: Date;
   status: string;

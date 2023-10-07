@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * Copyright (C) <%= YEAR %> by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
  *
  * This file is part of GoodTok
@@ -16,9 +16,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import crypto from "crypto";
+import { connect, StringCodec } from "nats";
 
-export const NATS_URL = process.env.NATS_URL ?? "api.goodtok.io:4222";
-export const BIND_PORT = process.env.BIND_PORT ?? "5000";
-export const SALT =
-  process.env.SALT ?? crypto.getRandomValues(new Uint32Array(1)).toString();
+async function main() {
+  const nc = await connect({ servers: "api.goodtok.io:4222" });
+  const sc = StringCodec();
+  const registration = {
+    customerId: "2",
+    aor: "anonymous@sip.goodtok.io"
+  };
+  nc.publish("routr.register", sc.encode(JSON.stringify(registration)));
+}
+
+main().
+  then(() => {
+    process.exit(0)
+  }).
+  catch(console.error)

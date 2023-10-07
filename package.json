@@ -15,8 +15,9 @@
     "mods/widget"
   ],
   "scripts": {
-    "start:apiserver": "cross-env NODE_ENV=dev nodemon mods/apiserver/src/index.ts",
+    "start:apiserver": "cross-env LOGS_LEVEL=debug NODE_ENV=dev nodemon mods/apiserver/src/index.ts",
     "test": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha mods/**/test/*unit.test.ts --exit",
+    "test:nats-publish": "ts-node ./.scripts/nats-publish.ts",
     "test:integration": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha mods/**/test/*int.test.ts --exit",
     "lint": "eslint mods --ext .ts --fix",
     "format": "prettier --write mods/**/src",

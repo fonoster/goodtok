@@ -19,27 +19,18 @@
 import { QueueEntry } from "./types";
 import { getCustomerFromCRM } from "../crm";
 import { observable } from "@trpc/server/observable";
+import { watchNats } from "../nats";
+import { getLogger } from "@fonoster/logger";
+import { NATS_URL } from "../envs";
+import { updateQueueEntry } from "./updateQueueEntry";
 
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 // List to keep track of all active observers
 const observers: Array<(entry: QueueEntry) => void> = [];
 
-// TODO: Replace this with a real queue
-setInterval(() => {
-  const randomIdFromOneToTen = Math.floor(Math.random() * 1000) + 1;
-  const entry: QueueEntry = {
-    customerId: randomIdFromOneToTen + "",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    status: "IN_PROGRESS",
-    workspaceId: "default",
-    customer: getCustomerFromCRM("1")
-  };
-
-  // Notify all observers
-  observers.forEach((emit) => emit(entry));
-}, 20000);
-
 export function watchQ(workspaceId: string) {
+  logger.debug("new observer added to watchQ", { workspaceId });
+
   return observable<QueueEntry>((emit) => {
     // Add the observer's next method to the list when a client subscribes
     observers.push(emit.next.bind(emit));
@@ -53,3 +44,21 @@ export function watchQ(workspaceId: string) {
     };
   });
 }
+
+// TODO: Should take the workspaceId as a parameter
+// Should save the aor as part of the db entry
+watchNats(NATS_URL, async (event) => {
+  logger.debug("message from nats", { event });
+
+  const entry = await updateQueueEntry(event.customerId, "default");
+
+  logger.debug("entry updated", { entry });
+
+  const entryWithCustomer = {
+    ...entry,
+    customer: getCustomerFromCRM(entry.customerId)
+  };
+
+  // Notify all observers
+  observers.forEach((emit) => emit(entryWithCustomer));
+});
