@@ -26,7 +26,7 @@ import { getLogger } from "@fonoster/logger";
 import cors from "cors";
 import express from "express";
 
-const logger = getLogger({ service: "apiserver", filePath: __filename })
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 const app = express();
 
