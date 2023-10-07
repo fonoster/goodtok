@@ -17,7 +17,13 @@
  * limitations under the License.
  */
 import { Member, QueueEntry, WorkspacesClient } from "./types";
-import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
+import {
+  createTRPCProxyClient,
+  createWSClient,
+  httpBatchLink,
+  splitLink,
+  wsLink
+} from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 import Client from "../client";
 
@@ -26,24 +32,50 @@ export default class Workspaces implements WorkspacesClient {
   trpc: any;
   constructor(client: Client) {
     this.client = client;
+    const wsClient = createWSClient({
+      url: this.client.getEndpoint().replace("http", "ws")
+    });
     this.trpc = createTRPCProxyClient<AppRouter>({
       links: [
-        httpBatchLink({
-          url: this.client.getEndpoint(),
-          headers: {
-            authorization: `Bearer ${this.client.getToken()}`
-          }
+        // call subscriptions through websockets and the rest over http
+        splitLink({
+          condition(op) {
+            return op.type === "subscription";
+          },
+          true: wsLink({
+            client: wsClient
+          }),
+          false: httpBatchLink({
+            url: this.client.getEndpoint(),
+            headers: {
+              authorization: `Bearer ${this.client.getToken()}`
+            }
+          })
         })
       ],
       transformer: undefined
     });
   }
 
-  async getMembersByWorkspaceId(id: string): Promise<Member> {
-    return this.trpc.workspaces.getMembersByWorkspaceId.query(id);
+  async getMembersByWorkspaceId(workspaceId: string): Promise<Member> {
+    return this.trpc.workspaces.getMembersByWorkspaceId.query(workspaceId);
   }
 
-  async getQueueByWorkspaceId(id: string): Promise<QueueEntry> {
-    return this.trpc.workspaces.getQueueByWorkspaceId.query(id);
+  async getQueueByWorkspaceId(workspaceId: string): Promise<QueueEntry> {
+    return this.trpc.workspaces.getQueueByWorkspaceId.query(workspaceId);
+  }
+
+  watchQ(
+    workspaceId: string,
+    callback: (error: Error, data?: QueueEntry) => void
+  ) {
+    this.trpc.workspaces.watchQ.subscribe(workspaceId, {
+      onData(data: QueueEntry) {
+        callback(null, data);
+      },
+      onError(err: Error) {
+        callback(err);
+      }
+    });
   }
 }

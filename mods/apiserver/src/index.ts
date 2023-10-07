@@ -20,6 +20,8 @@ import * as trpcExpress from "@trpc/server/adapters/express";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { BIND_PORT } from "./envs";
+import { applyWSSHandler } from "@trpc/server/adapters/ws";
+import { WebSocketServer } from "ws";
 import cors from "cors";
 import express from "express";
 import logger from "@fonoster/logger";
@@ -36,7 +38,14 @@ app.use(
   })
 );
 
-app.listen(BIND_PORT);
+const server = app.listen(BIND_PORT);
+
+const wss = new WebSocketServer({ server });
+applyWSSHandler<AppRouter>({
+  wss,
+  router: appRouter
+  // TODO: Add context to secure the websocket connection
+});
 
 logger.info(`⚡️[server]: Server is running at http://0.0.0.0:${BIND_PORT}`);
 
