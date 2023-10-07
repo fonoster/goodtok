@@ -25,7 +25,8 @@ export const people = [
     birthday: "1990-01-15",
     note: "Regular customer",
     address: "123 Main St, City, Country",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    avatar:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   },
   {
     id: "2",
@@ -35,7 +36,8 @@ export const people = [
     birthday: "1985-03-20",
     note: "Loyal customer since 2015",
     address: "456 Oak St, City, Country",
-    avatar: "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    avatar:
+      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   },
   {
     id: "3",
@@ -45,7 +47,8 @@ export const people = [
     birthday: "1992-05-23",
     note: "Frequent online shopper",
     address: "789 Elm St, City, Country",
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    avatar:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   },
   {
     id: "4",
@@ -55,7 +58,8 @@ export const people = [
     birthday: "1989-11-30",
     note: "Prefers monthly newsletters",
     address: "101 Pine St, City, Country",
-    avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    avatar:
+      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   },
   {
     id: "5",
@@ -65,7 +69,8 @@ export const people = [
     birthday: "1991-04-15",
     note: "Enquired about new products last week",
     address: "202 Maple St, City, Country",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   },
   {
     id: "6",
@@ -75,7 +80,8 @@ export const people = [
     birthday: "1988-02-21",
     note: "Visited the physical store once",
     address: "303 Cedar St, City, Country",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
   },
   {
     id: "7",
@@ -85,7 +91,8 @@ export const people = [
     birthday: "1993-06-15",
     note: "Interested in seasonal sales",
     address: "404 Birch St, City, Country",
-    avatar: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    avatar:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   },
   {
     id: "8",
@@ -95,7 +102,8 @@ export const people = [
     birthday: "1986-10-01",
     note: "Called for support last month",
     address: "505 Cherry St, City, Country",
-    avatar: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    avatar:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   },
   {
     id: "9",
@@ -105,7 +113,8 @@ export const people = [
     birthday: "1984-07-19",
     note: "Looking for customized options",
     address: "606 Dogwood St, City, Country",
-    avatar: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    avatar:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   },
   {
     id: "10",
@@ -115,7 +124,8 @@ export const people = [
     birthday: "1995-03-07",
     note: "Frequent feedback giver",
     address: "707 Elm St, City, Country",
-    avatar: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    avatar:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   },
   {
     id: "11",
@@ -125,7 +135,8 @@ export const people = [
     birthday: "1990-08-11",
     note: "Loves our latest collection",
     address: "808 Fir St, City, Country",
-    avatar: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    avatar:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   },
   {
     id: "12",
@@ -135,7 +146,8 @@ export const people = [
     birthday: "1994-09-30",
     note: "Requested a catalog",
     address: "909 Grove St, City, Country",
-    avatar: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    avatar:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   },
   {
     id: "13",
@@ -145,7 +157,8 @@ export const people = [
     birthday: "1992-05-10",
     note: "Referred two friends",
     address: "010 Holly St, City, Country",
-    avatar: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    avatar:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   },
   {
     id: "14",
@@ -155,6 +168,7 @@ export const people = [
     birthday: "1987-12-20",
     note: "Has a membership card",
     address: "121 Ivy St, City, Country",
-    avatar: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+    avatar:
+      "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
   }
 ];
