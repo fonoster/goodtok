@@ -21,8 +21,9 @@ import { connect, StringCodec } from "nats";
 async function main() {
   const nc = await connect({ servers: "api.goodtok.io:4222" });
   const sc = StringCodec();
+  const randomOnetoThirteen = Math.floor(Math.random() * 13) + 1;
   const registration = {
-    customerId: "2",
+    customerId: randomOnetoThirteen + "",
     aor: "anonymous@sip.goodtok.io"
   };
   nc.publish("routr.register", sc.encode(JSON.stringify(registration)));

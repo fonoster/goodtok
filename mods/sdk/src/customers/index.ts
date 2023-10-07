@@ -16,15 +16,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { workspacesRouter } from "./workspaces/router";
-import { customerRouter } from "./customers/router";
-import { usersRouter } from "./users/router";
-import { router } from "./trpc";
-
-export const appRouter = router({
-  users: usersRouter,
-  workspaces: workspacesRouter,
-  customers: customerRouter
-});
-
-export type AppRouter = typeof appRouter;
+export { default } from "./api";

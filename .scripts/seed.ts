@@ -61,7 +61,7 @@ async function main() {
 
   await prisma.queueEntry.create({
     data: {
-      customerId: "external-customer-id-1",
+      customerId: "1",
       workspaceId: "default",
       status: "ONLINE"
     },
@@ -69,7 +69,7 @@ async function main() {
 
   await prisma.queueEntry.create({
     data: {
-      customerId: "external-customer-id-2",
+      customerId: "2",
       workspaceId: "default",
       status: "OFFLINE"
     },
@@ -77,7 +77,7 @@ async function main() {
 
   await prisma.queueEntry.create({
     data: {
-      customerId: "external-customer-id-3",
+      customerId: "3",
       workspaceId: "default",
       status: "ONLINE"
     },
@@ -85,7 +85,7 @@ async function main() {
 
   await prisma.queueEntry.create({
     data: {
-      customerId: "external-customer-id-5",
+      customerId: "4",
       workspaceId: "default",
       status: "DEQUEUED"
     },

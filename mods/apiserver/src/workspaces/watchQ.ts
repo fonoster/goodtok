@@ -17,12 +17,12 @@
  * limitations under the License.
  */
 import { QueueEntry } from "./types";
-import { getCustomerFromCRM } from "../crm";
 import { observable } from "@trpc/server/observable";
 import { watchNats } from "../nats";
 import { getLogger } from "@fonoster/logger";
 import { NATS_URL } from "../envs";
 import { updateQueueEntry } from "./updateQueueEntry";
+import { getCustomerById } from "../customers/getCustomerById";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 // List to keep track of all active observers
@@ -54,9 +54,15 @@ watchNats(NATS_URL, async (event) => {
 
   logger.debug("entry updated", { entry });
 
+  const customer = await getCustomerById(event.customerId);
+
   const entryWithCustomer = {
     ...entry,
-    customer: getCustomerFromCRM(entry.customerId)
+    customer: {
+      id: customer.id,
+      name: customer.name,
+      avatar: customer.avatar
+    }
   };
 
   // Notify all observers

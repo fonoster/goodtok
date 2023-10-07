@@ -16,15 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { workspacesRouter } from "./workspaces/router";
-import { customerRouter } from "./customers/router";
-import { usersRouter } from "./users/router";
-import { router } from "./trpc";
+import { z } from "zod";
+import { router, publicProcedure } from "../trpc";
+import { getCustomerById } from "./getCustomerById";
 
-export const appRouter = router({
-  users: usersRouter,
-  workspaces: workspacesRouter,
-  customers: customerRouter
+export const customerRouter = router({
+  getCustomerById: publicProcedure
+    .input(z.string())
+    .query((req) => getCustomerById(req.input))
 });
-
-export type AppRouter = typeof appRouter;

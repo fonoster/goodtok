@@ -19,7 +19,7 @@
 import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { QueueEntry } from "./types";
-import { getCustomerFromCRM } from "../crm";
+import { getCustomerById } from "../customers/getCustomerById";
 
 const prisma = new PrismaClient();
 
@@ -46,18 +46,25 @@ export async function getQueueByWorkspaceId(
 
   if (!workspace) throw new TRPCError({ code: "NOT_FOUND" });
 
-  const queueEntries = workspace.queue.map((queueEntry) => {
-    return {
-      customerId: queueEntry.customerId,
-      createdAt: queueEntry.createdAt,
-      updatedAt: queueEntry.updatedAt,
-      registeredAt: queueEntry.registeredAt,
-      status: queueEntry.status.toString(),
-      workspaceId: queueEntry.workspaceId,
-      // This will be an API call to the customer service
-      customer: getCustomerFromCRM(queueEntry.customerId)
-    };
-  });
+  const queueEntries = await Promise.all(
+    workspace.queue.map(async (queueEntry) => {
+      const customer = await getCustomerById(queueEntry.customerId);
+
+      return {
+        customerId: queueEntry.customerId,
+        createdAt: queueEntry.createdAt,
+        updatedAt: queueEntry.updatedAt,
+        registeredAt: queueEntry.registeredAt,
+        status: queueEntry.status.toString(),
+        workspaceId: queueEntry.workspaceId,
+        customer: {
+          id: customer.id,
+          name: customer.name,
+          avatar: customer.avatar
+        }
+      };
+    })
+  );
 
   return queueEntries;
 }
