@@ -1,5 +1,5 @@
-import VideoCameraIcon from '@heroicons/react/24/outline/VideoCameraIcon';
-import React from 'react';
+import VideoCameraIcon from "@heroicons/react/24/outline/VideoCameraIcon";
+import React from "react";
 
 export enum Precense {
   ONLINE = "online",
@@ -31,16 +31,33 @@ interface PresenceSwitchProps {
   lastSeenDateTime: Date;
 }
 
-const PresenceSwitch: React.FC<PresenceSwitchProps> = ({ lastSeenDateTime }) => {
+const PresenceSwitch: React.FC<PresenceSwitchProps> = ({
+  lastSeenDateTime
+}) => {
   const currentPresence = presence(new Date(lastSeenDateTime));
 
   switch (currentPresence) {
     case Precense.ONLINE:
-      return <VideoCameraIcon className="mt-3 w-5 text-green-600" aria-hidden="true" />
+      return (
+        <VideoCameraIcon
+          className="mt-3 w-5 text-green-600"
+          aria-hidden="true"
+        />
+      );
     case Precense.IDLE:
-      return <VideoCameraIcon className="mt-3 w-5 text-yellow-600" aria-hidden="true" />
+      return (
+        <VideoCameraIcon
+          className="mt-3 w-5 text-yellow-600"
+          aria-hidden="true"
+        />
+      );
     case Precense.OFFLINE:
-      return <VideoCameraIcon className="mt-3 w-5 text-gray-600" aria-hidden="true" />
+      return (
+        <VideoCameraIcon
+          className="mt-3 w-5 text-gray-600"
+          aria-hidden="true"
+        />
+      );
   }
 
   return (
@@ -48,6 +65,6 @@ const PresenceSwitch: React.FC<PresenceSwitchProps> = ({ lastSeenDateTime }) => 
       <VideoCameraIcon className="mt-3 w-5 text-green-500" aria-hidden="true" />
     </div>
   );
-}
+};
 
 export default PresenceSwitch;

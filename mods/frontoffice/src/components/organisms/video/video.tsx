@@ -20,7 +20,6 @@ import { useEffect } from "react";
 import { initVideoWidget } from "./widget";
 
 export default function Video() {
-
   useEffect(() => {
     initVideoWidget(document);
   }, []);

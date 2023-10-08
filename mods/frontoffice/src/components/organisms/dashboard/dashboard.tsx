@@ -1,30 +1,30 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,
-  Cog6ToothIcon as CogIcon,
-} from '@heroicons/react/24/outline'
-import { useAuth } from '../../../authentication'
-import Queue from '../queue'
-import GTLogoWhite from 'components/atoms/logos/goodtok-white'
-import Customer from '../customer'
-import Video from '../video'
+  Cog6ToothIcon as CogIcon
+} from "@heroicons/react/24/outline";
+import { useAuth } from "../../../authentication";
+import Queue from "../queue";
+import GTLogoWhite from "components/atoms/logos/goodtok-white";
+import Customer from "../customer";
+import Video from "../video";
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Settings', href: '#', icon: CogIcon, current: false},
-]
+  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
+  { name: "Team", href: "#", icon: UsersIcon, current: false },
+  { name: "Settings", href: "#", icon: CogIcon, current: false }
+];
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
 
   const { client, logout } = useAuth();
@@ -38,7 +38,11 @@ export default function Dashboard() {
     <>
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
+          <Dialog
+            as="div"
+            className="relative z-50 lg:hidden"
+            onClose={setSidebarOpen}
+          >
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -72,9 +76,16 @@ export default function Dashboard() {
                     leaveTo="opacity-0"
                   >
                     <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                      <button type="button" className="-m-2.5 p-2.5" onClick={() => setSidebarOpen(false)}>
+                      <button
+                        type="button"
+                        className="-m-2.5 p-2.5"
+                        onClick={() => setSidebarOpen(false)}
+                      >
                         <span className="sr-only">Close sidebar</span>
-                        <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                        <XMarkIcon
+                          className="h-6 w-6 text-white"
+                          aria-hidden="true"
+                        />
                       </button>
                     </div>
                   </Transition.Child>
@@ -83,7 +94,6 @@ export default function Dashboard() {
                     <div className="flex h-4 shrink-0 items-center">
                       <GTLogoWhite />
                     </div>
-
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -103,11 +113,16 @@ export default function Dashboard() {
                   <a
                     href={item.href}
                     className={classNames(
-                      item.current ? 'bg-gray-800 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800',
-                      'group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold'
+                      item.current
+                        ? "bg-gray-800 text-white"
+                        : "text-gray-400 hover:text-white hover:bg-gray-800",
+                      "group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold"
                     )}
                   >
-                    <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
+                    <item.icon
+                      className="h-6 w-6 shrink-0"
+                      aria-hidden="true"
+                    />
                     <span className="sr-only">{item.name}</span>
                   </a>
                 </li>
@@ -117,11 +132,17 @@ export default function Dashboard() {
         </div>
 
         <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
-          <button type="button" className="-m-2.5 p-2.5 text-gray-400 lg:hidden" onClick={() => setSidebarOpen(true)}>
+          <button
+            type="button"
+            className="-m-2.5 p-2.5 text-gray-400 lg:hidden"
+            onClick={() => setSidebarOpen(true)}
+          >
             <span className="sr-only">Open sidebar</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
-          <div className="flex-1 text-sm font-semibold leading-6 text-white">Dashboard</div>
+          <div className="flex-1 text-sm font-semibold leading-6 text-white">
+            Dashboard
+          </div>
           <a href="#">
             <span className="sr-only">Your profile</span>
             <img
@@ -142,10 +163,12 @@ export default function Dashboard() {
         </main>
 
         <aside className="fixed inset-y-0 left-20 hidden w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
-          <h2 className="h-12 text-lg font-medium text-gray-600">Customer Queue</h2>
+          <h2 className="h-12 text-lg font-medium text-gray-600">
+            Customer Queue
+          </h2>
           <Queue onSelectCustomer={setSelectedCustomer} />
         </aside>
       </div>
     </>
-  )
+  );
 }

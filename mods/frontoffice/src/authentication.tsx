@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 import Client from "@goodtok/sdk/src/client";
 
 const AuthContext = createContext();
@@ -12,7 +12,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [client, setClient] = useState(() => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       const client = new Client({
         endpoint: DEFAULT_ENDPOINT,
@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
     return null;
   });
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('isLoggedIn') === 'true'; // Initialize state from localStorage
+    return localStorage.getItem("isLoggedIn") === "true"; // Initialize state from localStorage
   });
 
   const login = async (username: string, password: string) => {
@@ -35,26 +35,26 @@ export function AuthProvider({ children }) {
     await clientInstance.login(username, password);
     setClient(clientInstance);
     setIsLoggedIn(true);
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('accessToken', clientInstance.getToken());
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("accessToken", clientInstance.getToken());
   };
 
   const logout = () => {
     setClient(null);
     setIsLoggedIn(false);
-    localStorage.removeItem('isLoggedIn'); // Clear login state
+    localStorage.removeItem("isLoggedIn"); // Clear login state
   };
 
   useEffect(() => {
     // Handle cases where the login state might be invalidated, e.g., token expiration
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
+    if (localStorage.getItem("isLoggedIn") !== "true") {
       logout();
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ client, isLoggedIn, login, logout }} >
-        {children}
+    <AuthContext.Provider value={{ client, isLoggedIn, login, logout }}>
+      {children}
     </AuthContext.Provider>
   );
 }

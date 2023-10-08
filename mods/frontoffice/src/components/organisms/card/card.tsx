@@ -3,7 +3,7 @@ import {
   ComponentProps,
   RefAttributes,
   ForwardRefExoticComponent,
-  SVGProps,
+  SVGProps
 } from "react";
 
 export interface CardProps
