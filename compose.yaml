@@ -1,6 +1,23 @@
 version: "3"
 
 services:
+
+  apiserver:
+    image: fonoster/goodtok-apiserver:latest
+    build:
+      context: .
+      dockerfile: ./mods/apiserver/Dockerfile
+    environment:
+      LOGS_LEVEL: verbose
+      NATS_URL: nats:4222
+      DEFAULT_SIGNALING_SERVER: ws://${DOCKER_HOST_ADDRESS}:5062
+      PATH_TO_KEYS: /keys
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/goodtok
+    expose:
+      - 5000
+    volumes:
+      - ./.keys:/keys
+
   routr:
     image: fonoster/routr-one:latest
     environment:
@@ -14,12 +31,29 @@ services:
       - 5063:5063
     volumes:
       - ./.keys:/keys
-      - shared:/var/lib/postgresql/data
+      - routr_db:/var/lib/postgresql/data
 
   nats:
     image: nats:latest
+    expose:
+      - 4222
+
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: UTC
+      PGTZ: UTC
+    # TODO: Remove port mapping once we have a better way to initialize the DB
     ports:
-      - 4222:4222
+      - 5432:5432
+    expose:
+      - 5432
+    volumes:
+      - goodtok_db:/var/lib/postgresql/data
 
 volumes:
-  shared:
+  routr_db:
+  goodtok_db:

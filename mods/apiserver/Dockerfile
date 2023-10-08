@@ -5,22 +5,14 @@ FROM node:lts-alpine as builder
 LABEL Fonoster Team <fonosterteam@fonoster.com>
 
 WORKDIR /build
-COPY . .
+COPY mods/apiserver .
 
-RUN apk add --no-cache --update && \
-  npm install && \
-  npm run build && \
-  npm pack
-
-##
-## Runner
-##
-FROM node:lts-alpine as runner
-
-COPY --from=builder /build/apiserver-*.tgz .
-
-RUN apk add --no-cache --update && \
-  npm install -g apiserver-*.tgz && \
-  rm -rf apiserver-*.tgz
+RUN apk add --no-cache --update \
+  && npm pack \
+  && npm install -g goodtok-apiserver-*.tgz \
+  && cp schema.prisma /usr/local/lib/node_modules/@goodtok/apiserver/ \
+  && cd /usr/local/lib/node_modules/@goodtok/apiserver/ \
+  && npx prisma generate \
+  && rm -rf goodtok-apiserver-*.tgz
 
 CMD [ "goodtok" ]

@@ -19,7 +19,7 @@
 import { connect, StringCodec } from "nats";
 
 async function main() {
-  const nc = await connect({ servers: "api.goodtok.io:4222" });
+  const nc = await connect({ servers: "localhost:4222" });
   const sc = StringCodec();
   const randomOnetoThirteen = Math.floor(Math.random() * 13) + 1;
   const registration = {
