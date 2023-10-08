@@ -18,7 +18,7 @@
  */
 import { GoodtokConnectionObject } from "./types";
 import jwtDecode from "jwt-decode";
-import SDK from "@goodtok/sdk";
+import * as SDK from "@goodtok/sdk";
 
 export async function getConnectionObject(
   document: Document,
