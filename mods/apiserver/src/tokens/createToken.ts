@@ -38,7 +38,7 @@ export async function createToken(
     aorLink: input.aorLink,
     domain: DEFAULT_DOMAIN,
     privacy: DEFAULT_PRIVACY,
-    allowedMethods: [input.methods],
+    allowedMethods: input.methods,
     signalingServer: DEFAULT_SIGNALING_SERVER
   };
 

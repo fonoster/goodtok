@@ -42,7 +42,8 @@ if (!fs.existsSync(path.join(PATH_TO_KEYS, "private.key"))) {
   process.exit(1);
 }
 
-export const PRIVATE_KEY = fs.readFileSync(PATH_TO_PRIVATE_KEY);
+export const PRIVATE_KEY = fs.readFileSync(PATH_TO_PRIVATE_KEY, "utf8");
+
 export const DEFAULT_DOMAIN = process.env.DEFAULT_DOMAIN ?? "sip.goodtok.io";
 export const DEFAULT_DOMAIN_REF = process.env.DEFAULT_DOMAIN_REF ?? "default";
 export const DEFAULT_PRIVACY = process.env.DEFAULT_PRIVACY ?? "PRIVATE";
