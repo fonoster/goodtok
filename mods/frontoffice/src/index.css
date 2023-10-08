@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.hoverable-list-item {
+  cursor: pointer;
+  /* changes the cursor to a hand-pointer on hover */
+  transition: background-color 0.3s;
+  /* smooth transition for hover effect */
+}
+
+.hoverable-list-item:hover {
+  background-color: #f0f0f0;
+  /* or any color you want during hover */
+}

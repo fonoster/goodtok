@@ -1,7 +1,0 @@
-node_modules
-src
-test
-*.log
-README.md
-tsconfig.json
-*.ts
