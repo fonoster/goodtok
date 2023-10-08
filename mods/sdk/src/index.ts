@@ -20,12 +20,7 @@ import Client from "./client";
 import Users from "./users";
 import Workspaces from "./workspaces";
 import Tokens from "./tokens";
+import Customers from "./customers";
+import QueueEntry from "./workspaces";
 
-const SDK = {
-  Client,
-  Users,
-  Workspaces,
-  Tokens
-};
-
-export default SDK;
+export { Client, Users, Workspaces, Tokens, Customers, QueueEntry };

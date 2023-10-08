@@ -18,9 +18,10 @@
  */
 import { initVideoWidget } from "./widget";
 import { useAuth } from "../../../authentication";
+import { VideoProps } from "./types";
 
-export default function Video({ inviteInfo }) {
-  const { client } = useAuth();
+export default function Video({ inviteInfo }: VideoProps) {
+  const { client } = useAuth() as any;
 
   if (inviteInfo) initVideoWidget(client, inviteInfo);
 
@@ -39,7 +40,7 @@ export default function Video({ inviteInfo }) {
         <p>Your browser doesn't support HTML5 audio.</p>
       </audio>
 
-      <style jsx="true">{`
+      <style>{`
         .audio-container {
           display: none;
         }

@@ -25,3 +25,7 @@ export type InviteInfo = {
   customerId: string;
   methods: Method[];
 };
+
+export type VideoProps = {
+  inviteInfo: InviteInfo | null;
+}

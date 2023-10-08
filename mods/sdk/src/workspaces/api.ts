@@ -57,11 +57,11 @@ export default class Workspaces implements WorkspacesClient {
     });
   }
 
-  async getMembersByWorkspaceId(workspaceId: string): Promise<Member> {
+  async getMembersByWorkspaceId(workspaceId: string): Promise<Member[]> {
     return this.trpc.workspaces.getMembersByWorkspaceId.query(workspaceId);
   }
 
-  async getQueueByWorkspaceId(workspaceId: string): Promise<QueueEntry> {
+  async getQueueByWorkspaceId(workspaceId: string): Promise<QueueEntry[]> {
     return this.trpc.workspaces.getQueueByWorkspaceId.query(workspaceId);
   }
 

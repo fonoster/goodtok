@@ -19,7 +19,7 @@ const navigation = [
   { name: "Settings", href: "#", icon: CogIcon, current: false }
 ];
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -28,7 +28,7 @@ export default function Dashboard() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [inviteInfo, setInviteInfo] = useState(null);
 
-  const { client, logout } = useAuth();
+  const { client, logout } = useAuth() as any;
 
   if (!client) {
     logout();

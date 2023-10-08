@@ -1,20 +1,36 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import Client from "@goodtok/sdk/src/client";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-const AuthContext = createContext();
+import * as SDK from "@goodtok/sdk";
 
 const DEFAULT_ENDPOINT = "http://localhost:5000/v1";
 const DEFAULT_WORKSPACE_ID = "default";
 
-export function useAuth() {
-  return useContext(AuthContext);
+interface AuthProviderProps {
+  children: ReactNode;
 }
 
-export function AuthProvider({ children }) {
+interface AuthContextType {
+  client: any;
+  isLoggedIn: boolean;
+  login: (username: string, password: string) => Promise<void>;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
   const [client, setClient] = useState(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      const client = new Client({
+      const client = new SDK.Client({
         endpoint: DEFAULT_ENDPOINT,
         workspaceId: DEFAULT_WORKSPACE_ID
       });
@@ -28,7 +44,7 @@ export function AuthProvider({ children }) {
   });
 
   const login = async (username: string, password: string) => {
-    const clientInstance = new Client({
+    const clientInstance = new SDK.Client({
       endpoint: DEFAULT_ENDPOINT,
       workspaceId: DEFAULT_WORKSPACE_ID
     });

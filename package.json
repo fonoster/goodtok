@@ -11,7 +11,8 @@
     "mods/common",
     "mods/sdk",
     "mods/apiserver",
-    "mods/widget"
+    "mods/widget",
+    "mods/frontoffice"
   ],
   "scripts": {
     "start:apiserver": "cross-env LOGS_LEVEL=debug NODE_ENV=dev nodemon mods/apiserver/src/index.ts",

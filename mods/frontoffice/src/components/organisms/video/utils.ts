@@ -16,9 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import jwtDecode from "jwt-decode";
-import { FOConnectionObject } from "./types";
-
 export function getButton(id: string): HTMLButtonElement {
   const el = document.getElementById(id);
   if (!(el instanceof HTMLButtonElement)) {
@@ -35,7 +32,6 @@ export function getAudio(id: string): HTMLAudioElement {
   return el;
 }
 
-// Helper function to get an HTML audio element
 export function getVideoElement(id: string): HTMLVideoElement {
   const el = document.getElementById(id);
   if (!(el instanceof HTMLVideoElement)) {

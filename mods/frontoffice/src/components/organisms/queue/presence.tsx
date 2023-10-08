@@ -14,7 +14,7 @@ const DEQUEUED_TIME = 30 * 60 * 1000; // 30 minutes
 
 export function presence(lastSeenDateTime: Date): Precense {
   const now = new Date();
-  const diff = now.getTime() - new Date(lastSeenDateTime).getTime();
+  const diff = now.getTime() - lastSeenDateTime.getTime();
 
   if (diff < IDLE_TIME) {
     return Precense.ONLINE;

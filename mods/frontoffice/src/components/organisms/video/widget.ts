@@ -17,17 +17,16 @@
  * limitations under the License.
  */
 import { Web } from "sip.js";
-import { mediaToggle } from "../../../../../common/src/utils";
 import { getAudio, getButton, getVideoElement } from "./utils";
-import Client from "@goodtok/sdk/src/client";
-import Tokens from "@goodtok/sdk/src/tokens/api";
 import { InviteInfo } from "./types";
+import * as Common from "@goodtok/common";
+import * as SDK from "@goodtok/sdk";
 
 export async function initVideoWidget(
-  client: Client,
+  client: any,
   inviteInfo: InviteInfo
-): Promise<void> {
-  const tokens = new Tokens(client);
+) {
+  const tokens = new SDK.Tokens(client);
   const connectionObject = await tokens.createToken(inviteInfo);
   const callButton = getButton("goodtok-call");
   const muteAudioButton = getButton("goodtok-mute-audio");
@@ -79,11 +78,11 @@ export async function initVideoWidget(
 
   muteAudioButton.addEventListener("click", () => {
     if (isMuted) {
-      mediaToggle(simpleUser, true, "audio");
+      Common.mediaToggle(simpleUser, true, "audio");
       isMuted = false;
       muteAudioButton.textContent = "Mute Audio";
     } else {
-      mediaToggle(simpleUser, false, "audio");
+      Common.mediaToggle(simpleUser, false, "audio");
       isMuted = true;
       muteAudioButton.textContent = "Unmute Audio";
     }
@@ -91,11 +90,11 @@ export async function initVideoWidget(
 
   videoMuteButton.addEventListener("click", () => {
     if (isMuted) {
-      mediaToggle(simpleUser, true, "video");
+      Common.mediaToggle(simpleUser, true, "video");
       isMuted = false;
       videoMuteButton.textContent = "Mute Video";
     } else {
-      mediaToggle(simpleUser, false, "video");
+      Common.mediaToggle(simpleUser, false, "video");
       isMuted = true;
       videoMuteButton.textContent = "Unmute Video";
     }

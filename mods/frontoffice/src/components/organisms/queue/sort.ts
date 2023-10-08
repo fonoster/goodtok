@@ -1,10 +1,9 @@
-import { QueueEntry } from "@goodtok/apiserver/src/workspaces/types";
 import { Precense, presence } from "./presence";
 
-export function sortPeople(peps: QueueEntry[]) {
+export function sortPeople(peps: any[]) {
   return peps.sort((a, b) => {
-    const presenceA = presence(a.lastSeenDateTime);
-    const presenceB = presence(b.lastSeenDateTime);
+    const presenceA = presence(new Date(a.registeredAt));
+    const presenceB = presence(new Date(b.registeredAt));
 
     if (presenceA === Precense.ONLINE && presenceB !== Precense.ONLINE) {
       return -1;
@@ -24,8 +23,8 @@ export function sortPeople(peps: QueueEntry[]) {
 
     if (presenceA === Precense.OFFLINE && presenceB === Precense.OFFLINE) {
       return (
-        new Date(a.lastSeenDateTime).getTime() -
-        new Date(b.lastSeenDateTime).getTime()
+        new Date(a.registeredAt).getTime() -
+        new Date(b.registeredAt).getTime()
       );
     }
 

@@ -1,19 +1,21 @@
 import { useAuth } from "../../../authentication";
 import { useEffect, useState } from "react";
-import { QueueEntry } from "@goodtok/apiserver/src/workspaces/types";
 import { sortPeople } from "./sort";
-import Workspaces from "@goodtok/sdk/src/workspaces";
-import Customers from "@goodtok/sdk/src/customers";
-import moment from "moment";
 import PresenceSwitch, { Precense, presence } from "./presence";
-import { Method } from "@goodtok/sdk/src/tokens/types";
+import moment from "moment";
+import * as SDK from "@goodtok/sdk";
 
-export default function Queue({ onSelectCustomer, onSetInviteInfo }) {
-  const { client, logout } = useAuth();
-  const [people, setPeopleList] = useState<QueueEntry[]>([]);
+interface QueueProps {
+  onSelectCustomer: (customer: any) => void;
+  onSetInviteInfo: (inviteInfo: any) => void;
+}
 
-  const workspaces = new Workspaces(client);
-  const customers = new Customers(client);
+export default function Queue({ onSelectCustomer, onSetInviteInfo }: QueueProps) {
+  const { client, logout } = useAuth() as any;
+  const [people, setPeopleList] = useState<any[]>([]);
+
+  const workspaces = new SDK.Workspaces(client);
+  const customers = new SDK.Customers(client);
 
   useEffect(() => {
     if (!client) {
@@ -27,46 +29,29 @@ export default function Queue({ onSelectCustomer, onSetInviteInfo }) {
 
     workspaces
       .getQueueByWorkspaceId("default")
-      .then((entries) => {
+      .then((entries: any) => {
         const peps = entries
-          .map((entry) => ({
-            customerId: entry.customerId,
-            name: entry.customer.name,
-            avatar: entry.customer.avatar,
-            lastSeen: moment(entry.createdAt).fromNow(),
-            lastSeenDateTime: entry.registeredAt,
-            aor: entry.aor
-          }))
           // If last seen is more than DEQUEUED_TIME, remove from the list enven
           // if it's still in the queue
           .filter(
-            (entry) => presence(entry.lastSeenDateTime) !== Precense.DEQUEUED
+            (entry: any) => presence(new Date(entry.registeredAt)) !== Precense.DEQUEUED
           );
 
         setPeopleList(sortPeople(peps));
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log({ err });
         if (err.data?.code === "UNAUTHORIZED") {
           logout();
         }
       });
 
-    workspaces.watchQ("default", (_, p: QueueEntry) => {
-      console.log({ customerId: p.customerId });
-      const person = {
-        customerId: p.customerId,
-        name: p.customer.name,
-        avatar: p.customer.avatar,
-        lastSeen: moment(p.createdAt).fromNow(true),
-        lastSeenDateTime: p.registeredAt,
-        aor: p.aor
-      };
-
+    // TODO: Fix hard coded value
+    workspaces.watchQ("default", (_: Error, person: any) => {
       // Update the list to include the new person
       setPeopleList((people) => {
         const idx = people.findIndex(
-          (person) => person.customerId === p.customerId
+          (p) => p.customerId === person.customerId
         );
         if (idx === -1) {
           return [...people, person];
@@ -91,7 +76,7 @@ export default function Queue({ onSelectCustomer, onSetInviteInfo }) {
         // The queue entry aor becomes the aorLink (callee)
         aorLink: queueEntry?.aor,
         customerId: customerId,
-        methods: [Method.INVITE]
+        methods: ["INVITE"]
       };
 
       onSelectCustomer(customerDetails);
@@ -103,7 +88,7 @@ export default function Queue({ onSelectCustomer, onSetInviteInfo }) {
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {people.map((person) => (
+      {(people as any).map((person: any) => (
         <li
           key={person.customerId}
           className="px-2 py-2 hoverable-list-item flex justify-between gap-x-2"
@@ -112,24 +97,24 @@ export default function Queue({ onSelectCustomer, onSetInviteInfo }) {
           <div className="flex min-w-0 gap-x-4">
             <img
               className="h-12 w-12 flex-none rounded-full bg-gray-50"
-              src={person.avatar}
+              src={person.customer.avatar}
               alt=""
             />
             <div className="min-w-0 flex-auto">
               <p className="text-sm font-semibold leading-6 text-gray-900">
-                {person.name}
+                {person.customer.name}
               </p>
               <p className="mt-1 text-xs leading-5 text-gray-500">
                 Joined{" "}
-                <time dateTime={person.lastSeenDateTime}>
-                  {person.lastSeen}
+                <time dateTime={new Date(person.registeredAt).toDateString()}>
+                  {moment(person.registeredAt).fromNow()}
                 </time>
               </p>
             </div>
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <div className="mt-1 flex items-center gap-x-1.5">
-              <PresenceSwitch lastSeenDateTime={person.lastSeenDateTime} />
+              <PresenceSwitch lastSeenDateTime={new Date(person.registeredAt)} />
             </div>
           </div>
         </li>

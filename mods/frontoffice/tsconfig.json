@@ -42,7 +42,10 @@
       "path": "./tsconfig.node.json"
     },
     {
+      "path": "../sdk"
+    },
+    {
       "path": "../common"
-    }
+    } 
   ]
 }
