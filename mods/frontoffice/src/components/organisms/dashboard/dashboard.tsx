@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   HomeIcon,
-  UsersIcon,
+  ChartPieIcon,
   XMarkIcon,
   Cog6ToothIcon as CogIcon
 } from "@heroicons/react/24/outline";
@@ -15,7 +15,7 @@ import Video from "../video";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
+  { name: "Team", href: "#", icon: ChartPieIcon, current: false },
   { name: "Settings", href: "#", icon: CogIcon, current: false }
 ];
 
