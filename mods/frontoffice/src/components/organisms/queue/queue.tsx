@@ -10,7 +10,10 @@ interface QueueProps {
   onSetInviteInfo: (inviteInfo: any) => void;
 }
 
-export default function Queue({ onSelectCustomer, onSetInviteInfo }: QueueProps) {
+export default function Queue({
+  onSelectCustomer,
+  onSetInviteInfo
+}: QueueProps) {
   const { client, logout } = useAuth() as any;
   const [people, setPeopleList] = useState<any[]>([]);
 
@@ -34,7 +37,8 @@ export default function Queue({ onSelectCustomer, onSetInviteInfo }: QueueProps)
           // If last seen is more than DEQUEUED_TIME, remove from the list enven
           // if it's still in the queue
           .filter(
-            (entry: any) => presence(new Date(entry.registeredAt)) !== Precense.DEQUEUED
+            (entry: any) =>
+              presence(new Date(entry.registeredAt)) !== Precense.DEQUEUED
           );
 
         setPeopleList(sortPeople(peps));
@@ -50,9 +54,7 @@ export default function Queue({ onSelectCustomer, onSetInviteInfo }: QueueProps)
     workspaces.watchQ("default", (_: Error, person: any) => {
       // Update the list to include the new person
       setPeopleList((people) => {
-        const idx = people.findIndex(
-          (p) => p.customerId === person.customerId
-        );
+        const idx = people.findIndex((p) => p.customerId === person.customerId);
         if (idx === -1) {
           return [...people, person];
         } else {
@@ -114,7 +116,9 @@ export default function Queue({ onSelectCustomer, onSetInviteInfo }: QueueProps)
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <div className="mt-1 flex items-center gap-x-1.5">
-              <PresenceSwitch lastSeenDateTime={new Date(person.registeredAt)} />
+              <PresenceSwitch
+                lastSeenDateTime={new Date(person.registeredAt)}
+              />
             </div>
           </div>
         </li>

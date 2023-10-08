@@ -23,8 +23,7 @@ export function sortPeople(peps: any[]) {
 
     if (presenceA === Precense.OFFLINE && presenceB === Precense.OFFLINE) {
       return (
-        new Date(a.registeredAt).getTime() -
-        new Date(b.registeredAt).getTime()
+        new Date(a.registeredAt).getTime() - new Date(b.registeredAt).getTime()
       );
     }
 

@@ -22,10 +22,7 @@ import { InviteInfo } from "./types";
 import * as Common from "@goodtok/common";
 import * as SDK from "@goodtok/sdk";
 
-export async function initVideoWidget(
-  client: any,
-  inviteInfo: InviteInfo
-) {
+export async function initVideoWidget(client: any, inviteInfo: InviteInfo) {
   const tokens = new SDK.Tokens(client);
   const connectionObject = await tokens.createToken(inviteInfo);
   const callButton = getButton("goodtok-call");

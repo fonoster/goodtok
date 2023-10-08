@@ -1,4 +1,4 @@
-export default function CustomerCard({customer}: any) {
+export default function CustomerCard({ customer }: any) {
   if (!customer) {
     return <div>Select a customer to view details</div>;
   }

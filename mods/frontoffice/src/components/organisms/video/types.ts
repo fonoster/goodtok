@@ -28,4 +28,4 @@ export type InviteInfo = {
 
 export type VideoProps = {
   inviteInfo: InviteInfo | null;
-}
+};
