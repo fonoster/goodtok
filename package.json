@@ -33,7 +33,10 @@
     "build": "lerna run build",
     "postbuild": "webpack --progress --config .scripts/webpack.config.js",
     "keys:generate": "./.scripts/create-keys.sh",
-    "token:generate": "./.scripts/create-jwt.js"
+    "token:generate": "./.scripts/create-jwt.js",
+    "publish": "lerna publish --yes --no-git-reset --dist-tag next $(./.scripts/next-release.sh) --message \"chore(release): publish %s [skip ci]\"",
+    "publish:prerelease": "lerna publish prerelease --dist-tag next",
+    "publish:frompackages": "lerna publish from-package"
   },
   "prisma": {
     "seed": "ts-node ./.scripts/seed.ts"

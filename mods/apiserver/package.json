@@ -15,6 +15,9 @@
     "prebuild": "rimraf ./dist tsconfig.tsbuildinfo",
     "build": "tsc -b tsconfig.json"
   },
+  "bin": {
+    "goodtok": "./dist/index.js"
+  },
   "dependencies": {
     "@fonoster/logger": "0.3.24",
     "@goodtok/common": "0.0.1",
