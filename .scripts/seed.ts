@@ -2,7 +2,7 @@
  * Copyright (C) <%= YEAR %> by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
  *
- * This file is part of GoodTok
+ * This file is part of Goodtok
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with
@@ -28,7 +28,7 @@ async function main() {
       username: "goodtok",
       email: "goodtok@goodtok.io",
       password: hashPassword("changeme"),
-      name: "GoodTok"
+      name: "Goodtok"
     }
   });
 
@@ -38,7 +38,7 @@ async function main() {
       username: "member",
       email: "member@goodtok.io",
       password: hashPassword("changeme"),
-      name: "GoodTok Member"
+      name: "Goodtok Member"
     },
   });
 

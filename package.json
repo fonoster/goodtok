@@ -3,7 +3,7 @@
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "license": "MIT",
   "version": "0.0.1",
-  "description": "GoodTok CX",
+  "description": "Goodtok CX",
   "private": true,
   "main": "dist/index",
   "types": "dist/index",
@@ -11,7 +11,6 @@
     "mods/common",
     "mods/sdk",
     "mods/apiserver",
-    "mods/frontoffice",
     "mods/widget"
   ],
   "scripts": {
@@ -83,7 +82,7 @@
     "webpack-cli": "^5.1.4"
   },
   "keywords": [
-    "GoodTok",
+    "Goodtok",
     "VoIP",
     "WebRTC",
     "Fonoster",

@@ -2,7 +2,7 @@
  * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
  *
- * This file is part of GoodTok
+ * This file is part of Goodtok
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with
@@ -32,15 +32,15 @@ import { shadowRootContent } from "./shadowRootContent";
 import { mediaToggle } from "@goodtok/common";
 import { getConnectionObject } from "./connection";
 
-class GoodTokComponent extends HTMLElement {
+class GoodtokComponent extends HTMLElement {
   constructor() {
     super();
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.innerHTML = shadowRootContent;
-    this.initGoodTok();
+    this.initGoodtok();
   }
 
-  async initGoodTok() {
+  async initGoodtok() {
     const connectionObject = await getConnectionObject(
       this.ownerDocument,
       "sip:anonymous@sip.goodtok.io"
@@ -194,4 +194,4 @@ class GoodTokComponent extends HTMLElement {
   }
 }
 
-export default GoodTokComponent;
+export default GoodtokComponent;

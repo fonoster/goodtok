@@ -2,7 +2,7 @@
  * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
  *
- * This file is part of GoodTok
+ * This file is part of Goodtok
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with
@@ -54,7 +54,7 @@ describe("goodtok sdk", () => {
     const users = new Users(client);
     const user = await users.updateUser({
       id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
-      name: "GoodTok"
+      name: "Goodtok"
     });
     expect(user).to.be.an("object").that.has.property("id");
   });

@@ -2,7 +2,7 @@
  * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
  *
- * This file is part of GoodTok
+ * This file is part of Goodtok
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with
@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import GoodTokComponent from "./component";
+import GoodtokComponent from "./component";
 
-customElements.define("goodtok-component", GoodTokComponent);
-document.body.appendChild(new GoodTokComponent());
+customElements.define("goodtok-component", GoodtokComponent);
+document.body.appendChild(new GoodtokComponent());

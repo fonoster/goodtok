@@ -2,7 +2,7 @@
  * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
  *
- * This file is part of GoodTok
+ * This file is part of Goodtok
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with
@@ -16,14 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GoodTokConnectionObject } from "./types";
+import { GoodtokConnectionObject } from "./types";
 import jwtDecode from "jwt-decode";
 import SDK from "@goodtok/sdk";
 
 export async function getConnectionObject(
   document: Document,
   aor: string
-): Promise<GoodTokConnectionObject> {
+): Promise<GoodtokConnectionObject> {
   const scriptTag = document.querySelector(
     "script[src*='unpkg.com/goodtok'], script[src*='lib/client.js']"
   );
@@ -68,6 +68,6 @@ export async function getConnectionObject(
     // Now lets decode the JWT token
     const payload = jwtDecode(token) as { [key: string]: string };
 
-    return payload as GoodTokConnectionObject;
+    return payload as GoodtokConnectionObject;
   }
 }
