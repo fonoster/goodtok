@@ -40,8 +40,11 @@ class GoodTokComponent extends HTMLElement {
     this.initGoodTok();
   }
 
-  initGoodTok() {
-    const connectionObject = getConnectionObject(this.ownerDocument);
+  async initGoodTok() {
+    const connectionObject = await getConnectionObject(
+      this.ownerDocument,
+      "sip:anonymous@sip.goodtok.io"
+    );
 
     // Control elements
     const phoneButton = this.shadowRoot.querySelector("#goodtok-phone");

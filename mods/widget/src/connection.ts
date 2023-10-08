@@ -16,12 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import jwtDecode from "jwt-decode";
 import { GoodTokConnectionObject } from "./types";
+import jwtDecode from "jwt-decode";
+import SDK from "@goodtok/sdk";
 
-export function getConnectionObject(
-  document: Document
-): GoodTokConnectionObject {
+export async function getConnectionObject(
+  document: Document,
+  aor: string
+): Promise<GoodTokConnectionObject> {
   const scriptTag = document.querySelector(
     "script[src*='unpkg.com/goodtok'], script[src*='lib/client.js']"
   );
@@ -39,20 +41,33 @@ export function getConnectionObject(
 
     const token = fullUrl.searchParams.get("token");
 
-    // Use this parameters to request a token from the server if not token is provided
-    // const key = fullUrl.searchParams.get("key");
-    // const decodedKey = atob(key);
-    // const keyParts = decodedKey.split(":");
-    // const id = keyParts[0];
-    // const server = keyParts[1];
+    if (!token) {
+      // Use this parameters to request a token from the server if not token is provided
+      const key = fullUrl.searchParams.get("key");
+      const decodedKey = atob(key);
+      const parsedKey = JSON.parse(decodedKey) as { [key: string]: string };
+      const workspaceId = parsedKey.id;
+      const server = parsedKey.server;
+
+      const client = new SDK.Client({
+        endpoint: server,
+        workspaceId: workspaceId
+      });
+
+      const tokens = new SDK.Tokens(client);
+      const connectionObj = await tokens.createAnonymousToken({
+        ref: "widget",
+        aor: aor,
+        // Same as the aor because is only for registering
+        aorLink: aor
+      });
+
+      return connectionObj;
+    }
 
     // Now lets decode the JWT token
     const payload = jwtDecode(token) as { [key: string]: string };
 
-    return {
-      aor: payload.aor,
-      signalingServer: payload.signalingServer,
-      token
-    };
+    return payload as GoodTokConnectionObject;
   }
 }
