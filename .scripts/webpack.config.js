@@ -20,8 +20,7 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    client: "./mods/widget/dist/index.js",
-    frontoffice: "./mods/frontoffice/dist/index.js"
+    client: "./mods/widget/dist/index.js"
   },
   devtool: "inline-source-map",
   mode: "development",
@@ -39,6 +38,6 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, "public/lib")
+    path: path.resolve(__dirname, "../mods/widget/public/lib")
   }
 };

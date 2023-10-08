@@ -30,6 +30,7 @@
     "type": "git",
     "url": "git+https://github.com/fonoster/goodtok.git"
   },
+  "unpkg": "public/lib/client.js",
   "bugs": {
     "url": "https://github.com/fonoster/goodtok/issues"
   },

@@ -1,0 +1,25 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #E6FFF5, #F0FDFF);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  font-size: 74px;
+  font-weight: 700;
+  color: #5FCFCE;
+  margin-bottom: 10px;
+  letter-spacing: -1px;
+}
+
+.tagline {
+  font-size: 26px;
+  color: #053204;
+  font-weight: 600;
+}
