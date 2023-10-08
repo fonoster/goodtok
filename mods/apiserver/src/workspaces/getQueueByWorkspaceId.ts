@@ -57,6 +57,7 @@ export async function getQueueByWorkspaceId(
         registeredAt: queueEntry.registeredAt,
         status: queueEntry.status.toString(),
         workspaceId: queueEntry.workspaceId,
+        aor: queueEntry.aor,
         customer: {
           id: customer.id,
           name: customer.name,

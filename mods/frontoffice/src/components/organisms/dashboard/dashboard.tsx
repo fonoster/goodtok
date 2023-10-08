@@ -26,6 +26,7 @@ function classNames(...classes) {
 export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [inviteInfo, setInviteInfo] = useState(null);
 
   const { client, logout } = useAuth();
 
@@ -156,7 +157,7 @@ export default function Dashboard() {
         <main className="lg:pl-20">
           <div className="xl:pl-96">
             <div className="w-2/3 px-4 py-10 sm:px-6 lg:px-10 lg:py-6">
-              <Video />
+              <Video inviteInfo={inviteInfo} />
               <Customer customer={selectedCustomer} />
             </div>
           </div>
@@ -166,7 +167,10 @@ export default function Dashboard() {
           <h2 className="h-12 text-lg font-medium text-gray-600">
             Customer Queue
           </h2>
-          <Queue onSelectCustomer={setSelectedCustomer} />
+          <Queue
+            onSelectCustomer={setSelectedCustomer}
+            onSetInviteInfo={setInviteInfo}
+          />
         </aside>
       </div>
     </>

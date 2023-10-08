@@ -29,6 +29,7 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 // 3. If it is IN_PROGRESS only update the registeredAt field
 export async function updateQueueEntry(
   customerId: string,
+  aor: string,
   workspaceId: string
 ) {
   const currentEntry = await prisma.queueEntry.findFirst({
@@ -53,6 +54,7 @@ export async function updateQueueEntry(
       data: {
         customerId: customerId,
         status: QueueEntryStatus.ONLINE,
+        aor,
         workspaceId: workspaceId
       }
     });

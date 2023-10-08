@@ -16,12 +16,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { z } from "zod";
-import { router, publicProcedure } from "../trpc";
-import { getCustomerById } from "./getCustomerById";
-
-export const customerRouter = router({
-  getCustomerById: publicProcedure
-    .input(z.string())
-    .query((req) => getCustomerById(req.input))
-});
+export { default } from "./api";

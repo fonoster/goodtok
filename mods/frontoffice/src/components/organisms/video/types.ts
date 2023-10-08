@@ -16,9 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type FOConnectionObject = {
-  signalingServer: string;
-  token: string;
+import { Method } from "@goodtok/sdk/src/tokens/types";
+
+export type InviteInfo = {
+  ref: string;
   aor: string;
   aorLink: string;
+  customerId: string;
+  methods: Method[];
 };

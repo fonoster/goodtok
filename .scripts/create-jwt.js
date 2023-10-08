@@ -29,7 +29,7 @@ const privateKey = fs.readFileSync("./.keys/private.key");
 
 // Please never create a long-lived token for a production environment
 const signOptions = { expiresIn: "24h", algorithm: "RS256" };
-const domainRef = "goodtok-01";
+const domainRef = "default";
 const privacy = "NONE";
 const domain = "sip.goodtok.io";
 const frontOfficeAgentRef = "front-office-agent";

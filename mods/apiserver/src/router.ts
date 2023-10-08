@@ -19,10 +19,12 @@
 import { workspacesRouter } from "./workspaces/router";
 import { customerRouter } from "./customers/router";
 import { usersRouter } from "./users/router";
+import { tokensRouter } from "./tokens/router";
 import { router } from "./trpc";
 
 export const appRouter = router({
   users: usersRouter,
+  tokens: tokensRouter,
   workspaces: workspacesRouter,
   customers: customerRouter
 });

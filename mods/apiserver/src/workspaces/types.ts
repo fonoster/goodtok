@@ -36,4 +36,5 @@ export type QueueEntry = {
   status: string;
   workspaceId: string;
   customer: Customer;
+  aor: string;
 };

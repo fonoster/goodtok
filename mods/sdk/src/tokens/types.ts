@@ -16,10 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { people } from "./mocks";
-import { Customer } from "./types";
+import {
+  ConnectionObject,
+  CreateAnonymousTokenInput,
+  CreateTokenInput,
+  Method
+} from "@goodtok/apiserver/src/tokens/types";
 
-export async function getCustomerById(id: string): Promise<Customer> {
-  const customer = people.find((p) => p.id === id);
-  return customer;
-}
+export type TokensClient = {
+  createAnonymousToken: (
+    request: CreateAnonymousTokenInput
+  ) => Promise<ConnectionObject>;
+  createToken: (request: CreateTokenInput) => Promise<ConnectionObject>;
+};
+
+export { Method };

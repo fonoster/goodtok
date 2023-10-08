@@ -16,13 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type Customer = {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  birthday: string;
-  note: string;
-  address: string;
-  avatar: string;
-};
+import { router, publicProcedure } from "../trpc";
+import { createAnonymousToken } from "./createAnonymousToken";
+import { createToken } from "./createToken";
+import { createAnonymousTokenSchema, createTokenSchema } from "./types";
+
+export const tokensRouter = router({
+  createToken: publicProcedure
+    .input(createTokenSchema)
+    .mutation((req) => createToken(req.input)),
+
+  createAnonymousToken: publicProcedure
+    .input(createAnonymousTokenSchema)
+    .mutation((req) => createAnonymousToken(req.input))
+});

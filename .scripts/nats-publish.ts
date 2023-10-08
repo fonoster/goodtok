@@ -24,7 +24,7 @@ async function main() {
   const randomOnetoThirteen = Math.floor(Math.random() * 13) + 1;
   const registration = {
     customerId: randomOnetoThirteen + "",
-    aor: "anonymous@sip.goodtok.io"
+    aor: "sip:anonymous@sip.goodtok.io"
   };
   nc.publish("routr.register", sc.encode(JSON.stringify(registration)));
 }

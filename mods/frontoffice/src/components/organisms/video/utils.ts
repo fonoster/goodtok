@@ -43,26 +43,3 @@ export function getVideoElement(id: string): HTMLVideoElement {
   }
   return el;
 }
-
-export function getConnectionObject(document: Document): FOConnectionObject {
-  const scriptTag = document.querySelector("script[src*='lib/frontoffice.js']");
-  if (scriptTag) {
-    const srcValue = scriptTag.getAttribute("src");
-
-    const url = new URL(srcValue, window.location.href);
-
-    const token = url.searchParams.get("token");
-
-    // Needs error handling
-
-    // Now lets decode the JWT token
-    const payload = jwtDecode(token) as { [key: string]: string };
-
-    return {
-      aor: payload.aor,
-      aorLink: payload.aorLink,
-      token,
-      signalingServer: payload.signalingServer
-    };
-  }
-}

@@ -53,6 +53,7 @@ CREATE TABLE "QueueEntry" (
     "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "registered_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" "QueueEntryStatus" NOT NULL,
+    "aor" TEXT NOT NULL,
     "workspaceId" TEXT NOT NULL,
 
     CONSTRAINT "QueueEntry_pkey" PRIMARY KEY ("id")

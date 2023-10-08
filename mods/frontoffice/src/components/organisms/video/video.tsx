@@ -16,13 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { useEffect } from "react";
 import { initVideoWidget } from "./widget";
+import { useAuth } from "../../../authentication";
 
-export default function Video() {
-  useEffect(() => {
-    initVideoWidget(document);
-  }, []);
+export default function Video({ inviteInfo }) {
+  const { client } = useAuth();
+
+  if (inviteInfo) initVideoWidget(client, inviteInfo);
 
   return (
     <div className="video-container">
@@ -79,14 +79,4 @@ export default function Video() {
       `}</style>
     </div>
   );
-}
-
-{
-  /* 
-  <div class="video">
-
-  </div>
-
-
-*/
 }

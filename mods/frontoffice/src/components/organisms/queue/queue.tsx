@@ -6,8 +6,9 @@ import Workspaces from "@goodtok/sdk/src/workspaces";
 import Customers from "@goodtok/sdk/src/customers";
 import moment from "moment";
 import PresenceSwitch, { Precense, presence } from "./presence";
+import { Method } from "@goodtok/sdk/src/tokens/types";
 
-export default function Queue({ onSelectCustomer }) {
+export default function Queue({ onSelectCustomer, onSetInviteInfo }) {
   const { client, logout } = useAuth();
   const [people, setPeopleList] = useState<QueueEntry[]>([]);
 
@@ -33,7 +34,8 @@ export default function Queue({ onSelectCustomer }) {
             name: entry.customer.name,
             avatar: entry.customer.avatar,
             lastSeen: moment(entry.createdAt).fromNow(),
-            lastSeenDateTime: entry.registeredAt
+            lastSeenDateTime: entry.registeredAt,
+            aor: entry.aor
           }))
           // If last seen is more than DEQUEUED_TIME, remove from the list enven
           // if it's still in the queue
@@ -57,7 +59,8 @@ export default function Queue({ onSelectCustomer }) {
         name: p.customer.name,
         avatar: p.customer.avatar,
         lastSeen: moment(p.createdAt).fromNow(true),
-        lastSeenDateTime: p.registeredAt
+        lastSeenDateTime: p.registeredAt,
+        aor: p.aor
       };
 
       // Update the list to include the new person
@@ -79,7 +82,20 @@ export default function Queue({ onSelectCustomer }) {
   const handleRowClick = async (customerId: string) => {
     try {
       const customerDetails = await customers.getCustomerById(customerId);
+      const queueEntry = people.find((p) => p.customerId === customerId);
+
+      const inviteInfo = {
+        ref: customerId,
+        // TODO: Construct the aor from the logged in user (caller)
+        aor: "sip:goodtok@sip.goodtok.io",
+        // The queue entry aor becomes the aorLink (callee)
+        aorLink: queueEntry?.aor,
+        customerId: customerId,
+        methods: [Method.INVITE]
+      };
+
       onSelectCustomer(customerDetails);
+      onSetInviteInfo(inviteInfo);
     } catch (err) {
       console.error("Failed to fetch customer details:", err);
     }

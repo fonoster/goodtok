@@ -16,9 +16,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { join } from "path";
 import crypto from "crypto";
+import path from "path";
+import fs from "fs";
+import dotenv from "dotenv";
 
-export const NATS_URL = process.env.NATS_URL ?? "api.goodtok.io:4222";
+if (process.env.NODE_ENV === "dev") {
+  dotenv.config({ path: join(__dirname, "..", "..", "..", ".env") });
+}
+
+export const NATS_URL = process.env.NATS_URL;
 export const BIND_PORT = process.env.BIND_PORT ?? "5000";
-export const SALT =
-  process.env.SALT ?? crypto.getRandomValues(new Uint32Array(1)).toString();
+export const SALT = process.env.SALT ?? crypto.randomBytes(4).toString("hex");
+export const PATH_TO_KEYS = process.env.PATH_TO_KEYS ?? "./.keys";
+export const PATH_TO_PRIVATE_KEY = path.join(PATH_TO_KEYS, "private.key");
+export const SIGN_OPTIONS = process.env.SIGN_OPTIONS
+  ? JSON.parse(process.env.SIGN_OPTIONS)
+  : { expiresIn: "24h", algorithm: "RS256" };
+
+if (!fs.existsSync(path.join(PATH_TO_KEYS, "private.key"))) {
+  console.error(
+    "No private key found. Please run 'npm run keys:generate' first"
+  );
+  process.exit(1);
+}
+
+export const PRIVATE_KEY = fs.readFileSync(PATH_TO_PRIVATE_KEY);
+export const DEFAULT_DOMAIN = process.env.DEFAULT_DOMAIN ?? "sip.goodtok.io";
+export const DEFAULT_DOMAIN_REF = process.env.DEFAULT_DOMAIN_REF ?? "default";
+export const DEFAULT_PRIVACY = process.env.DEFAULT_PRIVACY ?? "PRIVATE";
+export const DEFAULT_SIGNALING_SERVER =
+  process.env.DEFAULT_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";

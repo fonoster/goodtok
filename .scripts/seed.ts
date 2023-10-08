@@ -63,7 +63,8 @@ async function main() {
     data: {
       customerId: "1",
       workspaceId: "default",
-      status: "ONLINE"
+      status: "ONLINE",
+      aor: "sip:1@sip.goodtok.io"
     },
   });
 
@@ -71,7 +72,8 @@ async function main() {
     data: {
       customerId: "2",
       workspaceId: "default",
-      status: "OFFLINE"
+      status: "OFFLINE",
+      aor: "sip:2@sip.goodtok.io"
     },
   });
 
@@ -79,7 +81,8 @@ async function main() {
     data: {
       customerId: "3",
       workspaceId: "default",
-      status: "ONLINE"
+      status: "ONLINE",
+      aor: "sip:3@sip.goodtok.io"
     },
   });
 
@@ -87,7 +90,8 @@ async function main() {
     data: {
       customerId: "4",
       workspaceId: "default",
-      status: "DEQUEUED"
+      status: "DEQUEUED",
+      aor: "sip:4@sip.goodtok.io"
     },
   });
 }

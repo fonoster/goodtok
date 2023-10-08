@@ -19,11 +19,13 @@
 import Client from "./client";
 import Users from "./users";
 import Workspaces from "./workspaces";
+import Tokens from "./tokens";
 
 const SDK = {
   Client,
   Users,
-  Workspaces
+  Workspaces,
+  Tokens
 };
 
 export default SDK;

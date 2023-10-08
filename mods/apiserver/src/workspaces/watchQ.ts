@@ -50,7 +50,7 @@ export function watchQ(workspaceId: string) {
 watchNats(NATS_URL, async (event) => {
   logger.debug("message from nats", { event });
 
-  const entry = await updateQueueEntry(event.customerId, "default");
+  const entry = await updateQueueEntry(event.customerId, event.aor, "default");
 
   logger.debug("entry updated", { entry });
 
