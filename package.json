@@ -1,10 +1,10 @@
 {
-  "name": "goodtok",
+  "name": "root",
+  "private": true,
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "license": "MIT",
   "version": "0.0.1",
   "description": "Goodtok CX",
-  "private": true,
   "main": "dist/index",
   "types": "dist/index",
   "workspaces": [
