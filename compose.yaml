@@ -23,8 +23,8 @@ services:
       DEFAULT_SIGNALING_SERVER: ws://${DOCKER_HOST_ADDRESS}:5062
       PATH_TO_KEYS: /keys
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/goodtok
-    expose:
-      - 5000
+    ports:
+      - 5000:5000
     volumes:
       - ./.keys:/keys
 

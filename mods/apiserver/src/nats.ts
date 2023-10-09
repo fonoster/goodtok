@@ -21,6 +21,8 @@ import { getLogger } from "@fonoster/logger";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
+const REGISTER_SUBJECT = "routr.register";
+
 export function watchNats(
   natsUrl: string,
   callback: (registerEvent: { customerId: string; aor: string }) => void
@@ -28,10 +30,10 @@ export function watchNats(
   (async () => {
     const nc = await connect({ servers: natsUrl });
 
-    const subscription = nc.subscribe("routr.register");
+    const subscription = nc.subscribe(REGISTER_SUBJECT);
 
-    logger.debug("connected to nats", { natsUrl });
-    logger.debug("subscribed to subject", { subject: "routr.register" });
+    logger.verbose("connected to nats", { natsUrl });
+    logger.verbose("subscribed to subject", { subject: REGISTER_SUBJECT });
 
     // eslint-disable-next-line no-loops/no-loops
     for await (const msg of subscription) {
