@@ -47,10 +47,8 @@ export async function updateQueueEntry(
     return currentEntry;
   }
 
-  let updatedOrCreatedEntry;
-
   if (!currentEntry) {
-    updatedOrCreatedEntry = await prisma.queueEntry.create({
+    return prisma.queueEntry.create({
       data: {
         customerId: customerId,
         status: QueueEntryStatus.ONLINE,
@@ -63,7 +61,7 @@ export async function updateQueueEntry(
       currentEntry.status === QueueEntryStatus.IN_PROGRESS
         ? QueueEntryStatus.IN_PROGRESS
         : QueueEntryStatus.ONLINE;
-    updatedOrCreatedEntry = await prisma.queueEntry.update({
+    return prisma.queueEntry.update({
       where: {
         id: currentEntry.id
       },
@@ -73,6 +71,4 @@ export async function updateQueueEntry(
       }
     });
   }
-
-  return updatedOrCreatedEntry;
 }
