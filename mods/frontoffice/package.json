@@ -1,16 +1,16 @@
 {
-  "name": "vital",
-  "version": "1.0.0",
-  "description": "Starter template for Vite with React (TypeScript). Supports Tailwind. Vitest and @react/testing-library configured and ready to go. Also ESLint, Prettier, Husky, Commit-lint and Atomic Design for components.",
-  "homepage": "https://github.com/jvidalv/vital#readme",
+  "name": "@goodtok/frontoffice",
+  "version": "0.0.1",
+  "description": "Goodtok frontoffice",
+  "homepage": "https://github.com/fonoster/goodtok#readme",
+  "author": "Pedro Sanders <psanders@fonoster.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jvidalv/vital.git"
+    "url": "git+https://github.com/fonoster/goodtok.git"
   },
-  "author": "Josep Vidal <josepvidalvidal@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jvidalv/vital/issues"
+    "url": "https://github.com/fonoster/goodtok/issues"
   },
   "browserslist": [
     ">0.2%",
@@ -26,6 +26,9 @@
     "test": "vitest",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
+  },
+  "bin": {
+    "goodtok": "./node_modules/vite/bin/vite.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

@@ -1,6 +1,3 @@
-##
-## Build
-##
 FROM node:lts-alpine as builder
 LABEL Fonoster Team <fonosterteam@fonoster.com>
 

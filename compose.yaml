@@ -2,6 +2,18 @@ version: "3"
 
 services:
 
+  frontoffice:
+    image: fonoster/goodtok-frontoffice:latest
+    build:
+      context: .
+      dockerfile: ./mods/frontoffice/Dockerfile
+    environment:
+      LOGS_LEVEL: verbose
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+
   apiserver:
     image: fonoster/goodtok-apiserver:latest
     build:
