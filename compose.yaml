@@ -11,8 +11,6 @@ services:
       LOGS_LEVEL: verbose
     ports:
       - 3000:3000
-    expose:
-      - 3000
 
   apiserver:
     image: fonoster/goodtok-apiserver:latest
