@@ -11,9 +11,8 @@ RUN apk add --no-cache --virtual .build-deps python3 make g++ \
   && npm run build \
   && npm pack \
   && npm install -g goodtok-frontoffice-*.tgz \
-  && rm -rf /build \
   && apk del .build-deps python3 make g++
 
-WORKDIR /frontoffice
+WORKDIR /build/mods/frontoffice
 
 CMD ["./node_modules/vite/bin/vite.js", "--host", "--port", "3000"]
