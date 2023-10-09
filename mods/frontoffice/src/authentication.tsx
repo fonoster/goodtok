@@ -8,8 +8,8 @@ import {
 
 import * as SDK from "@goodtok/sdk";
 
-const DEFAULT_ENDPOINT = "http://localhost:5000/v1";
-const DEFAULT_WORKSPACE_ID = "default";
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
+const DEFAULT_WORKSPACE_ID = import.meta.env.VITE_DEFAULT_WORKSPACE_ID;
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       const client = new SDK.Client({
-        endpoint: DEFAULT_ENDPOINT,
+        endpoint: API_ENDPOINT,
         workspaceId: DEFAULT_WORKSPACE_ID
       });
       client.setToken(accessToken);
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (username: string, password: string) => {
     const clientInstance = new SDK.Client({
-      endpoint: DEFAULT_ENDPOINT,
+      endpoint: API_ENDPOINT,
       workspaceId: DEFAULT_WORKSPACE_ID
     });
     await clientInstance.login(username, password);

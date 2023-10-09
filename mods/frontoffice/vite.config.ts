@@ -24,6 +24,7 @@ export default defineConfig((configEnv) => {
   const isDevelopment = configEnv.mode === "development";
 
   return {
+    envDir: resolve(__dirname, "..", ".."),
     plugins: [react()],
     server: {
       port: 3000

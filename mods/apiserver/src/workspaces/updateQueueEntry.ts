@@ -41,7 +41,7 @@ export async function updateQueueEntry(
     }
   });
 
-  logger.debug("updating queue entry", { currentEntry });
+  logger.verbose("updating queue entry", { currentEntry });
 
   if (currentEntry && currentEntry.status === QueueEntryStatus.DEQUEUED) {
     return currentEntry;

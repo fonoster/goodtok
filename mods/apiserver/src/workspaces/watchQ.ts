@@ -29,7 +29,7 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 const observers: Array<(entry: QueueEntry) => void> = [];
 
 export function watchQ(workspaceId: string) {
-  logger.debug("new observer added to watchQ", { workspaceId });
+  logger.verbose("new observer added to watchQ", { workspaceId });
 
   return observable<QueueEntry>((emit) => {
     // Add the observer's next method to the list when a client subscribes
@@ -48,11 +48,11 @@ export function watchQ(workspaceId: string) {
 // TODO: Should take the workspaceId as a parameter
 // Should save the aor as part of the db entry
 watchNats(NATS_URL, async (event) => {
-  logger.debug("message from nats", { event });
+  logger.verbose("message from nats", { event });
 
   const entry = await updateQueueEntry(event.customerId, event.aor, "default");
 
-  logger.debug("entry updated", { entry });
+  logger.verbose("entry updated", { entry });
 
   const customer = await getCustomerById(event.customerId);
 
