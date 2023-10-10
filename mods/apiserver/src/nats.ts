@@ -21,11 +21,16 @@ import { getLogger } from "@fonoster/logger";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-const REGISTER_SUBJECT = "routr.register";
+const REGISTER_SUBJECT = "routr.endpoint.registered";
 
 export function watchNats(
   natsUrl: string,
-  callback: (registerEvent: { customerId: string; aor: string }) => void
+  callback: (registerEvent: {
+    aor: string;
+    registeredAt: Date;
+    expires: number;
+    extraHeaders: Record<string, string>;
+  }) => void
 ) {
   (async () => {
     const nc = await connect({ servers: natsUrl });

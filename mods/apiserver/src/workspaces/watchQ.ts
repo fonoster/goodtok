@@ -45,16 +45,20 @@ export function watchQ(workspaceId: string) {
   });
 }
 
-// TODO: Should take the workspaceId as a parameter
-// Should save the aor as part of the db entry
 watchNats(NATS_URL, async (event) => {
-  logger.verbose("message from nats", { event });
+  const { aor, extraHeaders } = event;
+  logger.verbose("message from nats", { aor, extraHeaders });
 
-  const entry = await updateQueueEntry(event.customerId, event.aor, "default");
+  const customerId = extraHeaders["X-Customer-Id"];
+  const workspaceId = extraHeaders["X-Workspace-Id"];
+
+  logger.verbose("customerId and workspaceId", { customerId, workspaceId });
+
+  const entry = await updateQueueEntry(customerId, aor, workspaceId);
 
   logger.verbose("entry updated", { entry });
 
-  const customer = await getCustomerById(event.customerId);
+  const customer = await getCustomerById(customerId);
 
   const entryWithCustomer = {
     ...entry,

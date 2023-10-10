@@ -176,7 +176,12 @@ class GoodtokComponent extends HTMLElement {
         .then(() => {
           simpleUser.register({
             requestOptions: {
-              extraHeaders: [`X-Connect-Token: ${connectionObject.token}`]
+              extraHeaders: [
+                `X-Connect-Token: ${connectionObject.token}`,
+                "Expires: 60",
+                "X-Customer-Id: 1",
+                "X-Workspace-Id: default"
+              ]
             }
           });
         })
