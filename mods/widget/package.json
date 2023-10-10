@@ -1,0 +1,39 @@
+{
+  "name": "@goodtok/widget",
+  "version": "0.0.1",
+  "description": "Video widget for Goodtok",
+  "author": "Pedro Sanders <psanders@fonoster.com>",
+  "homepage": "https://github.com/fonoster/goodtok#readme",
+  "license": "MIT",
+  "main": "dist/index",
+  "types": "dist/index",
+  "directories": {
+    "src": "src",
+    "test": "test"
+  },
+  "scripts": {
+    "prebuild": "rimraf ./dist tsconfig.tsbuildinfo",
+    "build": "tsc -b tsconfig.json"
+  },
+  "dependencies": {
+    "@fonoster/logger": "0.3.24",
+    "@goodtok/common": "^0.0.1",
+    "@goodtok/sdk": "^0.0.1",
+    "jwt-decode": "^3.1.2"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fonoster/goodtok.git"
+  },
+  "unpkg": "public/lib/client.js",
+  "bugs": {
+    "url": "https://github.com/fonoster/goodtok/issues"
+  },
+  "gitHead": "ebd8920cde102ff806a6a2e50292e6e6eb2c042c"
+}

@@ -1,30 +1,51 @@
 {
-  "name": "goodtok",
+  "name": "root",
+  "private": true,
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "license": "MIT",
-  "version": "0.0.3",
-  "description": "GoodTok CX",
+  "version": "0.0.1",
+  "description": "Goodtok CX",
   "main": "dist/index",
   "types": "dist/index",
+  "workspaces": [
+    "mods/common",
+    "mods/sdk",
+    "mods/apiserver",
+    "mods/widget",
+    "mods/frontoffice"
+  ],
   "scripts": {
-    "start:frontoffice": "http-server public -c10",
-    "start": "cross-env NODE_ENV=dev nodemon src/frontoffice/runner.ts",
-    "start:prod": "cross-env NODE_ENV=prod nodemon dist/bundle.js",
-    "test": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha test/*.test.ts --exit",
-    "lint": "eslint src --ext .ts --fix",
-    "format": "prettier --write src",
+    "start:apiserver": "cross-env LOGS_LEVEL=debug NODE_ENV=dev nodemon mods/apiserver/src/index.ts",
+    "start:frontoffice": "NODE_ENV=dev cd mods/frontoffice && npm run dev",
+    "start:widget": "http-server mods/widget/public -c10",
+    "test": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha mods/**/test/*unit.test.ts --exit",
+    "test:nats-publish": "ts-node ./.scripts/nats-publish.ts",
+    "test:integration": "cross-env NODE_ENV=dev nyc --reporter=lcov mocha mods/**/test/*int.test.ts --exit",
+    "lint": "eslint mods --ext .ts --fix",
+    "format": "prettier --write mods/**/src",
     "gen:docs": "node .scripts/docs-generator.js && cp docs/service.md",
     "prepare": "husky install",
     "start:old": "http-server public -c10",
-    "build": "tsc && webpack --progress --config webpack.config.cjs",
+    "db:up": "docker compose -f compose.dev.yaml up postgres adminer -d",
+    "db:down": "docker compose -f compose.dev.yaml down",
+    "db:migrate": "npx prisma migrate dev --schema ./mods/apiserver/schema.prisma --name init --preview-feature",
+    "db:seed": "npx prisma db seed --schema ./mods/apiserver/schema.prisma",
+    "prebuild": "npx prisma generate --schema ./mods/apiserver/schema.prisma",
+    "build": "lerna run build",
+    "postbuild": "webpack --progress --config .scripts/webpack.config.js",
     "keys:generate": "./.scripts/create-keys.sh",
-    "token:generate": "./.scripts/create-jwt.js"
+    "token:generate": "./.scripts/create-jwt.js",
+    "publish": "lerna publish --yes --no-git-reset --dist-tag next $(./.scripts/next-release.sh) --message \"chore(release): publish %s [skip ci]\"",
+    "publish:prerelease": "lerna publish prerelease --dist-tag next",
+    "publish:frompackages": "lerna publish from-package"
+  },
+  "prisma": {
+    "seed": "ts-node ./.scripts/seed.ts"
   },
   "dependencies": {
     "@fonoster/logger": "^0.3.6",
-    "express": "^4.18.1",
-    "jwt-decode": "^3.1.2",
-    "sip.js": "^0.21.2"
+    "@prisma/client": "^5.4.1",
+    "express": "^4.18.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
@@ -36,6 +57,7 @@
     "@types/sinon": "^10.0.11",
     "@types/sinon-chai": "^3.2.8",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
@@ -50,6 +72,7 @@
     "husky": "^8.0.1",
     "jsdoc-to-markdown": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
+    "lerna": "^7.3.0",
     "mocha": "^10.0.0",
     "nodemon": "^3.0.1",
     "nyc": "^15.1.0",
@@ -63,7 +86,7 @@
     "webpack-cli": "^5.1.4"
   },
   "keywords": [
-    "GoodTok",
+    "Goodtok",
     "VoIP",
     "WebRTC",
     "Fonoster",
@@ -78,13 +101,12 @@
     "type": "git",
     "url": "git+https://github.com/psanders/goodtok.git"
   },
-  "unpkg": "public/lib/client.js",
   "bugs": {
     "url": "https://github.com/psanders/goodtok/issues"
   },
   "nodemonConfig": {
     "watch": [
-      "./src/"
+      "./mods/**"
     ],
     "ext": "ts",
     "exec": "ts-node",
@@ -96,8 +118,5 @@
   },
   "files": [
     "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }

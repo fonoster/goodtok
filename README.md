@@ -1,4 +1,4 @@
-# GoodTok
+# Goodtok
 
 <div align="center">
   <p align="center">
@@ -11,7 +11,7 @@
 <a href="https://gitpod.io/#https://github.com/psanders/goodtok"> <img src="https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod" alt="Contribute with Gitpod" />
 </a> [![Sponsor this](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/psanders)](https://github.com/sponsors/psanders) [![Discord](https://img.shields.io/discord/1016419835455996076?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/4QWgSz4hTC) ![GitHub](https://img.shields.io/github/license/psanders/goodtok?color=%2347b96d) ![Twitter Follow](https://img.shields.io/twitter/follow/pedrosanders_?style=social)
 
-GoodTok helps businesses enhance their customer service right from their website. The video application lets customers connect with your staff in real-time. You can integrate this simple and easy-to-use application into any website.
+Goodtok helps businesses enhance their customer service right from their website. The video application lets customers connect with your staff in real-time. You can integrate this simple and easy-to-use application into any website.
 
 > This project is just starting and is not ready for production use yet 🚧
 
@@ -46,19 +46,19 @@ The previous command will start the front-office application. You will then be a
 
 ## Usage
 
-In the website where you want to integrate GoodTok, you will need to add the following script tag:
+In the website where you want to integrate Goodtok, you will need to add the following script tag:
 
 ```html
-<!-- GoodTok video client -->
+<!-- Goodtok video client -->
 <script
   type="text/javascript"
   src="https://unpkg.com/goodtok?key=Z3RpZD0xMjM0LHNlcnZlcj1hcGkuZ29vZHRvay5pbyxjdXN0b21lcj10b2tlbg==&token=OPTIONAL_CUSTOMER_TOKEN"
 >
 </script>
-<!-- GoodTok video client end -->
+<!-- Goodtok video client end -->
 ```
 
-The key is a base64 encoded value containing the account `id` and `server` of your GoodTok instance. You can generate this value by running the following command:
+The key is a base64 encoded value containing the account `id` and `server` of your Goodtok instance. You can generate this value by running the following command:
 
 ```bash
 echo -n '{"id":"1234","server":"api.yourinstance.com"}' | base64
@@ -70,7 +70,7 @@ The video widget will request an anonymous token from the server if non is provi
 
 > Remember that enabling anonymous will require you to implement security measures to prevent abuse ⚠️
 
-A GoodTok token is a [JSON Web Token](https://jwt.io/). Here is an example of the claims for a customer token:
+A Goodtok token is a [JSON Web Token](https://jwt.io/). Here is an example of the claims for a customer token:
 
 ```json
 {
@@ -100,6 +100,10 @@ If you want to contribute to this project, please read the [CONTRIBUTING.md](CON
 ## Questions
 
 If you have any questions about this project, please look at my [GitHub profile](https://github.com/psanders) to find the most up-to-date contact information for me.
+
+## Known Issues
+
+- When running Goodtok without a TLS certificate, you will need to add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or equivalent for your browser. This is because the camera will not work on an insecure origin.
 
 ## Authors
 

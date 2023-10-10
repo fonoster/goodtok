@@ -3,7 +3,7 @@
  * Copyright (C) <%= YEAR %> by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
  *
- * This file is part of GoodTok
+ * This file is part of Goodtok
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with
@@ -17,7 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
 
@@ -30,7 +29,7 @@ const privateKey = fs.readFileSync("./.keys/private.key");
 
 // Please never create a long-lived token for a production environment
 const signOptions = { expiresIn: "24h", algorithm: "RS256" };
-const domainRef = "goodtok-01";
+const domainRef = "default";
 const privacy = "NONE";
 const domain = "sip.goodtok.io";
 const frontOfficeAgentRef = "front-office-agent";

@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum WorkspaceMemberStatus {
+  PENDING
+  ACTIVE
+}
+
+enum WorkspaceMemberRole {
+  MEMBER
+}
+
+enum QueueEntryStatus {
+  ONLINE
+  OFFLINE
+  DEQUEUED
+  IN_PROGRESS
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  email     String   @unique
+  name      String
+  avatar    String?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
+
+  // Relations
+  ownedWorkspaces Workspace[] // Workspaces owned by the user
+  memberships     WorkspaceMember[] // Workspaces the user is a member of
+
+  // Indexes and maps
+  @@index([username], type: Hash)
+}
+
+model Workspace {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
+
+  // Relations
+  owner   User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId String
+  members WorkspaceMember[]
+  queue   QueueEntry[]
+
+  // Indexes and maps
+  @@index([name], type: Hash)
+}
+
+model WorkspaceMember {
+  id     String                @id @default(uuid())
+  status WorkspaceMemberStatus
+  role   WorkspaceMemberRole   @default(MEMBER)
+
+  // Relations
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamptz(3)
+
+  @@unique([userId, workspaceId])
+}
+
+model QueueEntry {
+  id           Int              @id @default(autoincrement())
+  customerId   String
+  createdAt    DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime         @default(now()) @map("updated_at") @db.Timestamptz(3)
+  registeredAt DateTime         @default(now()) @map("registered_at") @db.Timestamptz(3)
+  status       QueueEntryStatus
+  aor          String
+
+  // Relations
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+
+  // Indexes and maps
+  @@index([workspaceId], type: Hash)
+  @@index([customerId], type: Hash)
+}

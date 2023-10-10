@@ -1,17 +1,25 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "composite": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "declaration": true,
+    "noImplicitAny": true,
     "esModuleInterop": true,
+    "module": "commonjs",
     "target": "es6",
     "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "declaration": true
+    "downlevelIteration": true,
+    "lib": [
+      "es2021",
+      "dom",
+      "es6",
+      "scripthost"
+    ]
   },
-  "include": [
-    "**/*"
-  ],
   "exclude": [
-    "dist"
+    "node_modules",
+    "dist",
+    "**/bin/*"
   ]
 }
