@@ -34,7 +34,7 @@ Coming soon.
 
 It would mean a lot to me if you could give this project a star. It helps me identify if I'm doing a good job or not. Also, it helps me attract potential contributors and users. 🙏
 
-# Installation
+## Installation
 
 I'm aiming to make this as easy as possible to install. I'm working on a docker image allowing you to run this application with a single command. When it is ready, you will be able to run the following command to get started:
 
