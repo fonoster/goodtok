@@ -24,7 +24,7 @@ function classNames(...classes: string[]) {
 export default function Dashboard() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [inviteInfo, setInviteInfo] = useState(null);
-  const [view, setView] = useState('dashboard');
+  const [view, setView] = useState("dashboard");
 
   const { client, logout } = useAuth() as any;
 
@@ -35,11 +35,13 @@ export default function Dashboard() {
 
   const renderView = () => {
     switch (view) {
-      case 'settings':
-        return <div className="w-1/4 px-12 py-8">
-          <Settings />
-        </div>;
-      case 'customer-support':
+      case "settings":
+        return (
+          <div className="w-1/4 px-12 py-8">
+            <Settings />
+          </div>
+        );
+      case "customer-support":
       default:
         return (
           <div className="flex">
@@ -70,37 +72,37 @@ export default function Dashboard() {
         <nav className="mt-8">
           <ul role="list" className="flex flex-col items-center space-y-1">
             {navigation.map((item) => (
-              <li key={item.name} onClick={() => {
-                switch (item.name) {
-                  case 'Settings':
-                    setView('settings');
-                    break;
-                  case 'Dashboard':
-                    setView('dashboard');
-                    break;
-                  case 'Team':
-                    setView('team');
-                    break;
-                  default:
-                    setView('dashboard');
-                    break;
-                }
-              }}>
+              <li
+                key={item.name}
+                onClick={() => {
+                  switch (item.name) {
+                    case "Settings":
+                      setView("settings");
+                      break;
+                    case "Dashboard":
+                      setView("dashboard");
+                      break;
+                    case "Team":
+                      setView("team");
+                      break;
+                    default:
+                      setView("dashboard");
+                      break;
+                  }
+                }}
+              >
                 <a
                   href={item.href}
                   className={classNames(
-                    (view === 'settings' && item.name === 'Settings') ||
-                      (view === 'dashboard' && item.name === 'Dashboard') ||
-                      (view === 'team' && item.name === 'Team')
+                    (view === "settings" && item.name === "Settings") ||
+                      (view === "dashboard" && item.name === "Dashboard") ||
+                      (view === "team" && item.name === "Team")
                       ? "bg-gray-800 text-white"
                       : "text-gray-400 hover:text-white hover:bg-gray-800",
                     "group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold"
                   )}
                 >
-                  <item.icon
-                    className="h-6 w-6 shrink-0"
-                    aria-hidden="true"
-                  />
+                  <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                   <span className="sr-only">{item.name}</span>
                 </a>
               </li>
@@ -110,9 +112,7 @@ export default function Dashboard() {
       </div>
 
       <main className="lg:pl-20">
-        <div>
-          {renderView()}
-        </div>
+        <div>{renderView()}</div>
       </main>
     </div>
   );

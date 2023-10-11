@@ -54,7 +54,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       endpoint: API_ENDPOINT,
       workspaceId: DEFAULT_WORKSPACE_ID
     });
-    
+
     await client.login(username, password);
     setClient(client);
     setIsLoggedIn(true);
