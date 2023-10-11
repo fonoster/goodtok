@@ -19,6 +19,7 @@
 import { PrismaClient } from "@prisma/client";
 import { User } from "./types";
 import { TRPCError } from "@trpc/server";
+import { hashPassword } from "../utils";
 
 const prisma = new PrismaClient();
 
@@ -40,6 +41,7 @@ export async function updateUser(
     },
     data: {
       ...data,
+      password: data.password ? hashPassword(data.password) : undefined,
       updatedAt: new Date()
     }
   });

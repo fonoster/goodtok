@@ -50,25 +50,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
   const login = async (username: string, password: string) => {
-    const clientInstance = new SDK.Client({
+    const client = new SDK.Client({
       endpoint: API_ENDPOINT,
       workspaceId: DEFAULT_WORKSPACE_ID
     });
-    await clientInstance.login(username, password);
-    setClient(clientInstance);
+    
+    await client.login(username, password);
+    setClient(client);
     setIsLoggedIn(true);
+
     localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("accessToken", clientInstance.getToken());
+    localStorage.setItem("accessToken", client.getToken());
   };
 
   const logout = () => {
     setClient(null);
     setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn"); // Clear login state
+    localStorage.removeItem("isLoggedIn");
   };
 
   useEffect(() => {
-    // Handle cases where the login state might be invalidated, e.g., token expiration
     if (localStorage.getItem("isLoggedIn") !== "true") {
       logout();
     }

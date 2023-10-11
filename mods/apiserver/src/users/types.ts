@@ -24,4 +24,5 @@ export type User = {
   avatar: string;
   createdAt: Date;
   updatedAt: Date;
+  password?: string;
 };
