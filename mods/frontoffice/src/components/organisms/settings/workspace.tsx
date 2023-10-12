@@ -36,7 +36,7 @@ export default function WorkspaceSettings() {
       workspaces
         .updateWorkspace({
           id: client.getCurrentWorkspaceId(),
-          name: workspaceName,
+          name: workspaceName
         })
         .then(() => {
           setSuccessMessage("Workspace updated successfully!");
@@ -44,7 +44,6 @@ export default function WorkspaceSettings() {
         .catch((error) => {
           setErrorMessage(error.message);
         });
-
     } else {
       logout();
     }
