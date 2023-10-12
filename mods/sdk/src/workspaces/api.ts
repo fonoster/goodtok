@@ -24,7 +24,11 @@ import {
   splitLink,
   wsLink
 } from "@trpc/client";
-import { AppRouter, Workspace } from "@goodtok/apiserver";
+import {
+  AppRouter,
+  UpdateWorkspaceRequest,
+  Workspace
+} from "@goodtok/apiserver";
 import Client from "../client";
 
 export default class Workspaces implements WorkspacesClient {
@@ -67,6 +71,10 @@ export default class Workspaces implements WorkspacesClient {
 
   async getQueueByWorkspaceId(workspaceId: string): Promise<QueueEntry[]> {
     return this.trpc.workspaces.getQueueByWorkspaceId.query(workspaceId);
+  }
+
+  async updateWorkspace(request: UpdateWorkspaceRequest): Promise<Workspace> {
+    return this.trpc.workspaces.updateWorkspace.mutate(request);
   }
 
   watchQ(

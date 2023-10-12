@@ -22,6 +22,8 @@ import { getMembersByWorkspaceId } from "./getMembersByWorkspaceId";
 import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
 import { watchQ } from "./watchQ";
 import { getWorkspaceById } from "./getWorkspaceById";
+import { updateWorkspaceSchema } from "./types";
+import { updateWorkspace } from "./updateWorkspace";
 
 export const workspacesRouter = router({
   getMembersByWorkspaceId: publicProcedure
@@ -38,5 +40,9 @@ export const workspacesRouter = router({
 
   getWorkspaceById: publicProcedure
     .input(z.string())
-    .query((req) => getWorkspaceById(req.input))
+    .query((req) => getWorkspaceById(req.input)),
+
+  updateWorkspace: publicProcedure
+    .input(updateWorkspaceSchema)
+    .mutation((req) => updateWorkspace(req.input))
 });

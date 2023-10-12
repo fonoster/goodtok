@@ -16,22 +16,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Member,
-  QueueEntry,
-  Workspace,
-  UpdateWorkspaceRequest
-} from "@goodtok/apiserver";
+import { getLogger } from "@fonoster/logger";
+import { PrismaClient } from "@prisma/client";
+import { UpdateWorkspaceRequest } from "./types";
 
-export type WorkspacesClient = {
-  getWorkspaceById: (id: string) => Promise<Workspace>;
-  getMembersByWorkspaceId: (id: string) => Promise<Member[]>;
-  getQueueByWorkspaceId(id: string): Promise<QueueEntry[]>;
-  updateWorkspace: (request: UpdateWorkspaceRequest) => Promise<Workspace>;
-  watchQ: (
-    id: string,
-    callback: (error: Error, data?: QueueEntry) => void
-  ) => void;
-};
+const prisma = new PrismaClient();
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export { Member, QueueEntry };
+export async function updateWorkspace(request: UpdateWorkspaceRequest) {
+  logger.debug("updating workspace", { workspaceId: request.id });
+  const workspace = await prisma.workspace.update({
+    where: {
+      id: request.id
+    },
+    data: request
+  });
+  return workspace;
+}

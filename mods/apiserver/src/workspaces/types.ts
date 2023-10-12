@@ -16,10 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { z } from "zod";
+
 export type Workspace = {
   id: string;
   name: string;
 };
+
+export const updateWorkspaceSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().optional()
+});
+
+export type UpdateWorkspaceRequest = z.infer<typeof updateWorkspaceSchema>;
 
 export type Member = {
   userId: string;

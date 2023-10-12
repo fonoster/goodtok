@@ -1,7 +1,6 @@
 import * as SDK from "@goodtok/sdk";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../authentication";
-import jwtDecode from "jwt-decode";
 
 export default function WorkspaceSettings() {
   const { client, logout } = useAuth() as any;
@@ -16,10 +15,6 @@ export default function WorkspaceSettings() {
 
   useEffect(() => {
     if (client) {
-      const decodedToken = jwtDecode(client.getToken()) as {
-        [key: string]: string;
-      };
-      console.log(decodedToken);
       const workspaces = new SDK.Workspaces(client);
       workspaces
         .getWorkspaceById(client.getCurrentWorkspaceId())
@@ -37,6 +32,19 @@ export default function WorkspaceSettings() {
     setSuccessMessage(null);
 
     if (client) {
+      const workspaces = new SDK.Workspaces(client);
+      workspaces
+        .updateWorkspace({
+          id: client.getCurrentWorkspaceId(),
+          name: workspaceName,
+        })
+        .then(() => {
+          setSuccessMessage("Workspace updated successfully!");
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
+
     } else {
       logout();
     }
