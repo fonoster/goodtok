@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../../authentication";
 import jwtDecode from "jwt-decode";
 
-export default function Settings() {
+export default function UserSettings() {
   const { client, logout } = useAuth() as any;
   const [userName, setUserName] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -112,8 +112,8 @@ export default function Settings() {
                 <div className="mt-2">
                   <input
                     type="text"
-                    name="name"
-                    id="name"
+                    name="username"
+                    id="username"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -160,12 +160,6 @@ export default function Settings() {
       </div>
 
       <div className="w-96 mt-6 flex items-center justify-end gap-x-6">
-        <button
-          type="button"
-          className="text-sm font-semibold leading-6 text-gray-900"
-        >
-          Cancel
-        </button>
         <button
           type="submit"
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"

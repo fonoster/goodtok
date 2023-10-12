@@ -57,4 +57,8 @@ export default class Client {
   getEndpoint() {
     return this.options.endpoint;
   }
+
+  getCurrentWorkspaceId() {
+    return this.options.workspaceId;
+  }
 }

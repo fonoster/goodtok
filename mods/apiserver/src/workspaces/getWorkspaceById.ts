@@ -16,30 +16,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export type Workspace = {
-  id: string;
-  name: string;
-};
+import { PrismaClient } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
+import { Workspace } from "./types";
 
-export type Member = {
-  userId: string;
-  name: string;
-  status: string;
-  avatar: string;
-};
+const prisma = new PrismaClient();
 
-export type Customer = {
-  name: string;
-  avatar: string;
-};
+export async function getWorkspaceById(
+  workspaceId: string
+): Promise<Workspace> {
+  const workspace = await prisma.workspace.findUnique({
+    where: {
+      id: workspaceId
+    }
+  });
 
-export type QueueEntry = {
-  customerId: string;
-  registeredAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
-  status: string;
-  workspaceId: string;
-  customer: Customer;
-  aor: string;
-};
+  if (!workspace) throw new TRPCError({ code: "NOT_FOUND" });
+
+  return workspace;
+}

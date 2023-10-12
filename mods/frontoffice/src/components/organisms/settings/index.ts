@@ -1,3 +1,4 @@
-import Settings from "./settings";
+import UserSettings from "./user";
+import WorkspaceSettings from "./workspace";
 
-export default Settings;
+export { UserSettings, WorkspaceSettings };

@@ -9,7 +9,7 @@ import Queue from "../queue";
 import GTLogoWhite from "components/atoms/logos/goodtok-white";
 import Customer from "../customer";
 import Video from "../video";
-import Settings from "../settings";
+import { UserSettings, WorkspaceSettings } from "../settings";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon },
@@ -38,7 +38,10 @@ export default function Dashboard() {
       case "settings":
         return (
           <div className="w-1/4 px-12 py-8">
-            <Settings />
+            <UserSettings />
+            <div className="py-14">
+              <WorkspaceSettings />
+            </div>
           </div>
         );
       case "customer-support":

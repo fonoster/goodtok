@@ -16,11 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Member, QueueEntry } from "@goodtok/apiserver";
+import { Member, QueueEntry, Workspace } from "@goodtok/apiserver";
 
 export type WorkspacesClient = {
+  getWorkspaceById: (id: string) => Promise<Workspace>;
   getMembersByWorkspaceId: (id: string) => Promise<Member[]>;
-  getQueueByWorkspaceId(workspaceId: string): Promise<QueueEntry[]>;
+  getQueueByWorkspaceId(id: string): Promise<QueueEntry[]>;
+  watchQ: (
+    id: string,
+    callback: (error: Error, data?: QueueEntry) => void
+  ) => void;
 };
 
 export { Member, QueueEntry };

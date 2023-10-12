@@ -10,10 +10,15 @@ datasource db {
 enum WorkspaceMemberStatus {
   PENDING
   ACTIVE
+
+  @@map("workspace_member_status")
 }
 
 enum WorkspaceMemberRole {
+  OWNER
   MEMBER
+
+  @@map("workspace_member_role")
 }
 
 enum QueueEntryStatus {
@@ -21,6 +26,8 @@ enum QueueEntryStatus {
   OFFLINE
   DEQUEUED
   IN_PROGRESS
+
+  @@map("queue_entry_status")
 }
 
 model User {
@@ -39,6 +46,7 @@ model User {
 
   // Indexes and maps
   @@index([username], type: Hash)
+  @@map("users")
 }
 
 model Workspace {
@@ -55,6 +63,7 @@ model Workspace {
 
   // Indexes and maps
   @@index([name], type: Hash)
+  @@map("workspaces")
 }
 
 model WorkspaceMember {
@@ -71,6 +80,7 @@ model WorkspaceMember {
   updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamptz(3)
 
   @@unique([userId, workspaceId])
+  @@map("workspace_members")
 }
 
 model QueueEntry {
@@ -89,4 +99,5 @@ model QueueEntry {
   // Indexes and maps
   @@index([workspaceId], type: Hash)
   @@index([customerId], type: Hash)
+  @@map("queue_entries")
 }

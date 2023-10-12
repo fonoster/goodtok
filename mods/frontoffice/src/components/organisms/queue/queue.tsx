@@ -31,7 +31,7 @@ export default function Queue({
     // TODO: Add preference indicating offline time (will mark as offline)
 
     workspaces
-      .getQueueByWorkspaceId("default")
+      .getQueueByWorkspaceId(client.getCurrentWorkspaceId())
       .then((entries: any) => {
         const peps = entries
           // If last seen is more than DEQUEUED_TIME, remove from the list enven
@@ -50,20 +50,24 @@ export default function Queue({
         }
       });
 
-    // TODO: Fix hard coded value
-    workspaces.watchQ("default", (_: Error, person: any) => {
-      // Update the list to include the new person
-      setPeopleList((people) => {
-        const idx = people.findIndex((p) => p.customerId === person.customerId);
-        if (idx === -1) {
-          return [...people, person];
-        } else {
-          const newPeople = [...people];
-          newPeople[idx] = person;
-          return sortPeople(newPeople);
-        }
-      });
-    });
+    workspaces.watchQ(
+      client.getCurrentWorkspaceId(),
+      (_: Error, person: any) => {
+        // Update the list to include the new person
+        setPeopleList((people) => {
+          const idx = people.findIndex(
+            (p) => p.customerId === person.customerId
+          );
+          if (idx === -1) {
+            return [...people, person];
+          } else {
+            const newPeople = [...people];
+            newPeople[idx] = person;
+            return sortPeople(newPeople);
+          }
+        });
+      }
+    );
   }, [client, logout]);
 
   const handleRowClick = async (customerId: string) => {
