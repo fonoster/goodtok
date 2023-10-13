@@ -29,7 +29,8 @@ export default function WorkspaceSettings() {
   useEffect(() => {
     if (client) {
       const workspaces = new SDK.Workspaces(client);
-      workspaces.getWorkspaceById(client.getCurrentWorkspaceId())
+      workspaces
+        .getWorkspaceById(client.getCurrentWorkspaceId())
         .then((workspace) => {
           setWorkspaceName(workspace.name);
           setHoursOfOperation(workspace.hoursOfOperation);
@@ -46,20 +47,21 @@ export default function WorkspaceSettings() {
     event.preventDefault();
     setErrorMessage(null);
     setSuccessMessage(null);
-  
+
     if (client) {
       const workspaces = new SDK.Workspaces(client);
-      workspaces.updateWorkspace({
-        id: client.getCurrentWorkspaceId(),
-        name: workspaceName,
-        hoursOfOperation: hoursOfOperation
-      })
-      .then(() => {
-        setSuccessMessage("Updated the workspace!");
-      })
-      .catch((error) => {
-        setErrorMessage(error.message);
-      });
+      workspaces
+        .updateWorkspace({
+          id: client.getCurrentWorkspaceId(),
+          name: workspaceName,
+          hoursOfOperation: hoursOfOperation
+        })
+        .then(() => {
+          setSuccessMessage("Updated the workspace!");
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
+        });
     } else {
       logout();
     }
@@ -120,7 +122,10 @@ export default function WorkspaceSettings() {
             </div>
           </div>
 
-          <HoursOfOperation hoursOfOperation={hoursOfOperation} setHoursOfOperation={setHoursOfOperation}/>
+          <HoursOfOperation
+            hoursOfOperation={hoursOfOperation}
+            setHoursOfOperation={setHoursOfOperation}
+          />
         </div>
       </div>
 

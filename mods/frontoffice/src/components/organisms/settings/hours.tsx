@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Days, WeeklyHoursType } from "@goodtok/sdk";
 
 const HoursOfOperation = ({
   hoursOfOperation,
-  setHoursOfOperation }:
-  {
-    hoursOfOperation: WeeklyHoursType;
-    setHoursOfOperation: React.Dispatch<React.SetStateAction<WeeklyHoursType>>
-  }) => {
-
+  setHoursOfOperation
+}: {
+  hoursOfOperation: WeeklyHoursType;
+  setHoursOfOperation: React.Dispatch<React.SetStateAction<WeeklyHoursType>>;
+}) => {
   const [error, setError] = useState<string | null>(null);
 
   const toggleDay = (day: Days) => {
@@ -152,7 +151,7 @@ const HoursOfOperation = ({
         );
       })}
 
-      {error && <p className="text-red-500 mt-4">{error}</p>} 
+      {error && <p className="text-red-500 mt-4">{error}</p>}
     </div>
   );
 };
