@@ -57,7 +57,7 @@ export default function WorkspaceSettings() {
           id: client.getCurrentWorkspaceId(),
           name: workspaceName,
           hoursOfOperation: hoursOfOperation,
-          timezone: timezone,
+          timezone: timezone
         })
         .then(() => {
           setSuccessMessage("Updated the workspace!");

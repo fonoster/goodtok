@@ -1,2 +1,2 @@
-import { TimezoneSelect } from "./timezone"
-export default TimezoneSelect
+import { TimezoneSelect } from "./timezone";
+export default TimezoneSelect;

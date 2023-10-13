@@ -11,7 +11,10 @@ export function TimezoneSelect({ timezone, setTimezone }: TimezoneSelectProps) {
     { value: "America/Chicago", label: "(GMT-06:00) Central Time" },
     { value: "America/New_York", label: "(GMT-05:00) Eastern Time" },
     { value: "America/Halifax", label: "(GMT-04:00) Atlantic Time - Halifax" },
-    { value: "America/Argentina/Buenos_Aires", label: "(GMT-03:00) Buenos Aires" },
+    {
+      value: "America/Argentina/Buenos_Aires",
+      label: "(GMT-03:00) Buenos Aires"
+    },
     { value: "America/Sao_Paulo", label: "(GMT-02:00) Sao Paulo" },
     { value: "Atlantic/Azores", label: "(GMT-01:00) Azores" },
     { value: "Europe/London", label: "(GMT+00:00) London" },
@@ -30,9 +33,18 @@ export function TimezoneSelect({ timezone, setTimezone }: TimezoneSelectProps) {
     { value: "Asia/Pyongyang", label: "(GMT+08:30) Pyongyang" },
     { value: "Asia/Tokyo", label: "(GMT+09:00) Tokyo" },
     { value: "Australia/Darwin", label: "(GMT+09:30) Central Time - Darwin" },
-    { value: "Australia/Brisbane", label: "(GMT+10:00) Eastern Time - Brisbane" },
-    { value: "Australia/Adelaide", label: "(GMT+10:30) Central Time - Adelaide" },
-    { value: "Australia/Sydney", label: "(GMT+11:00) Eastern Time - Melbourne, Sydney" },
+    {
+      value: "Australia/Brisbane",
+      label: "(GMT+10:00) Eastern Time - Brisbane"
+    },
+    {
+      value: "Australia/Adelaide",
+      label: "(GMT+10:30) Central Time - Adelaide"
+    },
+    {
+      value: "Australia/Sydney",
+      label: "(GMT+11:00) Eastern Time - Melbourne, Sydney"
+    },
     { value: "Pacific/Nauru", label: "(GMT+12:00) Nauru" },
     { value: "Pacific/Auckland", label: "(GMT+13:00) Auckland" },
     { value: "Pacific/Kiritimati", label: "(GMT+14:00) Kiritimati" }
