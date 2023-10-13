@@ -1,9 +1,9 @@
+import * as SDK from "@goodtok/sdk";
 import { useAuth } from "../../../authentication";
 import { useEffect, useState } from "react";
 import { sortPeople } from "./sort";
 import PresenceSwitch, { Precense, presence } from "./presence";
 import moment from "moment";
-import * as SDK from "@goodtok/sdk";
 
 interface QueueProps {
   onSelectCustomer: (customer: any) => void;

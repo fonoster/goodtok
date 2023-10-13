@@ -46,7 +46,37 @@ async function main() {
     data: {
       id: "default",
       name: "Default",
-      ownerId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1"
+      ownerId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
+      hoursOfOperation: {
+        Monday: {
+          enabled: false,
+          hours: []
+        },
+        Tuesday: {
+          enabled: false,
+          hours: []
+        },
+        Wednesday: {
+          enabled: false,
+          hours: []
+        },
+        Thursday: {
+          enabled: false,
+          hours: []
+        },
+        Friday: {
+          enabled: false,
+          hours: []
+        },
+        Saturday: {
+          enabled: false,
+          hours: []
+        },
+        Sunday: {
+          enabled: true,
+          hours: []
+        }
+      }
     },
   });
 

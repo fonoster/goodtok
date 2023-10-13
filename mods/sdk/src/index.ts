@@ -21,6 +21,6 @@ import Users from "./users";
 import Workspaces from "./workspaces";
 import Tokens from "./tokens";
 import Customers from "./customers";
-import QueueEntry from "./workspaces";
 
-export { Client, Users, Workspaces, Tokens, Customers, QueueEntry };
+export { Client, Users, Workspaces, Tokens, Customers };
+export * from "./workspaces/types";

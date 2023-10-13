@@ -54,9 +54,4 @@ logger.info("server started", { port: BIND_PORT });
 
 export type AppRouter = typeof appRouter;
 
-export {
-  QueueEntry,
-  Member,
-  Workspace,
-  UpdateWorkspaceRequest
-} from "./workspaces/types";
+export * from "./workspaces/types";

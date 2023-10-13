@@ -33,5 +33,5 @@ export async function getWorkspaceById(
 
   if (!workspace) throw new TRPCError({ code: "NOT_FOUND" });
 
-  return workspace;
+  return workspace as unknown as Workspace;
 }

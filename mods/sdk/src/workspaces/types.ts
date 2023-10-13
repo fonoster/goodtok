@@ -19,9 +19,12 @@
 import {
   Member,
   QueueEntry,
+  DayPreferences,
+  WeeklyHoursType,
   Workspace,
   UpdateWorkspaceRequest
 } from "@goodtok/apiserver";
+import { Days } from "@goodtok/apiserver/src/workspaces/types";
 
 export type WorkspacesClient = {
   getWorkspaceById: (id: string) => Promise<Workspace>;
@@ -34,4 +37,4 @@ export type WorkspacesClient = {
   ) => void;
 };
 
-export { Member, QueueEntry };
+export { Member, QueueEntry, Days, WeeklyHoursType, DayPreferences, Workspace };

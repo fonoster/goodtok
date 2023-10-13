@@ -18,14 +18,99 @@
  */
 import { z } from "zod";
 
+export type DayPreferences = {
+  enabled: boolean;
+  hours: { start: string; end: string }[];
+};
+
+export enum Days {
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday",
+  Thursday = "Thursday",
+  Friday = "Friday",
+  Saturday = "Saturday",
+  Sunday = "Sunday"
+}
+
+export type WeeklyHoursType = {
+  [key in Days]: DayPreferences;
+};
+
 export type Workspace = {
   id: string;
   name: string;
+  hoursOfOperation: WeeklyHoursType;
 };
 
 export const updateWorkspaceSchema = z.object({
   id: z.string().min(1),
-  name: z.string().optional()
+  name: z.string().optional(),
+  hoursOfOperation: z.object({
+    Monday: z.object({
+      enabled: z.boolean(),
+      hours: z.array(
+        z.object({
+          start: z.string(),
+          end: z.string()
+        })
+      )
+    }),
+    Tuesday: z.object({
+      enabled: z.boolean(),
+      hours: z.array(
+        z.object({
+          start: z.string(),
+          end: z.string()
+        })
+      )
+    }),
+    Wednesday: z.object({
+      enabled: z.boolean(),
+      hours: z.array(
+        z.object({
+          start: z.string(),
+          end: z.string()
+        })
+      )
+    }),
+    Thursday: z.object({
+      enabled: z.boolean(),
+      hours: z.array(
+        z.object({
+          start: z.string(),
+          end: z.string()
+        })
+      )
+    }),
+    Friday: z.object({
+      enabled: z.boolean(),
+      hours: z.array(
+        z.object({
+          start: z.string(),
+          end: z.string()
+        })
+      )
+    }),
+    Saturday: z.object({
+      enabled: z.boolean(),
+      hours: z.array(
+        z.object({
+          start: z.string(),
+          end: z.string()
+        })
+      )
+    }),
+    Sunday: z.object({
+      enabled: z.boolean(),
+      hours: z.array(
+        z.object({
+          start: z.string(),
+          end: z.string()
+        })
+      )
+    })
+  })
 });
 
 export type UpdateWorkspaceRequest = z.infer<typeof updateWorkspaceSchema>;

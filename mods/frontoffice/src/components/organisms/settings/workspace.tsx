@@ -2,9 +2,22 @@ import * as SDK from "@goodtok/sdk";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../authentication";
 
+import { WeeklyHoursType } from "@goodtok/sdk";
+import HoursOfOperation from "./hours";
+
 export default function WorkspaceSettings() {
   const { client, logout } = useAuth() as any;
   const [workspaceName, setWorkspaceName] = useState("");
+  const [hoursOfOperation, setHoursOfOperation] = useState<WeeklyHoursType>({
+    Sunday: { enabled: false, hours: [] },
+    Monday: { enabled: false, hours: [] },
+    Tuesday: { enabled: false, hours: [] },
+    Wednesday: { enabled: false, hours: [] },
+    Thursday: { enabled: false, hours: [] },
+    Friday: { enabled: false, hours: [] },
+    Saturday: { enabled: false, hours: [] }
+  });
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -16,10 +29,13 @@ export default function WorkspaceSettings() {
   useEffect(() => {
     if (client) {
       const workspaces = new SDK.Workspaces(client);
-      workspaces
-        .getWorkspaceById(client.getCurrentWorkspaceId())
+      workspaces.getWorkspaceById(client.getCurrentWorkspaceId())
         .then((workspace) => {
           setWorkspaceName(workspace.name);
+          setHoursOfOperation(workspace.hoursOfOperation);
+        })
+        .catch((error) => {
+          setErrorMessage(error.message);
         });
     } else {
       logout();
@@ -30,27 +46,27 @@ export default function WorkspaceSettings() {
     event.preventDefault();
     setErrorMessage(null);
     setSuccessMessage(null);
-
+  
     if (client) {
       const workspaces = new SDK.Workspaces(client);
-      workspaces
-        .updateWorkspace({
-          id: client.getCurrentWorkspaceId(),
-          name: workspaceName
-        })
-        .then(() => {
-          setSuccessMessage("Workspace updated successfully!");
-        })
-        .catch((error) => {
-          setErrorMessage(error.message);
-        });
+      workspaces.updateWorkspace({
+        id: client.getCurrentWorkspaceId(),
+        name: workspaceName,
+        hoursOfOperation: hoursOfOperation
+      })
+      .then(() => {
+        setSuccessMessage("Updated the workspace!");
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
     } else {
       logout();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       {errorMessage && (
         <div
           className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 mb-4 rounded relative"
@@ -103,12 +119,14 @@ export default function WorkspaceSettings() {
               </div>
             </div>
           </div>
+
+          <HoursOfOperation hoursOfOperation={hoursOfOperation} setHoursOfOperation={setHoursOfOperation}/>
         </div>
       </div>
 
       <div className="w-96 mt-6 flex items-center justify-end gap-x-6">
         <button
-          type="submit"
+          onClick={handleSubmit}
           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Save
