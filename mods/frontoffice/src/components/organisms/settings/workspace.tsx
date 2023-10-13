@@ -1,13 +1,14 @@
 import * as SDK from "@goodtok/sdk";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../authentication";
-
 import { WeeklyHoursType } from "@goodtok/sdk";
 import HoursOfOperation from "./hours";
+import TimezoneSelect from "../../molecules/timezone";
 
 export default function WorkspaceSettings() {
   const { client, logout } = useAuth() as any;
   const [workspaceName, setWorkspaceName] = useState("");
+  const [timezone, setTimezone] = useState("America/New_York");
   const [hoursOfOperation, setHoursOfOperation] = useState<WeeklyHoursType>({
     Sunday: { enabled: false, hours: [] },
     Monday: { enabled: false, hours: [] },
@@ -34,6 +35,7 @@ export default function WorkspaceSettings() {
         .then((workspace) => {
           setWorkspaceName(workspace.name);
           setHoursOfOperation(workspace.hoursOfOperation);
+          setTimezone(workspace.timezone || "America/New_York"); // Default to UTC if not set
         })
         .catch((error) => {
           setErrorMessage(error.message);
@@ -54,7 +56,8 @@ export default function WorkspaceSettings() {
         .updateWorkspace({
           id: client.getCurrentWorkspaceId(),
           name: workspaceName,
-          hoursOfOperation: hoursOfOperation
+          hoursOfOperation: hoursOfOperation,
+          timezone: timezone,
         })
         .then(() => {
           setSuccessMessage("Updated the workspace!");
@@ -121,6 +124,8 @@ export default function WorkspaceSettings() {
               </div>
             </div>
           </div>
+
+          <TimezoneSelect timezone={timezone} setTimezone={setTimezone} />
 
           <HoursOfOperation
             hoursOfOperation={hoursOfOperation}

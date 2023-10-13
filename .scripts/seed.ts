@@ -47,6 +47,7 @@ async function main() {
       id: "default",
       name: "Default",
       ownerId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
+      timezone: "America/New_York",
       hoursOfOperation: {
         Monday: {
           enabled: false,

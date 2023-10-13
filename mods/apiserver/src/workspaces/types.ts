@@ -41,11 +41,13 @@ export type Workspace = {
   id: string;
   name: string;
   hoursOfOperation: WeeklyHoursType;
+  timezone: string;
 };
 
 export const updateWorkspaceSchema = z.object({
   id: z.string().min(1),
-  name: z.string().optional(),
+  name: z.string().min(1),
+  timezone: z.string().min(3),
   hoursOfOperation: z.object({
     Monday: z.object({
       enabled: z.boolean(),

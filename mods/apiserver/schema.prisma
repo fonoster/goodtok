@@ -49,18 +49,19 @@ model User {
   @@map("users")
 }
 
+// The hours of operations field for the workspace holds the following structure:
+// 
+// {
+//   Sunday: { enabled: false, hours: [{start: "09:00", end: "17:00" }] },
+//   Monday: { enabled: false, hours: [{ start: "09:00", end: "17:00" }] },
+//   Tuesday: { enabled: false, hours: [{ start: "09:00", end: "17:00" }] }
+//   ...
+// }
 model Workspace {
   id               String @id @default(uuid())
   name             String
-  // This field will hold the hours of operation for the workspace using the following format:
-  // 
-  // {
-  //   Sunday: { enabled: false, hours: [{start: "09:00", end: "17:00" }] },
-  //   Monday: { enabled: false, hours: [{ start: "09:00", end: "17:00" }] },
-  //   Tuesday: { enabled: false, hours: [{ start: "09:00", end: "17:00" }] }
-  //   ...
-  // }
-  hoursOfOperation Json  @map("hours_of_operation")
+  hoursOfOperation Json   @map("hours_of_operation")
+  timezone         String
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
