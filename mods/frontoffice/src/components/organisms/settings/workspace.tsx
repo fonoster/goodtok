@@ -11,6 +11,7 @@ export default function WorkspaceSettings() {
   const [shopifyAccessToken, setShopifyAccessToken] = useState("");
   const [shopifyStoreId, setShopifyStoreId] = useState("");
   const [timezone, setTimezone] = useState("America/New_York");
+  const [gtid, setGtid] = useState("");
   const [hoursOfOperation, setHoursOfOperation] = useState<WeeklyHoursType>({
     Sunday: { enabled: false, hours: [] },
     Monday: { enabled: false, hours: [] },
@@ -39,6 +40,7 @@ export default function WorkspaceSettings() {
           setHoursOfOperation(workspace.hoursOfOperation);
           setTimezone(workspace.timezone || "America/New_York");
           setShopifyStoreId(workspace.shopifyAccount?.storeId || "");
+          setGtid(workspace.id || "");
         })
         .catch((error) => {
           setErrorMessage(error.message);
@@ -108,7 +110,7 @@ export default function WorkspaceSettings() {
             Stablish hours of operations, team members, and more.
           </p>
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4 w-96">
               <div>
                 <label
@@ -132,6 +134,30 @@ export default function WorkspaceSettings() {
             </div>
           </div>
 
+          <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-4 w-96">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  GTID
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="workspace-name"
+                    id="workspace-name"
+                    value={gtid} 
+                    readOnly
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Workspace name"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <TimezoneSelect timezone={timezone} setTimezone={setTimezone} />
 
           <HoursOfOperation
@@ -139,7 +165,7 @@ export default function WorkspaceSettings() {
             setHoursOfOperation={setHoursOfOperation}
           />
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4 w-96">
               <div>
                 <label
@@ -163,7 +189,7 @@ export default function WorkspaceSettings() {
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4 w-96">
               <div>
                 <label

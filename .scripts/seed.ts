@@ -44,8 +44,8 @@ async function main() {
 
   await prisma.workspace.create({
     data: {
-      id: "default",
-      name: "Default",
+      id: "g-4f90d13a42",
+      name: "My Workspace",
       ownerId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
       timezone: "America/New_York",
       hoursOfOperation: {
@@ -84,7 +84,7 @@ async function main() {
   await prisma.workspaceMember.create({
     data: {
       userId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
-      workspaceId: "default",
+      workspaceId: "g-4f90d13a42",
       status: "ACTIVE",
       role: "MEMBER"
     },
@@ -93,7 +93,7 @@ async function main() {
   await prisma.queueEntry.create({
     data: {
       customerId: "1",
-      workspaceId: "default",
+      workspaceId: "g-4f90d13a42",
       status: "ONLINE",
       aor: "sip:1@sip.goodtok.io"
     },
@@ -102,7 +102,7 @@ async function main() {
   await prisma.queueEntry.create({
     data: {
       customerId: "2",
-      workspaceId: "default",
+      workspaceId: "g-4f90d13a42",
       status: "OFFLINE",
       aor: "sip:2@sip.goodtok.io"
     },
@@ -111,7 +111,7 @@ async function main() {
   await prisma.queueEntry.create({
     data: {
       customerId: "3",
-      workspaceId: "default",
+      workspaceId: "g-4f90d13a42",
       status: "ONLINE",
       aor: "sip:3@sip.goodtok.io"
     },
@@ -120,7 +120,7 @@ async function main() {
   await prisma.queueEntry.create({
     data: {
       customerId: "4",
-      workspaceId: "default",
+      workspaceId: "g-4f90d13a42",
       status: "DEQUEUED",
       aor: "sip:4@sip.goodtok.io"
     },

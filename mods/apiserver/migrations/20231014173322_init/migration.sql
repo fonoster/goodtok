@@ -26,6 +26,7 @@ CREATE TABLE "workspaces" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "hours_of_operation" JSONB NOT NULL,
+    "timezone" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "ownerId" TEXT NOT NULL,
@@ -60,6 +61,18 @@ CREATE TABLE "queue_entries" (
     CONSTRAINT "queue_entries_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "shopify_accounts" (
+    "id" TEXT NOT NULL,
+    "access_token" TEXT NOT NULL,
+    "store_id" TEXT NOT NULL,
+    "workspaceId" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "shopify_accounts_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
@@ -81,6 +94,9 @@ CREATE INDEX "queue_entries_workspaceId_idx" ON "queue_entries" USING HASH ("wor
 -- CreateIndex
 CREATE INDEX "queue_entries_customerId_idx" ON "queue_entries" USING HASH ("customerId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "shopify_accounts_workspaceId_key" ON "shopify_accounts"("workspaceId");
+
 -- AddForeignKey
 ALTER TABLE "workspaces" ADD CONSTRAINT "workspaces_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -92,3 +108,6 @@ ALTER TABLE "workspace_members" ADD CONSTRAINT "workspace_members_workspaceId_fk
 
 -- AddForeignKey
 ALTER TABLE "queue_entries" ADD CONSTRAINT "queue_entries_workspaceId_fkey" FOREIGN KEY ("workspaceId") REFERENCES "workspaces"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "shopify_accounts" ADD CONSTRAINT "shopify_accounts_workspaceId_fkey" FOREIGN KEY ("workspaceId") REFERENCES "workspaces"("id") ON DELETE CASCADE ON UPDATE CASCADE;

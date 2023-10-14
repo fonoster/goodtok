@@ -33,7 +33,7 @@ const prisma = !CLOAK_ENCRYPTION_KEY
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function updateWorkspace(request: UpdateWorkspaceRequest) {
-  logger.debug("updating workspace", { workspaceId: request.id });
+  logger.verbose("updating workspace", { workspaceId: request.id });
 
   const updateData: any = {
     id: request.id,

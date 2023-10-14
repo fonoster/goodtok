@@ -19,12 +19,17 @@
 import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { Workspace } from "./types";
+import { getLogger } from "@fonoster/logger";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 const prisma = new PrismaClient();
 
 export async function getWorkspaceById(
   workspaceId: string
 ): Promise<Workspace> {
+  logger.verbose("get workspace by id", { workspaceId });
+
   const workspace = await prisma.workspace.findUnique({
     where: {
       id: workspaceId
