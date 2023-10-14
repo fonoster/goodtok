@@ -19,17 +19,63 @@
 import { getLogger } from "@fonoster/logger";
 import { PrismaClient } from "@prisma/client";
 import { UpdateWorkspaceRequest } from "./types";
+import { fieldEncryptionExtension } from "prisma-field-encryption";
+import { CLOAK_ENCRYPTION_KEY } from "../envs";
 
-const prisma = new PrismaClient();
+const prisma = !CLOAK_ENCRYPTION_KEY
+  ? new PrismaClient()
+  : new PrismaClient().$extends(
+      fieldEncryptionExtension({
+        encryptionKey: CLOAK_ENCRYPTION_KEY
+      })
+    );
+
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function updateWorkspace(request: UpdateWorkspaceRequest) {
   logger.debug("updating workspace", { workspaceId: request.id });
+
+  const updateData: any = {
+    id: request.id,
+    name: request.name,
+    timezone: request.timezone,
+    hoursOfOperation: request.hoursOfOperation
+  };
+
+  if (request.shopifyAccount) {
+    const existingShopifyAccount = await prisma.shopifyAccount.findUnique({
+      where: {
+        workspaceId: request.id
+      }
+    });
+
+    if (existingShopifyAccount) {
+      updateData.shopifyAccount = {
+        connect: {
+          workspaceId: request.id
+        },
+        update: {
+          accessToken: request.shopifyAccount.accessToken,
+          storeId: request.shopifyAccount.storeId,
+          updatedAt: new Date()
+        }
+      };
+    } else {
+      updateData.shopifyAccount = {
+        create: {
+          accessToken: request.shopifyAccount.accessToken,
+          storeId: request.shopifyAccount.storeId
+        }
+      };
+    }
+  }
+
   const workspace = await prisma.workspace.update({
     where: {
       id: request.id
     },
-    data: request
+    data: updateData
   });
+
   return workspace;
 }

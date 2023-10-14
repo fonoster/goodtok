@@ -8,6 +8,8 @@ import TimezoneSelect from "../../molecules/timezone";
 export default function WorkspaceSettings() {
   const { client, logout } = useAuth() as any;
   const [workspaceName, setWorkspaceName] = useState("");
+  const [shopifyAccessToken, setShopifyAccessToken] = useState("");
+  const [shopifyStoreId, setShopifyStoreId] = useState("");
   const [timezone, setTimezone] = useState("America/New_York");
   const [hoursOfOperation, setHoursOfOperation] = useState<WeeklyHoursType>({
     Sunday: { enabled: false, hours: [] },
@@ -35,7 +37,8 @@ export default function WorkspaceSettings() {
         .then((workspace) => {
           setWorkspaceName(workspace.name);
           setHoursOfOperation(workspace.hoursOfOperation);
-          setTimezone(workspace.timezone || "America/New_York"); // Default to UTC if not set
+          setTimezone(workspace.timezone || "America/New_York");
+          setShopifyStoreId(workspace.shopifyAccount?.storeId || "");
         })
         .catch((error) => {
           setErrorMessage(error.message);
@@ -57,7 +60,11 @@ export default function WorkspaceSettings() {
           id: client.getCurrentWorkspaceId(),
           name: workspaceName,
           hoursOfOperation: hoursOfOperation,
-          timezone: timezone
+          timezone: timezone,
+          shopifyAccount: {
+            storeId: shopifyStoreId,
+            accessToken: shopifyAccessToken
+          }
         })
         .then(() => {
           setSuccessMessage("Updated the workspace!");
@@ -131,6 +138,54 @@ export default function WorkspaceSettings() {
             hoursOfOperation={hoursOfOperation}
             setHoursOfOperation={setHoursOfOperation}
           />
+
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-4 w-96">
+              <div>
+                <label
+                  htmlFor="shopify-store-id"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Shopify Store ID
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="shopify-store-id"
+                    id="shopify-store-id"
+                    value={shopifyStoreId}
+                    onChange={(e) => setShopifyStoreId(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Shopify Store ID"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="sm:col-span-4 w-96">
+              <div>
+                <label
+                  htmlFor="shopify-store-id"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Shopify Access Token
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="password"
+                    name="shopify-access-token"
+                    id="shopify-access-token"
+                    // value={shopifyAccess}
+                    onChange={(e) => setShopifyAccessToken(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder="Shopify Access Token"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

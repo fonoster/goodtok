@@ -28,6 +28,9 @@ export async function getWorkspaceById(
   const workspace = await prisma.workspace.findUnique({
     where: {
       id: workspaceId
+    },
+    include: {
+      shopifyAccount: true
     }
   });
 

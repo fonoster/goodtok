@@ -67,10 +67,11 @@ model Workspace {
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
 
   // Relations
-  owner   User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId String
-  members WorkspaceMember[]
-  queue   QueueEntry[]
+  owner          User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId        String
+  members        WorkspaceMember[]
+  queue          QueueEntry[]
+  shopifyAccount ShopifyAccount?
 
   // Indexes and maps
   @@index([name], type: Hash)
@@ -111,4 +112,20 @@ model QueueEntry {
   @@index([workspaceId], type: Hash)
   @@index([customerId], type: Hash)
   @@map("queue_entries")
+}
+
+model ShopifyAccount {
+  id          String @id @default(uuid())
+  accessToken String @map("access_token") /// @encrypted
+  storeId     String @map("store_id")
+
+  // Relations
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String    @unique
+
+  // Timestamps (if needed)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@map("shopify_accounts")
 }

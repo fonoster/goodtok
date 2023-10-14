@@ -49,3 +49,5 @@ export const DEFAULT_DOMAIN_REF = process.env.DEFAULT_DOMAIN_REF ?? "default";
 export const DEFAULT_PRIVACY = process.env.DEFAULT_PRIVACY ?? "PRIVATE";
 export const DEFAULT_SIGNALING_SERVER =
   process.env.DEFAULT_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";
+
+export const CLOAK_ENCRYPTION_KEY = process.env.CLOAK_ENCRYPTION_KEY;

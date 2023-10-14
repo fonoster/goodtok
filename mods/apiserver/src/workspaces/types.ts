@@ -42,12 +42,20 @@ export type Workspace = {
   name: string;
   hoursOfOperation: WeeklyHoursType;
   timezone: string;
+  shopifyAccount?: {
+    storeId: string;
+    accessToken: string;
+  };
 };
 
 export const updateWorkspaceSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   timezone: z.string().min(3),
+  shopifyAccount: z.object({
+    storeId: z.string().min(1),
+    accessToken: z.string().min(1)
+  }),
   hoursOfOperation: z.object({
     Monday: z.object({
       enabled: z.boolean(),
