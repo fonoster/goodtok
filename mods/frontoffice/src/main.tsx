@@ -4,6 +4,8 @@ import "./index.css";
 import App from "app/app";
 import { AuthProvider } from "./authentication";
 
+document.getElementById("root")!.classList.add("h-full");
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

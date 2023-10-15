@@ -32,8 +32,8 @@ export default function Video({ inviteInfo }: VideoProps) {
       </video>
       <div className="controls">
         <button id="goodtok-call">Call</button>
-        <button id="goodtok-mute-audio">Mute Audio</button>
-        <button id="goodtok-mute-video">Mute Camera</button>
+        <button id="goodtok-mute-audio">Audio</button>
+        <button id="goodtok-mute-video">Camera</button>
       </div>
 
       <audio className="audio-container" id="goodtok-audio" controls>
@@ -58,6 +58,7 @@ export default function Video({ inviteInfo }: VideoProps) {
         .video-area {
           width: 100%;
           height: 50vh;
+          border-radius: 10px;
           background-color: #1f1f1f;
           position: relative;
         }
