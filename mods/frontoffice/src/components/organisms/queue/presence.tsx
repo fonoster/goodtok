@@ -1,4 +1,3 @@
-import VideoCameraIcon from "@heroicons/react/24/outline/VideoCameraIcon";
 import React from "react";
 
 export enum Precense {
@@ -39,30 +38,39 @@ const PresenceSwitch: React.FC<PresenceSwitchProps> = ({
   switch (currentPresence) {
     case Precense.ONLINE:
       return (
-        <VideoCameraIcon
-          className="mt-3 w-5 text-green-600"
-          aria-hidden="true"
-        />
+        <div className="mt-1 flex items-center gap-x-1.5">
+          <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          </div>
+          <p className="text-xs leading-5 text-gray-500">Online</p>
+        </div>
       );
     case Precense.IDLE:
       return (
-        <VideoCameraIcon
-          className="mt-3 w-5 text-yellow-600"
-          aria-hidden="true"
-        />
+        <div className="mt-1 flex items-center gap-x-1.5">
+          <div className="flex-none rounded-full bg-yellow-500/20 p-1">
+            <div className="h-1.5 w-1.5 rounded-full bg-yellow-500" />
+          </div>
+          <p className="text-xs leading-5 text-gray-500">Idle</p>
+        </div>
       );
     case Precense.OFFLINE:
       return (
-        <VideoCameraIcon
-          className="mt-3 w-5 text-gray-600"
-          aria-hidden="true"
-        />
+        <div className="mt-1 flex items-center gap-x-1.5">
+          <div className="flex-none rounded-full bg-gray-500/20 p-1">
+            <div className="h-1.5 w-1.5 rounded-full bg-gray-500" />
+          </div>
+          <p className="text-xs leading-5 text-gray-500">Offline</p>
+        </div>
       );
   }
 
   return (
-    <div>
-      <VideoCameraIcon className="mt-3 w-5 text-green-500" aria-hidden="true" />
+    <div className="mt-1 flex items-center gap-x-1.5">
+      <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+        <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+      </div>
+      <p className="text-xs leading-5 text-gray-500">Online</p>
     </div>
   );
 };

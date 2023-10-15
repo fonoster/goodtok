@@ -35,7 +35,7 @@ export default function Dashboard() {
       default:
         return (
           <div className="flex">
-            <div className="w-1/4 min-w-fit border-r border-gray-200 px-4 py-4 h-screen">
+            <div className="w-1/3 min-w-fit border-r border-gray-300 px-4 py-4 h-screen">
               <h2 className="text-lg font-medium pb-10 py-4">Customer Queue</h2>
               <Queue
                 onSelectCustomer={setSelectedCustomer}
@@ -43,14 +43,14 @@ export default function Dashboard() {
               />
             </div>
             {selectedCustomer && (
-              <div className="w-1/2 px-2 px-8 py-8">
+              <div className="w-2/5 px-2 px-8 py-8">
                 <Video inviteInfo={inviteInfo} />
                 <Customer customer={selectedCustomer} />
               </div>
             )}
 
             {!selectedCustomer && (
-              <div className="w-full px-2 py-2">
+              <div className="w-2/3 px-2 py-2">
                 <div className="flex flex-col items-center justify-center h-full">
                   <div className="text-lg text-gray-900 font-medium">
                     No customer selected

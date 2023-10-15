@@ -19,6 +19,7 @@
 import { initVideoWidget } from "./widget";
 import { useAuth } from "../../../authentication";
 import { VideoProps } from "./types";
+import { MicrophoneIcon, PhoneIcon, VideoCameraIcon } from "@heroicons/react/24/outline";
 
 export default function Video({ inviteInfo }: VideoProps) {
   const { client } = useAuth() as any;
@@ -31,9 +32,27 @@ export default function Video({ inviteInfo }: VideoProps) {
         <p>Your browser doesn't support HTML5 video.</p>
       </video>
       <div className="controls">
-        <button id="goodtok-call">Call</button>
-        <button id="goodtok-mute-audio">Audio</button>
-        <button id="goodtok-mute-video">Camera</button>
+        <button
+          type="button"
+          id="goodtok-call"
+          className="rounded-full bg-gray-600 focus-visible:outline-gray-600 hover:bg-gray-500 p-1 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          <PhoneIcon className="h-5 w-5" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          id="goodtok-mute-audio"
+          className="rounded-full bg-gray-600 focus-visible:outline-gray-600 hover:bg-gray-500 p-1 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          <MicrophoneIcon className="h-5 w-5" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          id="goodtok-mute-video"
+          className="rounded-full bg-gray-600 focus-visible:outline-gray-600 hover:bg-gray-500 p-1 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          <VideoCameraIcon className="h-5 w-5" aria-hidden="true" />
+        </button>
       </div>
 
       <audio className="audio-container" id="goodtok-audio" controls>
