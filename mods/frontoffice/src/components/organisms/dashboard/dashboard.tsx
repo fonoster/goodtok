@@ -1,19 +1,17 @@
 import { useState } from "react";
 import {
   HomeIcon,
-  ChartPieIcon,
   Cog6ToothIcon as CogIcon
 } from "@heroicons/react/24/outline";
+import { Settings } from "../settings";
 import { useAuth } from "../../../authentication";
 import Queue from "../queue";
 import GTLogoWhite from "components/atoms/logos/goodtok-white";
 import Customer from "../customer";
 import Video from "../video";
-import { UserSettings, WorkspaceSettings } from "../settings";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon },
-  { name: "Team", href: "#", icon: ChartPieIcon },
   { name: "Settings", href: "#", icon: CogIcon }
 ];
 
@@ -36,38 +34,44 @@ export default function Dashboard() {
   const renderView = () => {
     switch (view) {
       case "settings":
-        return (
-          <div className="w-1/4 px-12 py-8">
-            <UserSettings />
-            <div className="py-14">
-              <WorkspaceSettings />
-            </div>
-          </div>
-        );
+        return <Settings />;
       case "customer-support":
       default:
         return (
-          <div className="flex">
+          <div className="flex p-4">
             <div className="w-1/4 min-w-fit border-r border-gray-200 px-2 py-2 h-screen">
-              <h2 className="h-12 text-lg font-medium text-gray-600">
-                Customer Queue
-              </h2>
+              <h2 className="text-lg font-medium pb-8">Customer Queue</h2>
               <Queue
                 onSelectCustomer={setSelectedCustomer}
                 onSetInviteInfo={setInviteInfo}
               />
             </div>
-            <div className="w-1/2 px-2 py-2">
-              <Video inviteInfo={inviteInfo} />
-              <Customer customer={selectedCustomer} />
-            </div>
+            {selectedCustomer && (
+              <div className="w-1/2 px-2 py-2">
+                <Video inviteInfo={inviteInfo} />
+                <Customer customer={selectedCustomer} />
+              </div>
+            )}
+
+            {!selectedCustomer && (
+              <div className="w-full px-2 py-2">
+                <div className="flex flex-col items-center justify-center h-full">
+                  <div className="text-lg text-gray-900 font-medium">
+                    No customer selected
+                  </div>
+                  <div className="text-gray-500">
+                    Select a customer from the queue to start a video chat
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         );
     }
   };
 
   return (
-    <div>
+    <div className="bg-gray-100">
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-20 lg:overflow-y-auto lg:bg-gray-900 lg:pb-4">
         <div className="flex h-32 shrink-0 items-center justify-center">
           <GTLogoWhite />

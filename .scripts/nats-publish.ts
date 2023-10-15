@@ -18,15 +18,21 @@
  */
 import { connect, StringCodec } from "nats";
 
+const REGISTER_SUBJECT = "routr.endpoint.registered";
+
 async function main() {
   const nc = await connect({ servers: "localhost:4222" });
   const sc = StringCodec();
   const randomOnetoThirteen = Math.floor(Math.random() * 13) + 1;
   const registration = {
-    customerId: randomOnetoThirteen + "",
-    aor: "sip:anonymous@sip.goodtok.io"
+    aor: "sip:anonymous@sip.goodtok.io",
+    extraHeaders: {
+      "X-Customer-Id": randomOnetoThirteen + "",
+      "X-Workspace-Id": "g-4f90d13a42"
+    }
   };
-  nc.publish("routr.register", sc.encode(JSON.stringify(registration)));
+
+  nc.publish(REGISTER_SUBJECT, sc.encode(JSON.stringify(registration)));
 }
 
 main().

@@ -43,10 +43,10 @@ const HoursOfOperation = ({
   };
 
   return (
-    <div className="py-2 w-96">
+    <div>
       <label
-        htmlFor="name"
-        className="block text-sm font-medium leading-6 text-gray-900 py-4"
+        htmlFor="gtid"
+        className="py-4 block text-sm font-medium leading-6 text-gray-900"
       >
         Set your weekly hours
       </label>
