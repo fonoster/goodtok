@@ -6,7 +6,9 @@ function App() {
   const { isLoggedIn } = useAuth() as any;
 
   return (
-    <div className="App h-full">{isLoggedIn ? <Dashboard /> : <LoginScreen />}</div>
+    <div className="App h-full">
+      {isLoggedIn ? <Dashboard /> : <LoginScreen />}
+    </div>
   );
 }
 
