@@ -4,19 +4,30 @@ on: [push, workflow_dispatch]
 
 jobs:
 
-  build:
+  get_version:
+    name: Clone and get version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::$(node -e "console.log(require('./package.json').version)")
-      - name: Publish
+        uses: actions/checkout@v4
+      - name: Get version
+        shell: bash
+        id: release
+        run: echo "VERSION=$(node -e "console.log(require('./lerna.json').version)")" >> $GITHUB_OUTPUT
+    outputs:
+      version: ${{ steps.release.outputs.VERSION }}
+
+  publish_apiserver:
+    name: Publish Goodtok API Server
+    runs-on: ubuntu-latest
+    needs: [get_version]
+    steps:
+      - name: Publish to Docker Hub
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
-          name: psanders/goodtok
+          name: fonoster/goodtok-apiserver
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          workdir: .
-          tags: "latest, ${{ steps.get_version.outputs.VERSION }}"
+          context: .
+          dockerfile: mods/apiserver/Dockerfile
+          tags: "latest,${{ needs.get_version.outputs.VERSION }}"
