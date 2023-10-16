@@ -45,6 +45,7 @@ for (const file of allJSFiles) {
 }
 
 const introFilePath = path.join(process.cwd(), ".intro.md");
+
 if (fs.existsSync(introFilePath)) {
   // If intro.md exists, prepend its content to the fullDocumentation
   const introContent = fs.readFileSync(introFilePath, 'utf-8');
