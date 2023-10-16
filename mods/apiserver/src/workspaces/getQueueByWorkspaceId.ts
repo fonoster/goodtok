@@ -18,14 +18,14 @@
  */
 import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
-import { QueueEntry } from "./types";
+import { GetQueueResponse } from "./types";
 import { getCustomerById } from "../customers/getCustomerById";
 
 const prisma = new PrismaClient();
 
 export async function getQueueByWorkspaceId(
   workspaceId: string
-): Promise<QueueEntry[]> {
+): Promise<GetQueueResponse> {
   const workspace = await prisma.workspace.findUnique({
     where: {
       id: workspaceId
@@ -46,7 +46,7 @@ export async function getQueueByWorkspaceId(
 
   if (!workspace) throw new TRPCError({ code: "NOT_FOUND" });
 
-  const queueEntries = await Promise.all(
+  const queue = await Promise.all(
     workspace.queue.map(async (queueEntry) => {
       const customer = await getCustomerById(queueEntry.customerId);
 
@@ -67,5 +67,7 @@ export async function getQueueByWorkspaceId(
     })
   );
 
-  return queueEntries;
+  return {
+    queue
+  };
 }

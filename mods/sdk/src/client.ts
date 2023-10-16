@@ -18,12 +18,14 @@
  */
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { ClientOptions } from "./types";
-import type { AppRouter } from "@goodtok/apiserver";
 import { Buffer } from "buffer";
+import type { AppRouter } from "@goodtok/apiserver";
+import jwtDecode from "jwt-decode";
 
 export default class Client {
   private options: ClientOptions;
   private token: string;
+  private currentUserId: string;
   constructor(options: ClientOptions) {
     this.options = options;
   }
@@ -44,6 +46,12 @@ export default class Client {
     });
 
     this.token = await trpc.users.login.mutate({ username, password });
+
+    const userInfo = jwtDecode(this.token) as {
+      [key: string]: string;
+    };
+
+    this.currentUserId = userInfo.sub;
   }
 
   setToken(token: string) {
@@ -58,7 +66,11 @@ export default class Client {
     return this.options.endpoint;
   }
 
-  getCurrentWorkspaceId() {
+  getDefaultWorkspaceId() {
     return this.options.workspaceId;
+  }
+
+  getCurrentUserId() {
+    return this.currentUserId;
   }
 }

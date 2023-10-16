@@ -19,6 +19,7 @@
 import { User } from "@goodtok/apiserver/src/users/types";
 
 export type UsersClient = {
+  getCurrentUser: () => Promise<User>;
   getUserById: (id: string) => Promise<User>;
   updateUser: (request: UpdateUserRequest) => Promise<UpdateUserResponse>;
 };

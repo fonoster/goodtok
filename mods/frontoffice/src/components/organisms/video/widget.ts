@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as Common from "@goodtok/common";
+import * as SDK from "@goodtok/sdk";
 import { Web } from "sip.js";
 import { getAudio, getButton, getVideoElement } from "./utils";
 import { InviteInfo } from "./types";
-import * as Common from "@goodtok/common";
-import * as SDK from "@goodtok/sdk";
 
 export async function initVideoWidget(client: any, inviteInfo: InviteInfo) {
   const tokens = new SDK.Tokens(client);

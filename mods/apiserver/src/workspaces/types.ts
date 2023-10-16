@@ -18,36 +18,6 @@
  */
 import { z } from "zod";
 
-export type DayPreferences = {
-  enabled: boolean;
-  hours: { start: string; end: string }[];
-};
-
-export enum Days {
-  Monday = "Monday",
-  Tuesday = "Tuesday",
-  Wednesday = "Wednesday",
-  Thursday = "Thursday",
-  Friday = "Friday",
-  Saturday = "Saturday",
-  Sunday = "Sunday"
-}
-
-export type WeeklyHoursType = {
-  [key in Days]: DayPreferences;
-};
-
-export type Workspace = {
-  id: string;
-  name: string;
-  hoursOfOperation: WeeklyHoursType;
-  timezone: string;
-  shopifyAccount?: {
-    storeId: string;
-    accessToken: string;
-  };
-};
-
 export const updateWorkspaceSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
@@ -123,8 +93,35 @@ export const updateWorkspaceSchema = z.object({
   })
 });
 
-export type UpdateWorkspaceRequest = z.infer<typeof updateWorkspaceSchema>;
+export type DayPreferences = {
+  enabled: boolean;
+  hours: { start: string; end: string }[];
+};
 
+export enum Days {
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday",
+  Thursday = "Thursday",
+  Friday = "Friday",
+  Saturday = "Saturday",
+  Sunday = "Sunday"
+}
+
+export type WeeklyHoursType = {
+  [key in Days]: DayPreferences;
+};
+
+export type Workspace = {
+  id: string;
+  name: string;
+  hoursOfOperation: WeeklyHoursType;
+  timezone: string;
+  shopifyAccount?: {
+    storeId: string;
+    accessToken: string;
+  };
+};
 export type Member = {
   userId: string;
   name: string;
@@ -146,4 +143,14 @@ export type QueueEntry = {
   workspaceId: string;
   customer: Customer;
   aor: string;
+};
+
+export type UpdateWorkspaceRequest = z.infer<typeof updateWorkspaceSchema>;
+
+export type GetMembersResponse = {
+  members: Member[];
+};
+
+export type GetQueueResponse = {
+  queue: QueueEntry[];
 };

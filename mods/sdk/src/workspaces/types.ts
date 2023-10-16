@@ -22,16 +22,23 @@ import {
   DayPreferences,
   WeeklyHoursType,
   Workspace,
-  UpdateWorkspaceRequest
+  UpdateWorkspaceRequest,
+  GetMembersResponse,
+  GetQueueResponse
 } from "@goodtok/apiserver";
 import { Days } from "@goodtok/apiserver/src/workspaces/types";
 
 export type WorkspacesClient = {
+  getDefaultWorkspaceId: () => string;
+  getDefaultWorkspace: () => Promise<Workspace>;
+  getDefaultWorkspaceMembers: () => Promise<GetMembersResponse>;
+  getDefaultWorkspaceQueue: () => Promise<GetQueueResponse>;
   getWorkspaceById: (id: string) => Promise<Workspace>;
-  getMembersByWorkspaceId: (id: string) => Promise<Member[]>;
-  getQueueByWorkspaceId(id: string): Promise<QueueEntry[]>;
+  getMembersByWorkspaceId: (id: string) => Promise<GetMembersResponse>;
+  getQueueByWorkspaceId(id: string): Promise<GetQueueResponse>;
   updateWorkspace: (request: UpdateWorkspaceRequest) => Promise<Workspace>;
-  watchQ: (
+  getWorkspaces: () => Promise<Workspace[]>;
+  watchQueue: (
     id: string,
     callback: (error: Error, data?: QueueEntry) => void
   ) => void;

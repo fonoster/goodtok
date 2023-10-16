@@ -34,7 +34,7 @@ export default function WorkspaceSettings() {
     if (client) {
       const workspaces = new SDK.Workspaces(client);
       workspaces
-        .getWorkspaceById(client.getCurrentWorkspaceId())
+        .getWorkspaceById(client.getDefaultWorkspaceId())
         .then((workspace) => {
           setWorkspaceName(workspace.name);
           setHoursOfOperation(workspace.hoursOfOperation);
@@ -59,7 +59,7 @@ export default function WorkspaceSettings() {
       const workspaces = new SDK.Workspaces(client);
       workspaces
         .updateWorkspace({
-          id: client.getCurrentWorkspaceId(),
+          id: client.getDefaultWorkspaceId(),
           name: workspaceName,
           hoursOfOperation: hoursOfOperation,
           timezone: timezone,

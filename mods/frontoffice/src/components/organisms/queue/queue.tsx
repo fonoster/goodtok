@@ -31,7 +31,7 @@ export default function Queue({
     // TODO: Add preference indicating offline time (will mark as offline)
 
     workspaces
-      .getQueueByWorkspaceId(client.getCurrentWorkspaceId())
+      .getQueueByWorkspaceId(client.getDefaultWorkspaceId())
       .then((entries: any) => {
         const peps = entries
           // If last seen is more than DEQUEUED_TIME, remove from the list enven
@@ -50,8 +50,8 @@ export default function Queue({
         }
       });
 
-    workspaces.watchQ(
-      client.getCurrentWorkspaceId(),
+    workspaces.watchQueue(
+      client.getDefaultWorkspaceId(),
       (_: Error, person: any) => {
         // Update the list to include the new person
         setPeopleList((people) => {

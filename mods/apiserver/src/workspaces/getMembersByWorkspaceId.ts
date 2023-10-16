@@ -17,14 +17,14 @@
  * limitations under the License.
  */
 import { PrismaClient } from "@prisma/client";
-import { Member } from "./types";
+import { GetMembersResponse } from "./types";
 import { TRPCError } from "@trpc/server";
 
 const prisma = new PrismaClient();
 
 export async function getMembersByWorkspaceId(
   workspaceId: string
-): Promise<Member[]> {
+): Promise<GetMembersResponse> {
   const workspace = await prisma.workspace.findUnique({
     where: {
       id: workspaceId
@@ -49,5 +49,7 @@ export async function getMembersByWorkspaceId(
     };
   });
 
-  return members;
+  return {
+    members
+  };
 }

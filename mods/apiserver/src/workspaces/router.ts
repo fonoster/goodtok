@@ -20,7 +20,7 @@ import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 import { getMembersByWorkspaceId } from "./getMembersByWorkspaceId";
 import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
-import { watchQ } from "./watchQ";
+import { watchQueue } from "./watchQueue";
 import { getWorkspaceById } from "./getWorkspaceById";
 import { updateWorkspaceSchema } from "./types";
 import { updateWorkspace } from "./updateWorkspace";
@@ -34,9 +34,9 @@ export const workspacesRouter = router({
     .input(z.string())
     .query((req) => getQueueByWorkspaceId(req.input)),
 
-  watchQ: publicProcedure
+  watchQueue: publicProcedure
     .input(z.string())
-    .subscription((req) => watchQ(req.input)),
+    .subscription((req) => watchQueue(req.input)),
 
   getWorkspaceById: publicProcedure
     .input(z.string())

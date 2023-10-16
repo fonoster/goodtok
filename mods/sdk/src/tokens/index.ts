@@ -16,5 +16,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Tokens from "./api";
+import Tokens from "./tokens";
 export default Tokens;
