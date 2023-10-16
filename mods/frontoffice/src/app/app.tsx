@@ -3,7 +3,7 @@ import LoginScreen from "components/organisms/login";
 import { useAuth } from "../authentication";
 
 function App() {
-  const { isLoggedIn } = useAuth() as any;
+  const { isLoggedIn } = useAuth();
 
   return (
     <div className="App h-full">

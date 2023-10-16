@@ -3,13 +3,13 @@
 <div align="center">
   <p align="center">
     <a href="https://goodtok.com" target="_blank" rel="noopener">
-      <img src="https://github.com/psanders/goodtok/blob/main/assets/repo-banner.png" />
+      <img src="https://github.com/fonoster/goodtok/blob/main/assets/repo-banner.png" />
     </a>
   </p>
 </div>
 
-<a href="https://gitpod.io/#https://github.com/psanders/goodtok"> <img src="https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod" alt="Contribute with Gitpod" />
-</a> [![Sponsor this](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/psanders)](https://github.com/sponsors/psanders) [![Discord](https://img.shields.io/discord/1016419835455996076?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/4QWgSz4hTC) ![GitHub](https://img.shields.io/github/license/psanders/goodtok?color=%2347b96d) ![Twitter Follow](https://img.shields.io/twitter/follow/pedrosanders_?style=social)
+<a href="https://gitpod.io/#https://github.com/fonoster/goodtok"> <img src="https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod" alt="Contribute with Gitpod" />
+</a> [![Sponsor this](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/fonoster)](https://github.com/sponsors/fonoster) [![Discord](https://img.shields.io/discord/1016419835455996076?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/4QWgSz4hTC) ![GitHub](https://img.shields.io/github/license/fonoster/goodtok?color=%2347b96d) ![Twitter Follow](https://img.shields.io/twitter/follow/fonoster?style=social)
 
 Goodtok helps businesses enhance their customer service right from their website. The video application lets customers connect with your staff in real-time. You can integrate this simple and easy-to-use application into any website.
 
@@ -89,7 +89,7 @@ A Goodtok token is a [JSON Web Token](https://jwt.io/). Here is an example of th
 
 ## Bugs and Feature Requests
 
-For bugs or feature requests, please create an issue [here](https://github.com/psanders/goodtok/issues). For questions, please see the [Discussions](https://github.com/psanders/goodtok/discussions) section.
+For bugs or feature requests, please create an issue [here](https://github.com/fonoster/goodtok/issues). For questions, please see the [Discussions](https://github.com/fonoster/goodtok/discussions) section.
 
 ## Contributing
 
@@ -99,7 +99,7 @@ If you want to contribute to this project, please read the [CONTRIBUTING.md](CON
 
 ## Questions
 
-If you have any questions about this project, please look at my [GitHub profile](https://github.com/psanders) to find the most up-to-date contact information for me.
+If you have any questions about this project, please look at the [organization's profile](https://github.com/fonoster) to find the most up-to-date contact information for us.
 
 ## Known Issues
 
@@ -107,7 +107,7 @@ If you have any questions about this project, please look at my [GitHub profile]
 
 ## Authors
 
-- [Pedro Sanders](https://github.com/psanders)
+- [Pedro Sanders](https://github.com/fonoster)
 
 ## License
 

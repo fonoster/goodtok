@@ -16,14 +16,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import chai from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
+import chai, { expect } from "chai";
+import { mediaToggle } from "../src/utils";
+import { SimpleUser } from "sip.js/lib/platform/web";
 
 chai.use(sinonChai);
 const sandbox = sinon.createSandbox();
-describe("nodejs-voiceapp", () => {
+describe("@common", () => {
   afterEach(() => sandbox.restore());
 
-  it.skip("needs testing");
+  const createMockTrack = (
+    kind: "audio" | "video",
+    enabled: boolean
+  ): MediaStreamTrack =>
+    ({
+      kind,
+      enabled
+    } as unknown as MediaStreamTrack);
+
+  it("should disable audio tracks", () => {
+    const mockTrack = createMockTrack("audio", true);
+    const mockUser: Partial<SimpleUser> = {
+      localMediaStream: {
+        getTracks: () => [mockTrack]
+      } as unknown as MediaStream
+    };
+
+    mediaToggle(mockUser as SimpleUser, false, "audio");
+    expect(mockTrack.enabled).to.be.false;
+  });
+
+  it("should disable video tracks", () => {
+    const mockTrack = createMockTrack("video", true);
+    const mockUser: Partial<SimpleUser> = {
+      localMediaStream: {
+        getTracks: () => [mockTrack]
+      } as unknown as MediaStream
+    };
+
+    mediaToggle(mockUser as SimpleUser, false, "video");
+    expect(mockTrack.enabled).to.be.false;
+  });
 });

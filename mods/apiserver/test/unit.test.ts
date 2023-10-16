@@ -22,7 +22,7 @@ import sinonChai from "sinon-chai";
 
 chai.use(sinonChai);
 const sandbox = sinon.createSandbox();
-describe("nodejs-voiceapp", () => {
+describe("@apiserver", () => {
   afterEach(() => sandbox.restore());
 
   it.skip("needs testing");

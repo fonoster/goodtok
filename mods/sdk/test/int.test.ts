@@ -35,7 +35,7 @@ const client = new Client({
   workspaceId: DEFAULT_WORKSPACE_ID
 });
 
-describe("goodtok sdk", () => {
+describe("@sdk[integration]", () => {
   afterEach(() => sandbox.restore());
 
   it("gets user by its identifier", async () => {

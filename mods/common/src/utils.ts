@@ -18,14 +18,21 @@
  */
 import { SimpleUser } from "sip.js/lib/platform/web";
 
+/**
+ * The mediaToggle function enable or disable audio or video tracks.
+ *
+ * @param {SimpleUser} simpleUser - SIP user agent implementation with SIP.js
+ * @param {boolean} enabled - Enable or disable media
+ * @param {string} mediaType - Type of media to enable or disable
+ */
 export const mediaToggle = (
   simpleUser: SimpleUser,
   enabled: boolean,
-  type: "audio" | "video"
-) => {
-  const tracks = (simpleUser.localMediaStream as MediaStream).getTracks();
+  mediaType: "audio" | "video"
+): void => {
+  const tracks = simpleUser.localMediaStream.getTracks();
   tracks.forEach((track: MediaStreamTrack) => {
-    if (track.kind === type) {
+    if (track.kind === mediaType) {
       track.enabled = enabled;
     }
   });
