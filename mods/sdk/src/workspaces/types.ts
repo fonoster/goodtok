@@ -24,9 +24,9 @@ import {
   Workspace,
   UpdateWorkspaceRequest,
   GetMembersResponse,
-  GetQueueResponse
+  GetQueueResponse,
+  Days
 } from "@goodtok/apiserver";
-import { Days } from "@goodtok/apiserver/src/workspaces/types";
 
 export type WorkspacesClient = {
   getDefaultWorkspaceId: () => string;

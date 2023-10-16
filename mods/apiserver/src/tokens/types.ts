@@ -23,17 +23,6 @@ export enum Method {
   REGISTER = "REGISTER"
 }
 
-export type Customer = {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  birthday: string;
-  note: string;
-  address: string;
-  avatar: string;
-};
-
 export const createAnonymousTokenSchema = z.object({
   ref: z.string().min(1),
   aor: z.string().min(1),

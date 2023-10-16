@@ -1,5 +1,16 @@
 import React, { useState } from "react";
-import { Days, WeeklyHoursType } from "@goodtok/sdk";
+import { WeeklyHoursType } from "@goodtok/sdk";
+
+// Fix duplicate code
+export enum Days {
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday",
+  Thursday = "Thursday",
+  Friday = "Friday",
+  Saturday = "Saturday",
+  Sunday = "Sunday"
+}
 
 const HoursOfOperation = ({
   hoursOfOperation,

@@ -35,7 +35,8 @@ import Client from "../client";
 
 export default class Workspaces implements WorkspacesClient {
   client: Client;
-  trpc: any;
+  trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
+
   constructor(client: Client) {
     this.client = client;
     const wsClient = createWSClient({
@@ -68,19 +69,19 @@ export default class Workspaces implements WorkspacesClient {
   }
 
   async getDefaultWorkspaceQueue(): Promise<GetQueueResponse> {
-    return this.trpc.workspaces.getDefaultWorkspaceQueue.query(
+    return this.trpc.workspaces.getQueueByWorkspaceId.query(
       this.client.getDefaultWorkspaceId()
     );
   }
 
   async getDefaultWorkspace(): Promise<Workspace> {
-    return this.trpc.workspaces.getDefaultWorkspace.query(
+    return this.trpc.workspaces.getWorkspaceById.query(
       this.client.getDefaultWorkspaceId()
     );
   }
 
   async getDefaultWorkspaceMembers(): Promise<GetMembersResponse> {
-    return this.trpc.workspaces.getDefaultWorkspaceMembers.query(
+    return this.trpc.workspaces.getMembersByWorkspaceId.query(
       this.client.getDefaultWorkspaceId()
     );
   }
@@ -111,7 +112,7 @@ export default class Workspaces implements WorkspacesClient {
     workspaceId: string,
     callback: (error: Error, data?: QueueEntry) => void
   ) {
-    this.trpc.workspaces.watchQ.subscribe(workspaceId, {
+    this.trpc.workspaces.watchQueue.subscribe(workspaceId, {
       onData(data: QueueEntry) {
         callback(null, data);
       },

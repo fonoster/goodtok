@@ -19,17 +19,17 @@
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 import { TokensClient } from "./types";
-// Fixme: Export types from @goodtok/apiserver
 import {
   CreateAnonymousTokenInput,
   CreateTokenInput
-} from "@goodtok/apiserver/src/tokens/types";
+} from "@goodtok/apiserver";
 
 import Client from "../client";
 
 export default class Tokens implements TokensClient {
   client: Client;
-  trpc: any;
+  trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
+
   constructor(client: Client) {
     this.client = client;
     this.trpc = createTRPCProxyClient<AppRouter>({

@@ -21,7 +21,7 @@ import {
   CreateAnonymousTokenInput,
   CreateTokenInput,
   Method
-} from "@goodtok/apiserver/src/tokens/types";
+} from "@goodtok/apiserver";
 
 export type TokensClient = {
   createAnonymousToken: (

@@ -18,7 +18,7 @@
  */
 import { getLogger } from "@fonoster/logger";
 import { PrismaClient } from "@prisma/client";
-import { UpdateWorkspaceRequest } from "./types";
+import { UpdateWorkspaceRequest, WeeklyHoursType, Workspace } from "./types";
 import { fieldEncryptionExtension } from "prisma-field-encryption";
 import { CLOAK_ENCRYPTION_KEY } from "../envs";
 
@@ -32,7 +32,9 @@ const prisma = !CLOAK_ENCRYPTION_KEY
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export async function updateWorkspace(request: UpdateWorkspaceRequest) {
+export async function updateWorkspace(
+  request: UpdateWorkspaceRequest
+): Promise<Workspace> {
   logger.verbose("updating workspace", { workspaceId: request.id });
 
   const updateData: any = {
@@ -42,8 +44,10 @@ export async function updateWorkspace(request: UpdateWorkspaceRequest) {
     hoursOfOperation: request.hoursOfOperation
   };
 
+  let existingShopifyAccount;
+
   if (request.shopifyAccount) {
-    const existingShopifyAccount = await prisma.shopifyAccount.findUnique({
+    existingShopifyAccount = await prisma.shopifyAccount.findUnique({
       where: {
         workspaceId: request.id
       }
@@ -77,5 +81,11 @@ export async function updateWorkspace(request: UpdateWorkspaceRequest) {
     data: updateData
   });
 
-  return workspace;
+  return {
+    id: workspace.id,
+    name: workspace.name,
+    timezone: workspace.timezone,
+    shopifyAccount: existingShopifyAccount ? existingShopifyAccount : undefined,
+    hoursOfOperation: workspace.hoursOfOperation as WeeklyHoursType
+  };
 }

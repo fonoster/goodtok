@@ -39,8 +39,7 @@ import Client from "../client";
  */
 export default class Customers implements CustomersClient {
   client: Client;
-  trpc: any;
-  // trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
+  trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
 
   /**
    * Constructs a new Customers API object.
@@ -77,6 +76,6 @@ export default class Customers implements CustomersClient {
    *  .catch(console.error)   // an error occurred
    */
   async getCustomerById(id: string): Promise<Customer> {
-    return this.trpc.customers.getCustomerById(id);
+    return this.trpc.customers.getCustomerById.query(id);
   }
 }

@@ -122,15 +122,11 @@ export type Workspace = {
     accessToken: string;
   };
 };
+
 export type Member = {
   userId: string;
   name: string;
   status: string;
-  avatar: string;
-};
-
-export type Customer = {
-  name: string;
   avatar: string;
 };
 
@@ -141,7 +137,10 @@ export type QueueEntry = {
   updatedAt: Date;
   status: string;
   workspaceId: string;
-  customer: Customer;
+  customer: {
+    name: string;
+    avatar: string;
+  };
   aor: string;
 };
 

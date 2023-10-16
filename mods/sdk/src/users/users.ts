@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from "@goodtok/apiserver/src/users/types";
+import { User } from "@goodtok/apiserver";
 import { UsersClient, UpdateUserRequest, UpdateUserResponse } from "./types";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
@@ -24,7 +24,8 @@ import Client from "../client";
 
 export default class Users implements UsersClient {
   client: Client;
-  trpc: any;
+  trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
+
   constructor(client: Client) {
     this.client = client;
     this.trpc = createTRPCProxyClient<AppRouter>({
