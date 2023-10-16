@@ -19,7 +19,11 @@
 import { initVideoWidget } from "./widget";
 import { useAuth } from "../../../authentication";
 import { VideoProps } from "./types";
-import { MicrophoneIcon, PhoneIcon, VideoCameraIcon } from "@heroicons/react/24/outline";
+import {
+  MicrophoneIcon,
+  PhoneIcon,
+  VideoCameraIcon
+} from "@heroicons/react/24/outline";
 
 export default function Video({ inviteInfo }: VideoProps) {
   const { client } = useAuth() as any;
