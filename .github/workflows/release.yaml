@@ -17,7 +17,7 @@ jobs:
           node-version: "18.x"
 
       - name: Build project
-        run: npm run install && npm run build
+        run: npm install && npm run build
 
       - name: Check for next release
         run: |
