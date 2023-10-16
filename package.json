@@ -3,7 +3,7 @@
   "private": true,
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Goodtok CX",
   "main": "dist/index",
   "types": "dist/index",
