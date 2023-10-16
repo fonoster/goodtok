@@ -21,9 +21,33 @@ import { AppRouter } from "@goodtok/apiserver";
 import { Customer, CustomersClient } from "./types";
 import Client from "../client";
 
+/**
+ * @classdesc Use Goodtok Customers, a capability of Goodtok, to retrieve a list of Customers
+ * The Customers API requires of a running Goodtok API Server.
+ *
+ * @extends Customers
+ * @example
+ *
+ * const SDK = require("@goodtok/sdk")
+ * const customers = new SDK.Customers()
+ *
+ * const id = "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d"
+ *
+ * acl.getCustomerById(id)
+ *   .then(console.log)
+ *   .catch(console.error)   // an error occurred
+ */
 export default class Customers implements CustomersClient {
   client: Client;
   trpc: any;
+  // trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
+
+  /**
+   * Constructs a new Customers API object.
+   *
+   * @param {Client} client - Options to indicate the objects endpoint
+   * @see module:sdk:Client
+   */
   constructor(client: Client) {
     this.client = client;
     this.trpc = createTRPCProxyClient<AppRouter>({
@@ -39,7 +63,20 @@ export default class Customers implements CustomersClient {
     });
   }
 
+  /**
+   * Returns a customer by its ID.
+   *
+   * @param {string} id - The customer ID.
+   * @return {Promise<Customer>} A promise that contains the customer.
+   * @throws if the customer was not found or an error occurred.
+   * @example
+   *
+   * const id = "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d"
+   * customers.getCustomerById(id)
+   *  .then(console.log)
+   *  .catch(console.error)   // an error occurred
+   */
   async getCustomerById(id: string): Promise<Customer> {
-    return this.trpc.customers.getCustomerById.query(id);
+    return this.trpc.customers.getCustomerById(id);
   }
 }
