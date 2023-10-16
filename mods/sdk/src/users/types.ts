@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from "@goodtok/apiserver";
+import type { User } from "@goodtok/apiserver";
 
 export type UsersClient = {
   getCurrentUser: () => Promise<User>;

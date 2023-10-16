@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Customer } from "@goodtok/apiserver";
+import type { Customer } from "@goodtok/apiserver";
 
 export type CustomersClient = {
   getCustomerById: (id: string) => Promise<Customer>;
