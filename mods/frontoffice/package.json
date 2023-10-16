@@ -72,5 +72,8 @@
     "vite": "^4.4.8",
     "vite-preset-react": "2.3.0",
     "vitest": "^0.34.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
