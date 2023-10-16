@@ -33,3 +33,20 @@ jobs:
           context: .
           dockerfile: mods/apiserver/Dockerfile
           tags: "latest,${{ needs.get_version.outputs.VERSION }}"
+
+  publish_frontoffice:
+    name: Publish Goodtok Front Office
+    runs-on: ubuntu-latest
+    needs: [get_version]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Publish to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: fonoster/goodtok-frontoffice
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          context: .
+          dockerfile: mods/frontoffice/Dockerfile
+          tags: "latest,${{ needs.get_version.outputs.VERSION }}"
