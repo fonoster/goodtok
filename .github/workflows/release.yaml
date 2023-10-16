@@ -1,0 +1,86 @@
+name: publish to docker hub
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build-and-test:
+    name: Build and test Goodtok
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install latest Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Build project
+        run: npm run install && npm run build
+
+      - name: Check for next release
+        run: |
+          release=$(.scripts/next-release.sh)
+          echo "Next release: $release"
+          echo "RELEASE=$release" >> $GITHUB_ENV
+
+      - name: Publish packages to NPM
+        if: env.RELEASE != 'none'
+        run: |
+          echo "NPM_TOKEN=${{ secrets.NPM_TOKEN }}" >> $GITHUB_ENV
+          echo "GITHUB_TOKEN=${{ secrets.GH_PAT }}" >> $GITHUB_ENV
+          echo "@routr:registry=https://registry.npmjs.org/" > .npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout package-lock.json
+
+          npm run publish
+
+      - name: Get project version
+        run: |
+          lerna_version=$(node -p "require('./lerna.json').version")
+          echo "Lerna version: $lerna_version"
+          echo "LERNA_VERSION=$lerna_version" >> $GITHUB_ENV
+
+      - name: Create release note
+        if: env.RELEASE != 'none'
+        id: changelog
+        uses: loopwerk/tag-changelog@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          exclude_types: other,doc,chore
+          config_file: ./.scripts/tag-changelog-config.js
+
+      - name: Create draft release
+        if: env.RELEASE != 'none'
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.LERNA_VERSION }}
+          release_name: Release v${{ env.LERNA_VERSION }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: true
+
+      - name: Publish API server to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: fonoster/goodtok-apiserver
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          context: .
+          dockerfile: mods/apiserver/Dockerfile
+          tags: "latest,${{ needs.get_version.outputs.VERSION }}"
+
+      - name: Publish the Front Office to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: fonoster/goodtok-frontoffice
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          context: .
+          dockerfile: mods/frontoffice/Dockerfile
+          tags: "latest,${{ needs.get_version.outputs.VERSION }}"
