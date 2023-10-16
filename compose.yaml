@@ -8,9 +8,9 @@ services:
       context: .
       dockerfile: ./mods/frontoffice/Dockerfile
     environment:
-      LOGS_LEVEL: verbose
+      - LOGS_LEVEL
     ports:
-      - 3000:3000
+      - 8080:8080
 
   apiserver:
     image: fonoster/goodtok-apiserver:latest
@@ -18,27 +18,27 @@ services:
       context: .
       dockerfile: ./mods/apiserver/Dockerfile
     environment:
-      LOGS_LEVEL: verbose
-      NATS_URL: nats:4222
-      DEFAULT_SIGNALING_SERVER: ws://${DOCKER_HOST_ADDRESS}:5062
-      PATH_TO_KEYS: /keys
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/goodtok
+      - LOGS_LEVEL
+      - NATS_URL
+      - GOODTOK_SIGNALING_SERVER
+      - GOODTOK_DOMAIN
+      - DATABASE_URL
     ports:
-      - 5000:5000
+      - 6789:6789
     volumes:
       - ./.keys:/keys
 
   routr:
     image: fonoster/routr-one:latest
-    environment:
-      LOGS_LEVEL: verbose
-      EXTERNAL_ADDRS: ${DOCKER_HOST_ADDRESS}
-      CONNECT_VERIFIER_PUBLIC_KEY_PATH: /keys/public.key
-      NATS_PUBLISHER_ENABLED: true
-      NATS_PUBLISHER_URL: nats:4222
     ports:
       - 5062:5062
       - 5063:5063
+    environment:
+      - LOGS_LEVEL
+      - EXTERNAL_ADDRS
+      - CONNECT_VERIFIER_PUBLIC_KEY_PATH
+      - NATS_PUBLISHER_ENABLED
+      - NATS_PUBLISHER_URL
     volumes:
       - ./.keys:/keys
       - routr_db:/var/lib/postgresql/data

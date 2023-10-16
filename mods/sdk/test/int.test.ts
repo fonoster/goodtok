@@ -27,7 +27,7 @@ const expect = chai.expect;
 chai.use(sinonChai);
 const sandbox = sinon.createSandbox();
 
-const DEFAULT_ENDPOINT = "http://localhost:5000/v1";
+const DEFAULT_ENDPOINT = "http://localhost:6789/v1";
 const DEFAULT_WORKSPACE_ID = "default";
 
 const client = new Client({

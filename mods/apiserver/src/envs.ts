@@ -16,38 +16,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { getLogger } from "@fonoster/logger";
 import { join } from "path";
 import crypto from "crypto";
 import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
 
+const logger = getLogger({ service: "apiserver", filePath: __filename });
+
 if (process.env.NODE_ENV === "dev") {
   dotenv.config({ path: join(__dirname, "..", "..", "..", ".env") });
 }
 
 export const NATS_URL = process.env.NATS_URL;
-export const BIND_PORT = process.env.BIND_PORT ?? "5000";
+export const BIND_PORT = process.env.BIND_PORT ?? "6789";
 export const SALT = process.env.SALT ?? crypto.randomBytes(4).toString("hex");
-export const PATH_TO_KEYS = process.env.PATH_TO_KEYS ?? "./.keys";
+export const PATH_TO_KEYS = process.env.PATH_TO_KEYS ?? "/keys";
 export const PATH_TO_PRIVATE_KEY = path.join(PATH_TO_KEYS, "private.key");
 export const SIGN_OPTIONS = process.env.SIGN_OPTIONS
   ? JSON.parse(process.env.SIGN_OPTIONS)
   : { expiresIn: "24h", algorithm: "RS256" };
 
 if (!fs.existsSync(path.join(PATH_TO_KEYS, "private.key"))) {
-  console.error(
-    "No private key found. Please run 'npm run keys:generate' first"
+  logger.error(
+    "no private key found. Please run 'npm run keys:generate' first",
+    { pathToKeys: path.join(PATH_TO_KEYS, "private.key") }
   );
   process.exit(1);
 }
 
 export const PRIVATE_KEY = fs.readFileSync(PATH_TO_PRIVATE_KEY, "utf8");
 
-export const DEFAULT_DOMAIN = process.env.DEFAULT_DOMAIN ?? "sip.goodtok.io";
-export const DEFAULT_DOMAIN_REF = process.env.DEFAULT_DOMAIN_REF ?? "default";
-export const DEFAULT_PRIVACY = process.env.DEFAULT_PRIVACY ?? "PRIVATE";
-export const DEFAULT_SIGNALING_SERVER =
-  process.env.DEFAULT_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";
+export const GOODTOK_DOMAIN = process.env.GOODTOK_DOMAIN ?? "sip.goodtok.io";
+export const GOODTOK_DOMAIN_REF = process.env.GOODTOK_DOMAIN_REF ?? "default";
+export const GOODTOK_SIGNALING_SERVER =
+  process.env.GOODTOK_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";
+export const USER_AGENT_PRIVACY = process.env.USER_AGENT_PRIVACY ?? "PRIVATE";
 
 export const CLOAK_ENCRYPTION_KEY = process.env.CLOAK_ENCRYPTION_KEY;

@@ -27,7 +27,7 @@ export default defineConfig((configEnv) => {
     envDir: resolve(__dirname, "..", ".."),
     plugins: [react()],
     server: {
-      port: 3000
+      port: 8080
     },
     test: {
       globals: true,

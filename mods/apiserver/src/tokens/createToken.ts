@@ -17,10 +17,10 @@
  * limitations under the License.
  */
 import {
-  DEFAULT_DOMAIN,
-  DEFAULT_DOMAIN_REF,
-  DEFAULT_PRIVACY,
-  DEFAULT_SIGNALING_SERVER,
+  GOODTOK_DOMAIN,
+  GOODTOK_DOMAIN_REF,
+  USER_AGENT_PRIVACY,
+  GOODTOK_SIGNALING_SERVER,
   PRIVATE_KEY,
   SIGN_OPTIONS
 } from "../envs";
@@ -33,13 +33,13 @@ export async function createToken(
   const claims = {
     ref: input.ref,
     customerId: input.customerId,
-    domainRef: DEFAULT_DOMAIN_REF,
+    domainRef: GOODTOK_DOMAIN_REF,
     aor: input.aor,
     aorLink: input.aorLink,
-    domain: DEFAULT_DOMAIN,
-    privacy: DEFAULT_PRIVACY,
+    domain: GOODTOK_DOMAIN,
+    privacy: USER_AGENT_PRIVACY,
     allowedMethods: input.methods,
-    signalingServer: DEFAULT_SIGNALING_SERVER
+    signalingServer: GOODTOK_SIGNALING_SERVER
   };
 
   const token = jwt.sign(claims, PRIVATE_KEY, SIGN_OPTIONS);
@@ -48,6 +48,6 @@ export async function createToken(
     aor: input.aor,
     aorLink: input.aorLink,
     token,
-    signalingServer: DEFAULT_SIGNALING_SERVER
+    signalingServer: GOODTOK_SIGNALING_SERVER
   };
 }

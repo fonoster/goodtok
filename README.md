@@ -36,13 +36,114 @@ It would mean a lot to me if you could give this project a star. It helps me ide
 
 ## Installation
 
-I'm aiming to make this as easy as possible to install. I'm working on a docker image allowing you to run this application with a single command. When it is ready, you will be able to run the following command to get started:
+We are aiming to make this as easy as possible to install. For now, you can use the following instructions to get started.
+
+Firts, create a new directory called `goodtok` with a `compose.yml` file with the following content:
+
+```yaml
+version: "3"
+
+services:
+
+  frontoffice:
+    image: fonoster/goodtok-frontoffice:latest
+    environment:
+      - LOGS_LEVEL
+    ports:
+      - 8080:8080
+
+  apiserver:
+    image: fonoster/goodtok-apiserver:latest
+    ports:
+      - 6789:6789
+    environment:
+      - LOGS_LEVEL
+      - NATS_URL
+      - GOODTOK_SIGNALING_SERVER
+      - GOODTOK_DOMAIN
+      - DATABASE_URL
+    volumes:
+      - ./.keys:/keys
+
+  routr:
+    image: fonoster/routr-one:latest
+    ports:
+      - 5062:5062
+      - 5063:5063
+    environment:
+      - LOGS_LEVEL
+      - EXTERNAL_ADDRS
+      - CONNECT_VERIFIER_PUBLIC_KEY_PATH
+      - NATS_PUBLISHER_ENABLED
+      - NATS_PUBLISHER_URL
+    volumes:
+      - ./.keys:/keys
+      - routr_db:/var/lib/postgresql/data
+
+  nats:
+    image: nats:latest
+    expose:
+      - 4222
+
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: UTC
+      PGTZ: UTC
+    # WARNING: Once you initialize the database, you should remove the following line
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    volumes:
+      - goodtok_db:/var/lib/postgresql/data
+
+volumes:
+  routr_db:
+  goodtok_db:
+```
+
+In the same directory, run the following command to generate a set of keys. These keys will be used to sign and verify the JWT tokens.
+
+```bash
+mkdir -p .keys
+openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
+openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
+```
+
+Next we need to prepare the database with the following command:
+
+```bash
+curl -o ./schema.prisma https://raw.githubusercontent.com/fonoster/goodtok/main/mods/apiserver/schema.prisma
+npx prisma migrate deploy --schema=./schema.prisma
+rm ./schema.prisma
+```
+
+Then, create a `.env` file with the following content:
+
+```bash
+EXTERNAL_ADDRS=${YOUR DOCKER HOST IP}
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+NATS_URL=nats:4222
+NATS_PUBLISHER_URL=nats:4222
+NATS_PUBLISHER_ENABLED=true
+CONNECT_VERIFIER_PUBLIC_KEY_PATH=/keys/public.key
+GOODTOK_DOMAIN=sip.local
+GOODTOK_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
+```
+
+Finally, run the following command to start the application:
 
 ```bash
 docker compose up -d
 ```
 
-The previous command will start the front-office application. You will then be able to access the application at http://localhost:3000 and start sending requests from the client application.
+The previous command will start the front-office application. You will then be able to access the application at http://localhost:8080 and start sending requests from the client application.
 
 ## Usage
 
