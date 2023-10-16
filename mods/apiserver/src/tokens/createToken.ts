@@ -17,8 +17,8 @@
  * limitations under the License.
  */
 import {
-  GOODTOK_DOMAIN,
-  GOODTOK_DOMAIN_REF,
+  GOODTOK_SIP_DOMAIN,
+  GOODTOK_SIP_DOMAIN_REF,
   USER_AGENT_PRIVACY,
   GOODTOK_SIGNALING_SERVER,
   PRIVATE_KEY,
@@ -33,10 +33,10 @@ export async function createToken(
   const claims = {
     ref: input.ref,
     customerId: input.customerId,
-    domainRef: GOODTOK_DOMAIN_REF,
+    domainRef: GOODTOK_SIP_DOMAIN_REF,
     aor: input.aor,
     aorLink: input.aorLink,
-    domain: GOODTOK_DOMAIN,
+    domain: GOODTOK_SIP_DOMAIN,
     privacy: USER_AGENT_PRIVACY,
     allowedMethods: input.methods,
     signalingServer: GOODTOK_SIGNALING_SERVER

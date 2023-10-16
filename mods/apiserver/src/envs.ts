@@ -48,8 +48,10 @@ if (!fs.existsSync(path.join(PATH_TO_KEYS, "private.key"))) {
 
 export const PRIVATE_KEY = fs.readFileSync(PATH_TO_PRIVATE_KEY, "utf8");
 
-export const GOODTOK_DOMAIN = process.env.GOODTOK_DOMAIN ?? "sip.goodtok.io";
-export const GOODTOK_DOMAIN_REF = process.env.GOODTOK_DOMAIN_REF ?? "default";
+export const GOODTOK_SIP_DOMAIN =
+  process.env.GOODTOK_SIP_DOMAIN ?? "sip.goodtok.io";
+export const GOODTOK_SIP_DOMAIN_REF =
+  process.env.GOODTOK_SIP_DOMAIN_REF ?? "default";
 export const GOODTOK_SIGNALING_SERVER =
   process.env.GOODTOK_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";
 export const USER_AGENT_PRIVACY = process.env.USER_AGENT_PRIVACY ?? "PRIVATE";

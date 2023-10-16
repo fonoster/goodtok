@@ -21,7 +21,7 @@ services:
       - LOGS_LEVEL
       - NATS_URL
       - GOODTOK_SIGNALING_SERVER
-      - GOODTOK_DOMAIN
+      - GOODTOK_SIP_DOMAIN
       - DATABASE_URL
     ports:
       - 6789:6789
@@ -30,18 +30,17 @@ services:
 
   routr:
     image: fonoster/routr-one:latest
-    ports:
-      - 5062:5062
-      - 5063:5063
     environment:
       - LOGS_LEVEL
       - EXTERNAL_ADDRS
       - CONNECT_VERIFIER_PUBLIC_KEY_PATH
       - NATS_PUBLISHER_ENABLED
       - NATS_PUBLISHER_URL
+    ports:
+      - 5062:5062
+      - 5063:5063
     volumes:
-      - ./.keys:/keys
-      - routr_db:/var/lib/postgresql/data
+      - ./.keys/public.key:/keys/public.key
 
   nats:
     image: nats:latest
@@ -62,8 +61,7 @@ services:
     expose:
       - 5432
     volumes:
-      - goodtok_db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
 
 volumes:
-  routr_db:
-  goodtok_db:
+  db:

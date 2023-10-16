@@ -54,31 +54,30 @@ services:
 
   apiserver:
     image: fonoster/goodtok-apiserver:latest
-    ports:
-      - 6789:6789
     environment:
       - LOGS_LEVEL
       - NATS_URL
       - GOODTOK_SIGNALING_SERVER
-      - GOODTOK_DOMAIN
+      - GOODTOK_SIP_DOMAIN
       - DATABASE_URL
+    ports:
+      - 6789:6789
     volumes:
       - ./.keys:/keys
 
   routr:
     image: fonoster/routr-one:latest
-    ports:
-      - 5062:5062
-      - 5063:5063
     environment:
       - LOGS_LEVEL
       - EXTERNAL_ADDRS
       - CONNECT_VERIFIER_PUBLIC_KEY_PATH
       - NATS_PUBLISHER_ENABLED
       - NATS_PUBLISHER_URL
+    ports:
+      - 5062:5062
+      - 5063:5063
     volumes:
-      - ./.keys:/keys
-      - routr_db:/var/lib/postgresql/data
+      - ./.keys/public.key:/keys/public.key
 
   nats:
     image: nats:latest
@@ -99,11 +98,10 @@ services:
     expose:
       - 5432
     volumes:
-      - goodtok_db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
 
 volumes:
-  routr_db:
-  goodtok_db:
+  db:
 ```
 
 In the same directory, run the following command to generate a set of keys. These keys will be used to sign and verify the JWT tokens.
@@ -133,7 +131,7 @@ NATS_URL=nats:4222
 NATS_PUBLISHER_URL=nats:4222
 NATS_PUBLISHER_ENABLED=true
 CONNECT_VERIFIER_PUBLIC_KEY_PATH=/keys/public.key
-GOODTOK_DOMAIN=sip.local
+GOODTOK_SIP_DOMAIN=sip.local
 GOODTOK_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
 ```
 
