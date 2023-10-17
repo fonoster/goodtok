@@ -22,20 +22,25 @@ import { Customer, CustomersClient } from "./types";
 import Client from "../client";
 
 /**
- * @classdesc Use Goodtok Customers, a capability of Goodtok, to retrieve a list of Customers
- * The Customers API requires of a running Goodtok API Server.
+ * @classdesc Use the Goodtok Customers capability to retrieve and manage customers.
+ * Ensure the Goodtok API Server is running for the Customers API to function.
  *
- * @extends Customers
  * @example
  *
- * const SDK = require("@goodtok/sdk")
- * const customers = new SDK.Customers()
+ * const SDK = require("@goodtok/sdk");
  *
- * const id = "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d"
+ * async function getCustomer() {
+ *   const client = new SDK.Client({ workspace: "myworkspace" });
+ *   await client.login("goodtok", "mysecretpassword");
  *
- * acl.getCustomerById(id)
- *   .then(console.log)
- *   .catch(console.error)   // an error occurred
+ *   const customers = new SDK.Customers(client);
+ *   const id = "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d";
+ *   const customer = await customers.getCustomerById(id);
+ *
+ *   console.log(customer);
+ * }
+ *
+ * getCustomer().catch(console.error);
  */
 export default class Customers implements CustomersClient {
   client: Client;
@@ -44,7 +49,7 @@ export default class Customers implements CustomersClient {
   /**
    * Constructs a new Customers API object.
    *
-   * @param {Client} client - Options to indicate the objects endpoint
+   * @param {Client} client - Object containing the client configuration
    * @see module:sdk:Client
    */
   constructor(client: Client) {
@@ -63,17 +68,17 @@ export default class Customers implements CustomersClient {
   }
 
   /**
-   * Returns a customer by its ID.
+   * Retrieves a customer by its ID.
    *
-   * @param {string} id - The customer ID.
-   * @return {Promise<Customer>} A promise that contains the customer.
-   * @throws if the customer was not found or an error occurred.
+   * @param {string} id - The customer ID
+   * @return {Promise<Customer>} A promise resolving to the customer
+   * @throws Will throw an error if the customer is not found
    * @example
    *
-   * const id = "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d"
+   * const id = "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d";
    * customers.getCustomerById(id)
-   *  .then(console.log)
-   *  .catch(console.error)   // an error occurred
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
    */
   async getCustomerById(id: string): Promise<Customer> {
     return this.trpc.customers.getCustomerById.query(id);

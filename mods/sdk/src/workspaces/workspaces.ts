@@ -33,10 +33,36 @@ import {
 } from "@goodtok/apiserver";
 import Client from "../client";
 
+/**
+ * @classdesc Use the Goodtok Workspaces capability to retrieve and manage workspaces.
+ * Ensure the Goodtok API Server is running for the Workspaces API to function.
+ *
+ * @example
+ *
+ * const SDK = require("@goodtok/sdk");
+ *
+ * async function getWorkspace() {
+ *   const client = new SDK.Client({ workspace: "myworkspace" });
+ *   await client.login("goodtok", "mysecretpassword");
+ *
+ *   const workspaces = new SDK.Workspaces(client);
+ *   const workspace = await workspaces.getDefaultWorkspace();
+ *
+ *   console.log(workspace);
+ * }
+ *
+ * getWorkspace().catch(console.error);
+ */
 export default class Workspaces implements WorkspacesClient {
   client: Client;
   trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
 
+  /**
+   * Constructs a new Workspaces API object.
+   *
+   * @param {Client} client - Object containing the client configuration
+   * @see module:sdk:Client
+   */
   constructor(client: Client) {
     this.client = client;
     const wsClient = createWSClient({
@@ -64,55 +90,180 @@ export default class Workspaces implements WorkspacesClient {
     });
   }
 
+  /**
+   * Retrieves the default workspace ID.
+   *
+   * @return {string} The default workspace ID
+   * @example
+   *
+   * workspaces.getDefaultWorkspaceId();
+   */
   getDefaultWorkspaceId(): string {
     return this.client.getDefaultWorkspaceId();
   }
 
-  async getDefaultWorkspaceQueue(): Promise<GetQueueResponse> {
-    return this.trpc.workspaces.getQueueByWorkspaceId.query(
-      this.client.getDefaultWorkspaceId()
-    );
-  }
-
+  /**
+   * Retrieves the default workspace.
+   *
+   * @return {Promise<Workspace>} A promise resolving to the workspace
+   * @example
+   *
+   * workspaces.getDefaultWorkspace()
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
   async getDefaultWorkspace(): Promise<Workspace> {
     return this.trpc.workspaces.getWorkspaceById.query(
       this.client.getDefaultWorkspaceId()
     );
   }
 
+  /**
+   * Retrieves the queue for the default workspace.
+   *
+   * @return {Promise<GetQueueResponse>} A promise resolving to the queue
+   * @example
+   *
+   * workspaces.getDefaultWorkspaceQueue()
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
+  async getDefaultWorkspaceQueue(): Promise<GetQueueResponse> {
+    return this.trpc.workspaces.getQueueByWorkspaceId.query(
+      this.client.getDefaultWorkspaceId()
+    );
+  }
+
+  /**
+   * Retrieves the members for the default workspace.
+   *
+   * @return {Promise<GetQueueResponse>} A promise resolving to the queue
+   * @example
+   *
+   * workspaces.getDefaultWorkspaceMembers()
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
   async getDefaultWorkspaceMembers(): Promise<GetMembersResponse> {
     return this.trpc.workspaces.getMembersByWorkspaceId.query(
       this.client.getDefaultWorkspaceId()
     );
   }
 
+  /**
+   * Retrieves a workspace by its ID.
+   *
+   * @param {string} id - The workspace ID
+   * @return {Promise<Workspace>} A promise resolving to the workspace
+   * @example
+   *
+   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   *
+   * workspaces.getWorkspaceById(id)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
   async getWorkspaceById(id: string): Promise<Workspace> {
     return this.trpc.workspaces.getWorkspaceById.query(id);
   }
 
-  async getMembersByWorkspaceId(
-    workspaceId: string
-  ): Promise<GetMembersResponse> {
-    return this.trpc.workspaces.getMembersByWorkspaceId.query(workspaceId);
+  /**
+   * Retrieves the members for a workspace by its ID.
+   *
+   * @param {string} id - The workspace ID
+   * @return {Promise<Workspace>} A promise resolving to an object containing an array of members
+   * @example
+   *
+   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   *
+   * workspaces.getMembersByWorkspaceId(id)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
+  async getMembersByWorkspaceId(id: string): Promise<GetMembersResponse> {
+    return this.trpc.workspaces.getMembersByWorkspaceId.query(id);
   }
 
-  async getQueueByWorkspaceId(workspaceId: string): Promise<GetQueueResponse> {
-    return this.trpc.workspaces.getQueueByWorkspaceId.query(workspaceId);
+  /**
+   * Retrieves the queue for a workspace by its ID.
+   *
+   * @param {string} id - The workspace ID
+   * @return {Promise<Workspace>} A promise resolving to an object containing an array of queue entries
+   * @example
+   *
+   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   *
+   * workspaces.getQueueByWorkspaceId(id)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
+  async getQueueByWorkspaceId(id: string): Promise<GetQueueResponse> {
+    return this.trpc.workspaces.getQueueByWorkspaceId.query(id);
   }
 
+  /**
+   * Updates the details of a workspace.
+   *
+   * @param {UpdateWorkspaceRequest} request - The request object containing the workspace ID and update data
+   * @param {string} request.id - The workspace ID
+   * @param {string} request.name - The workspace name
+   * @param {string} request.timezone - The workspace timezone
+   * @param {object} request.hoursOfOperation - The workspace hours of operation
+   * @return {Promise<Workspace>} A promise resolving to the updated workspace's details
+   * @example
+   *
+   * const request = {
+   *   id: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
+   *   name: "My Workspace",
+   *   timezone: "America/New_York",
+   *   hoursOfOperation: {
+   *     monday: [
+   *       {
+   *         start: "09:00",
+   *         end: "17:00"
+   *       }
+   *     ],
+   *     // ...
+   *   }
+   * };
+   *
+   * workspaces.updateWorkspace(request)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
   async updateWorkspace(request: UpdateWorkspaceRequest): Promise<Workspace> {
     return this.trpc.workspaces.updateWorkspace.mutate(request);
   }
 
+  /**
+   * Retrieves all workspaces for the authenticated user.
+   *
+   * @return {Promise<Workspace[]>} A promise resolving to an array of workspaces
+   */
   async getWorkspaces(): Promise<Workspace[]> {
     throw new Error("method not implemented.");
   }
 
-  watchQueue(
-    workspaceId: string,
-    callback: (error: Error, data?: QueueEntry) => void
-  ) {
-    this.trpc.workspaces.watchQueue.subscribe(workspaceId, {
+  /**
+   * Registers a callback for real-time updates on queue entries within a workspace.
+   *
+   * @param {string} id - The ID of the workspace
+   * @param {function} callback - The callback to be invoked when a queue entry updates
+   * @example
+   *
+   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   *
+   * workspaces.watchQueue(id, (err, data) => {
+   *   if (err) {
+   *    console.error(err);
+   *    return;
+   *   }
+   *
+   *   console.log(data);
+   * });
+   */
+  watchQueue(id: string, callback: (error: Error, data?: QueueEntry) => void) {
+    this.trpc.workspaces.watchQueue.subscribe(id, {
       onData(data: QueueEntry) {
         callback(null, data);
       },

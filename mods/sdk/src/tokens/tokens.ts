@@ -26,10 +26,41 @@ import {
 
 import Client from "../client";
 
+/**
+ * @classdesc Use the Goodtok Tokens capability to create and verify JWT tokens.
+ * Ensure the Goodtok API Server is running for the Tokens API to function.
+ *
+ * @example
+ *
+ * const SDK = require("@goodtok/sdk");
+ *
+ * async function createAnonymousToken() {
+ *   const client = new SDK.Client({ workspace: "myworkspace" });
+ *   await client.login("goodtok", "mysecretpassword");
+ *
+ *   const tokens = new SDK.Tokens(client);
+ *   const request = {
+ *     ref: "myref",
+ *     aor: "anonymous@sip.goodtok.io",
+ *     aorLink: "anonymous@sip.goodtok.io",
+ *   };
+ *
+ *   const connectionObject = await tokens.createAnonymousToken(request);
+ *   console.log(connectionObject);
+ * }
+ *
+ * createAnonymousToken().catch(console.error);
+ */
 export default class Tokens implements TokensClient {
   client: Client;
   trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
 
+  /**
+   * Constructs a new Tokens API object.
+   *
+   * @param {Client} client - Object containing the client configuration
+   * @see module:sdk:Client
+   */
   constructor(client: Client) {
     this.client = client;
     this.trpc = createTRPCProxyClient<AppRouter>({
@@ -45,10 +76,55 @@ export default class Tokens implements TokensClient {
     });
   }
 
+  /**
+   * Creates a new anonymous token with `allowedMethods=[REGISTER]` permissions.
+   * Does not require authentication. The token will be issued only if the workspace has the `anonymous` feature enabled.
+   *
+   * @param {CreateAnonymousTokenInput} request - A request with claims required to create a token
+   * @param {string} request.ref - A reference for the anonymous user
+   * @param {string} request.aor - The address of record (AOR) for the user
+   * @param {string} request.aorLink - The address of record (AOR) for the user
+   * @return {Promise<CreateAnonymousTokenResponse>} A promise resolving to the connection object which contains the token
+   * @throws Will throw an error if the workspace does not have the `anonymous` feature enabled
+   * @example
+   *
+   * const request = {
+   *   ref: "myref",
+   *   aor: "anonymous@sip.goodtok.io",
+   *   aorLink: "anonymous@sip.goodtok.io"
+   * }
+   *
+   * tokens.createAnonymousToken(request)
+   *   .then(console.log)
+   *   .catch(console.error) // handle any errors
+   */
   async createAnonymousToken(request: CreateAnonymousTokenInput) {
     return this.trpc.tokens.createAnonymousToken.mutate(request);
   }
 
+  /**
+   * Creates a new token with the specified permissions.
+   *
+   * @param {CreateTokenInput} request - A request with claims required to create the token
+   * @param {string} request.ref - A reference for the user
+   * @param {string} request.aor - The address of record (AOR) for the user
+   * @param {string} request.aorLink - The address of record (AOR) for the user
+   * @param {string[]} request.allowedMethods - The list of methods the token is permitted to use (e.g. ["INVITE", "REGISTER"])
+   * @return {Promise<CreateTokenResponse>} A promise resolving to the connection object containing the token
+   * @throws Will throw an error if the user is not logged in
+   * @example
+   *
+   * const request = {
+   *   ref: "myref",
+   *   aor: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d@sip.goodtok.io",
+   *   aorLink: "anonymous@sip.goodtok.io",
+   *   allowedMethods: ["INVITE"],
+   * };
+   *
+   * tokens.createToken(request)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
   async createToken(request: CreateTokenInput) {
     return this.trpc.tokens.createToken.mutate(request);
   }
