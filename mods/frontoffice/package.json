@@ -1,6 +1,6 @@
 {
   "name": "@goodtok/frontoffice",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Goodtok frontoffice",
   "homepage": "https://github.com/fonoster/goodtok#readme",
   "author": "Pedro Sanders <psanders@fonoster.com>",
@@ -35,8 +35,8 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@goodtok/common": "^0.0.2",
-    "@goodtok/sdk": "^0.0.2",
+    "@goodtok/common": "^0.0.3",
+    "@goodtok/sdk": "^0.0.3",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "2.0.18",
     "jwt-decode": "^3.1.2",
