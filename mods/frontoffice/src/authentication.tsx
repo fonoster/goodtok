@@ -38,7 +38,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (accessToken) {
       const client = new SDK.Client({
         endpoint: API_ENDPOINT,
-        workspaceId: DEFAULT_WORKSPACE_ID
+        workspace: DEFAULT_WORKSPACE_ID
       });
       client.setToken(accessToken);
       return client;
@@ -52,7 +52,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = async (username: string, password: string) => {
     const client = new SDK.Client({
       endpoint: API_ENDPOINT,
-      workspaceId: DEFAULT_WORKSPACE_ID
+      workspace: DEFAULT_WORKSPACE_ID
     });
 
     await client.login(username, password);

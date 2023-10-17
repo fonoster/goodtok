@@ -17,6 +17,6 @@
  * limitations under the License.
  */
 export type ClientOptions = {
-  endpoint: string;
-  workspaceId: string;
+  endpoint?: string;
+  workspace: string;
 };

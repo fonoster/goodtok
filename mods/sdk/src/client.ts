@@ -28,6 +28,10 @@ export default class Client {
   private currentUserId: string;
   constructor(options: ClientOptions) {
     this.options = options;
+    if (!options.endpoint) {
+      // Default to the public API :)
+      this.options.endpoint = "https://api.goodtok.io/v1";
+    }
   }
 
   async login(username: string, password: string) {
@@ -67,7 +71,7 @@ export default class Client {
   }
 
   getDefaultWorkspaceId() {
-    return this.options.workspaceId;
+    return this.options.workspace;
   }
 
   getCurrentUserId() {

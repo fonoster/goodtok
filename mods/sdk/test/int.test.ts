@@ -32,7 +32,7 @@ const DEFAULT_WORKSPACE_ID = "default";
 
 const client = new Client({
   endpoint: DEFAULT_ENDPOINT,
-  workspaceId: DEFAULT_WORKSPACE_ID
+  workspace: DEFAULT_WORKSPACE_ID
 });
 
 describe("@sdk[integration]", () => {

@@ -46,12 +46,12 @@ export async function getConnectionObject(
       const key = fullUrl.searchParams.get("key");
       const decodedKey = atob(key);
       const parsedKey = JSON.parse(decodedKey) as { [key: string]: string };
-      const workspaceId = parsedKey.id;
+      const workspace = parsedKey.id;
       const server = parsedKey.server;
 
       const client = new SDK.Client({
         endpoint: server,
-        workspaceId: workspaceId
+        workspace
       });
 
       const tokens = new SDK.Tokens(client);
