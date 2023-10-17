@@ -31,12 +31,14 @@ import {
   UpdateWorkspaceRequest,
   Workspace
 } from "@goodtok/apiserver";
+import { AbstractBaseClient } from "../base";
 import Client from "../client";
 
 /**
  * @classdesc Use the Goodtok Workspaces capability to retrieve and manage workspaces.
  * Ensure the Goodtok API Server is running for the Workspaces API to function.
  *
+ * @extends AbstractBaseClient
  * @example
  *
  * const SDK = require("@goodtok/sdk");
@@ -53,7 +55,10 @@ import Client from "../client";
  *
  * getWorkspace().catch(console.error);
  */
-export default class Workspaces implements WorkspacesClient {
+export default class Workspaces
+  extends AbstractBaseClient
+  implements WorkspacesClient
+{
   client: Client;
   trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
 
@@ -64,10 +69,13 @@ export default class Workspaces implements WorkspacesClient {
    * @see module:sdk:Client
    */
   constructor(client: Client) {
-    this.client = client;
+    super(client);
+
     const wsClient = createWSClient({
       url: this.client.getEndpoint().replace("http", "ws")
     });
+
+    // Unlike the other APIs, the Workspaces API uses a split link to handle subscriptions
     this.trpc = createTRPCProxyClient<AppRouter>({
       links: [
         // call subscriptions through websockets and the rest over http

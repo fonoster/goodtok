@@ -16,15 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
+import { createTRPCProxyClient } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 import { Customer, CustomersClient } from "./types";
+import { AbstractBaseClient } from "../base";
 import Client from "../client";
 
 /**
  * @classdesc Use the Goodtok Customers capability to retrieve and manage customers.
  * Ensure the Goodtok API Server is running for the Customers API to function.
  *
+ * @extends AbstractBaseClient
  * @example
  *
  * const SDK = require("@goodtok/sdk");
@@ -42,7 +44,10 @@ import Client from "../client";
  *
  * getCustomer().catch(console.error);
  */
-export default class Customers implements CustomersClient {
+export default class Customers
+  extends AbstractBaseClient
+  implements CustomersClient
+{
   client: Client;
   trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
 
@@ -53,18 +58,7 @@ export default class Customers implements CustomersClient {
    * @see module:sdk:Client
    */
   constructor(client: Client) {
-    this.client = client;
-    this.trpc = createTRPCProxyClient<AppRouter>({
-      links: [
-        httpBatchLink({
-          url: this.client.getEndpoint(),
-          headers: {
-            authorization: `Bearer ${this.client.getToken()}`
-          }
-        })
-      ],
-      transformer: undefined
-    });
+    super(client);
   }
 
   /**

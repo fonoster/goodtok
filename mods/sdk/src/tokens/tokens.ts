@@ -16,20 +16,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
+import { createTRPCProxyClient } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 import { TokensClient } from "./types";
 import {
   CreateAnonymousTokenInput,
   CreateTokenInput
 } from "@goodtok/apiserver";
-
+import { AbstractBaseClient } from "../base";
 import Client from "../client";
 
 /**
  * @classdesc Use the Goodtok Tokens capability to create and verify JWT tokens.
  * Ensure the Goodtok API Server is running for the Tokens API to function.
  *
+ * @extends AbstractBaseClient
  * @example
  *
  * const SDK = require("@goodtok/sdk");
@@ -51,7 +52,7 @@ import Client from "../client";
  *
  * createAnonymousToken().catch(console.error);
  */
-export default class Tokens implements TokensClient {
+export default class Tokens extends AbstractBaseClient implements TokensClient {
   client: Client;
   trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
 
@@ -62,18 +63,7 @@ export default class Tokens implements TokensClient {
    * @see module:sdk:Client
    */
   constructor(client: Client) {
-    this.client = client;
-    this.trpc = createTRPCProxyClient<AppRouter>({
-      links: [
-        httpBatchLink({
-          url: this.client.getEndpoint(),
-          headers: {
-            authorization: `Bearer ${this.client.getToken()}`
-          }
-        })
-      ],
-      transformer: undefined
-    });
+    super(client);
   }
 
   /**

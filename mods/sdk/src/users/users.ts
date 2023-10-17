@@ -18,14 +18,16 @@
  */
 import { User } from "@goodtok/apiserver";
 import { UsersClient, UpdateUserRequest, UpdateUserResponse } from "./types";
-import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
+import { createTRPCProxyClient } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
+import { AbstractBaseClient } from "../base";
 import Client from "../client";
 
 /**
  * @classdesc Use the Goodtok Users capability to retrieve and manage users.
  * Ensure the Goodtok API Server is running for the Users API to function.
  *
+ * @extends AbstractBaseClient
  * @example
  *
  * const SDK = require("@goodtok/sdk");
@@ -43,7 +45,7 @@ import Client from "../client";
  *
  * getUser().catch(console.error);
  */
-export default class Users implements UsersClient {
+export default class Users extends AbstractBaseClient implements UsersClient {
   client: Client;
   trpc: ReturnType<typeof createTRPCProxyClient<AppRouter>>;
 
@@ -54,18 +56,7 @@ export default class Users implements UsersClient {
    * @see module:sdk:Client
    */
   constructor(client: Client) {
-    this.client = client;
-    this.trpc = createTRPCProxyClient<AppRouter>({
-      links: [
-        httpBatchLink({
-          url: this.client.getEndpoint(),
-          headers: {
-            authorization: `Bearer ${this.client.getToken()}`
-          }
-        })
-      ],
-      transformer: undefined
-    });
+    super(client);
   }
 
   /**
