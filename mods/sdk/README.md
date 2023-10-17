@@ -27,14 +27,15 @@ $ npm install --save @goodtok/sdk
 
 <a name="Customers"></a>
 
-## Customers
+## Customers ⇐ <code>AbstractBaseClient</code>
 Use the Goodtok Customers capability to retrieve and manage customers.
 Ensure the Goodtok API Server is running for the Customers API to function.
 
 **Kind**: global class  
+**Extends**: <code>AbstractBaseClient</code>  
 **See**: module:sdk:Client  
 
-* [Customers](#Customers)
+* [Customers](#Customers) ⇐ <code>AbstractBaseClient</code>
     * [new Customers(client)](#new_Customers_new)
     * [.getCustomerById(id)](#Customers+getCustomerById) ⇒ <code>Promise.&lt;Customer&gt;</code>
 
@@ -91,14 +92,15 @@ customers.getCustomerById(id)
 
 <a name="Tokens"></a>
 
-## Tokens
+## Tokens ⇐ <code>AbstractBaseClient</code>
 Use the Goodtok Tokens capability to create and verify JWT tokens.
 Ensure the Goodtok API Server is running for the Tokens API to function.
 
 **Kind**: global class  
+**Extends**: <code>AbstractBaseClient</code>  
 **See**: module:sdk:Client  
 
-* [Tokens](#Tokens)
+* [Tokens](#Tokens) ⇐ <code>AbstractBaseClient</code>
     * [new Tokens(client)](#new_Tokens_new)
     * [.createAnonymousToken(request)](#Tokens+createAnonymousToken) ⇒ <code>Promise.&lt;CreateAnonymousTokenResponse&gt;</code>
     * [.createToken(request)](#Tokens+createToken) ⇒ <code>Promise.&lt;CreateTokenResponse&gt;</code>
@@ -202,14 +204,15 @@ tokens.createToken(request)
 
 <a name="Users"></a>
 
-## Users
+## Users ⇐ <code>AbstractBaseClient</code>
 Use the Goodtok Users capability to retrieve and manage users.
 Ensure the Goodtok API Server is running for the Users API to function.
 
 **Kind**: global class  
+**Extends**: <code>AbstractBaseClient</code>  
 **See**: module:sdk:Client  
 
-* [Users](#Users)
+* [Users](#Users) ⇐ <code>AbstractBaseClient</code>
     * [new Users(client)](#new_Users_new)
     * [.getCurrentUser()](#Users+getCurrentUser) ⇒ <code>Promise.&lt;User&gt;</code>
     * [.getUserById(id)](#Users+getUserById) ⇒ <code>Promise.&lt;User&gt;</code>
@@ -325,14 +328,15 @@ users.updateUser(request)
 
 <a name="Workspaces"></a>
 
-## Workspaces
+## Workspaces ⇐ <code>AbstractBaseClient</code>
 Use the Goodtok Workspaces capability to retrieve and manage workspaces.
 Ensure the Goodtok API Server is running for the Workspaces API to function.
 
 **Kind**: global class  
+**Extends**: <code>AbstractBaseClient</code>  
 **See**: module:sdk:Client  
 
-* [Workspaces](#Workspaces)
+* [Workspaces](#Workspaces) ⇐ <code>AbstractBaseClient</code>
     * [new Workspaces(client)](#new_Workspaces_new)
     * [.getDefaultWorkspaceId()](#Workspaces+getDefaultWorkspaceId) ⇒ <code>string</code>
     * [.getDefaultWorkspace()](#Workspaces+getDefaultWorkspace) ⇒ <code>Promise.&lt;Workspace&gt;</code>

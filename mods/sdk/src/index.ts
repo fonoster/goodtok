@@ -21,6 +21,7 @@ import Users from "./users";
 import Workspaces from "./workspaces";
 import Tokens from "./tokens";
 import Customers from "./customers";
+import { AbstractBaseClient } from "./base";
 
-export { Client, Users, Workspaces, Tokens, Customers };
+export { AbstractBaseClient, Client, Users, Workspaces, Tokens, Customers };
 export * from "./workspaces/types";

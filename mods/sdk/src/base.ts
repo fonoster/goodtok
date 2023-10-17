@@ -29,9 +29,8 @@ export abstract class AbstractBaseClient {
     this.trpc = this.createTRPCProxy();
   }
 
-  private createTRPCProxy(): ReturnType<
-    typeof createTRPCProxyClient<AppRouter>
-  > {
+  // TODO: Use dependency injection to avoid exposing this method to users
+  createTRPCProxy(): ReturnType<typeof createTRPCProxyClient<AppRouter>> {
     return createTRPCProxyClient<AppRouter>({
       links: [
         httpBatchLink({

@@ -16,14 +16,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Client, Customers } from "../src";
 import chai from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
 
 chai.use(sinonChai);
+const { expect } = chai;
 const sandbox = sinon.createSandbox();
-describe("@sdk", () => {
-  afterEach(() => sandbox.restore());
 
-  it.skip("needs testing");
+describe("@sdk[customers]", () => {
+  let mockClient: Client;
+  let queryStub: sinon.SinonStub;
+
+  beforeEach(() => {
+    mockClient = {} as Client;
+    queryStub = sandbox.stub().returns(Promise.resolve({}));
+
+    sandbox.stub(Customers.prototype, "createTRPCProxy").returns({
+      customers: {
+        getCustomerById: {
+          query: queryStub
+        }
+      }
+    } as unknown as ReturnType<typeof Customers.prototype.createTRPCProxy>);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it("should get a customer by its id", async () => {
+    // Arrange
+    const customers = new Customers(mockClient);
+
+    // Act
+    await customers.getCustomerById("123");
+
+    // Assert
+    expect(queryStub).to.have.been.calledOnce;
+  });
 });

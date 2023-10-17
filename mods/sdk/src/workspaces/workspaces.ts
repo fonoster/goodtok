@@ -70,13 +70,17 @@ export default class Workspaces
    */
   constructor(client: Client) {
     super(client);
+    this.trpc = this.createTRPCProxy();
+  }
 
+  // TODO: Use dependency injection to avoid exposing this method to users
+  public createTRPCProxy() {
     const wsClient = createWSClient({
       url: this.client.getEndpoint().replace("http", "ws")
     });
 
     // Unlike the other APIs, the Workspaces API uses a split link to handle subscriptions
-    this.trpc = createTRPCProxyClient<AppRouter>({
+    return createTRPCProxyClient<AppRouter>({
       links: [
         // call subscriptions through websockets and the rest over http
         splitLink({

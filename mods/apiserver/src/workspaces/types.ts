@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { QueueEntryStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const updateWorkspaceSchema = z.object({
@@ -135,7 +136,7 @@ export type QueueEntry = {
   registeredAt: Date;
   createdAt: Date;
   updatedAt: Date;
-  status: string;
+  status: QueueEntryStatus;
   workspaceId: string;
   customer: {
     name: string;

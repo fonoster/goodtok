@@ -35,6 +35,7 @@ const client = new Client({
   workspace: DEFAULT_WORKSPACE_ID
 });
 
+// TODO: Update this test to match the seed data
 describe("@sdk[integration]", () => {
   afterEach(() => sandbox.restore());
 
