@@ -3,8 +3,8 @@ name: release
 on: [workflow_dispatch]
 
 jobs:
-  build-and-test:
-    name: Build and test Goodtok
+  build-test-release:
+    name: Build, test, and release
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
