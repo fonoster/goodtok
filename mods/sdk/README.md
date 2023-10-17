@@ -8,18 +8,17 @@ SDK for Goodtok Server
 [![Downloads/week](https://img.shields.io/npm/dw/@goodtok/sdk.svg)](https://npmjs.org/package/@goodtok/sdk)
 [![License](https://img.shields.io/npm/l/@goodtok/sdk.svg)](https://github.com/fonoster/goodtok/blob/main/package.json)
 
-<!-- toc -->
 * [Installation](#installation)
 * [APIs](#apis)
-<!-- tocstop -->
+
 # Installation
-<!-- installation -->
+
 ```sh-session
 $ npm install --save @goodtok/sdk
 ```
-<!-- usagestop -->
+
 # APIs
-<!-- apis -->
+
 * [`Customers`](#Customers)
 * [`Users`](#Users)
 * [`Workspaces`](#Workspaces)
