@@ -25,11 +25,14 @@ export async function createContext(opts: {
     headers: IncomingHttpHeaders;
   };
 }) {
-  const { req } = opts;
+  const { req } = opts as typeof opts & { req: { url: string } };
+
+  // Currently, this method is used for passing JWT tokens from WS clients
+  const token = req.url?.split("?")[1]?.split("=")[1];
 
   return {
     prisma,
-    token: req.headers.authorization?.split(" ")[1]
+    token: token ? token : req.headers.authorization?.split(" ")[1]
   };
 }
 

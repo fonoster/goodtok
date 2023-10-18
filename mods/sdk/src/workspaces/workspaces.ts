@@ -83,7 +83,9 @@ export default class Workspaces
   // TODO: Use dependency injection to avoid exposing this method to users
   createTRPCProxy() {
     const wsClient = createWSClient({
-      url: this.client.getEndpoint().replace("http", "ws")
+      url:
+        this.client.getEndpoint().replace("http", "ws") +
+        `?token=${this.client.getToken()}`
     });
 
     // Unlike the other APIs, the Workspaces API uses a split link to handle subscriptions
