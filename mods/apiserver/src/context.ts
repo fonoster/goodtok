@@ -19,6 +19,7 @@
 import type {} from "@trpc/server/adapters/standalone";
 import { IncomingHttpHeaders } from "http";
 import { prisma } from "./db";
+import { getCustomerById } from "./customers/getCustomerById";
 
 export async function createContext(opts: {
   req: {
@@ -38,4 +39,5 @@ export async function createContext(opts: {
 
 export type Context = {
   prisma: typeof prisma;
+  getCustomerById?: typeof getCustomerById;
 };

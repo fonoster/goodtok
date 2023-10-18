@@ -18,7 +18,6 @@
  */
 import { TRPCError } from "@trpc/server";
 import { GetQueueResponse } from "./types";
-import { getCustomerById } from "../customers/getCustomerById";
 import { Context } from "../context";
 
 export async function getQueueByWorkspaceId(
@@ -49,7 +48,7 @@ export async function getQueueByWorkspaceId(
 
   const queue = await Promise.all(
     workspace.queue.map(async (queueEntry) => {
-      const customer = await getCustomerById(queueEntry.customerId);
+      const customer = await ctx.getCustomerById(queueEntry.customerId);
 
       return {
         customerId: queueEntry.customerId,

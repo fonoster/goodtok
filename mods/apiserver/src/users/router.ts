@@ -21,12 +21,17 @@ import { router, protectedProcedure, publicProcedure } from "../trpc";
 import { login } from "./login";
 import { getUserById } from "./getUserById";
 import { updateUser } from "./updateUser";
+import { SALT } from "../envs";
 
 export const usersRouter = router({
   login: publicProcedure
     .input(z.object({ username: z.string(), password: z.string() }))
     .mutation(({ ctx, input }) =>
-      login(ctx, { username: input.username, password: input.password })
+      login(ctx, {
+        username: input.username,
+        password: input.password,
+        salt: SALT
+      })
     ),
 
   getUserById: protectedProcedure

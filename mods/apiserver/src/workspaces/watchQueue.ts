@@ -18,12 +18,7 @@
  */
 import { QueueEntry } from "./types";
 import { observable } from "@trpc/server/observable";
-import { watchNats } from "../nats";
 import { getLogger } from "@fonoster/logger";
-import { NATS_URL } from "../envs";
-import { updateQueueEntry } from "./updateQueueEntry";
-import { getCustomerById } from "../customers/getCustomerById";
-import { prisma } from "../db";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 // List to keep track of all active observers
@@ -45,33 +40,3 @@ export function watchQueue(workspaceId: string) {
     };
   });
 }
-
-watchNats(NATS_URL, async (event) => {
-  const { aor, extraHeaders } = event;
-  logger.verbose("message from nats", { aor, extraHeaders });
-
-  const customerId = extraHeaders["X-Customer-Id"];
-  const workspaceId = extraHeaders["X-Workspace-Id"];
-
-  logger.verbose("customerId and workspaceId", { customerId, workspaceId });
-
-  const ctx = { prisma };
-
-  const entry = await updateQueueEntry(ctx, { customerId, aor, workspaceId });
-
-  logger.verbose("entry updated", { entry });
-
-  const customer = await getCustomerById(customerId);
-
-  const entryWithCustomer = {
-    ...entry,
-    customer: {
-      id: customer.id,
-      name: customer.name,
-      avatar: customer.avatar
-    }
-  };
-
-  // Notify all observers
-  observers.forEach((emit) => emit(entryWithCustomer));
-});
