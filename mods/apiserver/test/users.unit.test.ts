@@ -165,4 +165,40 @@ describe("@apiserver[users]", () => {
     // Assert
     await chai.expect(promise).to.eventually.be.rejectedWith(TRPCError);
   });
+
+  it("should update a user", async () => {
+    // Arrange
+    const ctx = {
+      prisma: {
+        user: {
+          findUnique: sandbox.stub().resolves(testUser),
+          update: sandbox.stub().resolves({
+            ...testUser,
+            name: "John Doe x"
+          })
+        }
+      }
+    } as unknown as Context;
+
+    const request = {
+      id: testUser.id,
+      data: {
+        name: "John Doe x"
+      }
+    };
+
+    const { updateUser } = await import("../src/users/updateUser");
+
+    // Act
+    const user = await updateUser(ctx, request);
+
+    // Assert
+    chai.expect(user).to.be.an("object");
+    chai.expect(user.id).to.be.equal(testUser.id);
+    chai.expect(user.username).to.be.equal(testUser.username);
+    chai.expect(user.name).to.be.equal("John Doe x"); // Name was updated
+    chai.expect(user.email).to.be.equal(testUser.email);
+    chai.expect(user.avatar).to.be.equal(testUser.avatar);
+    chai.expect(user.createdAt).to.be.an("date").equal(testUser.createdAt);
+  });
 });
