@@ -16,18 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PrismaClient } from "@prisma/client";
 import { User } from "./types";
 import { TRPCError } from "@trpc/server";
 import { hashPassword } from "../utils";
-
-const prisma = new PrismaClient();
+import { Context } from "../context";
 
 export async function updateUser(
-  id: string,
-  data: Partial<User>
+  ctx: Context,
+  request: { id: string; data: Partial<User> }
 ): Promise<User> {
-  const userFromDB = await prisma.user.findUnique({
+  const { id, data } = request;
+
+  const userFromDB = await ctx.prisma.user.findUnique({
     where: {
       id
     }
@@ -35,7 +35,7 @@ export async function updateUser(
 
   if (!userFromDB) throw new TRPCError({ code: "NOT_FOUND" });
 
-  const updatedUser = await prisma.user.update({
+  const updatedUser = await ctx.prisma.user.update({
     where: {
       id
     },

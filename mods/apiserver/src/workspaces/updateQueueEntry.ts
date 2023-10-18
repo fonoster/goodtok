@@ -17,9 +17,9 @@
  * limitations under the License.
  */
 import { getLogger } from "@fonoster/logger";
-import { PrismaClient, QueueEntryStatus } from "@prisma/client";
+import { QueueEntryStatus } from "@prisma/client";
+import { Context } from "../context";
 
-const prisma = new PrismaClient();
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 // Q rules:
@@ -28,11 +28,16 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 //    entry as ONLINE but only if the entry is not DEQUEUED or IN_PROGRESS
 // 3. If it is IN_PROGRESS only update the registeredAt field
 export async function updateQueueEntry(
-  customerId: string,
-  aor: string,
-  workspaceId: string
+  ctx: Context,
+  request: {
+    customerId: string;
+    aor: string;
+    workspaceId: string;
+  }
 ) {
-  const currentEntry = await prisma.queueEntry.findFirst({
+  const { customerId, aor, workspaceId } = request;
+
+  const currentEntry = await ctx.prisma.queueEntry.findFirst({
     where: {
       customerId: customerId
     },
@@ -48,7 +53,7 @@ export async function updateQueueEntry(
   }
 
   if (!currentEntry) {
-    return prisma.queueEntry.create({
+    return ctx.prisma.queueEntry.create({
       data: {
         customerId: customerId,
         status: QueueEntryStatus.ONLINE,
@@ -61,7 +66,7 @@ export async function updateQueueEntry(
       currentEntry.status === QueueEntryStatus.IN_PROGRESS
         ? QueueEntryStatus.IN_PROGRESS
         : QueueEntryStatus.ONLINE;
-    return prisma.queueEntry.update({
+    return ctx.prisma.queueEntry.update({
       where: {
         id: currentEntry.id
       },

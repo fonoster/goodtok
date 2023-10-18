@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { z } from "zod";
-import { router, publicProcedure } from "../trpc";
+import { router, protectedProcedure } from "../trpc";
 import { getMembersByWorkspaceId } from "./getMembersByWorkspaceId";
 import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
 import { watchQueue } from "./watchQueue";
@@ -26,23 +26,27 @@ import { updateWorkspaceSchema } from "./types";
 import { updateWorkspace } from "./updateWorkspace";
 
 export const workspacesRouter = router({
-  getMembersByWorkspaceId: publicProcedure
+  getMembersByWorkspaceId: protectedProcedure
     .input(z.string())
-    .query((req) => getMembersByWorkspaceId(req.input)),
+    .query(({ ctx, input }) =>
+      getMembersByWorkspaceId(ctx, { workspaceId: input })
+    ),
 
-  getQueueByWorkspaceId: publicProcedure
+  getQueueByWorkspaceId: protectedProcedure
     .input(z.string())
-    .query((req) => getQueueByWorkspaceId(req.input)),
+    .query(({ ctx, input }) =>
+      getQueueByWorkspaceId(ctx, { workspaceId: input })
+    ),
 
-  watchQueue: publicProcedure
+  watchQueue: protectedProcedure
     .input(z.string())
     .subscription((req) => watchQueue(req.input)),
 
-  getWorkspaceById: publicProcedure
+  getWorkspaceById: protectedProcedure
     .input(z.string())
-    .query((req) => getWorkspaceById(req.input)),
+    .query(({ ctx, input }) => getWorkspaceById(ctx, { workspaceId: input })),
 
-  updateWorkspace: publicProcedure
+  updateWorkspace: protectedProcedure
     .input(updateWorkspaceSchema)
-    .mutation((req) => updateWorkspace(req.input))
+    .mutation(({ ctx, input }) => updateWorkspace(ctx, input))
 });

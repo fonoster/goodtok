@@ -29,15 +29,15 @@ import jwt from "jsonwebtoken";
 
 // Anonymous tokens only have access to REGISTER method
 export async function createAnonymousToken(
-  input: CreateAnonymousTokenInput
+  request: CreateAnonymousTokenInput
 ): Promise<ConnectionObject> {
   const claims = {
-    ref: input.ref,
+    ref: request.ref,
     // Use the same ref as the customerId (only for annonymous users)
-    customerId: input.ref,
+    customerId: request.ref,
     domainRef: GOODTOK_SIP_DOMAIN_REF,
-    aor: input.aor,
-    aorLink: input.aorLink,
+    aor: request.aor,
+    aorLink: request.aorLink,
     domain: GOODTOK_SIP_DOMAIN,
     privacy: USER_AGENT_PRIVACY,
     allowedMethods: [Method.REGISTER],
@@ -47,8 +47,8 @@ export async function createAnonymousToken(
   const token = jwt.sign(claims, PRIVATE_KEY, SIGN_OPTIONS);
 
   return {
-    aor: input.aor,
-    aorLink: input.aorLink,
+    aor: request.aor,
+    aorLink: request.aorLink,
     token,
     signalingServer: GOODTOK_SIGNALING_SERVER
   };

@@ -16,13 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { router, publicProcedure } from "../trpc";
+import { router, protectedProcedure, publicProcedure } from "../trpc";
 import { createAnonymousToken } from "./createAnonymousToken";
 import { createToken } from "./createToken";
 import { createAnonymousTokenSchema, createTokenSchema } from "./types";
 
 export const tokensRouter = router({
-  createToken: publicProcedure
+  createToken: protectedProcedure
     .input(createTokenSchema)
     .mutation((req) => createToken(req.input)),
 

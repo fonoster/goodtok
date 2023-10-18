@@ -16,14 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PrismaClient } from "@prisma/client";
 import { User } from "./types";
 import { TRPCError } from "@trpc/server";
+import { Context } from "../context";
 
-const prisma = new PrismaClient();
-
-export async function getUserById(id: string): Promise<User> {
-  const userFromDB = await prisma.user.findUnique({
+export async function getUserById(
+  ctx: Context,
+  request: { id: string }
+): Promise<User> {
+  const { id } = request;
+  const userFromDB = await ctx.prisma.user.findUnique({
     where: {
       id
     }

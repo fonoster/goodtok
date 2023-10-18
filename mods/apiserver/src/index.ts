@@ -44,17 +44,18 @@ app.use(
 const server = app.listen(BIND_PORT);
 
 const wss = new WebSocketServer({ server });
+
 applyWSSHandler<AppRouter>({
   wss,
-  router: appRouter
-  // TODO: Add context to secure the websocket connection
+  router: appRouter,
+  createContext
 });
 
 logger.info("server started", { port: BIND_PORT });
 
 export type AppRouter = typeof appRouter;
 
-export * from "./customers/types";
-export * from "./workspaces/types";
-export * from "./users/types";
-export * from "./tokens/types";
+export type * from "./customers/types";
+export type * from "./workspaces/types";
+export type * from "./users/types";
+export type * from "./tokens/types";

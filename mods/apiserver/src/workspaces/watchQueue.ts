@@ -23,6 +23,7 @@ import { getLogger } from "@fonoster/logger";
 import { NATS_URL } from "../envs";
 import { updateQueueEntry } from "./updateQueueEntry";
 import { getCustomerById } from "../customers/getCustomerById";
+import { prisma } from "../db";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 // List to keep track of all active observers
@@ -54,7 +55,9 @@ watchNats(NATS_URL, async (event) => {
 
   logger.verbose("customerId and workspaceId", { customerId, workspaceId });
 
-  const entry = await updateQueueEntry(customerId, aor, workspaceId);
+  const ctx = { prisma };
+
+  const entry = await updateQueueEntry(ctx, { customerId, aor, workspaceId });
 
   logger.verbose("entry updated", { entry });
 

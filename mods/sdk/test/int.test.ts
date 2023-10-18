@@ -37,15 +37,16 @@ const client = new Client({
 
 // TODO: Update this test to match the seed data
 describe("@sdk[integration]", () => {
+  const workspaceId = "g-4f90d13a42";
+  const userId = "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1";
+
   afterEach(() => sandbox.restore());
 
   it("gets user by its identifier", async () => {
     await client.login("goodtok", "changeme");
 
     const users = new Users(client);
-    const user = await users.getUserById(
-      "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1"
-    );
+    const user = await users.getUserById(userId);
     expect(user).to.be.an("object").that.has.property("id");
   });
 
@@ -54,7 +55,7 @@ describe("@sdk[integration]", () => {
 
     const users = new Users(client);
     const user = await users.updateUser({
-      id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
+      id: userId,
       name: "Goodtok"
     });
     expect(user).to.be.an("object").that.has.property("id");
@@ -64,17 +65,17 @@ describe("@sdk[integration]", () => {
     await client.login("goodtok", "changeme");
 
     const workspaces = new Workspaces(client);
-    const members = await workspaces.getMembersByWorkspaceId("default");
+    const response = await workspaces.getMembersByWorkspaceId(workspaceId);
 
-    expect(members).to.be.an("array").that.has.lengthOf(1);
+    expect(response.members).to.be.an("array").that.has.lengthOf(1);
   });
 
-  it("gets all queue entries for a workspace", async () => {
+  it.only("gets all queue entries for a workspace", async () => {
     await client.login("goodtok", "changeme");
 
     const workspaces = new Workspaces(client);
-    const queueEntries = await workspaces.getQueueByWorkspaceId("default");
+    const response = await workspaces.getQueueByWorkspaceId(workspaceId);
 
-    expect(queueEntries).to.be.an("array");
+    expect(response.queue).to.be.an("array");
   });
 });

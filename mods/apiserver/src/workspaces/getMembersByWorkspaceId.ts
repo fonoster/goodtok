@@ -16,16 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PrismaClient } from "@prisma/client";
 import { GetMembersResponse } from "./types";
 import { TRPCError } from "@trpc/server";
-
-const prisma = new PrismaClient();
+import { Context } from "../context";
 
 export async function getMembersByWorkspaceId(
-  workspaceId: string
+  ctx: Context,
+  request: { workspaceId: string }
 ): Promise<GetMembersResponse> {
-  const workspace = await prisma.workspace.findUnique({
+  const { workspaceId } = request;
+
+  const workspace = await ctx.prisma.workspace.findUnique({
     where: {
       id: workspaceId
     },

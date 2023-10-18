@@ -17,22 +17,13 @@
  * limitations under the License.
  */
 import { getLogger } from "@fonoster/logger";
-import { PrismaClient } from "@prisma/client";
 import { UpdateWorkspaceRequest, WeeklyHoursType, Workspace } from "./types";
-import { fieldEncryptionExtension } from "prisma-field-encryption";
-import { CLOAK_ENCRYPTION_KEY } from "../envs";
-
-const prisma = !CLOAK_ENCRYPTION_KEY
-  ? new PrismaClient()
-  : new PrismaClient().$extends(
-      fieldEncryptionExtension({
-        encryptionKey: CLOAK_ENCRYPTION_KEY
-      })
-    );
+import { Context } from "../context";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function updateWorkspace(
+  ctx: Context,
   request: UpdateWorkspaceRequest
 ): Promise<Workspace> {
   logger.verbose("updating workspace", { workspaceId: request.id });
@@ -47,7 +38,7 @@ export async function updateWorkspace(
   let existingShopifyAccount;
 
   if (request.shopifyAccount) {
-    existingShopifyAccount = await prisma.shopifyAccount.findUnique({
+    existingShopifyAccount = await ctx.prisma.shopifyAccount.findUnique({
       where: {
         workspaceId: request.id
       }
@@ -74,7 +65,7 @@ export async function updateWorkspace(
     }
   }
 
-  const workspace = await prisma.workspace.update({
+  const workspace = await ctx.prisma.workspace.update({
     where: {
       id: request.id
     },

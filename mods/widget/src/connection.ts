@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as SDK from "@goodtok/sdk";
 import { GoodtokConnectionObject } from "./types";
 import jwtDecode from "jwt-decode";
-import * as SDK from "@goodtok/sdk";
 
 export async function getConnectionObject(
   document: Document,

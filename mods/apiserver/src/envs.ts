@@ -40,7 +40,7 @@ export const SIGN_OPTIONS = process.env.SIGN_OPTIONS
 
 if (!fs.existsSync(path.join(PATH_TO_KEYS, "private.key"))) {
   logger.error(
-    "no private key found. Please run 'npm run keys:generate' first",
+    "no private key found. Please run 'npm run generate:keys' first",
     { pathToKeys: path.join(PATH_TO_KEYS, "private.key") }
   );
   process.exit(1);

@@ -24,7 +24,7 @@ import {
   splitLink,
   wsLink
 } from "@trpc/client";
-import {
+import type {
   AppRouter,
   GetMembersResponse,
   GetQueueResponse,

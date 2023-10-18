@@ -16,21 +16,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { Workspace } from "./types";
 import { getLogger } from "@fonoster/logger";
+import { Context } from "../context";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-const prisma = new PrismaClient();
-
 export async function getWorkspaceById(
-  workspaceId: string
+  ctx: Context,
+  request: { workspaceId: string }
 ): Promise<Workspace> {
+  const { workspaceId } = request;
+
   logger.verbose("get workspace by id", { workspaceId });
 
-  const workspace = await prisma.workspace.findUnique({
+  const workspace = await ctx.prisma.workspace.findUnique({
     where: {
       id: workspaceId
     },

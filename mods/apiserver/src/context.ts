@@ -16,23 +16,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TRPCError } from "@trpc/server";
 import type {} from "@trpc/server/adapters/standalone";
+import { IncomingHttpHeaders } from "http";
+import { prisma } from "./db";
 
-export async function createContext(opts: any) {
-  if (opts.req._parsedUrl.pathname === "/user.login") {
-    return {};
-  }
+export async function createContext(opts: {
+  req: {
+    headers: IncomingHttpHeaders;
+  };
+}) {
+  const { req } = opts;
 
-  if (!opts.req.headers.authorization)
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "No credentials found"
-    });
-
-  // Lastly lets check if the token is valid with JWT verification
-  // const token = opts.req.headers.authorization.split(" ")[1];
-  // const user = await verifyToken(token);
-
-  return {};
+  return {
+    prisma,
+    token: req.headers.authorization?.split(" ")[1]
+  };
 }
+
+export type Context = {
+  prisma: typeof prisma;
+};

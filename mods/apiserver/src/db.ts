@@ -16,12 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { z } from "zod";
-import { router, protectedProcedure } from "../trpc";
-import { getCustomerById } from "./getCustomerById";
+import { PrismaClient } from "@prisma/client";
+import { CLOAK_ENCRYPTION_KEY } from "./envs";
+import { fieldEncryptionExtension } from "prisma-field-encryption";
 
-export const customerRouter = router({
-  getCustomerById: protectedProcedure
-    .input(z.string())
-    .query((req) => getCustomerById(req.input))
-});
+const prisma = !CLOAK_ENCRYPTION_KEY
+  ? new PrismaClient()
+  : new PrismaClient().$extends(
+      fieldEncryptionExtension({
+        encryptionKey: CLOAK_ENCRYPTION_KEY
+      })
+    );
+
+export { prisma };

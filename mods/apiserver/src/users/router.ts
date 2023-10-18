@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { z } from "zod";
-import { router, publicProcedure } from "../trpc";
+import { router, protectedProcedure, publicProcedure } from "../trpc";
 import { login } from "./login";
 import { getUserById } from "./getUserById";
 import { updateUser } from "./updateUser";
@@ -25,16 +25,20 @@ import { updateUser } from "./updateUser";
 export const usersRouter = router({
   login: publicProcedure
     .input(z.object({ username: z.string(), password: z.string() }))
-    .mutation((req) => login(req.input.username, req.input.password)),
+    .mutation(({ ctx, input }) =>
+      login(ctx, { username: input.username, password: input.password })
+    ),
 
-  getUserById: publicProcedure
+  getUserById: protectedProcedure
     .input((val: unknown) => {
       if (typeof val === "string") return val;
       throw new Error(`Invalid input: ${typeof val}`);
     })
-    .query((req) => getUserById(req.input)),
+    .query(({ ctx, input }) => getUserById(ctx, { id: input })),
 
-  updateUser: publicProcedure
+  updateUser: protectedProcedure
     .input(z.object({ id: z.string(), data: z.any() }))
-    .mutation((req) => updateUser(req.input.id, req.input.data))
+    .mutation(({ ctx, input }) =>
+      updateUser(ctx, { id: input.id, data: input.data })
+    )
 });

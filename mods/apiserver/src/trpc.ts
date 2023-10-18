@@ -16,12 +16,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { initTRPC, inferAsyncReturnType } from "@trpc/server";
+import { initTRPC, TRPCError, inferAsyncReturnType } from "@trpc/server";
 import { createContext } from "./context";
 
 export type Context = inferAsyncReturnType<typeof createContext>;
 
 const t = initTRPC.context<Context>().create();
+
+export const createTRPCRouter = t.router;
+
+const enforceUserIsAuthed = t.middleware((opts) => {
+  const { ctx, next } = opts;
+
+  if (!ctx.token) {
+    throw new TRPCError({
+      code: "UNAUTHORIZED",
+      message: "No credentials found"
+    });
+  }
+
+  // Lastly lets check if the token is valid with JWT verification
+  // const token = opts.req.headers.authorization.split(" ")[1];
+  // const user = await verifyToken(token);
+
+  return next();
+});
 
 export const middleware = t.middleware;
 export const router = t.router;
@@ -30,3 +49,14 @@ export const router = t.router;
  * Public procedures
  **/
 export const publicProcedure = t.procedure;
+
+/**
+ * Protected (authed) procedure
+ *
+ * If you want a query or mutation to ONLY be accessible to logged in users, use
+ * this. It verifies the session is valid and guarantees ctx.session.user is not
+ * null
+ *
+ * @see https://trpc.io/docs/procedures
+ */
+export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);

@@ -16,19 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { generateToken, hashPassword } from "../utils";
 import { SALT } from "../envs";
-
-const prisma = new PrismaClient();
+import { Context } from "../context";
 
 export async function login(
-  username: string,
-  password: string
+  ctx: Context,
+  input: { username: string; password: string }
 ): Promise<string> {
+  const { username, password } = input;
+
   const hashedPassword = hashPassword(password);
-  const user = await prisma.user.findUnique({
+  const user = await ctx.prisma.user.findUnique({
     where: {
       username
     }
