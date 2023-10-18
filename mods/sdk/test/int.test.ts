@@ -70,7 +70,7 @@ describe("@sdk[integration]", () => {
     expect(response.members).to.be.an("array").that.has.lengthOf(1);
   });
 
-  it.only("gets all queue entries for a workspace", async () => {
+  it("gets all queue entries for a workspace", async () => {
     await client.login("goodtok", "changeme");
 
     const workspaces = new Workspaces(client);

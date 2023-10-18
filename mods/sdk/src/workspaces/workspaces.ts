@@ -33,6 +33,13 @@ import type {
 } from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
 import Client from "../client";
+import isomorphicWS from "isomorphic-ws";
+
+if (typeof window !== "undefined") {
+  window.WebSocket = isomorphicWS as unknown as typeof WebSocket;
+} else if (typeof global !== "undefined") {
+  global.WebSocket = isomorphicWS as unknown as typeof WebSocket;
+}
 
 /**
  * @classdesc Use the Goodtok Workspaces capability to retrieve and manage workspaces.
@@ -74,7 +81,7 @@ export default class Workspaces
   }
 
   // TODO: Use dependency injection to avoid exposing this method to users
-  public createTRPCProxy() {
+  createTRPCProxy() {
     const wsClient = createWSClient({
       url: this.client.getEndpoint().replace("http", "ws")
     });

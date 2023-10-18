@@ -2,6 +2,7 @@ import * as SDK from "@goodtok/sdk";
 import { useAuth } from "../../../authentication";
 import { useEffect, useState } from "react";
 import { sortPeople } from "./sort";
+import { QueueEntry } from "@goodtok/sdk";
 import PresenceSwitch, { Precense, presence } from "./presence";
 import moment from "moment";
 
@@ -32,8 +33,8 @@ export default function Queue({
 
     workspaces
       .getQueueByWorkspaceId(client.getDefaultWorkspaceId())
-      .then((entries: any) => {
-        const peps = entries
+      .then((response: { queue: QueueEntry[] }) => {
+        const peps = response.queue
           // If last seen is more than DEQUEUED_TIME, remove from the list enven
           // if it's still in the queue
           .filter(
@@ -52,9 +53,15 @@ export default function Queue({
 
     workspaces.watchQueue(
       client.getDefaultWorkspaceId(),
-      (_: Error, person: any) => {
+      (error: Error, person: any) => {
+        if (error) {
+          console.error("Failed to watch queue:", error);
+          return;
+        }
+
         // Update the list to include the new person
         setPeopleList((people) => {
+          console.log({ people, person });
           const idx = people.findIndex(
             (p) => p.customerId === person.customerId
           );
