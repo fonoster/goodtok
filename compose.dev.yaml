@@ -2,12 +2,57 @@ version: "3"
 
 services:
 
+  frontoffice:
+    image: fonoster/goodtok-frontoffice:latest
+    build:
+      context: .
+      dockerfile: ./mods/frontoffice/Dockerfile
+    environment:
+      - LOGS_LEVEL
+    ports:
+      - 8080:8080
+
+  apiserver:
+    image: fonoster/goodtok-apiserver:latest
+    build:
+      context: .
+      dockerfile: ./mods/apiserver/Dockerfile
+    environment:
+      - LOGS_LEVEL
+      - NATS_URL
+      - GOODTOK_SIGNALING_SERVER
+      - GOODTOK_SIP_DOMAIN
+      - DATABASE_URL
+    ports:
+      - 6789:6789
+    volumes:
+      - ./.keys:/keys
+
+  routr:
+    image: fonoster/routr-one:latest
+    environment:
+      - LOGS_LEVEL
+      - EXTERNAL_ADDRS
+      - CONNECT_VERIFIER_PUBLIC_KEY_PATH
+      - NATS_PUBLISHER_ENABLED
+      - NATS_PUBLISHER_URL
+    ports:
+      - 5062:5062
+      - 5063:5063
+    volumes:
+      - ./.keys/public.key:/keys/public.key
+
+  nats:
+    image: nats:latest
+    expose:
+      - 4222
+
   postgres:
     image: postgres:14.1-alpine
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: UTC
       PGTZ: UTC
     ports:
@@ -25,4 +70,3 @@ services:
 
 volumes:
   db:
-    driver: local

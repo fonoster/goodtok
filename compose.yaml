@@ -4,9 +4,6 @@ services:
 
   frontoffice:
     image: fonoster/goodtok-frontoffice:latest
-    build:
-      context: .
-      dockerfile: ./mods/frontoffice/Dockerfile
     environment:
       - LOGS_LEVEL
     ports:
@@ -14,9 +11,6 @@ services:
 
   apiserver:
     image: fonoster/goodtok-apiserver:latest
-    build:
-      context: .
-      dockerfile: ./mods/apiserver/Dockerfile
     environment:
       - LOGS_LEVEL
       - NATS_URL
