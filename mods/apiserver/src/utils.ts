@@ -16,9 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { getLogger } from "@fonoster/logger";
 import { ContextOptionsWithUrl, UserWithWorkspaces } from "./types";
 import { TRPCError } from "@trpc/server";
 import jwt from "jsonwebtoken";
+
+const logger = getLogger({ service: "common", filePath: __filename });
 
 export function generateToken(request: {
   user: UserWithWorkspaces;
@@ -76,4 +79,20 @@ export function getToken(request: ContextOptionsWithUrl): string | null {
   }
 
   return authToken;
+}
+
+/**
+ * Function that asserts that the given environment variable is set.
+ *
+ * @param {string[]} variables environment variables to check
+ */
+export function assertEnvsAreSet(variables: string[]) {
+  variables.forEach((variable: string) => {
+    if (!(variable in process.env)) {
+      logger.error(
+        `the environment variable ${variable} is required but was not found`
+      );
+      process.exit(1);
+    }
+  });
 }

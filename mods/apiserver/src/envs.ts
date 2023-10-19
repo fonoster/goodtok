@@ -20,10 +20,13 @@ import { join } from "path";
 import crypto from "crypto";
 import fs from "fs";
 import dotenv from "dotenv";
+import { assertEnvsAreSet } from "./utils";
 
 if (process.env.NODE_ENV === "dev") {
   dotenv.config({ path: join(__dirname, "..", "..", "..", ".env") });
 }
+
+assertEnvsAreSet(["NATS_URL", "CLOAK_ENCRYPTION_KEY"]);
 
 const e = process.env;
 const defaultSignOptions = { expiresIn: "24h", algorithm: "RS256" };
