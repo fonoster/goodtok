@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === "dev") {
   dotenv.config({ path: join(__dirname, "..", "..", "..", ".env") });
 }
 
-assertEnvsAreSet(["NATS_URL", "CLOAK_ENCRYPTION_KEY"]);
+assertEnvsAreSet(["SIP_SIGNALING_SERVER", "NATS_URL", "CLOAK_ENCRYPTION_KEY"]);
 
 const e = process.env;
 const defaultSignOptions = { expiresIn: "24h", algorithm: "RS256" };
