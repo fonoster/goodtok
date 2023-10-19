@@ -44,6 +44,7 @@ export function generateToken(request: {
     workspaces: workspaces
   };
 
+  // Fixme: Allow passing expiration time
   return jwt.sign(claims, salt, { expiresIn: "24h" });
 }
 

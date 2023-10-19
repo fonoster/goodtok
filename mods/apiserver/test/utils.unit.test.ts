@@ -78,7 +78,7 @@ describe("@apiserver[utils]", () => {
       signOptions: {
         expiresIn: "24h"
       }
-    } as any
+    } as any;
 
     // Act
     const { generateToken } = await import("../src/utils");
