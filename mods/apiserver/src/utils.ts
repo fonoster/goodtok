@@ -16,6 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { ContextOptionsWithUrl } from "./types";
+import { TRPCError } from "@trpc/server";
 import { User } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -37,4 +39,41 @@ export function generateToken(user: User, salt: string): string {
   };
 
   return jwt.sign(payload, salt, { expiresIn: "1h" });
+}
+
+// Fixme: Need to compare the claims with the requested resource
+export async function verifyToken(request: {
+  token: string;
+  salt: string;
+  signOptions: jwt.SignOptions;
+}) {
+  const { token, salt, signOptions } = request;
+
+  try {
+    jwt.verify(token, salt, signOptions);
+  } catch (e) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid token" });
+  }
+}
+
+export function getToken(request: ContextOptionsWithUrl): string | null {
+  if (request.req.url?.includes("token=")) {
+    const urlParams = new URLSearchParams(request.req.url.split("?")[1]);
+    const tokenFromUrl = urlParams.get("token");
+    if (tokenFromUrl) {
+      return tokenFromUrl;
+    }
+  }
+
+  const authHeader = request.req.headers.authorization;
+  if (!authHeader) {
+    return null;
+  }
+
+  const [tokenType, authToken] = authHeader.split(" ");
+  if (tokenType !== "Bearer") {
+    return null;
+  }
+ 
+  return authToken;
 }

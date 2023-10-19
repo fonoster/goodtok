@@ -16,30 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type {} from "@trpc/server/adapters/standalone";
-import { prisma } from "./db";
-import { getCustomerById } from "./customers/getCustomerById";
-import { SALT, SIGN_OPTIONS } from "./envs";
-import { getToken } from "./utils";
-import { ContextOptions, ContextOptionsWithUrl } from "./types";
+import { QueueEntry } from "./types";
 
-export async function createContext(opts: ContextOptions) {
-  const { req } = opts as ContextOptionsWithUrl;
-
-  const token = getToken({ req });
-
-  return {
-    prisma,
-    token,
-    getCustomerById,
-    config: {
-      salt: SALT,
-      signOptions: SIGN_OPTIONS
-    }
-  };
-}
-
-export type Context = {
-  prisma: typeof prisma;
-  getCustomerById?: typeof getCustomerById;
-};
+// List to keep track of all active observers
+export const natsObservers: Array<(entry: QueueEntry) => void> = [];

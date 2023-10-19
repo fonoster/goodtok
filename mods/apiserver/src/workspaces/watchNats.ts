@@ -16,28 +16,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { QueueEntry } from "./types";
 import { watchNats } from "../nats";
 import { getLogger } from "@fonoster/logger";
 import { NATS_URL } from "../envs";
 import { updateQueueEntry } from "./updateQueueEntry";
 import { getCustomerById } from "../customers/getCustomerById";
 import { prisma } from "../db";
+import { natsObservers } from "./observers";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
-// List to keep track of all active observers
-const observers: Array<(entry: QueueEntry) => void> = [];
 
 watchNats(NATS_URL, async (event) => {
   const { aor, extraHeaders } = event;
+  const ctx = { prisma };
+
   logger.verbose("message from nats", { aor, extraHeaders });
 
   const customerId = extraHeaders["X-Customer-Id"];
   const workspaceId = extraHeaders["X-Workspace-Id"];
 
   logger.verbose("customerId and workspaceId", { customerId, workspaceId });
-
-  const ctx = { prisma };
 
   const entry = await updateQueueEntry(ctx, { customerId, aor, workspaceId });
 
@@ -55,5 +53,5 @@ watchNats(NATS_URL, async (event) => {
   };
 
   // Notify all observers
-  observers.forEach((emit) => emit(entryWithCustomer));
+  natsObservers.forEach((emit) => emit(entryWithCustomer));
 });

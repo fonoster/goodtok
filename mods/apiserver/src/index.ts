@@ -27,6 +27,8 @@ import { getLogger } from "@fonoster/logger";
 import cors from "cors";
 import express from "express";
 
+import("./workspaces/watchNats");
+
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 const app = express();

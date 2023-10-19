@@ -16,30 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type {} from "@trpc/server/adapters/standalone";
-import { prisma } from "./db";
-import { getCustomerById } from "./customers/getCustomerById";
-import { SALT, SIGN_OPTIONS } from "./envs";
-import { getToken } from "./utils";
-import { ContextOptions, ContextOptionsWithUrl } from "./types";
+import { IncomingHttpHeaders } from "http";
 
-export async function createContext(opts: ContextOptions) {
-  const { req } = opts as ContextOptionsWithUrl;
-
-  const token = getToken({ req });
-
-  return {
-    prisma,
-    token,
-    getCustomerById,
-    config: {
-      salt: SALT,
-      signOptions: SIGN_OPTIONS
-    }
+export type ContextOptions = {
+  req: {
+    headers: IncomingHttpHeaders;
   };
-}
+};
 
-export type Context = {
-  prisma: typeof prisma;
-  getCustomerById?: typeof getCustomerById;
+export type ContextOptionsWithUrl = ContextOptions & {
+  req: {
+    url: string;
+  };
 };
