@@ -37,6 +37,8 @@ export async function updateQueueEntry(
 ) {
   const { customerId, aor, workspaceId } = request;
 
+  logger.verbose("update queue entry", { customerId, aor, workspaceId });
+
   const currentEntry = await ctx.prisma.queueEntry.findFirst({
     where: {
       customerId: customerId

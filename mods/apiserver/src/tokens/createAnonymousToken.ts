@@ -18,20 +18,26 @@
  */
 import { Context } from "../context";
 import { ConnectionObject, CreateAnonymousTokenInput, Method } from "./types";
+import { getLogger } from "@fonoster/logger";
 import jwt from "jsonwebtoken";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 // Anonymous tokens only have access to REGISTER method
 export async function createAnonymousToken(
   ctx: Context,
   request: CreateAnonymousTokenInput
 ): Promise<ConnectionObject> {
+  const { ref, aor, aorLink } = request;
+  logger.verbose("create token for anonymous user", { ref, aor, aorLink });
+
   const claims = {
-    ref: request.ref,
+    ref: ref,
     // Use the same ref as the customerId (only for annonymous users)
-    customerId: request.ref,
+    customerId: ref,
     domainRef: ctx.config.sipDomainRef,
-    aor: request.aor,
-    aorLink: request.aorLink,
+    aor: aor,
+    aorLink: aorLink,
     domain: ctx.config.sipDomain,
     privacy: ctx.config.sipUserAgentPrivacy,
     allowedMethods: [Method.REGISTER],

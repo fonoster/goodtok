@@ -19,12 +19,18 @@
 import { User } from "./types";
 import { TRPCError } from "@trpc/server";
 import { Context } from "../context";
+import { getLogger } from "@fonoster/logger";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function getUserById(
   ctx: Context,
   request: { id: string }
 ): Promise<User> {
   const { id } = request;
+
+  logger.verbose(`fetching user with id ${id}`);
+
   const userFromDB = await ctx.prisma.user.findUnique({
     where: {
       id
@@ -33,13 +39,9 @@ export async function getUserById(
 
   if (!userFromDB) throw new TRPCError({ code: "NOT_FOUND" });
 
-  return {
-    id: userFromDB.id,
-    username: userFromDB.username,
-    name: userFromDB.name,
-    email: userFromDB.email,
-    avatar: userFromDB.avatar,
-    createdAt: userFromDB.createdAt,
-    updatedAt: userFromDB.updatedAt
-  };
+  // Return everything except the password
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { password, ...user } = userFromDB;
+
+  return user;
 }

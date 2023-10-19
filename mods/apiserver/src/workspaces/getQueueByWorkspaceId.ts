@@ -19,12 +19,17 @@
 import { TRPCError } from "@trpc/server";
 import { GetQueueResponse } from "./types";
 import { Context } from "../context";
+import { getLogger } from "@fonoster/logger";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function getQueueByWorkspaceId(
   ctx: Context,
   request: { workspaceId: string }
 ): Promise<GetQueueResponse> {
   const { workspaceId } = request;
+
+  logger.verbose(`get queue by workspace id ${workspaceId}`, { workspaceId });
 
   const workspace = await ctx.prisma.workspace.findUnique({
     where: {

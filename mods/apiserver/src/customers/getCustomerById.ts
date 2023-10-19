@@ -19,12 +19,17 @@
 import { Context } from "../context";
 import { Customer, GetCustomerByIdRequest } from "./types";
 import { formatShopifyAddress } from "./utils";
+import { getLogger } from "@fonoster/logger";
 import ShopifyAPI from "./shopify";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function getCustomerById(
   ctx: Context,
   request: GetCustomerByIdRequest
 ): Promise<Customer> {
+  logger.verbose("get customer by id", { request });
+
   const workspace = await ctx.prisma.workspace.findUnique({
     where: { id: request.workspaceId },
     include: { shopifyAccount: true }

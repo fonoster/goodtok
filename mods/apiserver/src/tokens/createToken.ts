@@ -16,20 +16,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { getLogger } from "@fonoster/logger";
 import { Context } from "../context";
 import { ConnectionObject, CreateTokenInput } from "./types";
 import jwt from "jsonwebtoken";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function createToken(
   ctx: Context,
   input: CreateTokenInput
 ): Promise<ConnectionObject> {
+  const { ref, aor, aorLink } = input;
+  logger.verbose("create token for authenticated user", { ref, aor, aorLink });
+
   const claims = {
-    ref: input.ref,
+    ref: ref,
     customerId: input.customerId,
     domainRef: ctx.config.sipDomainRef,
-    aor: input.aor,
-    aorLink: input.aorLink,
+    aor: aor,
+    aorLink: aorLink,
     domain: ctx.config.sipDomain,
     privacy: ctx.config.sipUserAgentPrivacy,
     allowedMethods: input.methods,
@@ -43,8 +49,8 @@ export async function createToken(
   );
 
   return {
-    aor: input.aor,
-    aorLink: input.aorLink,
+    aor: aor,
+    aorLink: aorLink,
     token,
     signalingServer: ctx.config.sipSignalingServer
   };

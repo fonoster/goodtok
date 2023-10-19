@@ -19,12 +19,17 @@
 import { TRPCError } from "@trpc/server";
 import { generateToken } from "../utils";
 import { Context } from "../context";
+import { getLogger } from "@fonoster/logger";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function login(
   ctx: Context,
   input: { username: string; password: string }
 ): Promise<string> {
   const { username, password } = input;
+
+  logger.verbose("loging user", { username });
 
   const user = await ctx.prisma.user.findUnique({
     where: {

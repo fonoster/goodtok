@@ -19,12 +19,17 @@
 import { GetMembersResponse } from "./types";
 import { TRPCError } from "@trpc/server";
 import { Context } from "../context";
+import { getLogger } from "@fonoster/logger";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function getMembersByWorkspaceId(
   ctx: Context,
   request: { workspaceId: string }
 ): Promise<GetMembersResponse> {
   const { workspaceId } = request;
+
+  logger.verbose(`get members by workspace id ${workspaceId}`, { workspaceId });
 
   const workspace = await ctx.prisma.workspace.findUnique({
     where: {

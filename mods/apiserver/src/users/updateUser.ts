@@ -19,12 +19,19 @@
 import { User } from "./types";
 import { TRPCError } from "@trpc/server";
 import { Context } from "../context";
+import { getLogger } from "@fonoster/logger";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function updateUser(
   ctx: Context,
   request: { id: string; data: Partial<User> }
 ): Promise<User> {
   const { id, data } = request;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { password, ...rest } = data;
+
+  logger.verbose(`updating user with id ${id}`, { rest });
 
   const userFromDB = await ctx.prisma.user.findUnique({
     where: {
