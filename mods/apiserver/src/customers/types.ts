@@ -1,7 +1,4 @@
 /* eslint-disable camelcase */
-
-import { type } from "os";
-
 /*
  * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
@@ -56,18 +53,41 @@ export type ShopifyCustomer = {
   last_order_id: null;
   note: string;
   verified_email: boolean;
-  multipass_identifier: null;
+  multipass_identifier: unknown;
   tax_exempt: boolean;
   tags: string;
-  last_order_name: null;
+  last_order_name: string;
   currency: string;
   phone: string;
-  addresses: unknown[];
+  addresses: ShopifyCustomerAddress[];
   accepts_marketing_updated_at: string;
-  marketing_opt_in_level: null;
-  tax_exemptions: unknown[];
-  email_marketing_consent: unknown;
-  sms_marketing_consent: unknown;
+  marketing_opt_in_level: string;
+  tax_exemptions: string[];
+  email_marketing_consent: boolean; // Deprecated
+  sms_marketing_consent: {
+    state: string;
+    opt_in_level: string;
+    consent_updated_at: string;
+    consent_collected_from: string;
+  };
   admin_graphql_api_id: string;
-  default_address: unknown;
+  default_address: ShopifyCustomerAddress;
+};
+
+export type ShopifyCustomerAddress = {
+  address1: string;
+  address2?: string;
+  city: string;
+  company?: string;
+  country: string;
+  first_name?: string;
+  id: number;
+  last_name?: string;
+  phone?: string;
+  province: string;
+  zip: string;
+  province_code?: string;
+  country_code?: string;
+  country_name?: string;
+  default?: boolean;
 };

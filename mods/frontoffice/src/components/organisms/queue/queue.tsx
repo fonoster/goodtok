@@ -79,7 +79,9 @@ export default function Queue({
 
   const handleRowClick = async (customerId: string) => {
     try {
-      const customerDetails = await customers.getCustomerInDefaultWorkspace(customerId);
+      const customerDetails = await customers.getCustomerInDefaultWorkspace(
+        customerId
+      );
       const queueEntry = people.find((p) => p.customerId === customerId);
 
       const inviteInfo = {

@@ -18,6 +18,7 @@
  */
 import { Context } from "../context";
 import { Customer, GetCustomerByIdRequest } from "./types";
+import { formatShopifyAddress } from "./utils";
 import ShopifyAPI from "./shopify";
 
 export async function getCustomerById(
@@ -45,7 +46,7 @@ export async function getCustomerById(
     phone: shopifyCustomer.phone,
     birthday: shopifyCustomer.note,
     note: shopifyCustomer.note,
-    address: null,
+    address: formatShopifyAddress(shopifyCustomer.default_address),
     avatar: null
   };
 }
