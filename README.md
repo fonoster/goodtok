@@ -11,7 +11,7 @@
 <a href="https://gitpod.io/#https://github.com/fonoster/goodtok"> <img src="https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod" alt="Contribute with Gitpod" />
 </a> [![Sponsor this](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/fonoster)](https://github.com/sponsors/fonoster) [![Discord](https://img.shields.io/discord/1016419835455996076?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/4QWgSz4hTC) ![GitHub](https://img.shields.io/github/license/fonoster/goodtok?color=%2347b96d) ![Twitter Follow](https://img.shields.io/twitter/follow/fonoster?style=social)
 
-Goodtok helps businesses enhance their customer service right from their website. The video application lets customers connect with your staff in real-time. You can integrate this simple and easy-to-use application into any website.
+Goodtok helps businesses enhance their customer service right from their website. The video application lets customers connect with your staff in real time. You can integrate this simple and easy-to-use application into any website.
 
 > This project is just starting and is not ready for production use yet 🚧
 
@@ -38,86 +38,19 @@ It would mean a lot to me if you could give this project a star. It helps me ide
 
 We are aiming to make this as easy as possible to install. For now, you can use the following instructions to get started.
 
-Firts, create a new directory called `goodtok` with a `compose.yml` file with the following content:
+First, create a new directory called `goodtok` and change to that directory:
 
-```yaml
-version: "3"
-
-services:
-
-  frontoffice:
-    image: fonoster/goodtok-frontoffice:latest
-    environment:
-      - LOGS_LEVEL
-    ports:
-      - 8080:8080
-
-  apiserver:
-    image: fonoster/goodtok-apiserver:latest
-    environment:
-      - LOGS_LEVEL
-      - NATS_URL
-      - GOODTOK_SIGNALING_SERVER
-      - GOODTOK_SIP_DOMAIN
-      - DATABASE_URL
-    ports:
-      - 6789:6789
-    volumes:
-      - ./.keys:/keys
-
-  routr:
-    image: fonoster/routr-one:latest
-    environment:
-      - LOGS_LEVEL
-      - EXTERNAL_ADDRS
-      - CONNECT_VERIFIER_PUBLIC_KEY_PATH
-      - NATS_PUBLISHER_ENABLED
-      - NATS_PUBLISHER_URL
-    ports:
-      - 5062:5062
-      - 5063:5063
-    volumes:
-      - ./.keys/public.key:/keys/public.key
-
-  nats:
-    image: nats:latest
-    expose:
-      - 4222
-
-  postgres:
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      TZ: UTC
-      PGTZ: UTC
-    # WARNING: Once you initialize the database, you should remove the following line
-    ports:
-      - 5432:5432
-    expose:
-      - 5432
-    volumes:
-      - db:/var/lib/postgresql/data
-
-volumes:
-  db:
+```bash
+mkdir goodtok
+cd goodtok
 ```
 
-In the same directory, run the following command to generate a set of keys. These keys will be used to sign and verify the JWT tokens.
+Run the following command inside the directory to generate a set of security keys. These keys will be used to sign and verify the JWT tokens.
 
 ```bash
 mkdir -p .keys
 openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
 openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
-```
-
-Next we need to prepare the database with the following command:
-
-```bash
-curl -o ./schema.prisma https://raw.githubusercontent.com/fonoster/goodtok/main/mods/apiserver/schema.prisma
-npx prisma migrate deploy --schema=./schema.prisma
-rm ./schema.prisma
 ```
 
 Then, create a `.env` file with the following content:
@@ -131,17 +64,26 @@ NATS_URL=nats:4222
 NATS_PUBLISHER_URL=nats:4222
 NATS_PUBLISHER_ENABLED=true
 CONNECT_VERIFIER_PUBLIC_KEY_PATH=/keys/public.key
-GOODTOK_SIP_DOMAIN=sip.local
-GOODTOK_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
+SIP_DOMAIN=sip.local
+SIP_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
 ```
 
-Finally, run the following command to start the application:
+Next, run the following command to start the application:
 
 ```bash
+curl -o ./compose.yaml https://raw.githubusercontent.com/fonoster/goodtok/main/compose.yaml
 docker compose up -d
 ```
 
-The previous command will start the front-office application. You will then be able to access the application at http://localhost:8080 and start sending requests from the client application.
+Finally, prepare the database with the following command:
+
+```bash
+curl -o ./schema.prisma https://raw.githubusercontent.com/fonoster/goodtok/main/mods/apiserver/schema.prisma
+npx prisma migrate deploy --schema=./schema.prisma
+rm ./schema.prisma
+```
+
+The previous command will start all the services, including the front office. You can then access the application at [http://localhost:8080](http://localhost:8080) and access the dashboard.
 
 ## Usage
 
@@ -151,30 +93,31 @@ In the website where you want to integrate Goodtok, you will need to add the fol
 <!-- Goodtok video client -->
 <script
   type="text/javascript"
-  src="https://unpkg.com/goodtok?key=Z3RpZD0xMjM0LHNlcnZlcj1hcGkuZ29vZHRvay5pbyxjdXN0b21lcj10b2tlbg==&token=OPTIONAL_CUSTOMER_TOKEN"
+  src="https://unpkg.com/@goodtok/widget@latest?key=Z3RpZD0xMjM0LHNlcnZlcj1hcGkuZ29vZHRvay5pbyxjdXN0b21lcj10b2tlbg==&token=OPTIONAL_CUSTOMER_TOKEN"
 >
 </script>
 <!-- Goodtok video client end -->
 ```
 
-The key is a base64 encoded value containing the account `id` and `server` of your Goodtok instance. You can generate this value by running the following command:
+The key is a base64 encoded value containing the account `gtid` and `server` of your Goodtok instance. You can generate this value by running the following command:
 
 ```bash
-echo -n '{"id":"1234","server":"api.yourinstance.com"}' | base64
+# The gtid corresponds to the workspace id in the Goodtok dashboard
+echo -n '{"gtid":"g-4f90d13a42","server":"api.example.com"}' | base64
 ```
 
-The client will use the default server at `api.goodtok.io` if no server is specified.
+If no server is specified, the client will use the default server at `api.goodtok.io`.
 
-The video widget will request an anonymous token from the server if non is provided. The server will generate a token only if the owner of the `id` has enabled anonymous access. The server will return an error if the owner has not allowed anonymous access.
+The video widget will request an anonymous token from the server if none is provided. The server will generate a token only if the owner of the `gtid` has enabled anonymous access. The server will return an error if the owner has not allowed anonymous access.
 
-> Remember that enabling anonymous will require you to implement security measures to prevent abuse ⚠️
+> Remember that enabling anonymity will require you to implement security measures to prevent abuse ⚠️
 
 A Goodtok token is a [JSON Web Token](https://jwt.io/). Here is an example of the claims for a customer token:
 
 ```json
 {
   "ref": "customer-agent",
-  "domainRef": "goodtok-01",
+  "domainRef": "default",
   "aor": "sip:anonymous@sip.goodtok.io",
   "aorLink": "sip:anonymous@sip.goodtok.io",
   "domain": "sip.goodtok.io",
@@ -202,7 +145,7 @@ If you have any questions about this project, please look at the [organization's
 
 ## Known Issues
 
-- When running Goodtok without a TLS certificate, you will need to add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or equivalent for your browser. This is because the camera will not work on an insecure origin.
+- When running Goodtok without a TLS certificate, you must add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or equivalent for your browser, because the camera will not work on an insecure origin.
 
 ## Authors
 
