@@ -31,8 +31,8 @@ const enforceUserIsAuthed = t.middleware(async (opts) => {
 
   verifyToken({
     token: ctx.token,
-    salt: ctx.config.salt,
-    signOptions: ctx.config.signOptions
+    jwtSecuritySalt: ctx.config.jwtSecuritySalt,
+    jwtSignOptions: ctx.config.jwtSignOptions
   });
 
   return next();

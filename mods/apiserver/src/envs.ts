@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /*
  * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
@@ -16,44 +17,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getLogger } from "@fonoster/logger";
 import { join } from "path";
 import crypto from "crypto";
-import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
-
-const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 if (process.env.NODE_ENV === "dev") {
   dotenv.config({ path: join(__dirname, "..", "..", "..", ".env") });
 }
 
-export const NATS_URL = process.env.NATS_URL;
-export const BIND_PORT = process.env.BIND_PORT ?? "6789";
-export const SALT = process.env.SALT ?? crypto.randomBytes(4).toString("hex");
-export const PATH_TO_KEYS = process.env.PATH_TO_KEYS ?? "/keys";
-export const PATH_TO_PRIVATE_KEY = path.join(PATH_TO_KEYS, "private.key");
-export const SIGN_OPTIONS = process.env.SIGN_OPTIONS
-  ? JSON.parse(process.env.SIGN_OPTIONS)
-  : { expiresIn: "24h", algorithm: "RS256" };
+const e = process.env;
+const defaultSignOptions = { expiresIn: "24h", algorithm: "RS256" };
 
-if (!fs.existsSync(path.join(PATH_TO_KEYS, "private.key"))) {
-  logger.error(
-    "no private key found. Please run 'npm run generate:keys' first",
-    { pathToKeys: path.join(PATH_TO_KEYS, "private.key") }
-  );
-  process.exit(1);
-}
+// NATS configurations
+export const NATS_URL = e.NATS_URL;
 
-export const PRIVATE_KEY = fs.readFileSync(PATH_TO_PRIVATE_KEY, "utf8");
+// API server configurations
+export const APISERVER_BIND_PORT = e.APISERVER_BIND_PORT ?? "6789";
 
-export const GOODTOK_SIP_DOMAIN =
-  process.env.GOODTOK_SIP_DOMAIN ?? "sip.goodtok.io";
-export const GOODTOK_SIP_DOMAIN_REF =
-  process.env.GOODTOK_SIP_DOMAIN_REF ?? "default";
-export const GOODTOK_SIGNALING_SERVER =
-  process.env.GOODTOK_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";
-export const USER_AGENT_PRIVACY = process.env.USER_AGENT_PRIVACY ?? "PRIVATE";
+// Security and Encryption
+export const JWT_SECURITY_SALT = e.JWT_SECURITY_SALT ?? crypto.randomBytes(4).toString("hex");
+export const JWT_SIGN_OPTIONS = e.JWT_SIGN_OPTIONS ? JSON.parse(e.JWT_SIGN_OPTIONS) : defaultSignOptions
+export const SECURITY_PATH_TO_KEYS = e.SECURITY_PATH_TO_KEYS ?? "/keys";
+export const SECURITY_PRIVATE_KEY = fs.readFileSync(join(SECURITY_PATH_TO_KEYS, "private.key"), "utf8");
+export const CLOAK_ENCRYPTION_KEY = e.CLOAK_ENCRYPTION_KEY;
 
-export const CLOAK_ENCRYPTION_KEY = process.env.CLOAK_ENCRYPTION_KEY;
+// SIP configurations
+export const SIP_DOMAIN = e.SIP_DOMAIN ?? "sip.goodtok.io";
+export const SIP_DOMAIN_REF = e.SIP_DOMAIN_REF ?? "default";
+export const SIP_SIGNALING_SERVER = e.SIP_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";
+export const SIP_USER_AGENT_PRIVACY = e.SIP_USER_AGENT_PRIVACY ?? "PRIVATE";
+

@@ -22,7 +22,7 @@ import { Context } from "../context";
 
 export async function login(
   ctx: Context,
-  input: { username: string; password: string; salt: string }
+  input: { username: string; password: string }
 ): Promise<string> {
   const { username, password } = input;
 
@@ -41,7 +41,7 @@ export async function login(
 
   return generateToken({
     user,
-    salt: input.salt,
-    signOptions: ctx.config.signOptions
+    jwtSecuritySalt: ctx.config.jwtSecuritySalt,
+    jwtSignOptions: ctx.config.jwtSignOptions
   });
 }

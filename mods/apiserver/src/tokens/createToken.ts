@@ -16,38 +16,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  GOODTOK_SIP_DOMAIN,
-  GOODTOK_SIP_DOMAIN_REF,
-  USER_AGENT_PRIVACY,
-  GOODTOK_SIGNALING_SERVER,
-  PRIVATE_KEY,
-  SIGN_OPTIONS
-} from "../envs";
+import { Context } from "../context";
 import { ConnectionObject, CreateTokenInput } from "./types";
 import jwt from "jsonwebtoken";
 
 export async function createToken(
+  ctx: Context,
   input: CreateTokenInput
 ): Promise<ConnectionObject> {
   const claims = {
     ref: input.ref,
     customerId: input.customerId,
-    domainRef: GOODTOK_SIP_DOMAIN_REF,
+    domainRef: ctx.config.sipDomainRef,
     aor: input.aor,
     aorLink: input.aorLink,
-    domain: GOODTOK_SIP_DOMAIN,
-    privacy: USER_AGENT_PRIVACY,
+    domain: ctx.config.sipDomain,
+    privacy: ctx.config.sipUserAgentPrivacy,
     allowedMethods: input.methods,
-    signalingServer: GOODTOK_SIGNALING_SERVER
+    signalingServer: ctx.config.sipSignalingServer
   };
 
-  const token = jwt.sign(claims, PRIVATE_KEY, SIGN_OPTIONS);
+  const token = jwt.sign(
+    claims,
+    ctx.config.securityPrivateKey,
+    ctx.config.jwtSignOptions
+  );
 
   return {
     aor: input.aor,
     aorLink: input.aorLink,
     token,
-    signalingServer: GOODTOK_SIGNALING_SERVER
+    signalingServer: ctx.config.sipSignalingServer
   };
 }

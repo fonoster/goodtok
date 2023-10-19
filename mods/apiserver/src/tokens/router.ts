@@ -24,9 +24,9 @@ import { createAnonymousTokenSchema, createTokenSchema } from "./types";
 export const tokensRouter = router({
   createToken: protectedProcedure
     .input(createTokenSchema)
-    .mutation((req) => createToken(req.input)),
+    .mutation(({ ctx, input }) => createToken(ctx, input)),
 
   createAnonymousToken: publicProcedure
     .input(createAnonymousTokenSchema)
-    .mutation((req) => createAnonymousToken(req.input))
+    .mutation(({ ctx, input }) => createAnonymousToken(ctx, input))
 });

@@ -19,9 +19,17 @@
 import type {} from "@trpc/server/adapters/standalone";
 import { prisma } from "./db";
 import { getCustomerById } from "./customers/getCustomerById";
-import { SALT, SIGN_OPTIONS } from "./envs";
 import { getToken } from "./utils";
 import { ContextOptions, ContextOptionsWithUrl } from "./types";
+import {
+  SIP_DOMAIN,
+  SIP_DOMAIN_REF,
+  SIP_USER_AGENT_PRIVACY,
+  SIP_SIGNALING_SERVER,
+  SECURITY_PRIVATE_KEY,
+  JWT_SIGN_OPTIONS,
+  JWT_SECURITY_SALT
+} from "./envs";
 import jwt from "jsonwebtoken";
 
 export async function createContext(opts: ContextOptions) {
@@ -34,8 +42,13 @@ export async function createContext(opts: ContextOptions) {
     token,
     getCustomerById,
     config: {
-      salt: SALT,
-      signOptions: SIGN_OPTIONS
+      jwtSecuritySalt: JWT_SECURITY_SALT,
+      jwtSignOptions: JWT_SIGN_OPTIONS,
+      securityPrivateKey: SECURITY_PRIVATE_KEY,
+      sipDomain: SIP_DOMAIN,
+      sipDomainRef: SIP_DOMAIN_REF,
+      sipUserAgentPrivacy: SIP_USER_AGENT_PRIVACY,
+      sipSignalingServer: SIP_SIGNALING_SERVER
     }
   };
 }
@@ -45,7 +58,12 @@ export type Context = {
   token?: string;
   getCustomerById?: typeof getCustomerById;
   config?: {
-    salt: string;
-    signOptions: jwt.SignOptions;
+    jwtSecuritySalt: string;
+    jwtSignOptions: jwt.SignOptions;
+    securityPrivateKey: string;
+    sipDomain: string;
+    sipDomainRef: string;
+    sipUserAgentPrivacy: string;
+    sipSignalingServer: string;
   };
 };

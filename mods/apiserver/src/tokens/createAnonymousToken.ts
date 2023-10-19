@@ -16,40 +16,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  GOODTOK_SIP_DOMAIN,
-  GOODTOK_SIP_DOMAIN_REF,
-  USER_AGENT_PRIVACY,
-  GOODTOK_SIGNALING_SERVER,
-  PRIVATE_KEY,
-  SIGN_OPTIONS
-} from "../envs";
+import { Context } from "../context";
 import { ConnectionObject, CreateAnonymousTokenInput, Method } from "./types";
 import jwt from "jsonwebtoken";
 
 // Anonymous tokens only have access to REGISTER method
 export async function createAnonymousToken(
+  ctx: Context,
   request: CreateAnonymousTokenInput
 ): Promise<ConnectionObject> {
   const claims = {
     ref: request.ref,
     // Use the same ref as the customerId (only for annonymous users)
     customerId: request.ref,
-    domainRef: GOODTOK_SIP_DOMAIN_REF,
+    domainRef: ctx.config.sipDomainRef,
     aor: request.aor,
     aorLink: request.aorLink,
-    domain: GOODTOK_SIP_DOMAIN,
-    privacy: USER_AGENT_PRIVACY,
+    domain: ctx.config.sipDomain,
+    privacy: ctx.config.sipUserAgentPrivacy,
     allowedMethods: [Method.REGISTER],
-    signalingServer: GOODTOK_SIGNALING_SERVER
+    signalingServer: ctx.config.sipSignalingServer
   };
 
-  const token = jwt.sign(claims, PRIVATE_KEY, SIGN_OPTIONS);
+  const token = jwt.sign(
+    claims,
+    ctx.config.securityPrivateKey,
+    ctx.config.jwtSignOptions
+  );
 
   return {
     aor: request.aor,
     aorLink: request.aorLink,
     token,
-    signalingServer: GOODTOK_SIGNALING_SERVER
+    signalingServer: ctx.config.sipSignalingServer
   };
 }

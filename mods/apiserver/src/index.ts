@@ -20,7 +20,7 @@
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { appRouter } from "./router";
 import { createContext } from "./context";
-import { BIND_PORT } from "./envs";
+import { APISERVER_BIND_PORT } from "./envs";
 import { applyWSSHandler } from "@trpc/server/adapters/ws";
 import { WebSocketServer } from "ws";
 import { getLogger } from "@fonoster/logger";
@@ -43,7 +43,7 @@ app.use(
   })
 );
 
-const server = app.listen(BIND_PORT);
+const server = app.listen(APISERVER_BIND_PORT);
 
 const wss = new WebSocketServer({ server });
 
@@ -53,7 +53,7 @@ applyWSSHandler<AppRouter>({
   createContext
 });
 
-logger.info("server started", { port: BIND_PORT });
+logger.info("server started", { port: APISERVER_BIND_PORT });
 
 export type AppRouter = typeof appRouter;
 

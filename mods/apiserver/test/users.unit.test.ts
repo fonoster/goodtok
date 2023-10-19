@@ -98,13 +98,14 @@ describe("@apiserver[users]", () => {
           findUnique: sandbox.stub().resolves(testUser)
         }
       },
-      config: {}
+      config: {
+        jwtSecuritySalt: "abcdefg"
+      }
     } as unknown as Context;
 
     const input = {
       username: testUser.username,
-      password: "123456",
-      salt: "abcdefg"
+      password: "123456"
     };
 
     const { login } = await import("../src/users/login");

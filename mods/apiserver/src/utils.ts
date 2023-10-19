@@ -22,10 +22,10 @@ import jwt from "jsonwebtoken";
 
 export function generateToken(request: {
   user: UserWithWorkspaces;
-  salt: string;
-  signOptions: jwt.SignOptions;
+  jwtSecuritySalt: string;
+  jwtSignOptions: jwt.SignOptions;
 }): string {
-  const { user, salt } = request;
+  const { user, jwtSecuritySalt } = request;
   const workspaces = user.ownedWorkspaces?.map((w) => ({
     id: w.id,
     role: "owner"
@@ -38,19 +38,19 @@ export function generateToken(request: {
   };
 
   // Fixme: Allow passing expiration time
-  return jwt.sign(claims, salt, { expiresIn: "24h" });
+  return jwt.sign(claims, jwtSecuritySalt, { expiresIn: "24h" });
 }
 
 // Fixme: Need to compare the claims with the requested resource
 export function verifyToken(request: {
   token: string;
-  salt: string;
-  signOptions: jwt.SignOptions;
+  jwtSecuritySalt: string;
+  jwtSignOptions: jwt.SignOptions;
 }) {
-  const { token, salt, signOptions } = request;
+  const { token, jwtSecuritySalt, jwtSignOptions } = request;
 
   try {
-    jwt.verify(token, salt, signOptions);
+    jwt.verify(token, jwtSecuritySalt, jwtSignOptions);
   } catch (e) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid token" });
   }

@@ -74,8 +74,8 @@ describe("@apiserver[utils]", () => {
           }
         ]
       },
-      salt: "123456",
-      signOptions: {
+      jwtSecuritySalt: "123456",
+      jwtSignOptions: {
         expiresIn: "24h"
       }
     } as any;
@@ -91,8 +91,8 @@ describe("@apiserver[utils]", () => {
     // Arrange
     const request = {
       token: "123456",
-      salt: "abcdefg",
-      signOptions: {
+      jwtSecuritySalt: "abcdefg",
+      jwtSignOptions: {
         expiresIn: "24h"
       }
     };
