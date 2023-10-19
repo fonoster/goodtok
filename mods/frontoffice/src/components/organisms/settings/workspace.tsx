@@ -39,7 +39,7 @@ export default function WorkspaceSettings() {
           setWorkspaceName(workspace.name);
           setHoursOfOperation(workspace.hoursOfOperation);
           setTimezone(workspace.timezone || "America/New_York");
-          setShopifyStoreId(workspace.shopifyAccount?.storeId || "");
+          setShopifyStoreId(workspace.shopifyAccount?.storeDomain || "");
           setGtid(workspace.id || "");
         })
         .catch((error) => {
@@ -64,7 +64,7 @@ export default function WorkspaceSettings() {
           hoursOfOperation: hoursOfOperation,
           timezone: timezone,
           shopifyAccount: {
-            storeId: shopifyStoreId,
+            storeDomain: shopifyStoreId,
             accessToken: shopifyAccessToken
           }
         })

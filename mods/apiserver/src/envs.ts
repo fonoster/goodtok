@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { assertEnvsAreSet } from "./utils";
 import { join } from "path";
 import crypto from "crypto";
 import fs from "fs";
 import dotenv from "dotenv";
-import { assertEnvsAreSet } from "./utils";
 
 if (process.env.NODE_ENV === "dev") {
   dotenv.config({ path: join(__dirname, "..", "..", "..", ".env") });

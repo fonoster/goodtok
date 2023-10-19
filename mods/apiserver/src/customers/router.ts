@@ -16,12 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 import { getCustomerById } from "./getCustomerById";
+import { getCustomerByIdRequestSchema } from "./types";
 
 export const customerRouter = router({
   getCustomerById: protectedProcedure
-    .input(z.string())
-    .query((req) => getCustomerById(req.input))
+    .input(getCustomerByIdRequestSchema)
+    .query(({ ctx, input }) => getCustomerById(ctx, input))
 });

@@ -17,18 +17,27 @@
  * limitations under the License.
  */
 import { connect, StringCodec } from "nats";
+import { join } from "path";
+import dotenv from "dotenv";
+
+dotenv.config({ path: join(__dirname, "..", ".env") });
 
 const REGISTER_SUBJECT = "routr.endpoint.registered";
+const {
+  TEST_WORKSPACE_ID,
+  SHOPIFY_TEST_CUSTOMER_ID,
+  SHOPIFY_TEST_CUSTOMER_AOR,
+  NATS_URL
+} = process.env;
 
 async function main() {
-  const nc = await connect({ servers: "localhost:4222" });
+  const nc = await connect({ servers: NATS_URL });
   const sc = StringCodec();
-  const randomOnetoThirteen = Math.floor(Math.random() * 13) + 1;
   const registration = {
-    aor: "sip:anonymous@sip.goodtok.io",
+    aor: SHOPIFY_TEST_CUSTOMER_AOR,
     extraHeaders: {
-      "X-Customer-Id": randomOnetoThirteen + "",
-      "X-Workspace-Id": "g-4f90d13a42"
+      "X-Customer-Id": SHOPIFY_TEST_CUSTOMER_ID,
+      "X-Workspace-Id": TEST_WORKSPACE_ID
     }
   };
 

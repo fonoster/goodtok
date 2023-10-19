@@ -18,7 +18,7 @@
  */
 import { createTRPCProxyClient } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
-import { Customer, CustomersClient } from "./types";
+import { Customer, CustomersClient, GetCustomerRequest } from "./types";
 import { AbstractBaseClient } from "../base";
 import Client from "../client";
 
@@ -62,7 +62,30 @@ export default class Customers
   }
 
   /**
-   * Retrieves a customer by its ID.
+   * Retrieves a customer for a workspace by customer ID.
+   *
+   * @param {GetCustomerRequest} request - Request object containing the customer ID and workspace ID
+   * @param {string} request.workspaceId - The workspace ID
+   * @param {string} request.customerId - The customer ID
+   * @return {Promise<Customer>} A promise resolving to the customer
+   * @throws Will throw an error if the customer is not found
+   * @example
+   *
+   * const request = {
+   *   workspaceId: "452b1b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b",
+   *   customerId: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d"
+   * };
+   *
+   * customers.getCustomer(request)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
+  async getCustomer(request: GetCustomerRequest): Promise<Customer> {
+    return this.trpc.customers.getCustomerById.query(request);
+  }
+
+  /**
+   * Retrieves a customer by ID in the default workspace.
    *
    * @param {string} id - The customer ID
    * @return {Promise<Customer>} A promise resolving to the customer
@@ -70,11 +93,14 @@ export default class Customers
    * @example
    *
    * const id = "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d";
-   * customers.getCustomerById(id)
+   * customers.getCustomerInDefaultWorkspace(id)
    *   .then(console.log)
    *   .catch(console.error); // handle any errors
    */
-  async getCustomerById(id: string): Promise<Customer> {
-    return this.trpc.customers.getCustomerById.query(id);
+  async getCustomerInDefaultWorkspace(id: string): Promise<Customer> {
+    return this.getCustomer({
+      workspaceId: this.client.getDefaultWorkspaceId(),
+      customerId: id
+    });
   }
 }

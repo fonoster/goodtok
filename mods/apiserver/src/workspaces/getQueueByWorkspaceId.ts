@@ -48,7 +48,10 @@ export async function getQueueByWorkspaceId(
 
   const queue = await Promise.all(
     workspace.queue.map(async (queueEntry) => {
-      const customer = await ctx.getCustomerById(queueEntry.customerId);
+      const customer = await ctx.getCustomerById(ctx, {
+        workspaceId: workspace.id,
+        customerId: queueEntry.customerId
+      });
 
       return {
         customerId: queueEntry.customerId,

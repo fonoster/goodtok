@@ -24,7 +24,7 @@ export const updateWorkspaceSchema = z.object({
   name: z.string().min(1),
   timezone: z.string().min(3),
   shopifyAccount: z.object({
-    storeId: z.string().min(1).optional(),
+    storeDomain: z.string().min(1).optional(),
     accessToken: z.string().min(1).optional()
   }),
   hoursOfOperation: z.object({
@@ -119,7 +119,7 @@ export type Workspace = {
   hoursOfOperation: WeeklyHoursType;
   timezone: string;
   shopifyAccount?: {
-    storeId: string;
+    storeDomain: string;
     accessToken: string;
   };
 };

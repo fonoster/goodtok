@@ -16,9 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { join } from "path";
 import { prisma } from "../mods/apiserver/src/db";
+import dotenv from "dotenv";
+
+dotenv.config({ path: join(__dirname, "..", ".env") });
 
 async function main() {
+  const {
+    TEST_WORKSPACE_ID,
+    SHOPIFY_STORE_DOMAIN,
+    SHOPIFY_ACCESS_TOKEN
+  } = process.env;
+
   await prisma.user.create({
     data: {
       id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
@@ -41,10 +51,16 @@ async function main() {
 
   await prisma.workspace.create({
     data: {
-      id: "g-4f90d13a42",
+      id: TEST_WORKSPACE_ID,
       name: "My Workspace",
       ownerId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
       timezone: "America/New_York",
+      shopifyAccount: SHOPIFY_STORE_DOMAIN && SHOPIFY_ACCESS_TOKEN ? {
+        create: {
+          storeDomain: SHOPIFY_STORE_DOMAIN,
+          accessToken: SHOPIFY_ACCESS_TOKEN
+        }
+      } : undefined,
       hoursOfOperation: {
         Monday: {
           enabled: false,
@@ -81,45 +97,9 @@ async function main() {
   await prisma.workspaceMember.create({
     data: {
       userId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
-      workspaceId: "g-4f90d13a42",
+      workspaceId: TEST_WORKSPACE_ID || "",
       status: "ACTIVE",
       role: "MEMBER"
-    },
-  });
-
-  await prisma.queueEntry.create({
-    data: {
-      customerId: "1",
-      workspaceId: "g-4f90d13a42",
-      status: "ONLINE",
-      aor: "sip:1@sip.goodtok.io"
-    },
-  });
-
-  await prisma.queueEntry.create({
-    data: {
-      customerId: "2",
-      workspaceId: "g-4f90d13a42",
-      status: "OFFLINE",
-      aor: "sip:2@sip.goodtok.io"
-    },
-  });
-
-  await prisma.queueEntry.create({
-    data: {
-      customerId: "3",
-      workspaceId: "g-4f90d13a42",
-      status: "ONLINE",
-      aor: "sip:3@sip.goodtok.io"
-    },
-  });
-
-  await prisma.queueEntry.create({
-    data: {
-      customerId: "4",
-      workspaceId: "g-4f90d13a42",
-      status: "DEQUEUED",
-      aor: "sip:4@sip.goodtok.io"
     },
   });
 }

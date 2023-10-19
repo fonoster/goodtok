@@ -28,7 +28,7 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 watchNats(NATS_URL, async (event) => {
   const { aor, extraHeaders } = event;
-  const ctx = { prisma };
+  const ctx = { prisma, getCustomerById };
 
   logger.verbose("message from nats", { aor, extraHeaders });
 
@@ -41,7 +41,7 @@ watchNats(NATS_URL, async (event) => {
 
   logger.verbose("entry updated", { entry });
 
-  const customer = await getCustomerById(customerId);
+  const customer = await getCustomerById(ctx, { workspaceId, customerId });
 
   const entryWithCustomer = {
     ...entry,

@@ -51,7 +51,7 @@ export async function updateWorkspace(
         },
         update: {
           accessToken: request.shopifyAccount.accessToken,
-          storeId: request.shopifyAccount.storeId,
+          storeDomain: request.shopifyAccount.storeDomain,
           updatedAt: new Date()
         }
       };
@@ -59,7 +59,7 @@ export async function updateWorkspace(
       updateData.shopifyAccount = {
         create: {
           accessToken: request.shopifyAccount.accessToken,
-          storeId: request.shopifyAccount.storeId
+          storeDomain: request.shopifyAccount.storeDomain
         }
       };
     }

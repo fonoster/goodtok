@@ -16,10 +16,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { people } from "./mocks";
-import { Customer } from "./types";
+import { Context } from "../context";
+import { Customer, GetCustomerByIdRequest } from "./types";
+import ShopifyAPI from "./shopify";
 
-export async function getCustomerById(id: string): Promise<Customer> {
-  const customer = people.find((p) => p.id === id);
-  return customer;
+export async function getCustomerById(
+  ctx: Context,
+  request: GetCustomerByIdRequest
+): Promise<Customer> {
+  const workspace = await ctx.prisma.workspace.findUnique({
+    where: { id: request.workspaceId },
+    include: { shopifyAccount: true }
+  });
+
+  const shopifyClient = new ShopifyAPI({
+    shop: workspace.shopifyAccount.storeDomain,
+    accessToken: workspace.shopifyAccount.accessToken
+  });
+
+  const shopifyCustomer = await shopifyClient.getCustomerById(
+    request.customerId
+  );
+
+  return {
+    id: shopifyCustomer.id.toString(),
+    name: `${shopifyCustomer.first_name} ${shopifyCustomer.last_name}`,
+    email: shopifyCustomer.email,
+    phone: shopifyCustomer.phone,
+    birthday: shopifyCustomer.note,
+    note: shopifyCustomer.note,
+    address: null,
+    avatar: null
+  };
 }

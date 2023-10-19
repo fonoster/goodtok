@@ -65,7 +65,7 @@ CREATE TABLE "queue_entries" (
 CREATE TABLE "shopify_accounts" (
     "id" TEXT NOT NULL,
     "access_token" TEXT NOT NULL,
-    "store_id" TEXT NOT NULL,
+    "store_domain" TEXT NOT NULL,
     "workspaceId" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

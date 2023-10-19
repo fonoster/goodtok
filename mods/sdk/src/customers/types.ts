@@ -19,7 +19,13 @@
 import type { Customer } from "@goodtok/apiserver";
 
 export type CustomersClient = {
-  getCustomerById: (id: string) => Promise<Customer>;
+  getCustomer: (request: GetCustomerRequest) => Promise<Customer>;
+  getCustomerInDefaultWorkspace: (id: string) => Promise<Customer>;
+};
+
+export type GetCustomerRequest = {
+  workspaceId: string;
+  customerId: string;
 };
 
 export { Customer };

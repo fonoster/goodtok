@@ -117,7 +117,7 @@ model QueueEntry {
 model ShopifyAccount {
   id          String @id @default(uuid())
   accessToken String @map("access_token") /// @encrypted
-  storeId     String @map("store_id")
+  storeDomain String @map("store_domain")
 
   // Relations
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)

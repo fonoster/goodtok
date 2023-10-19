@@ -309,7 +309,7 @@ describe("@apiserver[workspaces]", () => {
 
   it("should update a workspace with a shopify account", async () => {
     const shopifyAccount = {
-      storeId: "123456",
+      storeDomain: "123456",
       accessKey: "abc123"
     };
 
@@ -341,7 +341,7 @@ describe("@apiserver[workspaces]", () => {
       },
       shopifyAccount: {
         accessToken: "abc123",
-        storeId: "123456"
+        storeDomain: "123456"
       }
     } as unknown as UpdateWorkspaceRequest;
 

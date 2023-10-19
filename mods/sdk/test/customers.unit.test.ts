@@ -30,7 +30,7 @@ describe("@sdk[customers]", () => {
   let queryStub: sinon.SinonStub;
 
   beforeEach(() => {
-    mockClient = {} as Client;
+    mockClient = new Client({ workspace: "myworkspace" });
     queryStub = sandbox.stub().returns(Promise.resolve({}));
 
     sandbox.stub(Customers.prototype, "createTRPCProxy").returns({
@@ -51,7 +51,7 @@ describe("@sdk[customers]", () => {
     const customers = new Customers(mockClient);
 
     // Act
-    await customers.getCustomerById("123");
+    await customers.getCustomerInDefaultWorkspace("123");
 
     // Assert
     expect(queryStub).to.have.been.calledOnce;
