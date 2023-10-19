@@ -22,6 +22,7 @@ import { getCustomerById } from "./customers/getCustomerById";
 import { SALT, SIGN_OPTIONS } from "./envs";
 import { getToken } from "./utils";
 import { ContextOptions, ContextOptionsWithUrl } from "./types";
+import jwt from "jsonwebtoken";
 
 export async function createContext(opts: ContextOptions) {
   const { req } = opts as ContextOptionsWithUrl;
@@ -40,6 +41,11 @@ export async function createContext(opts: ContextOptions) {
 }
 
 export type Context = {
-  prisma: typeof prisma;
+  prisma?: typeof prisma;
+  token?: string;
   getCustomerById?: typeof getCustomerById;
+  config?: {
+    salt: string;
+    signOptions: jwt.SignOptions;
+  };
 };

@@ -16,6 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Prisma } from "@prisma/client";
 import { IncomingHttpHeaders } from "http";
 
 export type ContextOptions = {
@@ -29,3 +30,9 @@ export type ContextOptionsWithUrl = ContextOptions & {
     url: string;
   };
 };
+
+export type UserWithWorkspaces = Prisma.UserGetPayload<{
+  include: {
+    ownedWorkspaces: true;
+  };
+}>;

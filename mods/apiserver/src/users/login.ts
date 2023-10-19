@@ -30,6 +30,9 @@ export async function login(
   const user = await ctx.prisma.user.findUnique({
     where: {
       username
+    },
+    include: {
+      ownedWorkspaces: true
     }
   });
 
@@ -38,5 +41,9 @@ export async function login(
   if (user.password !== hashedPassword)
     throw new TRPCError({ code: "UNAUTHORIZED" });
 
-  return generateToken(user, input.salt);
+  return generateToken({
+    user,
+    salt: input.salt,
+    signOptions: ctx.config.signOptions
+  });
 }

@@ -60,4 +60,47 @@ describe("@apiserver[utils]", () => {
     // Assert
     chai.expect(getToken(request)).to.equal("123456");
   });
+
+  it("generates a token for the authenticated user", async () => {
+    // Arrange
+    const request = {
+      user: {
+        id: "123456",
+        username: "test",
+        ownedWorkspaces: [
+          {
+            id: "123456",
+            name: "test"
+          }
+        ]
+      },
+      salt: "123456",
+      signOptions: {
+        expiresIn: "24h"
+      }
+    } as any
+
+    // Act
+    const { generateToken } = await import("../src/utils");
+
+    // Assert
+    chai.expect(generateToken(request)).to.be.a("string");
+  });
+
+  it("verifies the the function throws an error if the token is invalid", async () => {
+    // Arrange
+    const request = {
+      token: "123456",
+      salt: "abcdefg",
+      signOptions: {
+        expiresIn: "24h"
+      }
+    };
+
+    // Act
+    const { verifyToken } = await import("../src/utils");
+
+    // Assert
+    chai.expect(() => verifyToken(request)).to.throw;
+  });
 });

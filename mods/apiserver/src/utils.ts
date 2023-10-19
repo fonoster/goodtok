@@ -16,9 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ContextOptionsWithUrl } from "./types";
+import { ContextOptionsWithUrl, UserWithWorkspaces } from "./types";
 import { TRPCError } from "@trpc/server";
-import { User } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
@@ -28,21 +27,28 @@ export function hashPassword(password: string) {
   return hash.digest("hex");
 }
 
-export function generateToken(user: User, salt: string): string {
-  const payload = {
+export function generateToken(request: {
+  user: UserWithWorkspaces;
+  salt: string;
+  signOptions: jwt.SignOptions;
+}): string {
+  const { user, salt } = request;
+  const workspaces = user.ownedWorkspaces?.map((w) => ({
+    id: w.id,
+    role: "owner"
+  }));
+
+  const claims = {
     sub: user.id,
     username: user.username,
-    workspaces: [
-      { id: "252", role: "owner" },
-      { id: "324", role: "member" }
-    ]
+    workspaces: workspaces
   };
 
-  return jwt.sign(payload, salt, { expiresIn: "1h" });
+  return jwt.sign(claims, salt, { expiresIn: "24h" });
 }
 
 // Fixme: Need to compare the claims with the requested resource
-export async function verifyToken(request: {
+export function verifyToken(request: {
   token: string;
   salt: string;
   signOptions: jwt.SignOptions;
@@ -74,6 +80,6 @@ export function getToken(request: ContextOptionsWithUrl): string | null {
   if (tokenType !== "Bearer") {
     return null;
   }
- 
+
   return authToken;
 }

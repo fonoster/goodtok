@@ -98,7 +98,8 @@ describe("@apiserver[users]", () => {
         user: {
           findUnique: sandbox.stub().resolves(testUser)
         }
-      }
+      },
+      config: {}
     } as unknown as Context;
 
     const input = {

@@ -29,7 +29,7 @@ export const createTRPCRouter = t.router;
 const enforceUserIsAuthed = t.middleware(async (opts) => {
   const { ctx, next } = opts;
 
-  await verifyToken({
+  verifyToken({
     token: ctx.token,
     salt: ctx.config.salt,
     signOptions: ctx.config.signOptions
