@@ -23,6 +23,16 @@ import jwt from "jsonwebtoken";
 
 const logger = getLogger({ service: "common", filePath: __filename });
 
+/**
+ * Generates a JWT token with the necesary claims for the user to be authenticated. The claims include
+ * the user id, username and a list of workspaces with their roles. The bearer of this token will be
+ * able to access the resources of the workspaces according to the role of the user in each workspace.
+ *
+ * @param {UserWithWorkspaces} request - User object
+ * @param {string} jwtSecuritySalt - JWT security salt
+ * @param {jwt.SignOptions} jwtSignOptions - JWT sign options
+ * @return {string} JWT token
+ */
 export function generateToken(request: {
   user: UserWithWorkspaces;
   jwtSecuritySalt: string;
@@ -59,6 +69,12 @@ export function verifyToken(request: {
   }
 }
 
+/**
+ * Function that returns the token from the query string or authorization header
+ *
+ * @param {ContextOptionsWithUrl} request - HTTP request object from express
+ * @return {string | null}
+ */
 export function getToken(request: ContextOptionsWithUrl): string | null {
   if (request.req.url?.includes("token=")) {
     const urlParams = new URLSearchParams(request.req.url.split("?")[1]);

@@ -27,10 +27,12 @@ import { getLogger } from "@fonoster/logger";
 import cors from "cors";
 import express from "express";
 
-import("./workspaces/watchNats");
-
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
+// Start NATS watcher
+import("./workspaces/watchNats");
+
+// Setup express
 const app = express();
 
 app.use(cors());
@@ -45,6 +47,7 @@ app.use(
 
 const server = app.listen(APISERVER_BIND_PORT);
 
+// Add support for WebSocket
 const wss = new WebSocketServer({ server });
 
 applyWSSHandler<AppRouter>({

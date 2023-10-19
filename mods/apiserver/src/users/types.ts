@@ -24,5 +24,7 @@ export type User = {
   avatar: string;
   createdAt: Date;
   updatedAt: Date;
+  // WARNING: Since this parameter is only needed during login we should
+  // consider removing it from the User type and create a new type
   password?: string;
 };

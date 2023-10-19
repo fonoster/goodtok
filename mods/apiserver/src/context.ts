@@ -32,6 +32,12 @@ import {
 } from "./envs";
 import jwt from "jsonwebtoken";
 
+/**
+ * This function creates a new context for each request to the API.
+ *
+ * @param {ContextOptions} opts - Context options
+ * @return {Context} A new context with all the required dependencies
+ */
 export async function createContext(opts: ContextOptions) {
   const { req } = opts as ContextOptionsWithUrl;
 

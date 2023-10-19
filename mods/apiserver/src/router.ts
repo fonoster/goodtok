@@ -22,6 +22,7 @@ import { usersRouter } from "./users/router";
 import { tokensRouter } from "./tokens/router";
 import { router } from "./trpc";
 
+// This is the main router for the API server
 export const appRouter = router({
   users: usersRouter,
   tokens: tokensRouter,

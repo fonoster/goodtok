@@ -19,20 +19,39 @@
 import { Prisma } from "@prisma/client";
 import { IncomingHttpHeaders } from "http";
 
+// Input type for the Context
 export type ContextOptions = {
   req: {
     headers: IncomingHttpHeaders;
   };
 };
 
+// TRPC doesn't support the `url` property in the request object
+// This type is a workaround for that
 export type ContextOptionsWithUrl = ContextOptions & {
   req: {
     url: string;
   };
 };
 
+// Type to expand User type with the ownedWorkspaces property
 export type UserWithWorkspaces = Prisma.UserGetPayload<{
   include: {
     ownedWorkspaces: true;
   };
 }>;
+
+// The register event is sent by Routr when a new endpoint is registered
+export type RegisterEvent = {
+  // The address of record (aor) is the unique identifier for the endpoint
+  // And it is formatted as `sip:username@domain`
+  aor: string;
+  registeredAt: Date;
+  expires: number;
+  // During the registration process endpoints are required to send the
+  // X-Customer-Id and X-Workspace-Id headers. These headers are
+  // used to associate an endpoint with a workspace.
+  extraHeaders: Record<string, string>;
+};
+
+export type RegisterEventCallback = (registerEvent: RegisterEvent) => void;

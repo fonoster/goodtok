@@ -18,20 +18,20 @@
  */
 import { connect } from "nats";
 import { getLogger } from "@fonoster/logger";
+import { RegisterEventCallback } from "./types";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 const REGISTER_SUBJECT = "routr.endpoint.registered";
 
-export function watchNats(
-  natsUrl: string,
-  callback: (registerEvent: {
-    aor: string;
-    registeredAt: Date;
-    expires: number;
-    extraHeaders: Record<string, string>;
-  }) => void
-) {
+/**
+ * This method listens for registration events from Routr.
+ *
+ * @param {string} natsUrl - The NATS server URL
+ * @param {RegisterEventCallback} callback - The callback function
+ * @return {void}
+ */
+export function watchNats(natsUrl: string, callback: RegisterEventCallback) {
   (async () => {
     const nc = await connect({ servers: natsUrl });
 
