@@ -23,7 +23,8 @@
     "jwt-decode": "^3.1.2"
   },
   "files": [
-    "dist"
+    "dist",
+    "public"
   ],
   "publishConfig": {
     "access": "public"
