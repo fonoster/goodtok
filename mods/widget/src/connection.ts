@@ -45,8 +45,11 @@ export async function getConnectionObject(
       // Use this parameters to request a token from the server if not token is provided
       const key = fullUrl.searchParams.get("key");
       const decodedKey = atob(key);
-      const parsedKey = JSON.parse(decodedKey) as { [key: string]: string };
-      const workspace = parsedKey.id;
+      const parsedKey = JSON.parse(decodedKey) as {
+        gtid: string;
+        server: string;
+      };
+      const workspace = parsedKey.gtid;
       const server = parsedKey.server;
 
       const client = new SDK.Client({
