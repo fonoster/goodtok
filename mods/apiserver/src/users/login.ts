@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { TRPCError } from "@trpc/server";
-import { generateToken, hashPassword } from "../utils";
+import { generateToken } from "../utils";
 import { Context } from "../context";
 
 export async function login(
@@ -25,7 +25,6 @@ export async function login(
   input: { username: string; password: string; salt: string }
 ): Promise<string> {
   const { username, password } = input;
-  const hashedPassword = hashPassword(password);
 
   const user = await ctx.prisma.user.findUnique({
     where: {
@@ -38,8 +37,7 @@ export async function login(
 
   if (!user) throw new TRPCError({ code: "UNAUTHORIZED" });
 
-  if (user.password !== hashedPassword)
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+  if (user.password !== password) throw new TRPCError({ code: "UNAUTHORIZED" });
 
   return generateToken({
     user,

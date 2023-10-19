@@ -33,7 +33,7 @@ enum QueueEntryStatus {
 model User {
   id        String   @id @default(uuid())
   username  String   @unique
-  password  String
+  password  String   @map("password_hash") /// @encrypted
   email     String   @unique
   name      String
   avatar    String?

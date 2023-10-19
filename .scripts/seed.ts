@@ -16,10 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PrismaClient } from "@prisma/client";
-import { hashPassword } from "../mods/apiserver/src/utils";
-
-const prisma = new PrismaClient();
+import { prisma } from "../mods/apiserver/src/db";
 
 async function main() {
   await prisma.user.create({
@@ -27,7 +24,7 @@ async function main() {
       id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
       username: "goodtok",
       email: "goodtok@goodtok.io",
-      password: hashPassword("changeme"),
+      password: "changeme",
       name: "Goodtok"
     }
   });
@@ -37,7 +34,7 @@ async function main() {
       id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc2",
       username: "member",
       email: "member@goodtok.io",
-      password: hashPassword("changeme"),
+      password: "changeme",
       name: "Goodtok Member"
     },
   });

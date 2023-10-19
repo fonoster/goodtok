@@ -27,7 +27,7 @@
     "start:old": "http-server public -c10",
     "db:up": "docker compose -f compose.dev.yaml up postgres adminer -d",
     "db:down": "docker compose -f compose.dev.yaml down",
-    "db:migrate": "npx prisma migrate dev --schema ./mods/apiserver/schema.prisma --name init --preview-feature",
+    "db:migrate": "PATH_TO_KEYS=./.keys npx prisma migrate dev --schema ./mods/apiserver/schema.prisma --name init --preview-feature",
     "db:seed": "npx prisma db seed --schema ./mods/apiserver/schema.prisma",
     "prebuild": "npx prisma generate --schema ./mods/apiserver/schema.prisma",
     "build": "lerna run build",

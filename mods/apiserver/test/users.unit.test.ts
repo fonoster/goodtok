@@ -18,7 +18,6 @@
  */
 import { Context } from "../src/context";
 import { TRPCError } from "@trpc/server";
-import { hashPassword } from "../dist/utils";
 import chai from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
@@ -32,7 +31,7 @@ describe("@apiserver[users]", () => {
   const testUser = {
     id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
     username: "johndoe",
-    password: hashPassword("123456"),
+    password: "123456",
     name: "Jhon Doe",
     email: "john@example.com",
     avatar: "https://example.com/avatar.png",

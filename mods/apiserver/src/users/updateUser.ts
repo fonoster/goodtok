@@ -18,7 +18,6 @@
  */
 import { User } from "./types";
 import { TRPCError } from "@trpc/server";
-import { hashPassword } from "../utils";
 import { Context } from "../context";
 
 export async function updateUser(
@@ -41,18 +40,9 @@ export async function updateUser(
     },
     data: {
       ...data,
-      password: data.password ? hashPassword(data.password) : undefined,
       updatedAt: new Date()
     }
   });
 
-  return {
-    id: updatedUser.id,
-    username: updatedUser.username,
-    name: updatedUser.name,
-    email: updatedUser.email,
-    avatar: updatedUser.avatar,
-    createdAt: updatedUser.createdAt,
-    updatedAt: updatedUser.updatedAt
-  };
+  return updatedUser;
 }
