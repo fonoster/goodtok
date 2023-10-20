@@ -44,8 +44,8 @@ services:
 
   nats:
     image: nats:latest
-    expose:
-      - 4222
+    ports:
+      - 4222:4222
 
   postgres:
     image: postgres:14.1-alpine
