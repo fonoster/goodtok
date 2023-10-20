@@ -16,7 +16,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import GoodtokComponent from "./component";
-
-customElements.define("goodtok-component", GoodtokComponent);
-document.body.appendChild(new GoodtokComponent());
+import "./index.css";
+import "./VideoChatWidget";

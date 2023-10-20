@@ -7,25 +7,48 @@
   "license": "MIT",
   "main": "dist/index",
   "types": "dist/index",
-  "directories": {
-    "src": "src",
-    "test": "test"
-  },
-  "scripts": {
-    "prebuild": "rimraf ./dist tsconfig.tsbuildinfo",
-    "build": "tsc -b tsconfig.json",
-    "clean": "rimraf ./dist node_modules tsconfig.tsbuildinfo"
-  },
-  "dependencies": {
-    "@fonoster/logger": "0.3.24",
-    "@goodtok/common": "^0.0.4",
-    "@goodtok/sdk": "^0.0.4",
-    "jwt-decode": "^3.1.2"
-  },
   "files": [
     "dist",
     "public"
   ],
+  "scripts": {
+    "start": "vite",
+    "preview": "vite preview",
+    "prebuild": "rimraf ./dist tsconfig.tsbuildinfo",
+    "clean": "rimraf ./dist node_modules tsconfig.tsbuildinfo",
+    "build": "vite build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@goodtok/sdk": "^0.0.4",
+    "react": "^18.2.0",
+    "react-custom-elements": "^1.0.7",
+    "react-dom": "^18.2.0",
+    "sip.js": "^0.21.2",
+    "jwt-decode": "^3.1.2"
+
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.22.15",
+    "@storybook/addon-essentials": "^7.5.1",
+    "@storybook/addon-interactions": "^7.5.1",
+    "@storybook/addon-links": "^7.5.1",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.5.1",
+    "@storybook/react": "^7.5.1",
+    "@storybook/react-vite": "^7.5.1",
+    "@storybook/testing-library": "^0.2.2",
+    "babel-preset-nano-react-app": "^0.1.0",
+    "prop-types": "^15.8.1",
+    "storybook": "^7.5.1",
+    "vite": "^4.3.8"
+  },
+  "babel": {
+    "presets": [
+      "nano-react-app"
+    ]
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -36,6 +59,5 @@
   "unpkg": "public/lib/client.js",
   "bugs": {
     "url": "https://github.com/fonoster/goodtok/issues"
-  },
-  "gitHead": "ebd8920cde102ff806a6a2e50292e6e6eb2c042c"
+  }
 }
