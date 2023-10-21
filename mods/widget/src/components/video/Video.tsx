@@ -43,15 +43,22 @@ import {
 } from "./styles";
 import { formatTime } from "./formatTime";
 import { handlePiP } from "./handlePiP";
+import { CircleMicrophoneMutedIcon } from "../icons/CircleMicrophoneMutedIcon";
+import { CircleCameraMutedIcon } from "../icons/CircleCameraMutedIcon";
 
 type VideoProps = {
-  isCustomerVideoMuted?: boolean;
+  isCustomerCameraMuted?: boolean;
   isOpen?: boolean;
   onClose?: () => void;
+  onHangup?: () => void;
+  onCameraMuted?: (muted: boolean) => void;
+  onMicrophoneMuted?: (muted: boolean) => void;
 };
 
 export const Video = forwardRef((props: VideoProps, ref) => {
-  const [isCustomerVideoMuted, setIsCustomerVideoMuted] = useState(false);
+  const [isCustomerCameraMuted, setIsCustomeCameraMuted] = useState(false);
+  const [isCustomerMicrophoneMuted, setIsCustomerMicrophoneMuted] =
+    useState(false);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const staffVideoRef = React.createRef<HTMLVideoElement>();
   const customerVideoRef = React.createRef<HTMLVideoElement>();
@@ -77,14 +84,16 @@ export const Video = forwardRef((props: VideoProps, ref) => {
     <GoodtokVideo>
       <Header>
         <HeaderContainer>
-          {isCustomerVideoMuted ? <MutedCameraIcon /> : <CameraIcon />}
+          {isCustomerCameraMuted ? <MutedCameraIcon /> : <CameraIcon />}
           <p>{formatTime(secondsElapsed)}</p>
-          <CloseIcon onClick={props.onClose} />
+          <div onClick={props.onClose}>
+            <CloseIcon />
+          </div>
         </HeaderContainer>
       </Header>
       <VideoContainer>
         <StaffVideo ref={staffVideoRef} className="goodtok-video__staff" />
-        {isCustomerVideoMuted && (
+        {isCustomerCameraMuted && (
           <MutedOverlay>
             <MutedCameraIcon />
           </MutedOverlay>
@@ -94,13 +103,29 @@ export const Video = forwardRef((props: VideoProps, ref) => {
           className="goodtok-video__customer"
         />
         <Controls>
-          <ButtonCircleWrapper>
-            <CircleMicrophoneIcon />
+          <ButtonCircleWrapper
+            onClick={() => {
+              setIsCustomerMicrophoneMuted(!isCustomerMicrophoneMuted);
+              props.onMicrophoneMuted(isCustomerMicrophoneMuted);
+            }}
+          >
+            {isCustomerMicrophoneMuted ? (
+              <CircleMicrophoneMutedIcon />
+            ) : (
+              <CircleMicrophoneIcon />
+            )}
           </ButtonCircleWrapper>
           <ButtonCircleWrapper
-            onClick={() => setIsCustomerVideoMuted(!isCustomerVideoMuted)}
+            onClick={() => {
+              setIsCustomeCameraMuted(!isCustomerCameraMuted);
+              props.onCameraMuted(isCustomerCameraMuted);
+            }}
           >
-            <CircleCameraIcon />
+            {isCustomerCameraMuted ? (
+              <CircleCameraMutedIcon />
+            ) : (
+              <CircleCameraIcon />
+            )}
           </ButtonCircleWrapper>
           <ButtonCircleWrapper onClick={() => handlePiP(staffVideoRef)}>
             <CirclePiPIcon />

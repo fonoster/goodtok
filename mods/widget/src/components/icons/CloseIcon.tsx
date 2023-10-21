@@ -18,15 +18,9 @@
  */
 import React from "react";
 
-interface CloseIconProps {
-  onClick: () => void;
-}
-
-export function CloseIcon(props: CloseIconProps) {
+export function CloseIcon() {
   return (
     <svg
-      {...props}
-      onClick={props.onClick}
       width="16"
       height="16"
       viewBox="0 0 16 16"

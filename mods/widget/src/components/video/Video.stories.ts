@@ -30,8 +30,8 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    isCustomerVideoMuted: {
-      name: "Customer Video Muted",
+    isCustomerCameraMuted: {
+      name: "Customer Camera Muted",
       description: "Mute or unmute the video",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
@@ -43,8 +43,32 @@ const meta = {
       defaultValue: { summary: "false" }
     },
     onClose: {
-      name: "Close Callback",
+      name: "Close Window Callback",
       description: "Callback when the notification is closed",
+      control: {
+        type: "function"
+      },
+      action: "clicked"
+    },
+    onHangup: {
+      name: "Hangup Callback",
+      description: "Callback when the hangup button is clicked",
+      control: {
+        type: "function"
+      },
+      action: "clicked"
+    },
+    onCameraMuted: {
+      name: "Camera Muted Callback",
+      description: "Callback when the camera is muted",
+      control: {
+        type: "function"
+      },
+      action: "clicked"
+    },
+    onMicrophoneMuted: {
+      name: "Microphone Muted Callback",
+      description: "Callback when the microphone is muted",
       control: {
         type: "function"
       },
@@ -63,8 +87,7 @@ type Story = StoryObj<typeof meta>;
 export const VideoExample: Story = {
   args: {
     isOpen: true,
-    onClose: null,
-    isCustomerVideoMuted: false
+    isCustomerCameraMuted: false
   },
   play: () => {
     const video = document.querySelector(
