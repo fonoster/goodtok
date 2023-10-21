@@ -16,27 +16,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from "react";
-import { MenuItemContainer, Label } from "./styles";
+import styled from "styled-components";
 
-type MenuItemProps = {
-  isTopElement?: boolean;
-  Icon: React.ComponentType;
-  label: string;
-  onClick: () => void;
-};
+export const MenuItemContainer = styled.div<{ isTopElement?: boolean }>`
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 32px;
+  border-top: 1px solid #e8e8e8;
+  cursor: pointer;
 
-export const MenuItem: React.FC<MenuItemProps> = ({
-  isTopElement = false,
-  Icon,
-  label,
-  onClick,
-  ...props
-}) => {
-  return (
-    <MenuItemContainer isTopElement={isTopElement} onClick={onClick} {...props}>
-      <Icon />
-      <Label>{label}</Label>
-    </MenuItemContainer>
-  );
-};
+  &:hover,
+  &:hover label {
+    background-color: #f5f5f5;
+  }
+
+  ${(props) =>
+    props.isTopElement &&
+    `
+    border-top: none;
+    border-radius: 30px 30px 0px 0px;
+  `}
+`;
+
+export const Label = styled.label`
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  cursor: pointer;
+`;

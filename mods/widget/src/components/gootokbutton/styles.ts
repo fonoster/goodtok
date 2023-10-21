@@ -16,27 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from "react";
-import { MenuItemContainer, Label } from "./styles";
+import styled from "styled-components";
 
-type MenuItemProps = {
-  isTopElement?: boolean;
-  Icon: React.ComponentType;
-  label: string;
-  onClick: () => void;
-};
-
-export const MenuItem: React.FC<MenuItemProps> = ({
-  isTopElement = false,
-  Icon,
-  label,
-  onClick,
-  ...props
-}) => {
-  return (
-    <MenuItemContainer isTopElement={isTopElement} onClick={onClick} {...props}>
-      <Icon />
-      <Label>{label}</Label>
-    </MenuItemContainer>
-  );
-};
+export const ButtonContainer = styled.div`
+  cursor: pointer;
+`;

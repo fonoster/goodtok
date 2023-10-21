@@ -87,7 +87,7 @@ export const AudioCall: Story = {
 /**
  * Shows a GoodtokMenuItem component for an audio only session request.
  */
-export const SchedeleMeet: Story = {
+export const ScheduleMeet: Story = {
   args: {
     label: "Schedule a video meet",
     Icon: CalendarIcon

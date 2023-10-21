@@ -20,7 +20,15 @@ import { MenuContainer } from "../menu/container/MenuContainer";
 import { CloseIcon } from "../icons/CloseIcon";
 import { LoadingIcon } from "../icons/LoadingIcon";
 import React from "react";
-import "./styles.css";
+import {
+  NotificationBody,
+  NotificationHeader,
+  InnerContainer,
+  WaitingIndicator,
+  Rotate,
+  StyledSpan,
+  StyledP
+} from "./styles";
 
 type MenuContainerProps = {
   online?: boolean;
@@ -37,21 +45,23 @@ export const Notification: React.FC<MenuContainerProps> = ({
   return (
     <MenuContainer {...props} isOpen={isOpen} online={online}>
       <div className="notification-container">
-        <div className="notification-header">
+        <NotificationHeader>
           <CloseIcon onClick={onClosed} />
-        </div>
-        <div className="notification-body">
-          <div className="inner-container">
-            <div className="wating-indicator">
-              <LoadingIcon />
-              <span>Hang tight!</span>
-            </div>
-            <p>
+        </NotificationHeader>
+        <NotificationBody>
+          <InnerContainer>
+            <WaitingIndicator>
+              <Rotate>
+                <LoadingIcon />
+              </Rotate>
+              <StyledSpan>Hang tight!</StyledSpan>
+            </WaitingIndicator>
+            <StyledP>
               Please keep this tab open while we connect you with one of our
               representatives.
-            </p>
-          </div>
-        </div>
+            </StyledP>
+          </InnerContainer>
+        </NotificationBody>
       </div>
     </MenuContainer>
   );

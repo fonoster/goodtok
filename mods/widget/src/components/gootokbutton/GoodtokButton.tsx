@@ -18,7 +18,7 @@
  */
 import React, { useState } from "react";
 import { GoodtokIcon, GoodtokHoverIcon } from "./GoodtokIcon";
-import "./styles.css";
+import { ButtonContainer } from "./styles";
 
 interface GoodtokButtonProps {
   online?: boolean;
@@ -33,20 +33,16 @@ export const GoodtokButton: React.FC<GoodtokButtonProps> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
+    <ButtonContainer
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
     >
       {isHovered ? (
-        <GoodtokHoverIcon
-          className="goodtok-button"
-          {...props}
-          online={online}
-        />
+        <GoodtokHoverIcon {...props} online={online} />
       ) : (
         <GoodtokIcon {...props} online={online} />
       )}
-    </div>
+    </ButtonContainer>
   );
 };

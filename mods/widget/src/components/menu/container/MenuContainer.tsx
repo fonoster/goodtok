@@ -16,10 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import "./styles.css";
 import React, { ReactNode } from "react";
+
 import { GoodtokIcon } from "../../icons/GoodtokIcon";
 import { OnlineIndicatoricon } from "../../icons/OnlineIndicatorIcon";
+import {
+  ContentArea,
+  FlexContainer,
+  MenuContainerStyled,
+  StatusArea,
+  StatusAreaLabel
+} from "./styles";
 
 type MenuContainerProps = {
   online?: boolean;
@@ -38,22 +45,22 @@ export const MenuContainer: React.FC<MenuContainerProps> = ({
   }
 
   return (
-    <div {...props} className="menu-container">
-      <div className="content-area">
+    <MenuContainerStyled {...props}>
+      <ContentArea>
         {children} {/* Render the children here */}
-      </div>
-      <div className="status-area">
-        <div className="status-area-container">
-          <div className="powered-by">
-            <label>Powered by</label>
+      </ContentArea>
+      <StatusArea>
+        <FlexContainer className="status-area-container">
+          <FlexContainer className="powered-by">
+            <StatusAreaLabel>Powered by</StatusAreaLabel>
             <GoodtokIcon />
-          </div>
-          <div className="status-indicator">
+          </FlexContainer>
+          <FlexContainer className="status-indicator">
             <OnlineIndicatoricon online={online} />
-            <label>Online Now</label>
-          </div>
-        </div>
-      </div>
-    </div>
+            <StatusAreaLabel>Online Now</StatusAreaLabel>
+          </FlexContainer>
+        </FlexContainer>
+      </StatusArea>
+    </MenuContainerStyled>
   );
 };
