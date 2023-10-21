@@ -33,12 +33,12 @@ import {
 type MenuContainerProps = {
   online?: boolean;
   isOpen: boolean;
-  onClosed: () => void;
+  onClose: () => void;
 };
 
 export const Notification: React.FC<MenuContainerProps> = ({
   online = false,
-  onClosed,
+  onClose,
   isOpen,
   ...props
 }) => {
@@ -46,7 +46,7 @@ export const Notification: React.FC<MenuContainerProps> = ({
     <MenuContainer {...props} isOpen={isOpen} online={online}>
       <div className="notification-container">
         <NotificationHeader>
-          <CloseIcon onClick={onClosed} />
+          <CloseIcon onClick={onClose} />
         </NotificationHeader>
         <NotificationBody>
           <InnerContainer>

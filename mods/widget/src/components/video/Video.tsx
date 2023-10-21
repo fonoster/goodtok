@@ -47,7 +47,7 @@ import { handlePiP } from "./handlePiP";
 type VideoProps = {
   isCustomerVideoMuted?: boolean;
   isOpen?: boolean;
-  onClosed?: () => void;
+  onClose?: () => void;
 };
 
 export const Video = forwardRef((props: VideoProps, ref) => {
@@ -77,9 +77,9 @@ export const Video = forwardRef((props: VideoProps, ref) => {
     <GoodtokVideo>
       <Header>
         <HeaderContainer>
-          <CameraIcon />
+          {isCustomerVideoMuted ? <MutedCameraIcon /> : <CameraIcon />}
           <p>{formatTime(secondsElapsed)}</p>
-          <CloseIcon onClick={props.onClosed} />
+          <CloseIcon onClick={props.onClose} />
         </HeaderContainer>
       </Header>
       <VideoContainer>

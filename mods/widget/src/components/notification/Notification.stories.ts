@@ -43,7 +43,7 @@ const meta = {
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    onClosed: {
+    onClose: {
       name: "Close Callback",
       description: "Callback when the notification is closed",
       control: {

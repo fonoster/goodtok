@@ -42,7 +42,7 @@ const meta = {
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    onClosed: {
+    onClose: {
       name: "Close Callback",
       description: "Callback when the notification is closed",
       control: {
@@ -63,7 +63,7 @@ type Story = StoryObj<typeof meta>;
 export const VideoExample: Story = {
   args: {
     isOpen: true,
-    onClosed: null,
+    onClose: null,
     isCustomerVideoMuted: false
   },
   play: () => {
