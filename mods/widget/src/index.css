@@ -1,6 +1,6 @@
 body {
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #E6FFF5, #F0FDFF);
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #e6fff5, #f0fdff);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,7 +13,7 @@ body {
 .title {
   font-size: 74px;
   font-weight: 700;
-  color: #5FCFCE;
+  color: #5fcfce;
   margin-bottom: 10px;
   letter-spacing: -1px;
 }
