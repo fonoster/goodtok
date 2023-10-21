@@ -16,37 +16,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useState } from "react";
-import { GoodtokIcon, GoodtokHoverIcon } from "./GoodtokIcon";
 import "./styles.css";
+import React from "react";
 
-interface GoodtokButtonProps {
-  online?: boolean;
-  onClick?: () => void;
-}
+type MenuItemProps = {
+  isTopElement?: boolean;
+  Icon: React.ComponentType;
+  label: string;
+  onClick: () => void;
+};
 
-export const GoodtokButton: React.FC<GoodtokButtonProps> = ({
-  online = false,
+export const MenuItem: React.FC<MenuItemProps> = ({
+  isTopElement = false,
+  Icon,
+  label,
   onClick,
   ...props
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      {...props}
+      className={`menu-item ${isTopElement ? "menu-item-top-component" : ""}`}
       onClick={onClick}
     >
-      {isHovered ? (
-        <GoodtokHoverIcon
-          className="goodtok-button"
-          {...props}
-          online={online}
-        />
-      ) : (
-        <GoodtokIcon {...props} online={online} />
-      )}
+      <Icon />
+      <label>{label}</label>
     </div>
   );
 };

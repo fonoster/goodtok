@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+.notification-body {
+  height: 139px;
+  display: flex;
+  padding: 8px 32px 0px 32px;
+}
+
+.notification-body .inner-container {
+  width: 244px;
+  text-align: center;
+}
+
+.wating-indicator {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.notification-body span {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 21px;
+}
+
+.notification-body p {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19.07px;
+}
+
+.notification-header {
+  padding: 24px 24px 8px 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: rotateAnimation 1.2s linear infinite;
+  transform-origin: center center;
+}

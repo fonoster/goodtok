@@ -22,7 +22,7 @@ interface GoodtokIcon {
   online: boolean;
 }
 
-export function GoodtokIcon({ online = true, ...props }: GoodtokIcon) {
+export function GoodtokIcon({ online = false, ...props }: GoodtokIcon) {
   return (
     <svg
       {...props}
@@ -108,7 +108,7 @@ export function GoodtokIcon({ online = true, ...props }: GoodtokIcon) {
   );
 }
 
-export function GoodtokHoverIcon({ online = true, ...props }) {
+export function GoodtokHoverIcon({ online = false, ...props }) {
   return (
     <svg
       {...props}

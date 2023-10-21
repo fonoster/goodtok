@@ -38,8 +38,7 @@ class VideoChatWidget extends HTMLElement {
     videoElement.playsinline = true;
     videoElement.muted = true;
     videoElement.id = "goodtok-video";
-    videoElement.style = "background-color: #000;"
-
+    videoElement.style = "background-color: #000;";
 
     shadowRoot.appendChild(audioElement);
     shadowRoot.appendChild(videoElement);

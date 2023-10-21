@@ -17,45 +17,53 @@
  * limitations under the License.
  */
 import type { Meta, StoryObj } from "@storybook/react";
-
-import { GoodtokButton } from "./GoodtokButton";
+import { Notification } from "./Notification";
 
 /**
- * This story is for the GoodtokButton component which triggers the Goodtok widget. The GoodtokButton component is
- * is meant to be used as a floating button on the bottom right corner of the screen. The button remains visible
- * even when the user scrolls the page and during the call.
+ * Final implementation of the Menu component, which simply requires a JSON object with the menu items,
+ * and provides a callback for when an item is clicked and the online status of the staff.
  */
 const meta = {
-  title: "Widget/GoodtokButton",
-  component: GoodtokButton,
+  title: "Widget/Notification",
+  component: Notification,
   parameters: {
     layout: "centered"
   },
   tags: ["autodocs"],
   argTypes: {
     online: {
-      name: "Goodtok Menu Trigger",
+      name: "Status Indicator",
       description: "Indicates if the staff is accepting calls",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    onClick: {
-      name: "On Click",
-      description: "Triggered when the button is clicked",
+    isOpen: {
+      name: "Open/Close toggle",
+      description: "Close or open the menu",
+      control: { type: "boolean" },
+      defaultValue: { summary: "false" }
+    },
+    onClosed: {
+      name: "Close Callback",
+      description: "Callback when the notification is closed",
+      control: {
+        type: "function"
+      },
       action: "clicked"
     }
   }
-} satisfies Meta<typeof GoodtokButton>;
+} satisfies Meta<typeof Notification>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/**
- * Indicates that the staff is not accepting calls
+/*
+ * Example of a MenuContainer component with MenuItems as children.
  */
-export const ButtonExample: Story = {
+export const NotificationExample: Story = {
   args: {
-    online: false
+    online: true,
+    isOpen: true
   }
 };
