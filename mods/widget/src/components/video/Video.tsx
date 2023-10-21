@@ -41,6 +41,8 @@ import {
   StaffVideo,
   VideoContainer
 } from "./styles";
+import { formatTime } from "./formatTime";
+import { handlePiP } from "./handlePiP";
 
 type VideoProps = {
   isCustomerVideoMuted?: boolean;
@@ -50,6 +52,7 @@ type VideoProps = {
 
 export const Video = forwardRef((props: VideoProps, ref) => {
   const [isCustomerVideoMuted, setIsCustomerVideoMuted] = useState(false);
+  const [secondsElapsed, setSecondsElapsed] = useState(0);
   const staffVideoRef = React.createRef<HTMLVideoElement>();
   const customerVideoRef = React.createRef<HTMLVideoElement>();
 
@@ -58,8 +61,6 @@ export const Video = forwardRef((props: VideoProps, ref) => {
     staffVideo: staffVideoRef.current,
     customerVideo: customerVideoRef.current
   }));
-
-  const [secondsElapsed, setSecondsElapsed] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -71,31 +72,6 @@ export const Video = forwardRef((props: VideoProps, ref) => {
       clearInterval(interval);
     };
   }, []);
-
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secondsLeft = seconds % 60;
-    return `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}:${secondsLeft.toString().padStart(2, "0")}`;
-  };
-
-  const handlePiP = async () => {
-    try {
-      if (staffVideoRef.current) {
-        if (document.pictureInPictureElement) {
-          // If some video is already in PiP mode, we'll exit from it
-          await document.exitPictureInPicture();
-        } else {
-          // Otherwise, we request PiP for our staff video
-          await staffVideoRef.current.requestPictureInPicture();
-        }
-      }
-    } catch (error) {
-      console.error("Failed to toggle PiP mode:", error);
-    }
-  };
 
   return (
     <GoodtokVideo>
@@ -126,7 +102,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
           >
             <CircleCameraIcon />
           </ButtonCircleWrapper>
-          <ButtonCircleWrapper onClick={handlePiP}>
+          <ButtonCircleWrapper onClick={() => handlePiP(staffVideoRef)}>
             <CirclePiPIcon />
           </ButtonCircleWrapper>
           {/* 
