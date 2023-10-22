@@ -31,10 +31,6 @@ class GoodtokComponent extends HTMLElement {
   }
 
   connectedCallback() {
-    // States for the widget
-    let menuOpen = false;
-    let notificationOpen = false;
-
     const shadowRoot = this.attachShadow({ mode: "open" });
     let simpleUser: Web.SimpleUser;
 
@@ -67,8 +63,6 @@ class GoodtokComponent extends HTMLElement {
                 }
               });
 
-              menuOpen = false;
-              notificationOpen = true;
             })
             .catch((e) => {
               console.error("Failed to connect to server");
@@ -116,8 +110,8 @@ class GoodtokComponent extends HTMLElement {
           onEvent={eventHandler}
           onVideoRefsReady={handleVideoRefsReady}
           videoOpen={false}
-          menuOpen={menuOpen}
-          notificationOpen={notificationOpen}
+          menuOpen={false}
+          notificationOpen={false}
           onNotificationClose={() => console.log("Notification closed")}
         />
       </StyleSheetManager>

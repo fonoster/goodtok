@@ -58,7 +58,9 @@ export const MenuContainer: React.FC<MenuContainerProps> = ({
           </FlexContainer>
           <FlexContainer className="status-indicator">
             <OnlineIndicatoricon online={online} />
-            <StatusAreaLabel>Online Now</StatusAreaLabel>
+            <StatusAreaLabel>
+              {online ? "Online" : "Offline"} Now
+            </StatusAreaLabel>
           </FlexContainer>
         </FlexContainer>
       </StatusArea>

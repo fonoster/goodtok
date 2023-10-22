@@ -45,8 +45,8 @@ export const Notification: React.FC<MenuContainerProps> = ({
   return (
     <MenuContainer {...props} isOpen={isOpen} online={online}>
       <div className="notification-container">
-        <NotificationHeader>
-          <CloseIcon onClick={onClose} />
+        <NotificationHeader onClick={onClose}>
+          <CloseIcon />
         </NotificationHeader>
         <NotificationBody>
           <InnerContainer>
