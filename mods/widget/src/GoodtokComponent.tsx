@@ -38,8 +38,6 @@ class GoodtokComponent extends HTMLElement {
     const goodtokContainer = document.createElement("div");
     goodtokContainer.className = "goodtok-container";
 
-    const root = createRoot(goodtokContainer);
-
     const shadowRoot = this.attachShadow({ mode: "open" });
     shadowRoot.appendChild(audioElement);
     shadowRoot.appendChild(styleSlot);
@@ -100,6 +98,8 @@ class GoodtokComponent extends HTMLElement {
 
       simpleUser.delegate = delegate;
     };
+
+    const root = createRoot(goodtokContainer);
 
     root.render(
       <StyleSheetManager target={styleSlot}>
