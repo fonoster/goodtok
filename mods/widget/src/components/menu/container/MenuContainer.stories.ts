@@ -23,7 +23,6 @@ import { CameraIcon } from "../../icons/CameraIcon";
 import { MenuContainer } from "./MenuContainer";
 import { MenuItem } from "../item/MenuItem";
 import { PhoneIcon } from "../../icons/PhoneIcon";
-import { CalendarIcon } from "../../icons/CalendarIcon";
 
 /**
  * This story covers the MenuContainer component which is the base component for the Menu component. The MenuContainer

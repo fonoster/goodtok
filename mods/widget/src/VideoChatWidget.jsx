@@ -18,11 +18,9 @@
  * limitations under the License.
  */
 import "./index.css";
-import { GoodtokButton } from "./components/gootokbutton/GoodtokButton";
 import { CameraIcon } from "./components/icons/CameraIcon";
 import { PhoneIcon } from "./components/icons/PhoneIcon";
 import { CalendarIcon } from "./components/icons/CalendarIcon";
-import { Video } from "./components/video/Video";
 import { Menu } from "./components/menu/Menu";
 import { createRoot } from "react-dom/client";
 import { Web } from "sip.js";

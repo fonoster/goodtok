@@ -63,6 +63,27 @@ export const Video = forwardRef((props: VideoProps, ref) => {
   const staffVideoRef = React.createRef<HTMLVideoElement>();
   const customerVideoRef = React.createRef<HTMLVideoElement>();
 
+  useEffect(() => {
+    if (!staffVideoRef.current || !customerVideoRef.current) return;
+    staffVideoRef.current.addEventListener(
+      "enterpictureinpicture",
+      function () {
+        if (!staffVideoRef.current || !customerVideoRef.current) return;
+        customerVideoRef.current.style.display = "none";
+        staffVideoRef.current.style.left = "0";
+      }
+    );
+
+    staffVideoRef.current.addEventListener(
+      "leavepictureinpicture",
+      function () {
+        if (!staffVideoRef.current || !customerVideoRef.current) return;
+        customerVideoRef.current.style.display = "block";
+        staffVideoRef.current.style.left = "-20px";
+      }
+    );
+  });
+
   // Expose refs to parent
   useImperativeHandle(ref, () => ({
     staffVideo: staffVideoRef.current,
@@ -79,6 +100,10 @@ export const Video = forwardRef((props: VideoProps, ref) => {
       clearInterval(interval);
     };
   }, []);
+
+  if (!props.isOpen) {
+    return null;
+  }
 
   return (
     <GoodtokVideo>

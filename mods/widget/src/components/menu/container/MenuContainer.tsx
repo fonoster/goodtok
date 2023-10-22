@@ -32,6 +32,7 @@ type MenuContainerProps = {
   online?: boolean;
   isOpen?: boolean;
   children: ReactNode;
+  className?: string;
 };
 
 export const MenuContainer: React.FC<MenuContainerProps> = ({

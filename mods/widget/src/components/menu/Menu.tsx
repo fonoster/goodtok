@@ -32,6 +32,7 @@ type MenuContainerProps = {
   isOpen: boolean;
   data: Item[];
   onItemClicked: (name: string) => void;
+  className?: string;
 };
 
 export const Menu: React.FC<MenuContainerProps> = ({
