@@ -31,20 +31,19 @@ class GoodtokComponent extends HTMLElement {
   }
 
   connectedCallback() {
-    const shadowRoot = this.attachShadow({ mode: "open" });
     let simpleUser: Web.SimpleUser;
 
-    // Add audio and video elements
     const audioElement = document.createElement("audio");
-
-    shadowRoot.appendChild(audioElement);
-
+    const styleSlot = document.createElement("section");
     const goodtokContainer = document.createElement("div");
     goodtokContainer.className = "goodtok-container";
+
     const root = createRoot(goodtokContainer);
 
-    const styleSlot = document.createElement("section");
+    const shadowRoot = this.attachShadow({ mode: "open" });
+    shadowRoot.appendChild(audioElement);
     shadowRoot.appendChild(styleSlot);
+    shadowRoot.appendChild(goodtokContainer);
 
     const eventHandler = (event: GoodtokWidgetEvents) => {
       if (event === GoodtokWidgetEvents.VIDEO_SESSION_REQUEST) {
@@ -115,8 +114,6 @@ class GoodtokComponent extends HTMLElement {
         />
       </StyleSheetManager>
     );
-
-    shadowRoot.appendChild(goodtokContainer);
   }
 }
 
