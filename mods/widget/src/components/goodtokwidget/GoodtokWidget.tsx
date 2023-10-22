@@ -21,7 +21,7 @@ import { Notification } from "../notification/Notification";
 import { Menu as OriginalMenu } from "../menu/Menu";
 import { menuData } from "./data";
 import { ActiveComponent, GoodtokWidgetEvents } from "./types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Video from "../video/Video";
 
@@ -32,6 +32,7 @@ export type GoodtokWidgetProps = {
   videoOpen: boolean;
   onEvent: (eventName: GoodtokWidgetEvents) => void;
   onNotificationClose: () => void;
+  onVideoRefsReady: (refs: any) => void;
 };
 
 // Styled-components
@@ -63,8 +64,10 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
   notificationOpen = false,
   videoOpen = false,
   onEvent,
-  onNotificationClose
+  onNotificationClose,
+  onVideoRefsReady
 }) => {
+  const videoRefs = useRef(null);
   const [activeComponent, setActiveComponent] = useState<ActiveComponent>(
     ActiveComponent.None
   );
@@ -75,6 +78,12 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
     else if (videoOpen) setActiveComponent(ActiveComponent.Video);
     else setActiveComponent(ActiveComponent.None);
   }, [menuOpen, notificationOpen, videoOpen]);
+
+  useEffect(() => {
+    if (videoRefs.current) {
+      onVideoRefsReady(videoRefs.current);
+    }
+  }, [onVideoRefsReady]);
 
   return (
     <MenuButtonContainer>
@@ -94,6 +103,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
         }}
       />
       <Video
+        ref={videoRefs}
         isOpen={activeComponent === ActiveComponent.Video}
         onClose={() => {
           setActiveComponent(ActiveComponent.None);

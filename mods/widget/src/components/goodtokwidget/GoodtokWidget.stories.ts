@@ -76,7 +76,10 @@ export const GoodtokWidgetExample: Story = {
     online: false,
     menuOpen: false,
     notificationOpen: false,
-    videoOpen: false
+    videoOpen: false,
+    onVideoRefsReady: () => {
+      // Noop
+    }
   },
   play: () => {
     // Function to execute when the video elements are found

@@ -101,12 +101,8 @@ export const Video = forwardRef((props: VideoProps, ref) => {
     };
   }, []);
 
-  if (!props.isOpen) {
-    return null;
-  }
-
   return (
-    <GoodtokWidget>
+    <GoodtokWidget style={{ display: props.isOpen ? "block" : "none" }}>
       <Header>
         <HeaderContainer>
           {isCustomerCameraMuted ? <MutedCameraIcon /> : <CameraIcon />}
