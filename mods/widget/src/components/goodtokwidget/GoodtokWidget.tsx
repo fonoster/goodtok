@@ -16,25 +16,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import "./styles.css";
-import React, { useState, useEffect } from "react";
-import { GoodtokButton } from "../goodtokbutton/GoodtokButton";
+import { GoodtokButton as OriginalGoodtokButton } from "../goodtokbutton/GoodtokButton";
 import { Notification } from "../notification/Notification";
-import { Menu } from "../menu/Menu";
+import { Menu as OriginalMenu } from "../menu/Menu";
 import { menuData } from "./data";
+import { ActiveComponent, GoodtokWidgetEvents } from "./types";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import Video from "../video/Video";
-import { ActiveComponent, GoodtokVideoEvents } from "./types";
 
-export type GoodtokVideoProps = {
+export type GoodtokWidgetProps = {
   online: boolean;
   menuOpen: boolean;
   notificationOpen: boolean;
   videoOpen: boolean;
-  onEvent: (eventName: GoodtokVideoEvents) => void;
+  onEvent: (eventName: GoodtokWidgetEvents) => void;
   onNotificationClose: () => void;
 };
 
-export const GoodtokVideo: React.FC<GoodtokVideoProps> = ({
+// Styled-components
+const MenuButtonContainer = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const Menu = styled(OriginalMenu)`
+  z-index: 999;
+`;
+
+const GoodtokButton = styled(OriginalGoodtokButton)`
+  z-index: 1000;
+
+  /* This targets the scenario where .menu is immediately preceding .goodtok-button */
+  ${Menu} + & {
+    margin-top: 20px;
+  }
+`;
+
+export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
   online = false,
   menuOpen = false,
   notificationOpen = false,
@@ -54,12 +77,12 @@ export const GoodtokVideo: React.FC<GoodtokVideoProps> = ({
   }, [menuOpen, notificationOpen, videoOpen]);
 
   return (
-    <div className="menu-button-container">
+    <MenuButtonContainer>
       <Menu
         online={online}
         isOpen={activeComponent === ActiveComponent.Menu}
         data={menuData}
-        onItemClicked={(name) => onEvent(name as GoodtokVideoEvents)}
+        onItemClicked={(name) => onEvent(name as GoodtokWidgetEvents)}
       />
       <Notification
         online={online}
@@ -67,14 +90,14 @@ export const GoodtokVideo: React.FC<GoodtokVideoProps> = ({
         onClose={() => {
           onNotificationClose();
           setActiveComponent(ActiveComponent.None);
-          onEvent(GoodtokVideoEvents.CLOSE);
+          onEvent(GoodtokWidgetEvents.CLOSE);
         }}
       />
       <Video
         isOpen={activeComponent === ActiveComponent.Video}
         onClose={() => {
           setActiveComponent(ActiveComponent.None);
-          onEvent(GoodtokVideoEvents.CLOSE);
+          onEvent(GoodtokWidgetEvents.CLOSE);
         }}
       />
       <GoodtokButton
@@ -84,10 +107,10 @@ export const GoodtokVideo: React.FC<GoodtokVideoProps> = ({
             setActiveComponent(ActiveComponent.Menu);
           } else {
             setActiveComponent(ActiveComponent.None);
-            onEvent(GoodtokVideoEvents.CLOSE);
+            onEvent(GoodtokWidgetEvents.CLOSE);
           }
         }}
       />
-    </div>
+    </MenuButtonContainer>
   );
 };

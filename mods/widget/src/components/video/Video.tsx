@@ -34,7 +34,7 @@ import {
   ButtonCircleWrapper,
   Controls,
   CustomerVideo,
-  GoodtokVideo,
+  GoodtokWidget,
   Header,
   HeaderContainer,
   MutedOverlay,
@@ -106,7 +106,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
   }
 
   return (
-    <GoodtokVideo>
+    <GoodtokWidget>
       <Header>
         <HeaderContainer>
           {isCustomerCameraMuted ? <MutedCameraIcon /> : <CameraIcon />}
@@ -165,7 +165,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
           </ButtonCircleWrapper>
         </Controls>
       </VideoContainer>
-    </GoodtokVideo>
+    </GoodtokWidget>
   );
 });
 

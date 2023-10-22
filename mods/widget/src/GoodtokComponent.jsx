@@ -18,16 +18,13 @@
  * limitations under the License.
  */
 import "./index.css";
-import { CameraIcon } from "./components/icons/CameraIcon";
-import { PhoneIcon } from "./components/icons/PhoneIcon";
-import { CalendarIcon } from "./components/icons/CalendarIcon";
-import { Menu } from "./components/menu/Menu";
+import { GoodtokWidget } from "./components/goodtokwidget/GoodtokWidget";
 import { createRoot } from "react-dom/client";
 import { Web } from "sip.js";
 import { StyleSheetManager } from "styled-components";
 import React from "react";
 
-class VideoChatWidget extends HTMLElement {
+class GoodtokComponent extends HTMLElement {
   constructor() {
     super();
   }
@@ -56,7 +53,7 @@ class VideoChatWidget extends HTMLElement {
 
     root.render(
       <StyleSheetManager target={styleSlot}>
-        <Menu
+        {/* <Menu
           data={[
             {
               Icon: CameraIcon,
@@ -78,6 +75,10 @@ class VideoChatWidget extends HTMLElement {
           ]}
           isOpen={true}
           online
+        /> */}
+        <GoodtokWidget
+          online={true}
+          onEvent={(name) => console.log("event=" + name)}
         />
       </StyleSheetManager>
     );
@@ -126,7 +127,7 @@ class VideoChatWidget extends HTMLElement {
   }
 }
 
-export default VideoChatWidget;
+export default GoodtokComponent;
 
-window.customElements.define("goodtok-component", VideoChatWidget);
-document.body.appendChild(new VideoChatWidget());
+window.customElements.define("goodtok-component", GoodtokComponent);
+document.body.appendChild(new GoodtokComponent());

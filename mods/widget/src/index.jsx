@@ -17,4 +17,4 @@
  * limitations under the License.
  */
 import "./index.css";
-import "./VideoChatWidget";
+import "./GoodtokComponent";

@@ -17,15 +17,15 @@
  * limitations under the License.
  */
 import type { Meta, StoryObj } from "@storybook/react";
-import { GoodtokVideo } from "./GoodtokVideo";
+import { GoodtokWidget } from "./GoodtokWidget";
 
 /**
- * The GoodtokVideo component is composite component that renders the Goodtok widget. The Goodtok widget is a floating
+ * The GoodtokWidget component is composite component that renders the Goodtok widget. The Goodtok widget is a floating
  * button on the bottom right corner of the screen and associated menu, notifications, and video chat, etc.
  */
 const meta = {
-  title: "Widget/GoodtokVideo",
-  component: GoodtokVideo,
+  title: "Widget/GoodtokWidget",
+  component: GoodtokWidget,
   parameters: {
     layout: "fullscreen"
   },
@@ -62,7 +62,7 @@ const meta = {
       action: "clicked"
     }
   }
-} satisfies Meta<typeof GoodtokVideo>;
+} satisfies Meta<typeof GoodtokWidget>;
 
 export default meta;
 
@@ -71,7 +71,7 @@ type Story = StoryObj<typeof meta>;
 /**
  * Full example of the Goodtok widget
  */
-export const GoodtokVideoExample: Story = {
+export const GoodtokWidgetExample: Story = {
   args: {
     online: false,
     menuOpen: false,

@@ -16,21 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export enum GoodtokVideoEvents {
-  VIDEO_SESSION_REQUEST = "VIDEO_SESSION_REQUEST",
-  VIDEO_MUTE_REQUEST = "VIDEO_MUTE_REQUEST",
-  VIDEO_UNMUTE_REQUEST = "VIDEO_UNMUTE_REQUEST",
-  AUDIO_SESSION_REQUEST = "AUDIO_SESSION_REQUEST",
-  AUDIO_MUTE_REQUEST = "AUDIO_MUTE_REQUEST",
-  AUDIO_UNMUTE_REQUEST = "AUDIO_UNMUTE_REQUEST",
-  SCHEDULE_MEETING_REQUEST = "SCHEDULE_MEETING_REQUEST",
-  HANGUP_REQUEST = "HANGUP_REQUEST",
-  CLOSE = "CLOSE"
-}
+import { CalendarIcon } from "../icons/CalendarIcon";
+import { CameraIcon } from "../icons/CameraIcon";
+import { PhoneIcon } from "../icons/PhoneIcon";
+import { GoodtokWidgetEvents } from "./types";
 
-export enum ActiveComponent {
-  None,
-  Menu,
-  Notification,
-  Video
-}
+export const menuData = [
+  {
+    Icon: CameraIcon,
+    label: "Request video session",
+    name: GoodtokWidgetEvents.VIDEO_SESSION_REQUEST,
+    requiresOnline: true
+  },
+  {
+    Icon: PhoneIcon,
+    label: "Request audio session",
+    name: GoodtokWidgetEvents.AUDIO_SESSION_REQUEST,
+    requiresOnline: true
+  },
+  {
+    Icon: CalendarIcon,
+    label: "Schedule a meeting",
+    name: GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST
+  }
+];

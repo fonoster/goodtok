@@ -1,10 +1,6 @@
 body {
   font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #e6fff5, #f0fdff);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
   margin: 0;
   padding: 0;
@@ -22,19 +18,4 @@ body {
   font-size: 26px;
   color: #053204;
   font-weight: 600;
-}
-
-.goodtok-container {
-  width: 400px;
-  height: 225px;
-  margin: 0;
-  bottom: 0;
-  contain: content;
-  border-radius: 10px;
-}
-
-#goodtok-video {
-  height: auto;
-  width: 400px;
-  bottom: 40px;
 }
