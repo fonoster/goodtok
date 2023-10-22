@@ -21,7 +21,6 @@ import { GoodtokWidgetEvents } from "./components/goodtokwidget/types";
 import { GoodtokWidget } from "./components/goodtokwidget/GoodtokWidget";
 import { createRoot } from "react-dom/client";
 import { StyleSheetManager } from "styled-components";
-
 import { Web } from "sip.js";
 import React from "react";
 
