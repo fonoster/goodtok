@@ -62,7 +62,6 @@ class GoodtokComponent extends HTMLElement {
                   ]
                 }
               });
-
             })
             .catch((e) => {
               console.error("Failed to connect to server");

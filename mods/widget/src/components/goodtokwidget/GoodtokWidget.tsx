@@ -91,7 +91,10 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
         online={online}
         isOpen={activeComponent === ActiveComponent.Menu}
         data={menuData}
-        onItemClicked={(name) => onEvent(name as GoodtokWidgetEvents)}
+        onItemClicked={(name) => {
+          setActiveComponent(ActiveComponent.Notification);
+          onEvent(name as GoodtokWidgetEvents);
+        }}
       />
       <Notification
         online={online}
