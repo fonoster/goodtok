@@ -108,6 +108,10 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
       <Video
         ref={videoRefs}
         isOpen={activeComponent === ActiveComponent.Video}
+        onHangup={() => {
+          setActiveComponent(ActiveComponent.None);
+          onEvent(GoodtokWidgetEvents.HANGUP_REQUEST);
+        }}
         onClose={() => {
           setActiveComponent(ActiveComponent.None);
           onEvent(GoodtokWidgetEvents.CLOSE);

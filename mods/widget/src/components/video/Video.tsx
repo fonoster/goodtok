@@ -156,7 +156,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
             <CircleShareScreenIcon />
           </ButtonCircleWrapper>
           */}
-          <ButtonCircleWrapper>
+          <ButtonCircleWrapper onClick={props.onHangup}>
             <CircleHangupIcon />
           </ButtonCircleWrapper>
         </Controls>

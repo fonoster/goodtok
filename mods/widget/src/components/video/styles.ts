@@ -71,10 +71,10 @@ export const CustomerVideo = styled.video`
 export const StaffVideo = styled.video`
   background-color: #fff;
   position: relative;
-  top: 0px;
-  left: -20px;
-  height: 327px;
+  top: -55px;
   border-radius: 0px 0px 12px 12px;
+  height: auto;
+  width: 584px;
 `;
 
 export const MutedOverlay = styled.div`

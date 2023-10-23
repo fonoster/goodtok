@@ -29,7 +29,7 @@ const GoodtokUA = () => {
   let simpleUser: Web.SimpleUser;
 
   // Placeholder methods for widget event handling
-  const handleWidgetEvents = (event: GoodtokWidgetEvents) => {
+  const handleWidgetEvents = async (event: GoodtokWidgetEvents) => {
     if (event === GoodtokWidgetEvents.VIDEO_SESSION_REQUEST) {
       if (simpleUser) {
         simpleUser
@@ -40,8 +40,8 @@ const GoodtokUA = () => {
                 extraHeaders: [
                   "X-Connect-Token: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWYiOiJmcm9udC1vZmZpY2UtYWdlbnQiLCJkb21haW5SZWYiOiJkZWZhdWx0IiwiYW9yIjoic2lwOmFub255bW91c0BzaXAuZ29vZHRvay5pbyIsImFvckxpbmsiOiJzaXA6YW5vbnltb3VzQHNpcC5nb29kdG9rLmlvIiwiZG9tYWluIjoic2lwLmdvb2R0b2suaW8iLCJwcml2YWN5IjoiTk9ORSIsImFsbG93ZWRNZXRob2RzIjpbIlJFR0lTVEVSIl0sInNpZ25hbGluZ1NlcnZlciI6IndzOi8vc2lwLmdvb2R0b2suaW86NTA2MiIsImlhdCI6MTY5Nzk5ODI0MywiZXhwIjoxNjk4MDg0NjQzfQ.bRZL_pRRnxZpu-Wvq8Pvd_WG882Jg4cL5D5D30DC0-_I0V2s4kbhlE67DGOEWnj36OZeQ56Ui4r_TNu7kVgvUc_Q2yDn-cXGg9Kiwn1GSEny88BYmCTVL8L7y8hEfafObw1NYMMxOXTI-dYvLLbicvcaUxQAfndiUD5AvB1K1eqt1GA1RsP7sa4KQ3RMVzVm2_8OOshtmg5q2zWYa36G-CFXofS5hjzKuvLmVIeiUtlaA0ZR0a4PXAcFmimFscHerVEr3NKDpbawA0gOvjv9-iuYdJMlqZDOilENNBIhzmDhob97j_jnXMuMS2QW7P-EAl1GBf_sC6MjTOsY8r4iMx1Auoq7PmCs4puQH-DyJhGPtkR9gNm1uKC6hsWot4acAkRUptenktGr66Gotw4T_vss0a_VbkNC1xV_HqvzCGRpsNmARPWzZmaZNBAfIaOoBfQAcM3wGDQC9QdYQE7160ImQPRCLybm1eWb9ZBEjmNUY-uj3x1OPI1bjfA_EY_YvD3TApvhk0rL1SdXcsBRYSvGXVDsw7c26FRVa5Fzwm88oTY3GMuMWdepLGIeh0uspXcfLWxrea6tB7iqKoR7eB3OdLEaNG6QzVyT2HI0DGLPZxJo50xMqVtGHt_nABJTmVSk6sLHol2m70lLqHL90QHBIesIkeUTaop3VDjHAZk",
                   "Expires: 60",
-                  "X-Customer-Id: 1",
-                  "X-Workspace-Id: default"
+                  "X-Customer-Id: 6878528012508",
+                  "X-Workspace-Id: g-4f90d13a42"
                 ]
               }
             });
@@ -53,12 +53,24 @@ const GoodtokUA = () => {
         // TODO: Error handling
       }
     }
+
+    if (
+      event === GoodtokWidgetEvents.HANGUP_REQUEST ||
+      event === GoodtokWidgetEvents.CLOSE
+    ) {
+      if (simpleUser.isConnected()) {
+        await simpleUser.unregister();
+        await simpleUser.disconnect();
+        await simpleUser.hangup();
+      }
+      setVideoOpen(false);
+    }
   };
 
   const handleVideoRefsReady = (videoRefs: any) => {
     const audioElement = document.createElement("audio");
-    const staffVideo = videoRefs.staffVideo;
     const customerVideo = videoRefs.customerVideo;
+    const staffVideo = videoRefs.staffVideo;
 
     // document.appendChild(audioElement);
 
