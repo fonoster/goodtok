@@ -17,4 +17,5 @@
  * limitations under the License.
  */
 import { mediaToggle } from "./utils";
-export { mediaToggle };
+import { ConnectionObject } from "./types";
+export { mediaToggle, ConnectionObject };

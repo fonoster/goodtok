@@ -44,6 +44,10 @@ export async function getCustomerById(
     request.customerId
   );
 
+  if (!shopifyCustomer) {
+    return null;
+  }
+
   return {
     id: shopifyCustomer.id.toString(),
     name: `${shopifyCustomer.first_name} ${shopifyCustomer.last_name}`,

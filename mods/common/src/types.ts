@@ -16,15 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type {
-  CreateAnonymousTokenInput,
-  CreateTokenInput,
-  Method
-} from "@goodtok/apiserver";
-
-export type TokensClient = {
-  createAnonymousToken: (request: CreateAnonymousTokenInput) => Promise<string>;
-  createToken: (request: CreateTokenInput) => Promise<string>;
+export type ConnectionObject = {
+  signalingServer: string;
+  aor: string;
+  aorLink: string;
+  customerId: string;
+  workspaceId: string;
 };
-
-export { Method };
