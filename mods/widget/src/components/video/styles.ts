@@ -55,7 +55,7 @@ export const StaffVideoContainer = styled.div`
   position: relative;
   contain: content;
   height: 327px;
-  background-color: #fff;
+  background-color: #000;
   border-radius: 0px 0px 12px 12px;
 `;
 
@@ -63,7 +63,7 @@ export const CustomerVideoContainer = styled.div`
   position: relative;
   contain: content;
   height: 90px;
-  background-color: #fff;
+  background-color: #000;
   border-radius: 4px;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   position: absolute;
@@ -72,19 +72,24 @@ export const CustomerVideoContainer = styled.div`
 `;
 
 export const CustomerVideo = styled.video`
+  background-color: #000;
   position: relative;
   height: auto;
   width: 160px;
   top: -15px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 `;
 
 export const StaffVideo = styled.video`
-  background-color: #fff;
+  background-color: #000;
   position: relative;
   top: -55px;
   border-radius: 0px 0px 12px 12px;
   height: auto;
   width: 584px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 `;
 
 export const MutedOverlay = styled.div`

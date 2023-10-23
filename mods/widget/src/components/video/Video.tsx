@@ -104,6 +104,18 @@ export const Video = forwardRef((props: VideoProps, ref) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (props.isOpen) {
+      if (staffVideoRef.current) staffVideoRef.current.style.opacity = "1";
+      if (customerVideoRef.current)
+        customerVideoRef.current.style.opacity = "1";
+    } else {
+      if (staffVideoRef.current) staffVideoRef.current.style.opacity = "0";
+      if (customerVideoRef.current)
+        customerVideoRef.current.style.opacity = "0";
+    }
+  }, [props.isOpen]);
+
   return (
     <GoodtokWidget style={{ display: props.isOpen ? "block" : "none" }}>
       <Header>
