@@ -90,16 +90,15 @@ export const VideoExample: Story = {
     isCustomerCameraMuted: false
   },
   play: () => {
-    const video = document.querySelector(
+    const staffVideo = document.querySelector(
       ".goodtok-video__staff"
     ) as HTMLVideoElement;
-    video.src =
+    staffVideo.src =
       "https://storage.googleapis.com/fn01/videos/demo_call_staff.mp4";
-    video.loop = true;
-    video.muted = true;
-    video.play();
+    staffVideo.loop = true;
+    staffVideo.muted = true;
+    staffVideo.play();
 
-    // goodtok-video__customer
     const videoCustomer = document.querySelector(
       ".goodtok-video__customer"
     ) as HTMLVideoElement;
@@ -107,6 +106,14 @@ export const VideoExample: Story = {
       "https://storage.googleapis.com/fn01/videos/demo_call_customer.mp4";
     videoCustomer.loop = true;
     videoCustomer.muted = true;
+
     videoCustomer.play();
+
+    // Changed position to fit the storybook
+    staffVideo.style.backgroundColor = "#000";
+    videoCustomer.style.top = "0";
+    staffVideo.style.top = "0px";
+    staffVideo.style.left = "-15px";
+    staffVideo.style.width = "620px";
   }
 };

@@ -51,7 +51,7 @@ export const HeaderContainer = styled.div`
   }
 `;
 
-export const VideoContainer = styled.div`
+export const StaffVideoContainer = styled.div`
   position: relative;
   contain: content;
   height: 327px;
@@ -59,13 +59,23 @@ export const VideoContainer = styled.div`
   border-radius: 0px 0px 12px 12px;
 `;
 
-export const CustomerVideo = styled.video`
+export const CustomerVideoContainer = styled.div`
+  position: relative;
+  contain: content;
+  height: 90px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   position: absolute;
   left: 24px;
   top: 24px;
-  height: 90px;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
+`;
+
+export const CustomerVideo = styled.video`
+  position: relative;
+  height: auto;
+  width: 160px;
+  top: -15px;
 `;
 
 export const StaffVideo = styled.video`

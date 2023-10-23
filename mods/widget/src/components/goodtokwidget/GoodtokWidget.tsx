@@ -108,6 +108,20 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
       <Video
         ref={videoRefs}
         isOpen={activeComponent === ActiveComponent.Video}
+        onCameraMuted={(muted) => {
+          if (muted) {
+            onEvent(GoodtokWidgetEvents.VIDEO_MUTE_REQUEST);
+          } else {
+            onEvent(GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST);
+          }
+        }}
+        onMicrophoneMuted={(muted) => {
+          if (muted) {
+            onEvent(GoodtokWidgetEvents.AUDIO_MUTE_REQUEST);
+          } else {
+            onEvent(GoodtokWidgetEvents.AUDIO_UNMUTE_REQUEST);
+          }
+        }}
         onHangup={() => {
           setActiveComponent(ActiveComponent.None);
           onEvent(GoodtokWidgetEvents.HANGUP_REQUEST);

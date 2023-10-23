@@ -34,12 +34,13 @@ import {
   ButtonCircleWrapper,
   Controls,
   CustomerVideo,
+  CustomerVideoContainer,
   GoodtokWidget,
   Header,
   HeaderContainer,
   MutedOverlay,
   StaffVideo,
-  VideoContainer
+  StaffVideoContainer
 } from "./styles";
 import { formatTime } from "./formatTime";
 import { handlePiP } from "./handlePiP";
@@ -61,6 +62,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
     useState(false);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const staffVideoRef = React.createRef<HTMLVideoElement>();
+  const staffAudio = React.createRef<HTMLAudioElement>();
   const customerVideoRef = React.createRef<HTMLVideoElement>();
 
   useEffect(() => {
@@ -87,6 +89,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
   // Expose refs to parent
   useImperativeHandle(ref, () => ({
     staffVideo: staffVideoRef.current,
+    staffAudio: staffAudio.current,
     customerVideo: customerVideoRef.current
   }));
 
@@ -112,17 +115,22 @@ export const Video = forwardRef((props: VideoProps, ref) => {
           </div>
         </HeaderContainer>
       </Header>
-      <VideoContainer>
+      <StaffVideoContainer>
+        <audio style={{ display: "none" }} id="goodtok-audio" controls>
+          <p>Your browser doesn't support HTML5 audio.</p>
+        </audio>
         <StaffVideo ref={staffVideoRef} className="goodtok-video__staff" />
         {isCustomerCameraMuted && (
           <MutedOverlay>
             <MutedCameraIcon />
           </MutedOverlay>
         )}
-        <CustomerVideo
-          ref={customerVideoRef}
-          className="goodtok-video__customer"
-        />
+        <CustomerVideoContainer>
+          <CustomerVideo
+            ref={customerVideoRef}
+            className="goodtok-video__customer"
+          />
+        </CustomerVideoContainer>
         <Controls>
           <ButtonCircleWrapper
             onClick={() => {
@@ -160,7 +168,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
             <CircleHangupIcon />
           </ButtonCircleWrapper>
         </Controls>
-      </VideoContainer>
+      </StaffVideoContainer>
     </GoodtokWidget>
   );
 });
