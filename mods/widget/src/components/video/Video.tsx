@@ -70,7 +70,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
       function () {
         if (!staffVideoRef.current || !customerVideoRef.current) return;
         customerVideoRef.current.style.display = "none";
-        staffVideoRef.current.style.left = "0";
+        staffVideoRef.current.style.top = "0";
       }
     );
 
@@ -79,7 +79,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
       function () {
         if (!staffVideoRef.current || !customerVideoRef.current) return;
         customerVideoRef.current.style.display = "block";
-        staffVideoRef.current.style.left = "-20px";
+        staffVideoRef.current.style.top = "-55px";
       }
     );
   });
