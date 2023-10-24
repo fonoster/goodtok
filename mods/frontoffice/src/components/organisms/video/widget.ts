@@ -69,7 +69,7 @@ export async function initVideoWidget(client: any, inviteInfo: InviteInfo) {
     if (!isAnswered) {
       await simpleUser.connect();
       await simpleUser.call(connectionObject.aorLink, {
-        extraHeaders: [`X-Connect-Token: ${connectionObject.token}`]
+        extraHeaders: [`X-Connect-Token: ${inviterToken}`]
       });
     } else {
       await simpleUser.disconnect();

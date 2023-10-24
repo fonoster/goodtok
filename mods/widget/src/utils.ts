@@ -30,7 +30,7 @@ const getKeyFromSearchParam = (searchParams: URLSearchParams, key: string) => {
 
 export function getScriptParams(document: Document): URLSearchParams {
   const scriptTag = document.querySelector(
-    "script[src*='unpkg.com/goodtok'], script[src*='lib/client.jsx'], script[src*='./src/index.jsx']"
+    "script[src*='unpkg.com/@goodtok/widget'], script[src*='./src/index.jsx']"
   );
 
   if (scriptTag) {

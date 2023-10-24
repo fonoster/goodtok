@@ -59,7 +59,7 @@
     "type": "git",
     "url": "git+https://github.com/fonoster/goodtok.git"
   },
-  "unpkg": "public/lib/client.js",
+  "unpkg": "dist/index.js",
   "bugs": {
     "url": "https://github.com/fonoster/goodtok/issues"
   }

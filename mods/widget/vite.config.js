@@ -16,4 +16,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import "./GoodtokComponent";
+export default {
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: "[name].js",
+        chunkFileNames: "[name].js",
+        assetFileNames: "[name].[ext]"
+      }
+    },
+    cssCodeSplit: false,
+    outDir: "dist",
+    assetsDir: "assets"
+  }
+};

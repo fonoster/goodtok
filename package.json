@@ -33,7 +33,6 @@
     "prebuild": "npx prisma generate --schema ./mods/apiserver/schema.prisma",
     "build": "lerna run build",
     "clean": "lerna run clean && rimraf dist coverage .nyc_output .keys",
-    "postbuild": "webpack --progress --config .scripts/webpack.config.js",
     "generate:keys": "./.scripts/create-keys.sh",
     "generate:token": "./.scripts/create-jwt.js",
     "generate:readme": "lerna run generate:readme",
