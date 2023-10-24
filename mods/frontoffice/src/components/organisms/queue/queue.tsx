@@ -3,10 +3,11 @@ import { useAuth } from "../../../authentication";
 import { useEffect, useState } from "react";
 import { sortPeople } from "./sort";
 import { QueueEntry } from "@goodtok/sdk";
+import { InviteInfo, Method } from "../video/types";
 import PresenceSwitch, { Precense, presence } from "./presence";
 import moment from "moment";
 
-interface QueueProps {
+type QueueProps = {
   onSelectCustomer: (customer: any) => void;
   onSetInviteInfo: (inviteInfo: any) => void;
 }
@@ -84,14 +85,13 @@ export default function Queue({
       );
       const queueEntry = people.find((p) => p.customerId === customerId);
 
-      const inviteInfo = {
+      const inviteInfo: InviteInfo = {
         ref: customerId,
-        // TODO: Construct the aor from the logged in user (caller)
-        aor: "sip:goodtok@sip.goodtok.io",
         // The queue entry aor becomes the aorLink (callee)
-        aorLink: queueEntry?.aor,
+        aorLink: queueEntry.aor,
         customerId: customerId,
-        methods: ["INVITE"]
+        methods: [Method.INVITE],
+        workspaceId: client.getDefaultWorkspaceId()
       };
 
       onSelectCustomer(customerDetails);

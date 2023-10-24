@@ -40,22 +40,27 @@ export async function getCustomerById(
     accessToken: workspace.shopifyAccount.accessToken
   });
 
-  const shopifyCustomer = await shopifyClient.getCustomerById(
-    request.customerId
-  );
+  try {
+    const shopifyCustomer = await shopifyClient.getCustomerById(
+      request.customerId
+    );
 
-  if (!shopifyCustomer) {
+    if (!shopifyCustomer) {
+      return null;
+    }
+
+    return {
+      id: shopifyCustomer.id.toString(),
+      name: `${shopifyCustomer.first_name} ${shopifyCustomer.last_name}`,
+      email: shopifyCustomer.email,
+      phone: shopifyCustomer.phone,
+      birthday: shopifyCustomer.note,
+      note: shopifyCustomer.note,
+      address: formatShopifyAddress(shopifyCustomer.default_address),
+      avatar: null
+    };
+  } catch (err) {
+    logger.error("error getting customer by id", { err });
     return null;
   }
-
-  return {
-    id: shopifyCustomer.id.toString(),
-    name: `${shopifyCustomer.first_name} ${shopifyCustomer.last_name}`,
-    email: shopifyCustomer.email,
-    phone: shopifyCustomer.phone,
-    birthday: shopifyCustomer.note,
-    note: shopifyCustomer.note,
-    address: formatShopifyAddress(shopifyCustomer.default_address),
-    avatar: null
-  };
 }

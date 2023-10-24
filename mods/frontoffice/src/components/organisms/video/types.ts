@@ -16,7 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Method } from "@goodtok/sdk/src/tokens/types";
+// TODO: Fix duplicate enum (Already defined in @goodtok/apiserver)
+export enum Method {
+  INVITE = "INVITE",
+  REGISTER = "REGISTER"
+}
 
 export type InviteInfo = {
   ref: string;
