@@ -42,6 +42,13 @@ const GoodtokUA = () => {
   };
 
   const handleWidgetEvents = async (event: GoodtokWidgetEvents) => {
+    if (event === GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST) {
+      // FIXME: This is just a placeholder
+      window.open("https://calendly.com/fonoster-psanders", "_blank");
+      setMenuOpen(false);
+      return;
+    }
+
     if (!simpleUser) {
       console.error(
         "Unable to process VIDEO_SESSION_REQUEST: simpleUser is not initialized yet."
