@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 const fs = require("fs");
+const { join } = require("path");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 
