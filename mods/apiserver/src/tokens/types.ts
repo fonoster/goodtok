@@ -25,8 +25,7 @@ export enum Method {
 
 export const createAnonymousTokenSchema = z.object({
   ref: z.string().min(1),
-  aor: z.string().min(1),
-  aorLink: z.string().min(1)
+  workspaceId: z.string().min(1)
 });
 
 export type CreateAnonymousTokenInput = z.infer<
@@ -35,17 +34,10 @@ export type CreateAnonymousTokenInput = z.infer<
 
 export const createTokenSchema = z.object({
   ref: z.string().min(1),
-  aor: z.string().min(1),
-  aorLink: z.string().min(1),
   customerId: z.string().min(1),
+  aorLink: z.string().min(1),
+  workspaceId: z.string().min(1),
   methods: z.array(z.enum([Method.INVITE, Method.REGISTER]))
 });
 
 export type CreateTokenInput = z.infer<typeof createTokenSchema>;
-
-export type ConnectionObject = {
-  aor: string;
-  aorLink: string;
-  token: string;
-  signalingServer: string;
-};

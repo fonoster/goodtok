@@ -18,7 +18,7 @@
  */
 import { getLogger } from "@fonoster/logger";
 import { Context } from "../context";
-import { ConnectionObject, CreateTokenInput } from "./types";
+import { CreateTokenInput } from "./types";
 import jwt from "jsonwebtoken";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
@@ -26,9 +26,16 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 export async function createToken(
   ctx: Context,
   input: CreateTokenInput
-): Promise<ConnectionObject> {
-  const { ref, aor, aorLink } = input;
-  logger.verbose("create token for authenticated user", { ref, aor, aorLink });
+): Promise<string> {
+  const { ref, aorLink, workspaceId } = input;
+
+  logger.verbose("create token for authenticated user", {
+    ref,
+    workspaceId,
+    aorLink
+  });
+
+  const aor = `sip:${ref}@${ctx.config.sipDomain}`;
 
   const claims = {
     ref: ref,
@@ -42,16 +49,9 @@ export async function createToken(
     signalingServer: ctx.config.sipSignalingServer
   };
 
-  const token = jwt.sign(
+  return jwt.sign(
     claims,
     ctx.config.securityPrivateKey,
     ctx.config.jwtSignOptions
   );
-
-  return {
-    aor: aor,
-    aorLink: aorLink,
-    token,
-    signalingServer: ctx.config.sipSignalingServer
-  };
 }

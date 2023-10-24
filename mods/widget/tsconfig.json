@@ -1,9 +1,21 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "jsx": "react",
     "outDir": "dist",
     "rootDir": "src"
   },
-  "references": [{ "path": "../sdk" }],
-  "exclude": ["node_modules", "dist", "test"]
+  "references": [
+    {
+      "path": "../sdk"
+    },
+    {
+      "path": "../common"
+    }
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test"
+  ]
 }

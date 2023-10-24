@@ -17,17 +17,14 @@
  * limitations under the License.
  */
 import type {
-  ConnectionObject,
   CreateAnonymousTokenInput,
   CreateTokenInput,
   Method
 } from "@goodtok/apiserver";
 
 export type TokensClient = {
-  createAnonymousToken: (
-    request: CreateAnonymousTokenInput
-  ) => Promise<ConnectionObject>;
-  createToken: (request: CreateTokenInput) => Promise<ConnectionObject>;
+  createAnonymousToken: (request: CreateAnonymousTokenInput) => Promise<string>;
+  createToken: (request: CreateTokenInput) => Promise<string>;
 };
 
 export { Method };

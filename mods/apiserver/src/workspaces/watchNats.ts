@@ -43,6 +43,11 @@ watchNats(NATS_URL, async (event) => {
 
   const customer = await getCustomerById(ctx, { workspaceId, customerId });
 
+  if (!customer) {
+    logger.warn("customer not found", { customerId, workspaceId });
+    return;
+  }
+
   const entryWithCustomer = {
     ...entry,
     customer: {

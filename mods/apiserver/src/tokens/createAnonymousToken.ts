@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { Context } from "../context";
-import { ConnectionObject, CreateAnonymousTokenInput, Method } from "./types";
+import { CreateAnonymousTokenInput, Method } from "./types";
 import { getLogger } from "@fonoster/logger";
 import jwt from "jsonwebtoken";
 
@@ -27,33 +27,29 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 export async function createAnonymousToken(
   ctx: Context,
   request: CreateAnonymousTokenInput
-): Promise<ConnectionObject> {
-  const { ref, aor, aorLink } = request;
-  logger.verbose("create token for anonymous user", { ref, aor, aorLink });
+): Promise<string> {
+  const { ref, workspaceId } = request;
+  logger.verbose("create token for anonymous user", { ref });
+
+  const aor = `sip:${ref}@${ctx.config.sipDomain}`;
 
   const claims = {
     ref: ref,
     // Use the same ref as the customerId (only for annonymous users)
     customerId: ref,
+    workspaceId,
     domainRef: ctx.config.sipDomainRef,
     aor: aor,
-    aorLink: aorLink,
+    aorLink: aor,
     domain: ctx.config.sipDomain,
     privacy: ctx.config.sipUserAgentPrivacy,
     allowedMethods: [Method.REGISTER],
     signalingServer: ctx.config.sipSignalingServer
   };
 
-  const token = jwt.sign(
+  return jwt.sign(
     claims,
     ctx.config.securityPrivateKey,
     ctx.config.jwtSignOptions
   );
-
-  return {
-    aor: request.aor,
-    aorLink: request.aorLink,
-    token,
-    signalingServer: ctx.config.sipSignalingServer
-  };
 }

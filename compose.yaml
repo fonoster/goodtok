@@ -14,8 +14,8 @@ services:
     environment:
       - LOGS_LEVEL
       - NATS_URL
-      - GOODTOK_SIGNALING_SERVER
-      - GOODTOK_SIP_DOMAIN
+      - SIP_SIGNALING_SERVER
+      - SIP_DOMAIN
       - DATABASE_URL
     ports:
       - 6789:6789

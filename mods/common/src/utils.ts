@@ -37,3 +37,14 @@ export const mediaToggle = (
     }
   });
 };
+
+export function toggleTrack(
+  stream: MediaStream,
+  kind: "audio" | "video",
+  enable: boolean
+): void {
+  const tracks = stream.getTracks().filter((track) => track.kind === kind);
+  tracks.forEach((track) => {
+    track.enabled = enable;
+  });
+}

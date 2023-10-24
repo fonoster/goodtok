@@ -18,19 +18,23 @@
  */
 import * as Common from "@goodtok/common";
 import * as SDK from "@goodtok/sdk";
+import { ConnectionObject } from "@goodtok/common";
 import { Web } from "sip.js";
 import { getAudio, getButton, getVideoElement } from "./utils";
 import { InviteInfo } from "./types";
+import jwtDecode from "jwt-decode";
 
 export async function initVideoWidget(client: any, inviteInfo: InviteInfo) {
   const tokens = new SDK.Tokens(client);
-  const connectionObject = await tokens.createToken(inviteInfo);
+  const inviterToken = await tokens.createToken(inviteInfo);
   const callButton = getButton("goodtok-call");
   const muteAudioButton = getButton("goodtok-mute-audio");
   const videoMuteButton = getButton("goodtok-mute-video");
 
   let isAnswered = false;
   let isMuted = false;
+
+  const connectionObject = jwtDecode(inviterToken) as ConnectionObject;
 
   const options: Web.SimpleUserOptions = {
     aor: connectionObject.aor,
@@ -65,7 +69,7 @@ export async function initVideoWidget(client: any, inviteInfo: InviteInfo) {
     if (!isAnswered) {
       await simpleUser.connect();
       await simpleUser.call(connectionObject.aorLink, {
-        extraHeaders: [`X-Connect-Token: ${connectionObject.token}`]
+        extraHeaders: [`X-Connect-Token: ${inviterToken}`]
       });
     } else {
       await simpleUser.disconnect();

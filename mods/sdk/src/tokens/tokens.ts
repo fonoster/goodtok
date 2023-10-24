@@ -74,7 +74,7 @@ export default class Tokens extends AbstractBaseClient implements TokensClient {
    * @param {string} request.ref - A reference for the anonymous user
    * @param {string} request.aor - The address of record (AOR) for the user
    * @param {string} request.aorLink - The address of record (AOR) for the user
-   * @return {Promise<CreateAnonymousTokenResponse>} A promise resolving to the connection object which contains the token
+   * @return {Promise<string>} A promise resolving to the token
    * @throws Will throw an error if the workspace does not have the `anonymous` feature enabled
    * @example
    *
@@ -100,7 +100,7 @@ export default class Tokens extends AbstractBaseClient implements TokensClient {
    * @param {string} request.aor - The address of record (AOR) for the user
    * @param {string} request.aorLink - The address of record (AOR) for the user
    * @param {string[]} request.allowedMethods - The list of methods the token is permitted to use (e.g. ["INVITE", "REGISTER"])
-   * @return {Promise<CreateTokenResponse>} A promise resolving to the connection object containing the token
+   * @return {Promise<string>} A promise resolving to the token
    * @throws Will throw an error if the user is not logged in
    * @example
    *

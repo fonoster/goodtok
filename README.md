@@ -103,7 +103,7 @@ The key is a base64 encoded value containing the account `gtid` and `server` of 
 
 ```bash
 # The gtid corresponds to the workspace id in the Goodtok dashboard
-echo -n '{"gtid":"g-4f90d13a42","server":"api.example.com"}' | base64
+echo -n '{"gtid":"g-4f90d13a42","server":"https://api.example.com/v1"}' | base64
 ```
 
 If no server is specified, the client will use the default server at `api.goodtok.io`.
