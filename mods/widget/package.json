@@ -1,6 +1,6 @@
 {
   "name": "@goodtok/widget",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Video widget for Goodtok",
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "homepage": "https://github.com/fonoster/goodtok#readme",
@@ -21,8 +21,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@goodtok/common": "^0.0.6",
-    "@goodtok/sdk": "^0.0.6",
+    "@goodtok/common": "^0.0.7",
+    "@goodtok/sdk": "^0.0.7",
     "@types/styled-components": "^5.1.29",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
