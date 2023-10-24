@@ -27,6 +27,8 @@ import React, { useEffect, useRef, useState } from "react";
 import jwtDecode from "jwt-decode";
 
 const GoodtokUA = () => {
+  const videoRefsRef = useRef<any>(null);
+  const [calendarUrl, setCalendarUrl] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -36,7 +38,6 @@ const GoodtokUA = () => {
   const [connectionObj, setConnectionObj] = useState<ConnectionObject | null>(
     null
   );
-  const videoRefsRef = useRef<any>(null);
 
   const handleVideoRefsReady = (videoRefs: unknown) => {
     videoRefsRef.current = videoRefs;
@@ -45,7 +46,7 @@ const GoodtokUA = () => {
   const handleWidgetEvents = async (event: GoodtokWidgetEvents) => {
     if (event === GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST) {
       // FIXME: This is just a placeholder
-      window.open("https://calendly.com/fonoster-psanders", "_blank");
+      window.open(calendarUrl, "_blank");
       setMenuOpen(false);
       return;
     }
@@ -160,8 +161,10 @@ const GoodtokUA = () => {
         workspaceId
       })
       .then((token) => {
+        const connectionObj = jwtDecode(token) as ConnectionObject;
         setCustomerToken(token);
-        setConnectionObj(jwtDecode(token) as ConnectionObject);
+        setConnectionObj(connectionObj);
+        setCalendarUrl(connectionObj.calendarUrl);
       });
   }, [customerToken]);
 

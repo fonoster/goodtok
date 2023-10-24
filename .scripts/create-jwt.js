@@ -19,11 +19,21 @@
  */
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
 if (!fs.existsSync("./.keys") || !fs.existsSync("./.keys/private.key")) {
   console.error("No private key found. Please run 'npm run keys:generate' first");
   return;
 }
+
+dotenv.config({ path: join(__dirname, "..", ".env") });
+
+const {
+  SIP_DOMAIN,
+  SIP_SIGNALING_SERVER,
+  TEST_WORKSPACE_ID,
+  SHOPIFY_TEST_CUSTOMER_ID,
+} = process.env;
 
 const privateKey = fs.readFileSync("./.keys/private.key");
 
@@ -31,11 +41,11 @@ const privateKey = fs.readFileSync("./.keys/private.key");
 const signOptions = { expiresIn: "24h", algorithm: "RS256" };
 const domainRef = "default";
 const privacy = "NONE";
-const domain = "sip.goodtok.io";
+const domain = SIP_DOMAIN;
 const frontOfficeAgentRef = "front-office-agent";
-const customerAgentRef = "customer-agent";
-// const signalingServer = "wss://sip.goodtok.io:5062";
-const signalingServer = "ws://sip.goodtok.io:5062";
+const customerAgentRef = SHOPIFY_TEST_CUSTOMER_ID;
+const signalingServer = SIP_SIGNALING_SERVER
+const calendarUrl = "https://cal.com/goodtok";
 
 const frontOfficeAgent = {
   ref: customerAgentRef,
@@ -51,10 +61,13 @@ const frontOfficeAgent = {
 };
 
 const customerAgent = {
-  ref: frontOfficeAgentRef,
+  ref: customerAgentRef,
+  customerId: customerAgentRef,
   domainRef,
-  aor: `sip:anonymous@${domain}`,
-  aorLink: `sip:anonymous@${domain}`,
+  workspaceId: TEST_WORKSPACE_ID,
+  calendarUrl,
+  aor: `sip:${customerAgentRef}@${domain}`,
+  aorLink: `sip:${customerAgentRef}@${domain}`,
   domain,
   privacy,
   // Only allow REGISTER requests for this agent
@@ -68,3 +81,4 @@ const customerToken = jwt.sign(customerAgent, privateKey, signOptions);
 console.log("Front Office Token: " + frontOfficeToken);
 console.log("---------------------------------");
 console.log("Customer Token: " + customerToken);
+

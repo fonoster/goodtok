@@ -33,11 +33,18 @@ export async function createAnonymousToken(
 
   const aor = `sip:${ref}@${ctx.config.sipDomain}`;
 
+  const workspace = await ctx.prisma.workspace.findUnique({
+    where: {
+      id: workspaceId
+    }
+  });
+
   const claims = {
     ref: ref,
     // Use the same ref as the customerId (only for annonymous users)
     customerId: ref,
     workspaceId,
+    calendarUrl: workspace.calendarUrl,
     domainRef: ctx.config.sipDomainRef,
     aor: aor,
     aorLink: aor,

@@ -22,4 +22,5 @@ export type ConnectionObject = {
   aorLink: string;
   customerId: string;
   workspaceId: string;
+  calendarUrl: string;
 };

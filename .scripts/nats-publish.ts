@@ -26,15 +26,15 @@ const REGISTER_SUBJECT = "routr.endpoint.registered";
 const {
   TEST_WORKSPACE_ID,
   SHOPIFY_TEST_CUSTOMER_ID,
-  SHOPIFY_TEST_CUSTOMER_AOR,
-  NATS_URL
+  NATS_URL,
+  SIP_DOMAIN
 } = process.env;
 
 async function main() {
   const nc = await connect({ servers: NATS_URL });
   const sc = StringCodec();
   const registration = {
-    aor: SHOPIFY_TEST_CUSTOMER_AOR,
+    aor: `sip:${SHOPIFY_TEST_CUSTOMER_ID}@${SIP_DOMAIN}`,
     extraHeaders: {
       "X-Customer-Id": SHOPIFY_TEST_CUSTOMER_ID,
       "X-Workspace-Id": TEST_WORKSPACE_ID
