@@ -1,6 +1,6 @@
 {
   "name": "@goodtok/apiserver",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "APIServer for Goodtok",
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "homepage": "https://github.com/fonoster/goodtok#readme",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@fonoster/logger": "0.3.24",
-    "@goodtok/common": "^0.0.5",
+    "@goodtok/common": "^0.0.6",
     "@trpc/client": "^10.38.5",
     "@trpc/server": "^10.38.5",
     "cors": "^2.8.5",

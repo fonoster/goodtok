@@ -1,6 +1,6 @@
 {
   "name": "@goodtok/sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "SDK for Goodtok",
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "homepage": "https://github.com/fonoster/goodtok#readme",
@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@fonoster/logger": "0.3.24",
-    "@goodtok/apiserver": "^0.0.5",
-    "@goodtok/common": "^0.0.5",
+    "@goodtok/apiserver": "^0.0.6",
+    "@goodtok/common": "^0.0.6",
     "@trpc/client": "^10.38.5",
     "@trpc/server": "^10.38.5",
     "buffer": "^6.0.3",
