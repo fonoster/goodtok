@@ -33,6 +33,17 @@ class GoodtokComponent extends HTMLElement {
     goodtokContainer.className = "goodtok-container";
     const shadowRoot = this.attachShadow({ mode: "open" });
 
+    const styles = document.createElement("style");
+
+    // Ensure the widget is always on top
+    styles.textContent = `
+      :host {
+        position: relative;
+        z-index: 9999;  // or any high value you need
+      }
+    `;
+
+    shadowRoot.appendChild(styles);
     shadowRoot.appendChild(styleSlot);
     shadowRoot.appendChild(goodtokContainer);
 

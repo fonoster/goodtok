@@ -93,7 +93,7 @@ In the website where you want to integrate Goodtok, you will need to add the fol
 <!-- Goodtok video client -->
 <script
   type="text/javascript"
-  src="https://unpkg.com/@goodtok/widget@latest?key=Z3RpZD0xMjM0LHNlcnZlcj1hcGkuZ29vZHRvay5pbyxjdXN0b21lcj10b2tlbg==&token=OPTIONAL_CUSTOMER_TOKEN"
+  src="https://unpkg.com/@goodtok/widget?key=eyJndGlkIjoiZy00ZjkwZDEzYTQyIiwic2VydmVyIjoiaHR0cHM6Ly9hcGkuZ29vZHRvay5pby92MSJ9&token=OPTIONAL_CUSTOMER_TOKEN"
 >
 </script>
 <!-- Goodtok video client end -->

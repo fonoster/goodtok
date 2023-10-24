@@ -188,7 +188,7 @@ const GoodtokUA = () => {
 
   return (
     <GoodtokWidget
-      online={true}
+      online={false}
       onEvent={handleWidgetEvents}
       onVideoRefsReady={handleVideoRefsReady}
       onNotificationClose={() => setNotificationOpen(false)}
