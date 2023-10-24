@@ -123,6 +123,7 @@ const GoodtokUA = () => {
     if (token) {
       setCustomerToken(token);
       setConnectionObj(jwtDecode(token) as ConnectionObject);
+      setCalendarUrl(connectionObj.calendarUrl);
       return;
     }
 
