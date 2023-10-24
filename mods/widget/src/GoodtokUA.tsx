@@ -45,15 +45,13 @@ const GoodtokUA = () => {
 
   const handleWidgetEvents = async (event: GoodtokWidgetEvents) => {
     if (event === GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST) {
-      // FIXME: This is just a placeholder
       window.open(calendarUrl, "_blank");
-      setMenuOpen(false);
       return;
     }
 
     if (!simpleUser) {
       console.error(
-        "Unable to process VIDEO_SESSION_REQUEST: simpleUser is not initialized yet."
+        "Unable to process event: simpleUser is not initialized yet."
       );
       return;
     }
@@ -73,6 +71,8 @@ const GoodtokUA = () => {
                 ]
               }
             });
+
+            setNotificationOpen(true);
           })
           .catch((e) => {
             console.error("Failed to connect to server");
