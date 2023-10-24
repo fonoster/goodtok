@@ -73,6 +73,18 @@
     "vite-preset-react": "2.3.0",
     "vitest": "^0.34.5"
   },
+  "keywords": [
+    "Goodtok",
+    "VoIP",
+    "WebRTC",
+    "Fonoster",
+    "SIP.js",
+    "Web Phone",
+    "Phone",
+    "Routr",
+    "SIP",
+    "Contact Center"
+  ],
   "publishConfig": {
     "access": "public"
   },

@@ -34,6 +34,18 @@
     "ws": "^8.14.2",
     "zod": "^3.22.4"
   },
+  "keywords": [
+    "Goodtok",
+    "VoIP",
+    "WebRTC",
+    "Fonoster",
+    "SIP.js",
+    "Web Phone",
+    "Phone",
+    "Routr",
+    "SIP",
+    "Contact Center"
+  ],
   "files": [
     "dist"
   ],

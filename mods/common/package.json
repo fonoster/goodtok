@@ -20,6 +20,18 @@
     "@fonoster/logger": "0.3.24",
     "sip.js": "^0.21.2"
   },
+  "keywords": [
+    "Goodtok",
+    "VoIP",
+    "WebRTC",
+    "Fonoster",
+    "SIP.js",
+    "Web Phone",
+    "Phone",
+    "Routr",
+    "SIP",
+    "Contact Center"
+  ],
   "files": [
     "dist"
   ],
