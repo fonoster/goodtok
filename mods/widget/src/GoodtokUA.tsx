@@ -20,7 +20,6 @@ import * as SDK from "@goodtok/sdk";
 import { GoodtokWidget } from "./components/goodtokwidget/GoodtokWidget";
 import { GoodtokWidgetEvents } from "./components/goodtokwidget/types";
 import { ConnectionObject, mediaToggle } from "@goodtok/common";
-import { toggleTrack } from "@goodtok/common/src/utils";
 import { Web } from "sip.js";
 import { getAPIServer, getCustomerToken, getWorkspaceId } from "./utils";
 import React, { useEffect, useRef, useState } from "react";
@@ -44,6 +43,8 @@ const GoodtokUA = () => {
   };
 
   const handleWidgetEvents = async (event: GoodtokWidgetEvents) => {
+    console.log("Event received: ", event);
+
     if (event === GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST) {
       window.open(calendarUrl, "_blank");
       return;
@@ -80,25 +81,11 @@ const GoodtokUA = () => {
         break;
 
       case GoodtokWidgetEvents.AUDIO_MUTE_REQUEST:
-        {
-          const mediaStream = await navigator.mediaDevices.getUserMedia({
-            audio: true,
-            video: true
-          });
-          toggleTrack(mediaStream, "audio", false);
-          toggleTrack(mediaStream, "video", false);
-        }
+        mediaToggle(simpleUser, false, "audio");
         break;
 
       case GoodtokWidgetEvents.AUDIO_UNMUTE_REQUEST:
-        {
-          const mediaStream = await navigator.mediaDevices.getUserMedia({
-            audio: true,
-            video: true
-          });
-          toggleTrack(mediaStream, "audio", true);
-          toggleTrack(mediaStream, "video", true);
-        }
+        mediaToggle(simpleUser, true, "audio");
         break;
 
       case GoodtokWidgetEvents.VIDEO_MUTE_REQUEST:
