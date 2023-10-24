@@ -55,6 +55,7 @@ async function main() {
       name: "My Workspace",
       ownerId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
       timezone: "America/New_York",
+      calendarUrl: "https://cal.com/goodtok",
       shopifyAccount: SHOPIFY_STORE_DOMAIN && SHOPIFY_ACCESS_TOKEN ? {
         create: {
           storeDomain: SHOPIFY_STORE_DOMAIN,

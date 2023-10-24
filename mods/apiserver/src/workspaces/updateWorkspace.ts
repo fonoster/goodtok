@@ -19,6 +19,8 @@
 import { getLogger } from "@fonoster/logger";
 import { UpdateWorkspaceRequest, WeeklyHoursType, Workspace } from "./types";
 import { Context } from "../context";
+import { workspaceStatusObservers } from "./observers";
+import { WorkspaceStatus } from "@prisma/client";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -32,6 +34,7 @@ export async function updateWorkspace(
     id: request.id,
     name: request.name,
     timezone: request.timezone,
+    status: request.status,
     hoursOfOperation: request.hoursOfOperation
   };
 
@@ -71,6 +74,13 @@ export async function updateWorkspace(
     },
     data: updateData
   });
+
+  // WARNING: We will need to optimize this later
+  workspaceStatusObservers.forEach((emit) =>
+    emit({
+      online: workspace.status === WorkspaceStatus.ONLINE
+    })
+  );
 
   return {
     id: workspace.id,

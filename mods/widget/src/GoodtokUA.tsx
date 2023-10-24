@@ -27,6 +27,7 @@ import React, { useEffect, useRef, useState } from "react";
 import jwtDecode from "jwt-decode";
 
 const GoodtokUA = () => {
+  const [isOnline, setIsOnline] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
@@ -100,12 +101,10 @@ const GoodtokUA = () => {
         break;
 
       case GoodtokWidgetEvents.VIDEO_MUTE_REQUEST:
-        console.log("video mute request");
         mediaToggle(simpleUser, false, "video");
         break;
 
       case GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST:
-        console.log("video unmute request");
         mediaToggle(simpleUser, true, "video");
         break;
 
@@ -199,9 +198,28 @@ const GoodtokUA = () => {
     }
   }, [videoRefsRef, connectionObj]);
 
+  useEffect(() => {
+    const workspaceId = getWorkspaceId(document);
+    const server = getAPIServer(document);
+
+    const client = new SDK.Client({
+      endpoint: server,
+      workspace: workspaceId
+    });
+
+    const workspaces = new SDK.Workspaces(client);
+    workspaces.watchWorkspaceStatus(workspaceId, (error, workspaceStatus) => {
+      if (error) {
+        console.error("Failed to watch workspace status", error);
+        return;
+      }
+      setIsOnline(workspaceStatus.online);
+    });
+  });
+
   return (
     <GoodtokWidget
-      online={false}
+      online={isOnline}
       onEvent={handleWidgetEvents}
       onVideoRefsReady={handleVideoRefsReady}
       onNotificationClose={() => setNotificationOpen(false)}

@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum WorkspaceStatus {
+  ONLINE
+  OFFLINE
+
+  @@map("workspace_status")
+}
+
 enum WorkspaceMemberStatus {
   PENDING
   ACTIVE
@@ -58,9 +65,11 @@ model User {
 //   ...
 // }
 model Workspace {
-  id               String @id @default(uuid())
+  id               String          @id @default(uuid())
   name             String
-  hoursOfOperation Json   @map("hours_of_operation")
+  hoursOfOperation Json            @map("hours_of_operation")
+  status           WorkspaceStatus @default(OFFLINE)
+  calendarUrl      String          @map("calendar_url")
   timezone         String
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)

@@ -78,4 +78,15 @@ describe("@sdk[integration]", () => {
 
     expect(response.queue).to.be.an("array");
   });
+
+  it.only("updates a workspace", async () => {
+    await client.login("goodtok", "changeme");
+
+    const workspaces = new Workspaces(client);
+    const response = await workspaces.updateWorkspace({
+      id: workspaceId,
+      status: "ONLINE"
+    });
+    expect(response).to.be.an("object").that.has.property("id");
+  });
 });

@@ -22,6 +22,7 @@ import type {
   DayPreferences,
   WeeklyHoursType,
   Workspace,
+  WorkspaceStatus,
   UpdateWorkspaceRequest,
   GetMembersResponse,
   GetQueueResponse,
@@ -41,6 +42,10 @@ export type WorkspacesClient = {
   watchQueue: (
     id: string,
     callback: (error: Error, data?: QueueEntry) => void
+  ) => void;
+  watchWorkspaceStatus: (
+    id: string,
+    callback: (error: Error, data?: WorkspaceStatus) => void
   ) => void;
 };
 

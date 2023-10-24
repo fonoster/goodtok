@@ -16,82 +16,120 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { QueueEntryStatus } from "@prisma/client";
+import {
+  QueueEntryStatus,
+  WorkspaceStatus as WorkspaceStatusFromPrisma
+} from "@prisma/client";
 import { z } from "zod";
 
 export const updateWorkspaceSchema = z.object({
-  id: z.string().min(1),
-  name: z.string().min(1),
-  timezone: z.string().min(3),
-  shopifyAccount: z.object({
-    storeDomain: z.string().min(1).optional(),
-    accessToken: z.string().min(1).optional()
-  }),
-  hoursOfOperation: z.object({
-    Monday: z.object({
-      enabled: z.boolean(),
-      hours: z.array(
-        z.object({
-          start: z.string(),
-          end: z.string()
-        })
-      )
-    }),
-    Tuesday: z.object({
-      enabled: z.boolean(),
-      hours: z.array(
-        z.object({
-          start: z.string(),
-          end: z.string()
-        })
-      )
-    }),
-    Wednesday: z.object({
-      enabled: z.boolean(),
-      hours: z.array(
-        z.object({
-          start: z.string(),
-          end: z.string()
-        })
-      )
-    }),
-    Thursday: z.object({
-      enabled: z.boolean(),
-      hours: z.array(
-        z.object({
-          start: z.string(),
-          end: z.string()
-        })
-      )
-    }),
-    Friday: z.object({
-      enabled: z.boolean(),
-      hours: z.array(
-        z.object({
-          start: z.string(),
-          end: z.string()
-        })
-      )
-    }),
-    Saturday: z.object({
-      enabled: z.boolean(),
-      hours: z.array(
-        z.object({
-          start: z.string(),
-          end: z.string()
-        })
-      )
-    }),
-    Sunday: z.object({
-      enabled: z.boolean(),
-      hours: z.array(
-        z.object({
-          start: z.string(),
-          end: z.string()
-        })
-      )
+  id: z.string(),
+  name: z.string().optional(),
+  timezone: z.string().optional(),
+  status: z
+    .enum([WorkspaceStatusFromPrisma.ONLINE, WorkspaceStatusFromPrisma.OFFLINE])
+    .optional(),
+  shopifyAccount: z
+    .object({
+      storeDomain: z.string().min(1).optional(),
+      accessToken: z.string().min(1).optional()
     })
-  })
+    .optional(),
+  hoursOfOperation: z
+    .object({
+      Monday: z
+        .object({
+          enabled: z.boolean().optional(),
+          hours: z
+            .array(
+              z.object({
+                start: z.string().optional(),
+                end: z.string().optional()
+              })
+            )
+            .optional()
+        })
+        .optional(),
+      Tuesday: z
+        .object({
+          enabled: z.boolean().optional(),
+          hours: z
+            .array(
+              z.object({
+                start: z.string().optional(),
+                end: z.string().optional()
+              })
+            )
+            .optional()
+        })
+        .optional(),
+      Wednesday: z
+        .object({
+          enabled: z.boolean().optional(),
+          hours: z
+            .array(
+              z.object({
+                start: z.string().optional(),
+                end: z.string().optional()
+              })
+            )
+            .optional()
+        })
+        .optional(),
+      Thursday: z
+        .object({
+          enabled: z.boolean().optional(),
+          hours: z
+            .array(
+              z.object({
+                start: z.string().optional(),
+                end: z.string().optional()
+              })
+            )
+            .optional()
+        })
+        .optional(),
+      Friday: z
+        .object({
+          enabled: z.boolean().optional(),
+          hours: z
+            .array(
+              z.object({
+                start: z.string().optional(),
+                end: z.string().optional()
+              })
+            )
+            .optional()
+        })
+        .optional(),
+      Saturday: z
+        .object({
+          enabled: z.boolean().optional(),
+          hours: z
+            .array(
+              z.object({
+                start: z.string().optional(),
+                end: z.string().optional()
+              })
+            )
+            .optional()
+        })
+        .optional(),
+      Sunday: z
+        .object({
+          enabled: z.boolean().optional(),
+          hours: z
+            .array(
+              z.object({
+                start: z.string().optional(),
+                end: z.string().optional()
+              })
+            )
+            .optional()
+        })
+        .optional()
+    })
+    .optional()
 });
 
 export type DayPreferences = {
@@ -122,6 +160,10 @@ export type Workspace = {
     storeDomain: string;
     accessToken: string;
   };
+};
+
+export type WorkspaceStatus = {
+  online: boolean;
 };
 
 export type Member = {

@@ -29,7 +29,8 @@ import type {
   GetMembersResponse,
   GetQueueResponse,
   UpdateWorkspaceRequest,
-  Workspace
+  Workspace,
+  WorkspaceStatus
 } from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
 import Client from "../client";
@@ -286,6 +287,38 @@ export default class Workspaces
   watchQueue(id: string, callback: (error: Error, data?: QueueEntry) => void) {
     this.trpc.workspaces.watchQueue.subscribe(id, {
       onData(data: QueueEntry) {
+        callback(null, data);
+      },
+      onError(err: Error) {
+        callback(err);
+      }
+    });
+  }
+
+  /**
+   * Registers a callback for real-time updates on workspace status.
+   *
+   * @param {string} id - The ID of the workspace
+   * @param {function} callback - The callback to be invoked when the workspace status updates
+   * @example
+   *
+   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   *
+   * workspaces.watchWorkspaceStatus(id, (err, data) => {
+   *   if (err) {
+   *    console.error(err);
+   *    return;
+   *   }
+   *
+   *   console.log(data);
+   * });
+   */
+  watchWorkspaceStatus(
+    id: string,
+    callback: (error: Error, data?: WorkspaceStatus) => void
+  ) {
+    this.trpc.workspaces.watchWorkspaceStatus.subscribe(id, {
+      onData(data: WorkspaceStatus) {
         callback(null, data);
       },
       onError(err: Error) {

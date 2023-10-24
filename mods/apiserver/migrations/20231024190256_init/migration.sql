@@ -1,4 +1,7 @@
 -- CreateEnum
+CREATE TYPE "workspace_status" AS ENUM ('ONLINE', 'OFFLINE');
+
+-- CreateEnum
 CREATE TYPE "workspace_member_status" AS ENUM ('PENDING', 'ACTIVE');
 
 -- CreateEnum
@@ -26,6 +29,8 @@ CREATE TABLE "workspaces" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "hours_of_operation" JSONB NOT NULL,
+    "status" "workspace_status" NOT NULL DEFAULT 'OFFLINE',
+    "calendar_url" TEXT NOT NULL,
     "timezone" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

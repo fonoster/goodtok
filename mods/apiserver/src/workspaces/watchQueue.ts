@@ -36,6 +36,11 @@ export function watchQueue(workspaceId: string) {
       if (index !== -1) {
         natsObservers.splice(index, 1);
       }
+
+      logger.verbose("observer removed from watchQueue", {
+        workspaceId,
+        totalObservers: natsObservers.length
+      });
     };
   });
 }

@@ -17,6 +17,10 @@
  * limitations under the License.
  */
 import { QueueEntry } from "./types";
+import { WorkspaceStatus } from "./types";
 
 // List to keep track of all active observers
 export const natsObservers: Array<(entry: QueueEntry) => void> = [];
+
+export const workspaceStatusObservers: Array<(entry: WorkspaceStatus) => void> =
+  [];

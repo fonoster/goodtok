@@ -17,13 +17,14 @@
  * limitations under the License.
  */
 import { z } from "zod";
-import { router, protectedProcedure } from "../trpc";
+import { router, protectedProcedure, publicProcedure } from "../trpc";
 import { getMembersByWorkspaceId } from "./getMembersByWorkspaceId";
 import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
 import { watchQueue } from "./watchQueue";
 import { getWorkspaceById } from "./getWorkspaceById";
 import { updateWorkspaceSchema } from "./types";
 import { updateWorkspace } from "./updateWorkspace";
+import { watchWorkspaceStatus } from "./watchWorkspaceStatus";
 
 export const workspacesRouter = router({
   getMembersByWorkspaceId: protectedProcedure
@@ -41,6 +42,10 @@ export const workspacesRouter = router({
   watchQueue: protectedProcedure
     .input(z.string())
     .subscription((req) => watchQueue(req.input)),
+
+  watchWorkspaceStatus: publicProcedure
+    .input(z.string())
+    .subscription((req) => watchWorkspaceStatus(req.input)),
 
   getWorkspaceById: protectedProcedure
     .input(z.string())
