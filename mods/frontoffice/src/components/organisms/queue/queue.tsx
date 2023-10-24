@@ -10,7 +10,7 @@ import moment from "moment";
 type QueueProps = {
   onSelectCustomer: (customer: any) => void;
   onSetInviteInfo: (inviteInfo: any) => void;
-}
+};
 
 export default function Queue({
   onSelectCustomer,
