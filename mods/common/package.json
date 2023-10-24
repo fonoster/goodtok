@@ -1,6 +1,6 @@
 {
   "name": "@goodtok/common",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Common library for Goodtok",
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "homepage": "https://github.com/fonoster/goodtok#readme",
