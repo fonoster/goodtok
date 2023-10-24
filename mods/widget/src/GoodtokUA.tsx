@@ -131,33 +131,39 @@ const GoodtokUA = () => {
   }, []);
 
   useEffect(() => {
-    if (!customerToken) {
-      const workspaceId = getWorkspaceId(document);
-      const server = getAPIServer(document);
-      let customerRef = localStorage.getItem("customerRef");
+    const token = getCustomerToken(document);
 
-      if (!customerRef) {
-        customerRef = Math.random().toString(36).substring(7);
-        localStorage.setItem("customerRef", customerRef);
-      }
-
-      const client = new SDK.Client({
-        endpoint: server,
-        workspace: workspaceId
-      });
-
-      const tokens = new SDK.Tokens(client);
-
-      tokens
-        .createAnonymousToken({
-          ref: customerRef,
-          workspaceId
-        })
-        .then((token) => {
-          setCustomerToken(token);
-          setConnectionObj(jwtDecode(token) as ConnectionObject);
-        });
+    if (token) {
+      setCustomerToken(token);
+      setConnectionObj(jwtDecode(token) as ConnectionObject);
+      return;
     }
+
+    const workspaceId = getWorkspaceId(document);
+    const server = getAPIServer(document);
+    let customerRef = localStorage.getItem("customerRef");
+
+    if (!customerRef) {
+      customerRef = Math.random().toString(36).substring(7);
+      localStorage.setItem("customerRef", customerRef);
+    }
+
+    const client = new SDK.Client({
+      endpoint: server,
+      workspace: workspaceId
+    });
+
+    const tokens = new SDK.Tokens(client);
+
+    tokens
+      .createAnonymousToken({
+        ref: customerRef,
+        workspaceId
+      })
+      .then((token) => {
+        setCustomerToken(token);
+        setConnectionObj(jwtDecode(token) as ConnectionObject);
+      });
   }, [customerToken]);
 
   useEffect(() => {

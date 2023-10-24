@@ -30,8 +30,6 @@ watchNats(NATS_URL, async (event) => {
   const { aor, extraHeaders } = event;
   const ctx = { prisma, getCustomerById };
 
-  logger.verbose("message from nats", { aor, extraHeaders });
-
   const customerId = extraHeaders["X-Customer-Id"];
   const workspaceId = extraHeaders["X-Workspace-Id"];
 
