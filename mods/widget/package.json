@@ -16,14 +16,11 @@
     "preview": "vite preview",
     "prebuild": "rimraf ./dist tsconfig.tsbuildinfo",
     "clean": "rimraf ./dist node_modules tsconfig.tsbuildinfo",
-    "build": "vite build",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build": "vite build"
   },
   "dependencies": {
     "@goodtok/common": "^0.0.10",
     "@goodtok/sdk": "^0.0.10",
-    "@types/styled-components": "^5.1.29",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-custom-elements": "^1.0.7",
@@ -32,19 +29,10 @@
     "styled-components": "^6.1.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.22.15",
-    "@storybook/addon-essentials": "^7.5.1",
-    "@storybook/addon-interactions": "^7.5.1",
-    "@storybook/addon-links": "^7.5.1",
-    "@storybook/addon-onboarding": "^1.0.8",
-    "@storybook/blocks": "^7.5.1",
-    "@storybook/react": "^7.5.1",
-    "@storybook/react-vite": "^7.5.1",
-    "@storybook/testing-library": "^0.2.2",
+    "@types/styled-components": "^5.1.29",
     "@types/react-dom": "^18.2.14",
     "babel-preset-nano-react-app": "^0.1.0",
     "prop-types": "^15.8.1",
-    "storybook": "^7.5.1",
     "vite": "^4.3.8"
   },
   "babel": {
