@@ -121,8 +121,9 @@ const GoodtokUA = () => {
     const token = getCustomerToken(document);
 
     if (token) {
+      const connectionObj = jwtDecode(token) as ConnectionObject;
       setCustomerToken(token);
-      setConnectionObj(jwtDecode(token) as ConnectionObject);
+      setConnectionObj(connectionObj);
       setCalendarUrl(connectionObj.calendarUrl);
       return;
     }
