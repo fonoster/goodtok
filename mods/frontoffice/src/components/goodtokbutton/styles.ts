@@ -16,6 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Video from "./video";
+import styled from "styled-components";
 
-export default Video;
+export const ButtonContainer = styled.div`
+  cursor: pointer;
+`;
