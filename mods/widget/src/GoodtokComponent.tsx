@@ -39,7 +39,7 @@ class GoodtokComponent extends HTMLElement {
     styles.textContent = `
       :host {
         position: relative;
-        z-index: 9999;  // or any high value you need
+        z-index: 10;  // or any high value you need
       }
     `;
 
