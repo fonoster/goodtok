@@ -21,7 +21,7 @@ import { LoginForm } from "./LoginForm";
 import React from "react";
 
 /**
- * This story covers the login form for the frontoffice and comes with the ability to enable/disable Signup, 
+ * This story covers the login form for the frontoffice and comes with the ability to enable/disable Signup,
  * Forgot Password, and Google Login.
  */
 const meta = {
@@ -77,7 +77,6 @@ const meta = {
       defaultValue: { summary: "" }
     }
   }
-
 } satisfies Meta<typeof LoginForm>;
 
 export default meta;

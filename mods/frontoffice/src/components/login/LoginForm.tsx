@@ -17,7 +17,12 @@
  * limitations under the License.
  */
 import { Box, Divider } from "@mui/material";
-import { ErrorStyled, LinkStyled, LoginFormFooterText, LoginFormTitle } from "./styles";
+import {
+  ErrorStyled,
+  LinkStyled,
+  LoginFormFooterText,
+  LoginFormTitle
+} from "./styles";
 import { TextField } from "../textfield/TextField";
 import { Button } from "../button/Button";
 import { GoogleIcon } from "../button/GoogleIcon";
@@ -77,29 +82,37 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       {error && <ErrorStyled>{error}</ErrorStyled>}
 
       {withForgotPassword && (
-        <LinkStyled sx={{ mb: 5 }} onClick={onForgotPasswordClick}>Forgot Password</LinkStyled>
+        <LinkStyled sx={{ mb: 5 }} onClick={onForgotPasswordClick}>
+          Forgot Password
+        </LinkStyled>
       )}
 
-      <Button onClick={() => signInWithEmailAndPassword(email, password)}>Log In</Button> 
+      <Button onClick={() => signInWithEmailAndPassword(email, password)}>
+        Log In
+      </Button>
 
       {withGoogleLogin && (
         <>
-          <Divider sx={{ mt: 3, mb: 3}}>Or</Divider>
+          <Divider sx={{ mt: 3, mb: 3 }}>Or</Divider>
 
           <Button variant="outlined" onClick={onGoogleLoginClick}>
-            <GoogleIcon />Login with Google
+            <GoogleIcon />
+            Login with Google
           </Button>
         </>
       )}
 
       {withSignup && (
         <>
-          <LoginFormFooterText sx={{ mt: 10 }}>Don't Have an Account?</LoginFormFooterText>
+          <LoginFormFooterText sx={{ mt: 10 }}>
+            Don't Have an Account?
+          </LoginFormFooterText>
 
-          <Button onClick={onSignupClick} color="secondary">Create a Goodtok Account</Button>
+          <Button onClick={onSignupClick} color="secondary">
+            Create a Goodtok Account
+          </Button>
         </>
       )}
-
     </Box>
   );
 };

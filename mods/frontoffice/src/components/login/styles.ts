@@ -14,7 +14,7 @@ export const LoginFormTitle = styled("h3")(() => ({
   fontStyle: "normal",
   fontWeight: 600,
   lineHeight: "28px",
-  letterSpacing: 0.5,
+  letterSpacing: 0.5
 }));
 
 export const LoginFormFooterText = styled("h3")(() => ({
@@ -29,7 +29,7 @@ export const LoginFormFooterText = styled("h3")(() => ({
   fontStyle: "normal",
   fontWeight: 500,
   lineHeight: "28px",
-  letterSpacing: 0.5,
+  letterSpacing: 0.5
 }));
 
 export const LinkStyled = styled(Link)(() => ({
@@ -41,8 +41,8 @@ export const LinkStyled = styled(Link)(() => ({
   lineHeight: "16px",
   textDecoration: "underline",
   "&:hover": {
-    textDecoration: "none",
-  },
+    textDecoration: "none"
+  }
 }));
 
 export const ErrorStyled = styled("p")(() => ({
@@ -52,5 +52,5 @@ export const ErrorStyled = styled("p")(() => ({
   fontStyle: "normal",
   fontWeight: 400,
   lineHeight: "16px",
-  letterSpacing: 0.25,
+  letterSpacing: 0.25
 }));
