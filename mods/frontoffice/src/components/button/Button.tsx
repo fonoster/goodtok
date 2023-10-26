@@ -24,7 +24,7 @@ type ButtonProps = {
   className?: string;
   variant?: "contained" | "outlined";
   color?: "primary" | "secondary";
-}
+};
 
 export const Button: React.FC<ButtonProps> = ({
   color = "primary",
@@ -33,7 +33,15 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   if (variant === "outlined") {
-    return <OutlinedButtonStyle color={color} {...props}>{children}</OutlinedButtonStyle>;
+    return (
+      <OutlinedButtonStyle color={color} {...props}>
+        {children}
+      </OutlinedButtonStyle>
+    );
   }
-  return <PrimaryButtonStyle color={color} {...props}>{children}</PrimaryButtonStyle>;
+  return (
+    <PrimaryButtonStyle color={color} {...props}>
+      {children}
+    </PrimaryButtonStyle>
+  );
 };

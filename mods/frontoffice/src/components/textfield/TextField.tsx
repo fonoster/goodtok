@@ -23,8 +23,8 @@ type TextFieldProps = {
   helperText?: string;
   label?: string;
   placeholder?: string;
-  type?: "text" | "password" | "email"
-}
+  type?: "text" | "password" | "email";
+};
 
 export const TextField: React.FC<TextFieldProps> = ({
   type = "text",
@@ -37,7 +37,7 @@ export const TextField: React.FC<TextFieldProps> = ({
     <TextFieldStyled
       {...props}
       fullWidth
-      InputLabelProps={{ shrink: true }} 
+      InputLabelProps={{ shrink: true }}
       label={label}
       type={type}
       placeholder={placeholder}

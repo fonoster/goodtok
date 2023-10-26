@@ -3,9 +3,10 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 
 export const PrimaryButtonStyle = styled(Button)(({ color }) => ({
-  background: color === "primary"
-    ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)" 
-    : "var(--base-05, #8D8D8D)",
+  background:
+    color === "primary"
+      ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)"
+      : "var(--base-05, #8D8D8D)",
   width: "100%",
   height: "37px",
   flexShrink: "0",
@@ -19,7 +20,7 @@ export const PrimaryButtonStyle = styled(Button)(({ color }) => ({
   fontSize: 11,
   fontStyle: "normal",
   fontWeight: 600,
-  lineHeight: "21px", 
+  lineHeight: "21px",
   letterSpacing: "1.32px",
   textTransform: "uppercase",
   borderRadius: "40px",
@@ -28,16 +29,18 @@ export const PrimaryButtonStyle = styled(Button)(({ color }) => ({
   "&:hover": {
     border: "none",
     boxShadow: "none",
-    background: color === 'primary' 
-      ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)" 
-      : "var(--base-05, #8D8D8D)",
+    background:
+      color === "primary"
+        ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)"
+        : "var(--base-05, #8D8D8D)"
   }
 }));
 
 export const OutlinedButtonStyle = styled(Button)(({ color }) => ({
-  border: color === "primary"
-    ? "2px solid var(--base-01, #FF9965)"
-    : "2px solid var(--base-01, #8D8D8D)",
+  border:
+    color === "primary"
+      ? "2px solid var(--base-01, #FF9965)"
+      : "2px solid var(--base-01, #8D8D8D)",
   width: "100%",
   height: "37px",
   flexShrink: "0",
@@ -49,7 +52,7 @@ export const OutlinedButtonStyle = styled(Button)(({ color }) => ({
   fontSize: 11,
   fontStyle: "normal",
   fontWeight: 600,
-  lineHeight: "21px", 
+  lineHeight: "21px",
   letterSpacing: "1.32px",
   textTransform: "uppercase",
   borderRadius: "40px",
@@ -57,12 +60,13 @@ export const OutlinedButtonStyle = styled(Button)(({ color }) => ({
   background: "transparent",
   color: "var(--base-01, #000)",
   "&:hover": {
-    background: color === "primary"
-      ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)" 
-      : "var(--base-05, #8D8D8D)",
-    border: color === "primary"
-      ? "2px solid var(--base-01, #FF9965)"
-      : "2px solid var(--base-01, #8D8D8D)"
+    background:
+      color === "primary"
+        ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)"
+        : "var(--base-05, #8D8D8D)",
+    border:
+      color === "primary"
+        ? "2px solid var(--base-01, #FF9965)"
+        : "2px solid var(--base-01, #8D8D8D)"
   }
 }));
-

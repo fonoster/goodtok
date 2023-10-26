@@ -53,7 +53,7 @@ const meta = {
       description: "Type of the input",
       control: { type: "select", options: ["text", "password", "email"] },
       defaultValue: { summary: "text" }
-    },
+    }
   }
 } satisfies Meta<typeof TextField>;
 
@@ -68,7 +68,7 @@ export const TextFieldExample: Story = {
   args: {
     helperText: "Please enter your email address",
     label: "Email Address",
-    placeholder: "john@example.com",
+    placeholder: "john@example.com"
   }
 };
 
@@ -80,6 +80,6 @@ export const TextFieldPassword: Story = {
     helperText: "Please enter your password",
     label: "Password",
     type: "password",
-    placeholder: "*********",
+    placeholder: "*********"
   }
 };

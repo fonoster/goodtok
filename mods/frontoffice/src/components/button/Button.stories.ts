@@ -66,10 +66,7 @@ export const PrimaryButtonContainedExample: Story = {
 export const PrimaryButtonOutlinedExample: Story = {
   args: {
     variant: "outlined",
-    children: [
-      React.createElement(GoogleIcon),
-      "Log In With Google"
-    ]
+    children: [React.createElement(GoogleIcon), "Log In With Google"]
   }
 };
 
