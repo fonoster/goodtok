@@ -24,24 +24,31 @@ type TextFieldProps = {
   label?: string;
   placeholder?: string;
   type?: "text" | "password" | "email";
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const TextField: React.FC<TextFieldProps> = ({
+  value,
   type = "text",
   helperText,
   label,
   placeholder,
+  onChange,
   ...props
 }) => {
   return (
     <TextFieldStyled
       {...props}
+      sx={{ mb: 4 }}
+      value={value}
       fullWidth
       InputLabelProps={{ shrink: true }}
       label={label}
       type={type}
       placeholder={placeholder}
       helperText={helperText}
+      onChange={onChange}
     />
   );
 };

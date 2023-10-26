@@ -13,6 +13,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@fontsource/open-sans": "^5.0.17",
     "@fontsource/poppins": "^5.0.8",
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",

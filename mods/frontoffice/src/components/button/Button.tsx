@@ -24,23 +24,25 @@ type ButtonProps = {
   className?: string;
   variant?: "contained" | "outlined";
   color?: "primary" | "secondary";
+  onClick?: () => void;
 };
 
 export const Button: React.FC<ButtonProps> = ({
   color = "primary",
   children,
   variant = "contained",
+  onClick,
   ...props
 }) => {
   if (variant === "outlined") {
     return (
-      <OutlinedButtonStyle color={color} {...props}>
+      <OutlinedButtonStyle onClick={onClick} color={color} {...props}>
         {children}
       </OutlinedButtonStyle>
     );
   }
   return (
-    <PrimaryButtonStyle color={color} {...props}>
+    <PrimaryButtonStyle onClick={onClick} color={color} {...props}>
       {children}
     </PrimaryButtonStyle>
   );
