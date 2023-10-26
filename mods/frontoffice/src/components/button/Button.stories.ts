@@ -42,6 +42,12 @@ const meta = {
       name: "Label",
       description: "The content of the button",
       control: { type: "text" }
+    },
+    disabled: {
+      name: "Disabled",
+      description: "If true, the button will be disabled",
+      control: { type: "boolean" },
+      defaultValue: { summary: false }
     }
   }
 } satisfies Meta<typeof Button>;
@@ -56,7 +62,9 @@ type Story = StoryObj<typeof meta>;
 export const PrimaryButtonContainedExample: Story = {
   args: {
     variant: "contained",
-    children: "Log In"
+    children: "Log In",
+    disabled: false,
+    color: "primary"
   }
 };
 
