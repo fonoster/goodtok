@@ -2,11 +2,11 @@ import "@fontsource/poppins/600.css";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 
-export const PrimaryButtonStyle = styled(Button)(({ theme, color }) => ({
-  background: color === 'primary' 
+export const PrimaryButtonStyle = styled(Button)(({ color }) => ({
+  background: color === "primary"
     ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)" 
     : "var(--base-05, #8D8D8D)",
-  width: "440px",
+  width: "100%",
   height: "37px",
   flexShrink: "0",
   display: "flex",
@@ -34,11 +34,11 @@ export const PrimaryButtonStyle = styled(Button)(({ theme, color }) => ({
   }
 }));
 
-export const OutlinedButtonStyle = styled(Button)(({ theme, color }) => ({
-  border: color === 'primary' 
+export const OutlinedButtonStyle = styled(Button)(({ color }) => ({
+  border: color === "primary"
     ? "2px solid var(--base-01, #FF9965)"
     : "2px solid var(--base-01, #8D8D8D)",
-  width: "440px",
+  width: "100%",
   height: "37px",
   flexShrink: "0",
   display: "flex",
@@ -57,10 +57,10 @@ export const OutlinedButtonStyle = styled(Button)(({ theme, color }) => ({
   background: "transparent",
   color: "var(--base-01, #000)",
   "&:hover": {
-    background: color === 'primary'
+    background: color === "primary"
       ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)" 
       : "var(--base-05, #8D8D8D)",
-    border: color === 'primary' 
+    border: color === "primary"
       ? "2px solid var(--base-01, #FF9965)"
       : "2px solid var(--base-01, #8D8D8D)"
   }

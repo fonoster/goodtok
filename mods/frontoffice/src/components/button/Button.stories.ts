@@ -28,7 +28,7 @@ const meta = {
   title: "FrontOffice/Button",
   component: Button,
   parameters: {
-    layout: "centered"
+    layout: "padded"
   },
   tags: ["autodocs"],
   argTypes: {
