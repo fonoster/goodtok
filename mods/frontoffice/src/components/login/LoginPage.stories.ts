@@ -17,17 +17,17 @@
  * limitations under the License.
  */
 import type { Meta, StoryObj } from "@storybook/react";
-import { LoginForm } from "./LoginForm";
+import { LoginPage } from "./LoginPage";
 
 /**
- * This story covers the login form for the frontoffice and comes with the ability to enable/disable Signup,
- * Forgot Password, and Google Login.
+ * This story covers the LoginPage component. The LoginPage component is meant to be used as the main page of the
+ * application. It contains a login form and links to the signup and forgot password pages.
  */
 const meta = {
-  title: "FrontOffice/LoginForm",
-  component: LoginForm,
+  title: "FrontOffice/LoginPage",
+  component: LoginPage,
   parameters: {
-    layout: "centered"
+    layout: "fullscreen"
   },
   tags: ["autodocs"],
   argTypes: {
@@ -76,16 +76,31 @@ const meta = {
       defaultValue: { summary: "" }
     }
   }
-} satisfies Meta<typeof LoginForm>;
+} satisfies Meta<typeof LoginPage>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const BasicLoginForm: Story = {
+/**
+ * Login page with the most basic login form.
+ */
+export const BasicLoginPage: Story = {
   args: {
+    withGoogleLogin: false,
     withSignup: false,
     withForgotPassword: false,
-    withGoogleLogin: false
+    error: ""
+  }
+};
+
+/**
+ * Full login page with Signup, Forgot Password, and Google Login.
+ */
+export const FullLoginPage: Story = {
+  args: {
+    withSignup: true,
+    withForgotPassword: true,
+    withGoogleLogin: true
   }
 };

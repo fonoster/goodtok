@@ -28,7 +28,7 @@ import { Button } from "../button/Button";
 import { GoogleIcon } from "../button/GoogleIcon";
 import React, { useState } from "react";
 
-type LoginFormProps = {
+export type LoginFormProps = {
   error?: string;
   withSignup?: boolean;
   withForgotPassword?: boolean;
