@@ -16,35 +16,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, { useState } from "react";
-import { GoodtokIcon, GoodtokHoverIcon } from "./GoodtokIcon";
-import { ButtonContainer } from "./styles";
+import React from "react";
+import { OutlinedButtonStyle, PrimaryButtonStyle } from "./styles";
 
-interface GoodtokButtonProps {
-  online?: boolean;
-  onClick?: () => void;
+type ButtonProps = {
+  children: React.ReactNode;
   className?: string;
+  variant?: "contained" | "outlined";
+  color?: "primary" | "secondary";
 }
 
-export const GoodtokButton2: React.FC<GoodtokButtonProps> = ({
-  online = false,
-  onClick,
+export const Button: React.FC<ButtonProps> = ({
+  color = "primary",
+  children,
+  variant = "contained",
   ...props
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <ButtonContainer
-      {...props}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
-    >
-      {isHovered ? (
-        <GoodtokHoverIcon online={online} />
-      ) : (
-        <GoodtokIcon online={online} />
-      )}
-    </ButtonContainer>
-  );
+  if (variant === "outlined") {
+    return <OutlinedButtonStyle color={color} {...props}>{children}</OutlinedButtonStyle>;
+  }
+  return <PrimaryButtonStyle color={color} {...props}>{children}</PrimaryButtonStyle>;
 };
