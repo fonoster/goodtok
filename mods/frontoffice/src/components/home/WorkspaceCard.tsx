@@ -28,7 +28,9 @@ import {
 
 type WorkspaceCardProps = {
   name: string;
-  createAt: string;
+  createdAt: string;
+  id: string;
+  onClick: (id: string) => void;
 };
 
 function getInitials(name: string): string {
@@ -44,12 +46,14 @@ function getInitials(name: string): string {
 }
 
 export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
+  id,
   name,
-  createAt,
+  createdAt,
+  onClick,
   ...props
 }) => {
   return (
-    <StyledWorkspaceCard {...props}>
+    <StyledWorkspaceCard {...props} onClick={() => onClick(id)}>
       <StyledWorkspaceCardCircle>
         <StyledWorkspaceCardCircleText>
           {getInitials(name)}
@@ -58,7 +62,7 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
 
       <StyledWorkspaceCardNameContainer>
         <StyledWorkspaceCardName>{name}</StyledWorkspaceCardName>
-        <StyledWorkspaceCardDate>{createAt}</StyledWorkspaceCardDate>
+        <StyledWorkspaceCardDate>{createdAt}</StyledWorkspaceCardDate>
       </StyledWorkspaceCardNameContainer>
     </StyledWorkspaceCard>
   );

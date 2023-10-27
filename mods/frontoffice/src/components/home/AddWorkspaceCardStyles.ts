@@ -3,14 +3,14 @@ import { styled } from "@mui/material/styles";
 import "@fontsource/poppins/500.css";
 
 export const StyledAddWorkspaceCard = styled("div")(() => ({
-  width: "265px",
-  height: "279px",
+  width: "325px",
+  height: "325px",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  gap: "10px",
-  border: "1px solid #FF9965"
+  border: "1px solid #FF9965",
+  cursor: "pointer"
 }));
 
 export const StyledAddWorkspaceCardText = styled(Typography)(() => ({

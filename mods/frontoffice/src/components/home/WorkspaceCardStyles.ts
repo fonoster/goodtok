@@ -7,11 +7,14 @@ export const StyledWorkspaceCard = styled("div")(() => ({
   width: "265px",
   height: "279px",
   display: "flex",
-  padding: "30px 30px 16px 30px",
+  // Make this slightly bigger than the add workspace card so that the
+  // to create a visual effect that they are the same size
+  padding: "31px 31px 18px 31px",
   flexDirection: "column",
   alignItems: "flex-start",
   justifyContent: "space-between",
-  background: "var(--tertiary-light, #FFF4F0)"
+  background: "var(--tertiary-light, #FFF4F0)",
+  cursor: "pointer"
 }));
 
 export const StyledWorkspaceCardCircle = styled("div")(() => ({

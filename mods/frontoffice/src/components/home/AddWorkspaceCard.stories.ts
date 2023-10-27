@@ -29,7 +29,14 @@ const meta = {
   parameters: {
     layout: "centered"
   },
-  tags: ["autodocs"]
+  tags: ["autodocs"],
+  argTypes: {
+    onClick: {
+      name: "On Click",
+      description: "Triggered when the workspace card is clicked",
+      action: "clicked"
+    }
+  }
 } satisfies Meta<typeof AddWorkspaceCard>;
 
 export default meta;

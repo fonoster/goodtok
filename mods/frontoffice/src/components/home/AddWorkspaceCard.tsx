@@ -23,9 +23,16 @@ import {
 import { PlusIcon } from "./PlusIcon";
 import React from "react";
 
-export const AddWorkspaceCard: React.FC = ({ ...props }) => {
+type AddWorkspaceCardProps = {
+  onClick: () => void;
+};
+
+export const AddWorkspaceCard: React.FC<AddWorkspaceCardProps> = ({
+  onClick,
+  ...props
+}: AddWorkspaceCardProps) => {
   return (
-    <StyledAddWorkspaceCard>
+    <StyledAddWorkspaceCard {...props} onClick={onClick}>
       <PlusIcon />
       <StyledAddWorkspaceCardText>Add Workspace</StyledAddWorkspaceCardText>
     </StyledAddWorkspaceCard>

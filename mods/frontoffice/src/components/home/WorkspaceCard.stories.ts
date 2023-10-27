@@ -29,7 +29,29 @@ const meta = {
   parameters: {
     layout: "centered"
   },
-  tags: ["autodocs"]
+  tags: ["autodocs"],
+  argTypes: {
+    id: {
+      name: "Workspace ID",
+      description: "The ID of the workspace",
+      control: { type: "text" }
+    },
+    name: {
+      name: "Workspace Name",
+      description: "The name of the workspace",
+      control: { type: "text" }
+    },
+    createdAt: {
+      name: "Created At",
+      description: "The date the workspace was created",
+      control: { type: "text" }
+    },
+    onClick: {
+      name: "On Click",
+      description: "Triggered when the workspace card is clicked",
+      action: "clicked"
+    }
+  }
 } satisfies Meta<typeof WorkspaceCard>;
 
 export default meta;
@@ -41,7 +63,8 @@ type Story = StoryObj<typeof meta>;
  */
 export const WorkspaceCardExample: Story = {
   args: {
+    id: "1",
     name: "Workspace Name",
-    createAt: "Created 00/00/0000"
+    createdAt: "Created 00/00/0000"
   }
 };
