@@ -18,13 +18,13 @@
  */
 import { Avatar, IconButton } from "@mui/material";
 import { GoodtokLogo } from "./GoodtokLogo";
-import { 
-  StyledAppBar, 
-  StyledContainer, 
-  StyledMenu, 
+import {
+  StyledAppBar,
+  StyledContainer,
+  StyledMenu,
   StyledMenuItem,
-  StyledMenuUser, 
-  StyledToolbar 
+  StyledMenuUser,
+  StyledToolbar
 } from "./styles";
 import React from "react";
 
@@ -51,9 +51,13 @@ export const AppBar: React.FC<AppBarProps> = ({
   };
 
   return (
-    <StyledAppBar {...props} isAuthenticated={isAuthenticated} position="static">
+    <StyledAppBar
+      {...props}
+      isAuthenticated={isAuthenticated}
+      position="static"
+    >
       <StyledContainer maxWidth={false}>
-        <StyledToolbar isAuthenticated={isAuthenticated} >
+        <StyledToolbar isAuthenticated={isAuthenticated}>
           <GoodtokLogo />
           {isAuthenticated && (
             <>
@@ -66,10 +70,7 @@ export const AppBar: React.FC<AppBarProps> = ({
                   onClick={handleMenu}
                   color="inherit"
                 >
-                  <Avatar
-                    alt={userName}
-                    src={avatar}
-                  >
+                  <Avatar alt={userName} src={avatar}>
                     {userName[0]}
                   </Avatar>
                 </IconButton>
