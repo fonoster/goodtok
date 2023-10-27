@@ -23,7 +23,8 @@ import {
   StyledEmptyQueueListTitle,
   StyledQueueListBox,
   StyledQueueListItemCount,
-  StyledQueueListTitle
+  StyledQueueListTitle,
+  StyledSelect
 } from "./QueueListStyles";
 import { Box, FormControl, MenuItem, Select } from "@mui/material";
 import { QueueItem } from "../item/QueueItem";
@@ -72,14 +73,13 @@ export const QueueList: React.FC<QueueListProps> = ({
           <StyledAvgWaitTime>Avg waiting time: {avgWaitTime}</StyledAvgWaitTime>
         </Box>
         <FormControl size="small">
-          <Select
+          <StyledSelect
             value={sort}
-            label="Sort"
             onChange={(e) => setSort(e.target.value as any)}
           >
             <MenuItem value={"status"}>Sort by status</MenuItem>
             <MenuItem value={"by-name-desc"}>Sort by name</MenuItem>
-          </Select>
+          </StyledSelect>
         </FormControl>
       </Box>
       {data.length === 0 && (

@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/400.css";
@@ -71,4 +71,11 @@ export const StyledEmptyQueueListBody = styled(Typography)(() => ({
   color: "#27150C",
   textAlign: "center",
   fontFeatureSettings: "'clig' off, 'liga' off"
+}));
+
+export const StyledSelect = styled(Select)(() => ({
+  width: 200,
+  height: 40,
+  border: "1px solid white",
+  borderRadius: 0
 }));
