@@ -54,7 +54,7 @@ export const AppBar: React.FC<AppBarProps> = ({
     <StyledAppBar
       {...props}
       isAuthenticated={isAuthenticated}
-      position="static"
+      position="sticky"
     >
       <StyledContainer maxWidth={false}>
         <StyledToolbar isAuthenticated={isAuthenticated}>
