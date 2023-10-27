@@ -20,8 +20,8 @@ import {
   WorkspaceCardListMultiRowWrapper,
   WorkspaceCardListWrapper
 } from "./WorkspaceCardListStyles";
-import { WorkspaceCard } from "./WorkspaceCard";
-import { AddWorkspaceCard } from "./AddWorkspaceCard";
+import { WorkspaceCard } from "../card/WorkspaceCard";
+import { AddWorkspaceCard } from "../card/AddWorkspaceCard";
 import React from "react";
 
 type WorkspaceCardListProps = {

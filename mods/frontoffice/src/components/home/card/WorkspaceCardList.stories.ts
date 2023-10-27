@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import type { Meta, StoryObj } from "@storybook/react";
-import { WorkspaceCardList } from "./WorkspaceCardList";
+import { WorkspaceCardList } from "../list/WorkspaceCardList";
 
 /**
  * This story is for the WorkspaceCardList component which displays a list of workspaces. The WorkspaceCardList

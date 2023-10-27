@@ -24,7 +24,7 @@ import {
   StyledWorkspaceCardDate,
   StyledWorkspaceCardName,
   StyledWorkspaceCardNameContainer
-} from "./WorkspaceCardStyles";
+} from "../list/WorkspaceCardStyles";
 
 type WorkspaceCardProps = {
   name: string;
