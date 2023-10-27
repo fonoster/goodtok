@@ -83,12 +83,12 @@ export const QueueList: React.FC<QueueListProps> = ({
         </FormControl>
       </Box>
       {data.length === 0 && (
-        <StyledEmptyQueueListContainer sx={{ mt: 2 }}>
+        <StyledEmptyQueueListContainer sx={{ mt: 3 }}>
           <Box sx={{ width: 353 }}>
             <StyledEmptyQueueListTitle>
               No one is here yet!
             </StyledEmptyQueueListTitle>
-            <StyledEmptyQueueListBody sx={{ mt: 2 }}>
+            <StyledEmptyQueueListBody sx={{ mt: 4 }}>
               When customers need to connect they will display here, no further
               action is required.
             </StyledEmptyQueueListBody>
@@ -96,7 +96,7 @@ export const QueueList: React.FC<QueueListProps> = ({
         </StyledEmptyQueueListContainer>
       )}
       {data.length > 0 && (
-        <StyledQueueListBox sx={{ mt: 2 }}>
+        <StyledQueueListBox sx={{ mt: 4 }}>
           {sortedData
             .map((customer, index) => (
               <QueueItem
