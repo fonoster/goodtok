@@ -26,9 +26,17 @@ const meta = {
   title: "FrontOffice/AppBar",
   component: AppBar,
   parameters: {
-    layout: "padded"
+    layout: "fullscreen"
   },
-  tags: ["autodocs"]
+  tags: ["autodocs"],
+  argTypes: {
+    isAuthenticated: {
+      name: "Is Authenticated",
+      description: "Adds the user menu to the AppBar",
+      control: { type: "boolean" },
+      defaultValue: { summary: "false" }
+    }
+  }
 } satisfies Meta<typeof AppBar>;
 
 export default meta;
@@ -39,5 +47,18 @@ type Story = StoryObj<typeof meta>;
  * Basic AppBar example
  */
 export const BasicAppBar: Story = {
-  args: {}
+  args: {
+    isAuthenticated: false
+  }
+};
+
+/**
+ * AppBar example when the user is authenticated
+ */
+export const AuthenticatedAppBar: Story = {
+  args: {
+    isAuthenticated: true,
+    avatar: "https://mui.com/static/images/avatar/3.jpg",
+    userName: "Jane"
+  }
 };

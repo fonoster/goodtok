@@ -129,6 +129,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                 label="API Key"
                 placeholder="shpss_1234567890abcdef1234567890abcdef"
                 helperText="Please enter your API Key"
+                type="password"
                 value={shopifyApiKey}
                 onChange={(e) => setShopifyApiKey(e.target.value)}
               />

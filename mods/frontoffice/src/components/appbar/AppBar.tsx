@@ -16,18 +16,88 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Avatar, IconButton } from "@mui/material";
 import { GoodtokLogo } from "./GoodtokLogo";
-import { StyledAppBar, StyledContainer, StyledToolbar } from "./styles";
+import { 
+  StyledAppBar, 
+  StyledContainer, 
+  StyledMenu, 
+  StyledMenuItem,
+  StyledMenuUser, 
+  StyledToolbar 
+} from "./styles";
 import React from "react";
 
-type AppBarProps = {};
+type AppBarProps = {
+  isAuthenticated?: boolean;
+  avatar?: string;
+  userName?: string;
+};
 
-export const AppBar: React.FC<AppBarProps> = ({ ...props }) => {
+export const AppBar: React.FC<AppBarProps> = ({
+  userName = "",
+  avatar = "",
+  isAuthenticated = false,
+  ...props
+}) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   return (
-    <StyledAppBar position="static">
+    <StyledAppBar {...props} isAuthenticated={isAuthenticated} position="static">
       <StyledContainer maxWidth={false}>
-        <StyledToolbar>
+        <StyledToolbar isAuthenticated={isAuthenticated} >
           <GoodtokLogo />
+          {isAuthenticated && (
+            <>
+              <div style={{ flexGrow: 1 }} />
+              <div>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <Avatar
+                    alt={userName}
+                    src={avatar}
+                  >
+                    {userName[0]}
+                  </Avatar>
+                </IconButton>
+                <StyledMenu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <StyledMenuUser>Hi {userName}!</StyledMenuUser>
+                  <StyledMenuItem>Personal Settings</StyledMenuItem>
+                  <StyledMenuItem>Workspace Settings</StyledMenuItem>
+                  <StyledMenuItem>Workspace Members</StyledMenuItem>
+                  <StyledMenuItem>Documentation</StyledMenuItem>
+                  <StyledMenuItem>Sign Out</StyledMenuItem>
+                </StyledMenu>
+              </div>
+            </>
+          )}
         </StyledToolbar>
       </StyledContainer>
     </StyledAppBar>
