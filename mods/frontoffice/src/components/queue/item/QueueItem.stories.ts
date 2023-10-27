@@ -19,13 +19,24 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { QueueItem } from "./QueueItem";
 
+/**
+ * This component holds the queue item which is displayed on the queue list. By itself, the component doesn't
+ * do much. It's meant to be used as a child of the QueueList component.
+ */
 const meta = {
   title: "FrontOffice/QueueItem",
   component: QueueItem,
   parameters: {
     layout: "centered"
   },
-  tags: ["autodocs"]
+  tags: ["autodocs"],
+  argTypes: {
+    onClick: {
+      name: "On Click",
+      description: "Triggered when the queue item is clicked",
+      action: "clicked"
+    }
+  }
 } satisfies Meta<typeof QueueItem>;
 
 export default meta;
@@ -37,6 +48,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const QueueItemExampleOdd: Story = {
   args: {
+    id: "1",
     isOdd: false,
     isOnline: true,
     userName: "John Doe",
@@ -50,6 +62,7 @@ export const QueueItemExampleOdd: Story = {
  */
 export const QueueItemExampleEven: Story = {
   args: {
+    id: "1",
     isOdd: true,
     isOnline: false,
     userName: "John Doe",

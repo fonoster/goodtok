@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from "react";
 import {
   FlexBox,
   StyledOnlineTitle,
@@ -26,27 +25,31 @@ import {
   StyledUserName,
   StyledUserNote
 } from "./QueueItemStyles";
-import { Box, Typography } from "@mui/material";
 import { OnlineIndicatorIcon } from "./OnlineIndicatorIcon";
+import React from "react";
 
 type QueueItemProps = {
+  id: string;
   isOdd: boolean;
   isOnline: boolean;
   userName: string;
   note?: string;
   time: string;
+  onClick: (id: string) => void;
 };
 
 export const QueueItem: React.FC<QueueItemProps> = ({
+  id,
   isOdd = false,
   isOnline = false,
   userName,
   note,
   time,
+  onClick,
   ...props
 }) => {
   return (
-    <StyledQueueItem {...props} isOdd={isOdd}>
+    <StyledQueueItem {...props} isOdd={isOdd} onClick={() => onClick(id)}>
       <StyledQueueItemContainer>
         <StyledOnlineTitle>
           <OnlineIndicatorIcon online={isOnline} />{" "}
