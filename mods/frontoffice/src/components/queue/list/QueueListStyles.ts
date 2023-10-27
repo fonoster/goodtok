@@ -10,8 +10,7 @@ export const StyledQueueListTitle = styled(Typography)(() => ({
   fontWeight: 600,
   lineHeight: "24px",
   letterSpacing: "0.5px",
-  color: "#27150C",
-  marginTop: "20px"
+  color: "#27150C"
 }));
 
 export const StyledAvgWaitTime = styled(Typography)(() => ({

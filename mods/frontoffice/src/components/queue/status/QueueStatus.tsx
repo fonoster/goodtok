@@ -30,6 +30,7 @@ import {
 type QueueStatusProps = {
   workspaceName: string;
   storeURL: string;
+  online: boolean;
   onChange: (status: boolean) => void;
 };
 
@@ -37,6 +38,7 @@ export const QueueStatus: React.FC<QueueStatusProps> = ({
   onChange,
   workspaceName,
   storeURL,
+  online,
   ...props
 }) => {
   return (
@@ -49,10 +51,13 @@ export const QueueStatus: React.FC<QueueStatusProps> = ({
       <Box sx={{ mt: 4 }} display="flex" alignItems="center">
         <SyledSwitch
           inputProps={{ "aria-label": "controlled" }}
-          onChange={(e) => onChange(e.target.checked)}
+          checked={online}
+          onChange={(e) => {
+            onChange(e.target.checked);
+          }}
         />
         <StyledQueueStatusText>
-          Queue {status ? "Enabled" : "Disabled"}
+          Queue {online ? "Enabled" : "Disabled"}
         </StyledQueueStatusText>
       </Box>
     </Box>

@@ -29,7 +29,7 @@ import { Box, FormControl, MenuItem, Select } from "@mui/material";
 import { QueueItem } from "../item/QueueItem";
 import React from "react";
 
-type CustomerData = {
+export type CustomerData = {
   userId: string;
   userName: string;
   isOnline: boolean;

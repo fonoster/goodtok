@@ -41,6 +41,12 @@ const meta = {
       name: "On Change",
       description: "Triggered when the status of the queue changes",
       action: "clicked"
+    },
+    online: {
+      name: "Online",
+      description: "Indicates if the queue is accepting calls",
+      control: { type: "boolean" },
+      defaultValue: { summary: "false" }
     }
   }
 } satisfies Meta<typeof QueueStatus>;
@@ -51,6 +57,7 @@ type Story = StoryObj<typeof meta>;
 
 export const QueueStatusExample: Story = {
   args: {
+    online: false,
     workspaceName: "Demo Workspace",
     storeURL: "quickstart-43c62e3b.myshopify.com"
   }
