@@ -47,7 +47,7 @@ export const StyledEmptyQueueListContainer = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "center"
 }));
 
 export const StyledEmptyQueueListTitle = styled(Typography)(() => ({
@@ -62,7 +62,6 @@ export const StyledEmptyQueueListTitle = styled(Typography)(() => ({
   fontFeatureSettings: "'clig' off, 'liga' off"
 }));
 
-
 export const StyledEmptyQueueListBody = styled(Typography)(() => ({
   fontFamily: "Poppins",
   fontSize: "16px",
@@ -74,4 +73,3 @@ export const StyledEmptyQueueListBody = styled(Typography)(() => ({
   textAlign: "center",
   fontFeatureSettings: "'clig' off, 'liga' off"
 }));
-
