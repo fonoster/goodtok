@@ -18,6 +18,9 @@
  */
 import {
   StyledAvgWaitTime,
+  StyledEmptyQueueListBody,
+  StyledEmptyQueueListContainer,
+  StyledEmptyQueueListTitle,
   StyledQueueListBox,
   StyledQueueListItemCount,
   StyledQueueListTitle
@@ -42,7 +45,7 @@ type QueueListProps = {
 };
 
 export const QueueList: React.FC<QueueListProps> = ({
-  avgWaitTime,
+  avgWaitTime = "",
   maxItems = 8,
   data,
   onClick,
@@ -66,11 +69,9 @@ export const QueueList: React.FC<QueueListProps> = ({
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box>
           <StyledQueueListTitle>Customer Queue</StyledQueueListTitle>
-          {avgWaitTime && (
-            <StyledAvgWaitTime>
-              Avg waiting time: {avgWaitTime}
-            </StyledAvgWaitTime>
-          )}
+          <StyledAvgWaitTime>
+            Avg waiting time: {avgWaitTime}
+          </StyledAvgWaitTime>
         </Box>
         <FormControl size="small">
           <Select
@@ -83,27 +84,40 @@ export const QueueList: React.FC<QueueListProps> = ({
           </Select>
         </FormControl>
       </Box>
-      <StyledQueueListBox sx={{ mt: 2 }}>
-        {sortedData
-          .map((customer, index) => (
-            <QueueItem
-              key={index}
-              id={customer.userId}
-              isOdd={index % 2 !== 0}
-              isOnline={customer.isOnline}
-              userName={customer.userName}
-              time={customer.time}
-              note={customer.note}
-              onClick={() => onClick(customer.userId)}
-            />
-          ))
-          .slice(0, maxItems)}
-      </StyledQueueListBox>
+      {
+        data.length === 0 && <StyledEmptyQueueListContainer sx={{ mt: 2 }}>
+          <Box sx={{ width: 353 }}>
+            <StyledEmptyQueueListTitle>
+              No one is here yet!
+            </StyledEmptyQueueListTitle>
+            <StyledEmptyQueueListBody sx={{ mt: 2 }}>
+              When customers need to connect they will display here, no further action is required.
+            </StyledEmptyQueueListBody>
+          </Box>
+        </StyledEmptyQueueListContainer>
+      }
+      {
+        data.length > 0 && <StyledQueueListBox sx={{ mt: 2 }}>
+          {sortedData
+            .map((customer, index) => (
+              <QueueItem
+                key={index}
+                id={customer.userId}
+                isOdd={index % 2 !== 0}
+                isOnline={customer.isOnline}
+                userName={customer.userName}
+                time={customer.time}
+                note={customer.note}
+                onClick={() => onClick(customer.userId)}
+              />
+            ))
+            .slice(0, maxItems)}
+        </StyledQueueListBox>
+      }
       <Box display="flex" justifyContent="center" alignItems="center">
         <StyledQueueListItemCount sx={{ mt: 2 }}>
-          {`Showing ${Math.min(maxItems, sortedData.length)} of ${
-            data.length
-          } Customers`}
+          {`Showing ${Math.min(maxItems, sortedData.length)} of ${data.length
+            } Customers`}
         </StyledQueueListItemCount>
       </Box>
     </Box>

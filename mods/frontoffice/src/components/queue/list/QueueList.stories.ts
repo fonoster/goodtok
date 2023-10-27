@@ -44,6 +44,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
+ * Example of an empty QueueList.
+ */
+export const QueueListExampleEmpty: Story = {
+  args: {
+    avgWaitTime: "",
+    data: []
+  }
+};
+
+/**
  * Example of a QueueList with two items.
  */
 export const QueueListExampleWithItems: Story = {
