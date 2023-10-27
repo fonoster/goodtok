@@ -28,14 +28,13 @@ export function OnlineIndicatorIcon({
 }: OnlineIndicatorIconProps) {
   return (
     <svg
-      {...props}
-      width="28"
-      height="29"
-      viewBox="0 0 28 29"
+      width="8"
+      height="8"
+      viewBox="0 0 8 8"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="14" cy="14.5" r="6" fill={online ? "#39E19E" : "#C2C2C2"} />
+      <circle cx="4" cy="4" r="4" fill={online ? "#39E19E" : "#C2C2C2"} />
     </svg>
   );
 }

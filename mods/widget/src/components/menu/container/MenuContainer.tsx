@@ -19,7 +19,7 @@
 import React, { ReactNode } from "react";
 
 import { GoodtokIcon } from "../../icons/GoodtokIcon";
-import { OnlineIndicatoricon } from "../../icons/OnlineIndicatorIcon";
+import { OnlineIndicatorIcon } from "../../icons/OnlineIndicatorIcon";
 import {
   ContentArea,
   FlexContainer,
@@ -57,7 +57,7 @@ export const MenuContainer: React.FC<MenuContainerProps> = ({
             <GoodtokIcon />
           </FlexContainer>
           <FlexContainer className="status-indicator">
-            <OnlineIndicatoricon online={online} />
+            <OnlineIndicatorIcon online={online} />
             <StatusAreaLabel>
               {online ? "Online" : "Offline"} Now
             </StatusAreaLabel>
