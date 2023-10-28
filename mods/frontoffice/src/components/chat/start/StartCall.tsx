@@ -49,7 +49,8 @@ export const StartCall: React.FC<StartCallProps> = ({
       <Box>
         <StartCallTitle>You’re all set to connect.</StartCallTitle>
         <StartCallBody>
-          Get started with your customer by beginning an audio or video call.
+          Start a call with your customer to get started, or return to the
+          queue.
         </StartCallBody>
         <Box
           sx={{

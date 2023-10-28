@@ -27,7 +27,10 @@ const meta = {
   title: "FrontOffice/LoginPage",
   component: LoginPage,
   parameters: {
-    layout: "fullscreen"
+    layout: "fullscreen",
+    backgrounds: {
+      default: "goodtok-light"
+    }
   },
   tags: ["autodocs"],
   argTypes: {

@@ -7,7 +7,20 @@ const preview = {
         color: /(background|color)$/i,
         date: /Date$/i
       }
-    }
+    },
+    backgrounds: {
+      default: 'goodtok-gray',
+      values: [
+        {
+          name: 'goodtok-gray',
+          value: '#F5F5F5',
+        },
+        {
+          name: 'goodtok-light',
+          value: '#FFFFFF',
+        }
+      ],
+    },
   }
 };
 

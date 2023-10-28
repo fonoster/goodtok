@@ -7,7 +7,8 @@ import "@fontsource/poppins/500.css";
 export const StartCallContainer = styled("div")({
   backgroundColor: "#fff",
   width: "900px",
-  height: "540px"
+  // Updated to match the size of the video
+  height: "554px"
 });
 
 export const StartCallTitle = styled(Typography)({

@@ -26,7 +26,10 @@ const meta = {
   title: "FrontOffice/OnboardingPage",
   component: OnboardingPage,
   parameters: {
-    layout: "fullscreen"
+    layout: "fullscreen",
+    backgrounds: {
+      default: "goodtok-light"
+    }
   },
   tags: ["autodocs"]
 } satisfies Meta<typeof OnboardingPage>;
