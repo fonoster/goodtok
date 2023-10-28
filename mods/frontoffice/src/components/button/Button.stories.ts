@@ -28,7 +28,10 @@ const meta = {
   title: "FrontOffice/Button",
   component: Button,
   parameters: {
-    layout: "padded"
+    layout: "padded",
+    backgrounds: {
+      default: "goodtok-light",
+    }
   },
   tags: ["autodocs"],
   argTypes: {

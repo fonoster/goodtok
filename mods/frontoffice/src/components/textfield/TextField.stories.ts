@@ -26,7 +26,10 @@ const meta = {
   title: "FrontOffice/TextField",
   component: TextField,
   parameters: {
-    layout: "padded"
+    layout: "padded",
+    backgrounds: {
+      default: "goodtok-light",
+    }
   },
   tags: ["autodocs"],
   argTypes: {

@@ -26,7 +26,10 @@ const meta = {
   title: "FrontOffice/HomePage",
   component: HomePage,
   parameters: {
-    layout: "fullscreen"
+    layout: "fullscreen",
+    backgrounds: {
+      default: "goodtok-light",
+    }
   },
   tags: ["autodocs"],
   argTypes: {
