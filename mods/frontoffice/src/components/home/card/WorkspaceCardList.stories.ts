@@ -27,7 +27,10 @@ const meta = {
   title: "FrontOffice/WorkspaceCardList",
   component: WorkspaceCardList,
   parameters: {
-    layout: "centered"
+    layout: "centered",
+    backgrounds: {
+      default: "goodtok-light"
+    }
   },
   tags: ["autodocs"],
   argTypes: {
