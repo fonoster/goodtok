@@ -44,7 +44,7 @@ import {
   StaffVideo,
   StaffVideoContainer
 } from "./styles";
-import { formatTime } from "./formatTime";
+import { formatTime } from "@goodtok/common";
 import { handlePiP } from "./handlePiP";
 
 type VideoProps = {

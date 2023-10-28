@@ -41,7 +41,7 @@ import {
   RemoteVideo,
   RemoteVideoContainer
 } from "./VideoStyles";
-import { formatTime } from "./formatTime";
+import { formatTime } from "@goodtok/common";
 
 type FOVideoProps = {
   isLocalCameraMuted?: boolean;

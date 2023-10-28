@@ -12,7 +12,15 @@
     "strict": true,
     "target": "ES2015"
   },
+  "references": [
+    {
+      "path": "../sdk"
+    },
+    {
+      "path": "../common"
+    }
+  ],
   "include": [
     "src/**/*"
-  ]
+, "../common/src/formatTime.ts"  ]
 }

@@ -19,3 +19,4 @@
 import { mediaToggle } from "./utils";
 import { ConnectionObject } from "./types";
 export { mediaToggle, ConnectionObject };
+export { formatTime } from "./formatTime";
