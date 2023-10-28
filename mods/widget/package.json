@@ -1,6 +1,6 @@
 {
   "name": "@goodtok/widget",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Video widget for Goodtok",
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "homepage": "https://github.com/fonoster/goodtok#readme",
@@ -19,18 +19,18 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@goodtok/common": "^0.0.10",
-    "@goodtok/sdk": "^0.0.10",
-    "sip.js": "^0.21.2",
+    "@goodtok/common": "^0.0.11",
+    "@goodtok/sdk": "^0.0.11",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-custom-elements": "^1.0.7",
     "react-dom": "^18.2.0",
+    "sip.js": "^0.21.2",
     "styled-components": "^6.1.0"
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.29",
     "@types/react-dom": "^18.2.14",
+    "@types/styled-components": "^5.1.29",
     "babel-preset-nano-react-app": "^0.1.0",
     "prop-types": "^15.8.1",
     "vite": "^4.3.8"
