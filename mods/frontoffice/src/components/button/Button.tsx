@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { OutlinedButtonStyle, PrimaryButtonStyle } from "./ButtonStyles";
 import React from "react";
-import { OutlinedButtonStyle, PrimaryButtonStyle } from "./styles";
 
 type ButtonProps = {
   children: React.ReactNode;

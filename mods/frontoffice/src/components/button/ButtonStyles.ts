@@ -1,6 +1,6 @@
-import "@fontsource/poppins/600.css";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import "@fontsource/poppins/600.css";
 
 export const PrimaryButtonStyle = styled(Button)(({ color }) => ({
   background:
@@ -60,6 +60,7 @@ export const OutlinedButtonStyle = styled(Button)(({ color }) => ({
   background: "transparent",
   color: "var(--base-01, #000)",
   "&:hover": {
+    color: "var(--base-01, #FFF)",
     background:
       color === "primary"
         ? "linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%)"

@@ -19,6 +19,8 @@
 import { Box } from "@mui/material";
 import { AppBar } from "../appbar/AppBar";
 import { StartCall } from "./start/StartCall";
+import { CustomerInfo } from "./customer/CustomerInfo";
+import { CustomerProfile, OrderItem } from "./customer/types";
 import React, { useEffect, useRef } from "react";
 import Video from "./video/Video";
 
@@ -26,6 +28,8 @@ type ChatPageProps = {
   isAuthenticated: boolean;
   isActiveCall: boolean;
   userName: string;
+  customerProfile: CustomerProfile;
+  orders: OrderItem[];
   onVideoRefsReady: (refs: any) => void;
 };
 
@@ -33,6 +37,8 @@ export const ChatPage: React.FC<ChatPageProps> = ({
   isAuthenticated,
   isActiveCall = true,
   userName,
+  customerProfile,
+  orders,
   onVideoRefsReady,
   ...props
 }) => {
@@ -58,9 +64,10 @@ export const ChatPage: React.FC<ChatPageProps> = ({
       <AppBar isAuthenticated={isAuthenticated} userName={userName} />
       <Box
         sx={{
-          height: "100%",
+          pt: 2,
+          pb: 2,
           display: "flex",
-          alignItems: "center",
+          flexDirection: "column",
           justifyContent: "center"
         }}
       >
@@ -68,6 +75,8 @@ export const ChatPage: React.FC<ChatPageProps> = ({
           <StartCall onReturnToQueue={() => {}} onStartCall={() => {}} />
         )}
         {isActiveCall && <Video ref={videoRefs} isOpen={true} />}
+
+        <CustomerInfo profile={customerProfile} orders={orders} />
       </Box>
     </Box>
   );

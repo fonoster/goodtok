@@ -36,24 +36,66 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Example of chat page with no active call
+ * Example of chat page with no active call and no orders.
  */
 export const ChatPageExample: Story = {
   args: {
     userName: "John Doe",
     isAuthenticated: true,
-    isActiveCall: false
+    isActiveCall: false,
+    customerProfile: {
+      name: "Peters Doe",
+      email: "peters@example.com",
+      phone: "(785)317-9945",
+      birthday: "1980-01-01",
+      notes: "This is a note"
+    },
+    orders: []
   }
 };
 
+export type OrderItem = {
+  id: string;
+  name: string;
+  photo: string;
+  createdAt: string;
+};
+
 /**
- * Example of chat page with active call
+ * Example of chat page with active call.
  */
 export const ChatPageWithActiveCall: Story = {
   args: {
     userName: "John Doe",
     isAuthenticated: true,
     isActiveCall: true,
+    customerProfile: {
+      name: "Peters Doe",
+      email: "peters@example.com",
+      phone: "(785)317-9945",
+      birthday: "1980-01-01",
+      notes: "This is a note"
+    },
+    orders: [
+      {
+        id: "1",
+        name: "Order 1",
+        photo: "https://picsum.photos/200",
+        createdAt: "2021-10-01T00:00:00.000Z"
+      },
+      {
+        id: "2",
+        name: "Order 2",
+        photo: "https://picsum.photos/200",
+        createdAt: "2021-10-01T00:00:00.000Z"
+      },
+      {
+        id: "3",
+        name: "Order 3",
+        photo: "https://picsum.photos/200",
+        createdAt: "2021-10-01T00:00:00.000Z"
+      }
+    ],
     onVideoRefsReady: () => {
       // Noop
     }
