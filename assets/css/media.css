@@ -1,3 +1,12 @@
+.mobile-image {
+    display: block;
+}
+
+.desktop-image {
+	margin-left: 60px;
+    display: none;
+}
+
 @media (min-width: 1025px) {
 	.header-wrap .menu-btn {
 		display: none;
@@ -10,6 +19,13 @@
 	.cta-sec-wrap .img-wrap {
 		display: none;
 	}
+
+	.mobile-image {
+        display: none;
+    }
+    .desktop-image {
+        display: block;
+    }
 }
 
 @media (max-width: 1440px) {
