@@ -557,6 +557,7 @@
 		font-size: 32px;
 		line-height: 1.5;
 		margin-top: -5px;
+		min-width: 37.55px;
 	}
 
 	.feature-list li .inner .desc {

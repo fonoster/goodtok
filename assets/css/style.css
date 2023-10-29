@@ -908,6 +908,7 @@ p:not(:last-child) {
 	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
+	min-width: 77.8px;
 }
 
 .feature-list li .inner {
