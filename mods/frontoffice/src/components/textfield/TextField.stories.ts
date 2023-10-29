@@ -28,7 +28,7 @@ const meta = {
   parameters: {
     layout: "padded",
     backgrounds: {
-      default: "goodtok-light",
+      default: "goodtok-light"
     }
   },
   tags: ["autodocs"],
