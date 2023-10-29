@@ -22,7 +22,7 @@ type OnlineIndicatorIconProps = {
   online: boolean;
 };
 
-export function OnlineIndicatoricon({
+export function OnlineIndicatorIcon({
   online = true,
   ...props
 }: OnlineIndicatorIconProps) {

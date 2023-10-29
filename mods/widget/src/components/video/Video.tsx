@@ -30,6 +30,8 @@ import { CirclePiPIcon } from "../icons/CirclePiPIcon";
 import { CircleCameraIcon } from "../icons/CircleCameraIcon";
 // import { CircleShareScreenIcon } from "../icons/CircleShareScreenIcon";
 import { CircleHangupIcon } from "../icons/CircleHangupIcon";
+import { CircleMicrophoneMutedIcon } from "../icons/CircleMicrophoneMutedIcon";
+import { CircleCameraMutedIcon } from "../icons/CircleCameraMutedIcon";
 import {
   ButtonCircleWrapper,
   Controls,
@@ -42,10 +44,8 @@ import {
   StaffVideo,
   StaffVideoContainer
 } from "./styles";
-import { formatTime } from "./formatTime";
+import { formatTime } from "@goodtok/common";
 import { handlePiP } from "./handlePiP";
-import { CircleMicrophoneMutedIcon } from "../icons/CircleMicrophoneMutedIcon";
-import { CircleCameraMutedIcon } from "../icons/CircleCameraMutedIcon";
 
 type VideoProps = {
   isCustomerCameraMuted?: boolean;
