@@ -30,6 +30,16 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
+    avatar: {
+      name: "Avatar",
+      description: "The avatar of the user",
+      control: { type: "text" }
+    },
+    userName: {
+      name: "User Name",
+      description: "The name of the user",
+      control: { type: "text" }
+    },
     isAuthenticated: {
       name: "Is Authenticated",
       description: "Adds the user menu to the AppBar",
@@ -44,7 +54,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Basic AppBar example
+ * Basic AppBar example.
  */
 export const BasicAppBar: Story = {
   args: {
@@ -53,7 +63,7 @@ export const BasicAppBar: Story = {
 };
 
 /**
- * AppBar example when the user is authenticated
+ * AppBar example when the user is authenticated.
  */
 export const AuthenticatedAppBar: Story = {
   args: {
