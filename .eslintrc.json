@@ -16,7 +16,8 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "google",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
   "rules": {
     "require-jsdoc": "off",

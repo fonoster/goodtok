@@ -11,14 +11,15 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@goodtok/common": "^0.0.11",
-    "@goodtok/sdk": "^0.0.11",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/open-sans": "^5.0.17",
     "@fontsource/poppins": "^5.0.8",
+    "@goodtok/common": "^0.0.11",
+    "@goodtok/sdk": "^0.0.11",
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",
+    "gravatar-url": "^4.0.1",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
   },
