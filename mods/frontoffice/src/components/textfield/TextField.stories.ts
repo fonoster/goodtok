@@ -51,6 +51,18 @@ const meta = {
       control: { type: "text" },
       defaultValue: { summary: "Placeholder" }
     },
+    error: {
+      name: "Error",
+      description: "Whether the input should be displayed with an error",
+      control: { type: "boolean" },
+      defaultValue: { summary: false }
+    },
+    readonly: {
+      name: "Readonly",
+      description: "Whether the input should be readonly",
+      control: { type: "boolean" },
+      defaultValue: { summary: false }
+    },
     type: {
       name: "Type",
       description: "Type of the input",
@@ -71,7 +83,9 @@ export const TextFieldExample: Story = {
   args: {
     helperText: "Please enter your email address",
     label: "Email Address",
-    placeholder: "john@example.com"
+    placeholder: "john@example.com",
+    error: false,
+    readonly: false
   }
 };
 
@@ -83,6 +97,8 @@ export const TextFieldPassword: Story = {
     helperText: "Please enter your password",
     label: "Password",
     type: "password",
-    placeholder: "*********"
+    placeholder: "*********",
+    error: false,
+    readonly: false
   }
 };

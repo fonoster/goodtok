@@ -23,9 +23,11 @@ type TextFieldProps = {
   helperText?: string;
   label?: string;
   placeholder?: string;
-  type?: "text" | "password" | "email";
+  type?: "text" | "password" | "email" | "time";
   value?: string;
   readonly?: boolean;
+  sx?: any;
+  error?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -36,13 +38,16 @@ export const TextField: React.FC<TextFieldProps> = ({
   label,
   placeholder,
   readonly,
+  error = false,
+  sx,
   onChange,
   ...props
 }) => {
   return (
     <TextFieldStyled
       {...props}
-      sx={{ mb: 4 }}
+      sx={sx || { mb: 4 }}
+      error={error}
       value={value}
       fullWidth
       disabled={readonly}
