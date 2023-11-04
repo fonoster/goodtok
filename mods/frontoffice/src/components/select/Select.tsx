@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FormControl, MenuItem } from "@mui/material";
+import { FormControl } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { InputLabelStyled, SelectStyled } from "./SelectStyles";
+import { InputLabelStyled, SelectStyled, StyledMenuItem } from "./SelectStyles";
 import React from "react";
 
 type SelectProps = {
@@ -62,9 +62,9 @@ export const Select: React.FC<SelectProps> = ({
       >
         {data &&
           data.map((item) => (
-            <MenuItem key={item.value} value={item.value}>
+            <StyledMenuItem key={item.value} value={item.value}>
               {item.label}
-            </MenuItem>
+            </StyledMenuItem>
           ))}
       </SelectStyled>
     </FormControl>

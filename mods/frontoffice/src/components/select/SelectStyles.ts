@@ -1,4 +1,4 @@
-import { InputLabel, Select } from "@mui/material";
+import { InputLabel, MenuItem, Select } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 export const SelectStyled = styled(Select)(({ theme }) => ({
@@ -16,8 +16,40 @@ export const SelectStyled = styled(Select)(({ theme }) => ({
   },
   "&.Mui-focused:not(.Mui-focused) .MuiOutlinedInput-notchedOutline": {
     borderColor: "#E0E3E7"
+  },
+  "& .MuiSelect-select": {
+    fontFamily: "Poppins",
+    fontSize: "12px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "24px",
+    letterSpacing: "0.5px",
+    color: "#333"
   }
 }));
+
+export const StyledMenuItem = styled(MenuItem)({
+  fontFamily: "Poppins",
+  fontSize: "12px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "24px",
+  letterSpacing: "0.5px",
+  color: "#333",
+  "&.Mui-selected": {
+    fontFamily: "Poppins",
+    fontSize: "12px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "24px",
+    letterSpacing: "0.5px",
+    color: "#333",
+    backgroundColor: "#F1DED7"
+  },
+  "&.Mui-selected:hover": {
+    backgroundColor: "#F1DED7"
+  }
+});
 
 export const InputLabelStyled = styled(InputLabel)({
   color: "#27150C",

@@ -1,6 +1,8 @@
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 
+import "@fontsource/poppins/400.css";
+
 export const TextFieldStyled = styled(TextField)({
   "& label": {
     backgroundColor: "#F1DED7",
@@ -14,6 +16,13 @@ export const TextFieldStyled = styled(TextField)({
     borderBottomColor: "#B2BAC2"
   },
   "& .MuiOutlinedInput-root": {
+    fontFamily: "Poppins",
+    fontSize: "12px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "24px",
+    letterSpacing: "0.5px",
+    color: "#333",
     "& fieldset": {
       borderColor: "#E0E3E7"
     },
