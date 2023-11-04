@@ -21,6 +21,8 @@ import { TextField } from "../../textfield/TextField";
 import { StyledBox, SettingsTitle } from "./WorkspaceSettingsStyles";
 import { Button } from "../../button/Button";
 import React, { useState } from "react";
+import { Select } from "../../select/Select";
+import { timezones } from "./timezones";
 
 type WorkspaceSettingsProps = {
   initialName: string;
@@ -124,9 +126,10 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
           onChange={(e) => setName(e.target.value)}
         />
 
-        <TextField
+        <Select
           label="Timezone"
           value={timezone}
+          data={timezones}
           onChange={(e) => setTimezone(e.target.value)}
         />
 

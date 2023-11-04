@@ -1,4 +1,3 @@
-import "@fontsource/poppins/600.css";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 

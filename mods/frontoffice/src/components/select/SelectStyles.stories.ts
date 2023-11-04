@@ -17,14 +17,14 @@
  * limitations under the License.
  */
 import type { Meta, StoryObj } from "@storybook/react";
-import { TextField } from "./TextField";
+import { Select } from "./Select";
 
 /**
  * This story is for the TextField component which is a wrapper around the MUI TextField component.
  */
 const meta = {
-  title: "FrontOffice/TextField",
-  component: TextField,
+  title: "FrontOffice/Select",
+  component: Select,
   parameters: {
     layout: "padded",
     backgrounds: {
@@ -45,12 +45,6 @@ const meta = {
       control: { type: "text" },
       defaultValue: { summary: "Label" }
     },
-    placeholder: {
-      name: "Placeholder",
-      description: "Placeholder to be displayed inside the input",
-      control: { type: "text" },
-      defaultValue: { summary: "Placeholder" }
-    },
     error: {
       name: "Error",
       description: "Whether the input should be displayed with an error",
@@ -63,47 +57,32 @@ const meta = {
       control: { type: "boolean" },
       defaultValue: { summary: false }
     },
-    type: {
-      name: "Type",
-      description: "Type of the input",
-      control: { type: "select", options: ["text", "password", "email"] },
-      defaultValue: { summary: "text" }
-    },
     onChange: {
       name: "On Change",
-      description: "The callback to be called when the user changes the value",
-      action: "changed"
+      description: "The callback to be called when the user selects an option",
+      action: "clicked"
     }
   }
-} satisfies Meta<typeof TextField>;
+} satisfies Meta<typeof Select>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 /**
- * Basic usage of the TextField component.
+ * Basic usage of the Select component.
  */
 export const TextFieldExample: Story = {
   args: {
-    helperText: "Please enter your email address",
-    label: "Email Address",
-    placeholder: "john@example.com",
+    helperText: "Please select a timezone",
+    label: "Timezone",
     error: false,
-    readonly: false
-  }
-};
-
-/**
- * TextField component with type password.
- */
-export const TextFieldPassword: Story = {
-  args: {
-    helperText: "Please enter your password",
-    label: "Password",
-    type: "password",
-    placeholder: "*********",
-    error: false,
-    readonly: false
+    readonly: false,
+    data: [
+      { value: "America/New_York", label: "America/New_York" },
+      { value: "America/Chicago", label: "America/Chicago" },
+      { value: "America/Denver", label: "America/Denver" },
+      { value: "America/Los_Angeles", label: "America/Los_Angeles" }
+    ]
   }
 };

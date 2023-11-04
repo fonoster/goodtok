@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { TextFieldStyled } from "./TextFieldStyles";
 import React from "react";
-import { TextFieldStyled } from "./styles";
 
 type TextFieldProps = {
   helperText?: string;
