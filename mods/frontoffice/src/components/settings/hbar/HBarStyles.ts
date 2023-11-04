@@ -1,8 +1,4 @@
-import {
-  Drawer,
-  Link,
-  Typography
-} from "@mui/material";
+import { Drawer, Link, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import "@fontsource/poppins/600.css";
@@ -13,10 +9,14 @@ export const StyledDrawer = styled(Drawer)({
   "& .MuiDrawer-paper": {
     backgroundColor: "#FFFFFF",
     boxShadow: "5px 0px 40px 5px rgba(0, 0, 0, 0.10)",
-    borderRight: "none !important"
+    borderRight: "none !important",
+    marginTop: "75px",
+    paddingTop: "24px",
+    height: "calc(100% - 75px - 24px)",
+    width: "250px"
   },
   "& .Mui-selected": {
-    backgroundColor: "#FFF4F0"
+    backgroundColor: "#FFF4F0 !important"
   },
   "& .Mui-selected .MuiTypography-root": {
     fontWeight: 500

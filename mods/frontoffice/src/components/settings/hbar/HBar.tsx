@@ -24,13 +24,8 @@ import {
   ListItemButton
 } from "@mui/material";
 import { StyledDrawer, StyledLink, StyledTitle } from "./HBarStyles";
+import { HBarSection } from "./types";
 import React, { useState } from "react";
-
-export enum HBarSection {
-  PERSONAL_SETTINGS = "Personal Settings",
-  WORKSPACE_SETTINGS = "Workspace Settings",
-  MEMBERS = "Members"
-}
 
 type HBarProps = {
   userName: string;
@@ -58,14 +53,11 @@ export const HBar: React.FC<HBarProps> = ({
   };
 
   return (
-    <StyledDrawer
-      anchor="left"
-      variant="persistent"
-      open={true}
-      sx={{ minHeight: "100vh" }}
-    >
+    <StyledDrawer anchor="left" variant="persistent" open={true}>
       <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        <StyledTitle sx={{ p: 2 }}>Hello, {userName}!</StyledTitle>
+        <StyledTitle sx={{ p: 2 }}>
+          Hello, {userName?.split(" ")[0]}!
+        </StyledTitle>
         <List
           sx={{ width: 250, flexGrow: 1, overflow: "auto" }}
           component="nav"

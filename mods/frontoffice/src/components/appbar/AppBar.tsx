@@ -32,12 +32,14 @@ type AppBarProps = {
   isAuthenticated?: boolean;
   avatar?: string;
   userName?: string;
+  onSignOut?: () => void;
 };
 
 export const AppBar: React.FC<AppBarProps> = ({
   userName = "",
   avatar = "",
   isAuthenticated = false,
+  onSignOut,
   ...props
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -55,6 +57,9 @@ export const AppBar: React.FC<AppBarProps> = ({
       {...props}
       isAuthenticated={isAuthenticated}
       position="sticky"
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1
+      }}
     >
       <StyledContainer maxWidth={false}>
         <StyledToolbar isAuthenticated={isAuthenticated}>
@@ -94,7 +99,7 @@ export const AppBar: React.FC<AppBarProps> = ({
                   <StyledMenuItem>Workspace Settings</StyledMenuItem>
                   <StyledMenuItem>Workspace Members</StyledMenuItem>
                   <StyledMenuItem>Documentation</StyledMenuItem>
-                  <StyledMenuItem>Sign Out</StyledMenuItem>
+                  <StyledMenuItem onClick={onSignOut}>Sign Out</StyledMenuItem>
                 </StyledMenu>
               </div>
             </>

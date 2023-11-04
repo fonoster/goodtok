@@ -30,7 +30,7 @@ type UserSettingsProps = {
   initialName: string;
   email: string;
   avatarUrl?: string;
-  onSave?: (name: string) => void;
+  onSave?: (name: string, password: string) => void;
 };
 
 export const UserSettings: React.FC<UserSettingsProps> = ({
@@ -40,9 +40,10 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
   onSave
 }) => {
   const [name, setName] = useState(initialName);
+  const [password, setPassword] = useState("");
 
   const handleSave = () => {
-    onSave && onSave(name);
+    onSave && onSave(name, password);
   };
 
   return (
@@ -58,7 +59,13 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
 
         <TextField label="Email Address" value={email} readonly />
 
-        <TextField label="Password" placeholder="******" type="password" />
+        <TextField
+          label="Password"
+          placeholder="******"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
         <StyledAvatar
           alt={name || "Avatar"}

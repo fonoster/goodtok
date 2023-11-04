@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Member, Status } from "./types";
+import { InviteInfo, Member, Role, Status } from "./types";
 import {
   Box,
   IconButton,
@@ -43,7 +43,7 @@ type MembersProps = {
   data?: Member[];
   onDelete?: (id: string) => void;
   onResend?: (id: string) => void;
-  onInvite?: (name: string, email: string, role: string) => void;
+  onInvite?: (info: InviteInfo) => void;
 };
 
 export const Members: React.FC<MembersProps> = ({
@@ -134,7 +134,7 @@ export const Members: React.FC<MembersProps> = ({
         <Invite
           onInvite={(name, email, role) => {
             setInviteOpen(false);
-            onInvite && onInvite(name, email, role);
+            onInvite && onInvite({ name, email, role });
           }}
         />
       </Modal>

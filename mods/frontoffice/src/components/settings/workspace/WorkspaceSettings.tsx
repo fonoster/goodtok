@@ -30,7 +30,7 @@ type WorkspaceSettingsProps = {
   initialShopifyStoreUrl: string;
   initialCalendarUrl: string;
   initialSchedule: WeekdaySchedule;
-  onSave?: (name: string, timezone: string, shopifyStoreId: string) => void;
+  onSave?: (settings: Settings) => void;
 };
 
 type WeekdaySchedule = {
@@ -38,6 +38,15 @@ type WeekdaySchedule = {
     from: string | boolean;
     to: string | boolean;
   };
+};
+
+type Settings = {
+  name: string;
+  timezone: string;
+  shopifyStoreUrl: string;
+  shopifyStoreAPIkey: string;
+  calendarUrl: string;
+  schedule: WeekdaySchedule;
 };
 
 export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
@@ -58,7 +67,15 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   const [schedule, setSchedule] = useState<WeekdaySchedule>(initialSchedule);
 
   const handleSave = () => {
-    onSave && onSave(name, timezone, shopifyStoreUrl);
+    onSave &&
+      onSave({
+        name,
+        timezone,
+        calendarUrl,
+        shopifyStoreUrl,
+        shopifyStoreAPIkey,
+        schedule
+      });
   };
 
   const [scheduleErrors, setScheduleErrors] = useState<WeekdaySchedule>(

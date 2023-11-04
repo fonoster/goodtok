@@ -16,3 +16,9 @@ export type Member = {
   status: Status;
   createdAt: Date;
 };
+
+export type InviteInfo = {
+  name: string;
+  email: string;
+  role: Role;
+};

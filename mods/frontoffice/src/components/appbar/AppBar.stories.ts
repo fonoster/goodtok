@@ -45,6 +45,11 @@ const meta = {
       description: "Adds the user menu to the AppBar",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
+    },
+    onSignOut: {
+      name: "On Sign Out",
+      description: "The callback to be called when the user clicks sign out",
+      action: "clicked"
     }
   }
 } satisfies Meta<typeof AppBar>;

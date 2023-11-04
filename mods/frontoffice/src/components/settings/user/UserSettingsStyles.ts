@@ -1,11 +1,12 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+
 import "@fontsource/poppins/500.css";
 
 export const StyledBox = styled(Box)(() => ({
   width: "440px",
   height: "399px",
-  background: "var(--base-01, #FFF)",
+  background: "#FFF",
   padding: "32px 24px 24px 24px"
 }));
 
