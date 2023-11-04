@@ -50,6 +50,12 @@ const meta = {
       description:
         "The callback to be called when the user clicks the resend button",
       action: "clicked"
+    },
+    onInvite: {
+      name: "On Invite",
+      description:
+        "The callback to be called when the user clicks the invite button",
+      action: "clicked"
     }
   }
 } satisfies Meta<typeof Members>;

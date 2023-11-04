@@ -20,6 +20,7 @@ import { Member, Status } from "./types";
 import {
   Box,
   IconButton,
+  Modal,
   Paper,
   TableBody,
   TableHead,
@@ -35,19 +36,24 @@ import {
   StyledTitle
 } from "./MembersStyles";
 import { Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
+import { Invite } from "../invite/Invite";
 import React from "react";
 
 type MembersProps = {
   data?: Member[];
   onDelete?: (id: string) => void;
   onResend?: (id: string) => void;
+  onInvite?: (name: string, email: string, role: string) => void;
 };
 
 export const Members: React.FC<MembersProps> = ({
   onResend,
   onDelete,
+  onInvite,
   data = []
 }) => {
+  const [inviteOpen, setInviteOpen] = React.useState(false);
+
   return (
     <>
       <Box
@@ -59,7 +65,7 @@ export const Members: React.FC<MembersProps> = ({
         }}
       >
         <StyledTitle>Workspace Members</StyledTitle>
-        <StyledLink href="#">+ Invite New Member</StyledLink>
+        <StyledLink onClick={() => setInviteOpen(true)}>+ Invite New Member</StyledLink>
       </Box>
       <StyledBox sx={{ p: 2, backgroundColor: "#FFFFFF" }}>
         <StyledTableContainer component={Paper}>
@@ -111,6 +117,21 @@ export const Members: React.FC<MembersProps> = ({
           </StyledTable>
         </StyledTableContainer>
       </StyledBox>
+      <Modal
+        // TODO: Fix deprecated api
+        BackdropProps={{
+          style: {
+            backgroundColor: '#27150C',
+            opacity: 0.8
+          }
+        }}
+        open={inviteOpen} onClose={() => setInviteOpen(false)}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Invite onInvite={(name, email, role) => {
+          setInviteOpen(false);
+          onInvite && onInvite(name, email, role);
+        }} />
+      </Modal>
     </>
   );
 };

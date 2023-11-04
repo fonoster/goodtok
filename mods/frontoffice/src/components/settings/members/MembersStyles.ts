@@ -67,5 +67,6 @@ export const StyledLink = styled(Link)({
   textDecoration: "none",
   "&:hover": {
     textDecorationLine: "underline"
-  }
+  },
+  cursor: "pointer"
 });
