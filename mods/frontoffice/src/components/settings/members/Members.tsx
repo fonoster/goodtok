@@ -65,7 +65,9 @@ export const Members: React.FC<MembersProps> = ({
         }}
       >
         <StyledTitle>Workspace Members</StyledTitle>
-        <StyledLink onClick={() => setInviteOpen(true)}>+ Invite New Member</StyledLink>
+        <StyledLink onClick={() => setInviteOpen(true)}>
+          + Invite New Member
+        </StyledLink>
       </Box>
       <StyledBox sx={{ p: 2, backgroundColor: "#FFFFFF" }}>
         <StyledTableContainer component={Paper}>
@@ -121,16 +123,20 @@ export const Members: React.FC<MembersProps> = ({
         // TODO: Fix deprecated api
         BackdropProps={{
           style: {
-            backgroundColor: '#27150C',
+            backgroundColor: "#27150C",
             opacity: 0.8
           }
         }}
-        open={inviteOpen} onClose={() => setInviteOpen(false)}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <Invite onInvite={(name, email, role) => {
-          setInviteOpen(false);
-          onInvite && onInvite(name, email, role);
-        }} />
+        open={inviteOpen}
+        onClose={() => setInviteOpen(false)}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <Invite
+          onInvite={(name, email, role) => {
+            setInviteOpen(false);
+            onInvite && onInvite(name, email, role);
+          }}
+        />
       </Modal>
     </>
   );
