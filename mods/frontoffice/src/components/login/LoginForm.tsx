@@ -21,8 +21,9 @@ import {
   ErrorStyled,
   LinkStyled,
   LoginFormFooterText,
-  LoginFormTitle
-} from "./styles";
+  LoginFormTitle,
+  StyledDivider
+} from "./LoginFormStyles";
 import { TextField } from "../textfield/TextField";
 import { Button } from "../button/Button";
 import { GoogleIcon } from "../button/GoogleIcon";
@@ -93,7 +94,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 
       {withGoogleLogin && (
         <>
-          <Divider sx={{ mt: 3, mb: 3 }}>Or</Divider>
+          <StyledDivider sx={{ mt: 3, mb: 3 }}>Or</StyledDivider>
 
           <Button variant="outlined" onClick={onGoogleLoginClick}>
             <GoogleIcon />

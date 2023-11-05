@@ -20,7 +20,8 @@
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",
     "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "react-markdown": "^9.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.7",

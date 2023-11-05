@@ -21,7 +21,7 @@ import { SettingsPage } from "./SettingsPage";
 import { Role, Status } from "./members/types";
 
 /**
- * This components holds the settings screens for the frontoffice including the UserSettings, WorkspaceSettings,
+ * This components holds the settings screens for the Front Office including the UserSettings, WorkspaceSettings,
  * and InviteMember components.
  */
 const meta = {

@@ -20,7 +20,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { LoginForm } from "./LoginForm";
 
 /**
- * This story covers the login form for the frontoffice and comes with the ability to enable/disable Signup,
+ * This story covers the login form for the Front Office and comes with the ability to enable/disable Signup,
  * Forgot Password, and Google Login.
  */
 const meta = {
@@ -85,6 +85,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+/**
+ * Basic login form without Google login button, signup button, and forgot password link.
+ */
 export const BasicLoginForm: Story = {
   args: {
     withSignup: false,
