@@ -30,12 +30,13 @@ export async function updateWorkspace(
 ): Promise<Workspace> {
   logger.verbose("updating workspace", { workspaceId: request.id });
 
-  const updateData: any = {
+  const updateData = {
     id: request.id,
     name: request.name,
     timezone: request.timezone,
     status: request.status,
-    hoursOfOperation: request.hoursOfOperation
+    hoursOfOperation: request.hoursOfOperation,
+    shopifyAccount: {}
   };
 
   let existingShopifyAccount;
@@ -86,6 +87,8 @@ export async function updateWorkspace(
     id: workspace.id,
     name: workspace.name,
     timezone: workspace.timezone,
+    calendarUrl: workspace.calendarUrl,
+    createdAt: workspace.createdAt,
     shopifyAccount: existingShopifyAccount ? existingShopifyAccount : undefined,
     hoursOfOperation: workspace.hoursOfOperation as WeeklyHoursType
   };

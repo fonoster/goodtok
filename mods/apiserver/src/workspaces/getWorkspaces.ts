@@ -32,11 +32,18 @@ export async function getWorkspaces(
 
   const workspaces = await ctx.prisma.workspace.findMany({
     where: {
-      members: {
-        some: {
-          userId
+      OR: [
+        {
+          members: {
+            some: {
+              userId: userId
+            }
+          }
+        },
+        {
+          ownerId: userId
         }
-      }
+      ]
     },
     include: {
       shopifyAccount: true

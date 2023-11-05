@@ -22,10 +22,11 @@ import { getMembersByWorkspaceId } from "./getMembersByWorkspaceId";
 import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
 import { watchQueue } from "./watchQueue";
 import { getWorkspaceById } from "./getWorkspaceById";
-import { updateWorkspaceSchema } from "./types";
+import { createWorkspaceSchema, updateWorkspaceSchema } from "./types";
 import { updateWorkspace } from "./updateWorkspace";
 import { watchWorkspaceStatus } from "./watchWorkspaceStatus";
 import { getWorkspaces } from "./getWorkspaces";
+import { createWorkspace } from "./createWorkspace ";
 
 export const workspacesRouter = router({
   getMembersByWorkspaceId: protectedProcedure
@@ -55,6 +56,10 @@ export const workspacesRouter = router({
   getWorkspaceById: protectedProcedure
     .input(z.string())
     .query(({ ctx, input }) => getWorkspaceById(ctx, { workspaceId: input })),
+
+  createWorkspace: protectedProcedure
+    .input(createWorkspaceSchema)
+    .mutation(({ ctx, input }) => createWorkspace(ctx, input)),
 
   updateWorkspace: protectedProcedure
     .input(updateWorkspaceSchema)

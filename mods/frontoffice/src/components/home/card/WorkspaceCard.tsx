@@ -52,9 +52,12 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
   onClick,
   ...props
 }) => {
-  const options: Intl.DateTimeFormatOptions = { month: 'short', year: 'numeric' };
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    year: "numeric"
+  };
 
-  const formattedDate = createdAt.toLocaleDateString('en-US', options);
+  const formattedDate = createdAt.toLocaleDateString("en-US", options);
 
   return (
     <StyledWorkspaceCard {...props} onClick={() => onClick(id)}>
@@ -66,9 +69,7 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
 
       <StyledWorkspaceCardNameContainer>
         <StyledWorkspaceCardName>{name}</StyledWorkspaceCardName>
-        <StyledWorkspaceCardDate>
-          {formattedDate}
-        </StyledWorkspaceCardDate>
+        <StyledWorkspaceCardDate>{formattedDate}</StyledWorkspaceCardDate>
       </StyledWorkspaceCardNameContainer>
     </StyledWorkspaceCard>
   );

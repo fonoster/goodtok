@@ -38,8 +38,8 @@ export const NATS_URL = e.NATS_URL;
 export const APISERVER_BIND_PORT = e.APISERVER_BIND_PORT ?? "6789";
 
 // Security and Encryption
-export const JWT_SECURITY_SALT =
-  e.JWT_SECURITY_SALT ?? crypto.randomBytes(4).toString("hex");
+export const CLOAK_ENCRYPTION_KEY = e.CLOAK_ENCRYPTION_KEY;
+export const JWT_SECURITY_SALT = e.JWT_SECURITY_SALT ?? CLOAK_ENCRYPTION_KEY;
 export const JWT_SIGN_OPTIONS = e.JWT_SIGN_OPTIONS
   ? JSON.parse(e.JWT_SIGN_OPTIONS)
   : defaultSignOptions;
@@ -48,7 +48,6 @@ export const SECURITY_PRIVATE_KEY = fs.readFileSync(
   join(SECURITY_PATH_TO_KEYS, "private.key"),
   "utf8"
 );
-export const CLOAK_ENCRYPTION_KEY = e.CLOAK_ENCRYPTION_KEY;
 
 // SIP configurations
 export const SIP_DOMAIN = e.SIP_DOMAIN ?? "sip.goodtok.io";

@@ -26,6 +26,7 @@ import {
 } from "@trpc/client";
 import type {
   AppRouter,
+  CreateWorkspaceRequest,
   GetMembersResponse,
   GetQueueResponse,
   UpdateWorkspaceRequest,
@@ -110,6 +111,36 @@ export default class Workspaces
       ],
       transformer: undefined
     });
+  }
+
+  /**
+   * Creates a new workspace.
+   *
+   * @param {CreateWorkspaceRequest} request - The request object containing the workspace name, timezone, and hours of operation
+   * @param {string} request.name - The workspace name
+   * @param {string} request.timezone - The workspace timezone
+   * @param {object} request.hoursOfOperation - The workspace hours of operation
+   * @return {Promise<Workspace>} A promise resolving to the created workspace
+   * @example
+   *
+   * const request = {
+   *   name: "My Workspace",
+   *   timezone: "America/New_York",
+   *   hoursOfOperation: {
+   *     Monday: {
+   *       hours: [{ start: "09:00", end: "17:00" }],
+   *       enabled: true
+   *     },
+   *     // ...
+   *   }
+   * };
+   *
+   * workspaces.createWorkspace(request)
+   *  .then(console.log)
+   *  .catch(console.error); // handle any errors
+   */
+  createWorkspace(request: CreateWorkspaceRequest): Promise<Workspace> {
+    return this.trpc.workspaces.createWorkspace.mutate(request);
   }
 
   /**
@@ -239,12 +270,10 @@ export default class Workspaces
    *   name: "My Workspace",
    *   timezone: "America/New_York",
    *   hoursOfOperation: {
-   *     monday: [
-   *       {
-   *         start: "09:00",
-   *         end: "17:00"
-   *       }
-   *     ],
+   *     Monday: {
+   *       hours: [{ start: "09:00", end: "17:00" }],
+   *       enabled: true
+   *     },
    *     // ...
    *   }
    * };

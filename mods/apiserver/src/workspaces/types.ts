@@ -132,6 +132,19 @@ export const updateWorkspaceSchema = z.object({
     .optional()
 });
 
+export const createWorkspaceSchema = updateWorkspaceSchema
+  .omit({
+    id: true
+  })
+  .merge(
+    z
+      .object({
+        name: z.string(),
+        calendarUrl: z.string()
+      })
+      .required()
+  );
+
 export type DayPreferences = {
   enabled: boolean;
   hours: { start: string; end: string }[];
@@ -156,6 +169,8 @@ export type Workspace = {
   name: string;
   hoursOfOperation: WeeklyHoursType;
   timezone: string;
+  calendarUrl: string;
+  createdAt: Date;
   shopifyAccount?: {
     storeDomain: string;
     accessToken: string;
@@ -188,6 +203,8 @@ export type QueueEntry = {
 };
 
 export type UpdateWorkspaceRequest = z.infer<typeof updateWorkspaceSchema>;
+
+export type CreateWorkspaceRequest = z.infer<typeof createWorkspaceSchema>;
 
 export type GetMembersResponse = {
   members: Member[];

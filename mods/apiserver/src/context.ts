@@ -43,9 +43,14 @@ export async function createContext(opts: ContextOptions) {
 
   const token = getToken({ req });
 
+  const payload = (token ? jwt.decode(token) : null) as {
+    sub: string;
+  };
+
   return {
     prisma,
     token,
+    userId: payload?.sub,
     getCustomerById,
     config: {
       jwtSecuritySalt: JWT_SECURITY_SALT,
@@ -62,6 +67,7 @@ export async function createContext(opts: ContextOptions) {
 export type Context = {
   prisma?: typeof prisma;
   token?: string;
+  userId?: string;
   getCustomerById?: typeof getCustomerById;
   config?: {
     jwtSecuritySalt: string;

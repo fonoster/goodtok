@@ -36,12 +36,12 @@ function HomeContainer() {
     workspaces
       .getWorkspaces()
       .then((res) => {
-        const workspacesList = res.map((wp) => {
+        const workspacesList = res.map((workspace) => {
+
           return {
-            id: wp.id,
-            name: wp.name,
-            // TODO: Fix this
-            createdAt: new Date()
+            id: workspace.id,
+            name: workspace.name,
+            createdAt: new Date(workspace.createdAt)
           };
         });
         setWorkspaces(workspacesList);

@@ -1,0 +1,75 @@
+/*
+ * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * http://github.com/fonoster/goodtok
+ *
+ * This file is part of Goodtok
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *    https://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import { getLogger } from "@fonoster/logger";
+import { CreateWorkspaceRequest, WeeklyHoursType, Workspace } from "./types";
+import { Context } from "../context";
+
+const logger = getLogger({ service: "apiserver", filePath: __filename });
+
+export async function createWorkspace(
+  ctx: Context,
+  request: CreateWorkspaceRequest
+): Promise<Workspace> {
+  logger.verbose("creating workspace");
+
+  const createData = {
+    ownerId: ctx.userId,
+    // We should write and id that stars with g- to indicate that is a goodtok workspace
+    name: request.name,
+    timezone: request.timezone,
+    status: request.status,
+    calendarUrl: request.calendarUrl,
+    hoursOfOperation: request.hoursOfOperation || {
+      Monday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
+      Tuesday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
+      Wednesday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
+      Thursday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
+      Friday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
+      Saturday: { hours: [], enabled: false },
+      Sunday: { hours: [], enabled: false }
+    },
+    shopifyAccount: {}
+  };
+
+  if (request.shopifyAccount) {
+    createData.shopifyAccount = {
+      create: {
+        accessToken: request.shopifyAccount.accessToken,
+        storeDomain: request.shopifyAccount.storeDomain
+      }
+    };
+  }
+
+  const workspace = await ctx.prisma.workspace.create({
+    data: createData,
+    include: {
+      shopifyAccount: true
+    }
+  });
+
+  return {
+    id: workspace.id,
+    name: workspace.name,
+    timezone: workspace.timezone,
+    calendarUrl: workspace.calendarUrl,
+    createdAt: workspace.createdAt,
+    shopifyAccount: workspace.shopifyAccount,
+    hoursOfOperation: workspace.hoursOfOperation as WeeklyHoursType
+  };
+}

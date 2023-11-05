@@ -26,7 +26,8 @@ import type {
   UpdateWorkspaceRequest,
   GetMembersResponse,
   GetQueueResponse,
-  Days
+  Days,
+  CreateWorkspaceRequest
 } from "@goodtok/apiserver";
 
 export type WorkspacesClient = {
@@ -37,6 +38,7 @@ export type WorkspacesClient = {
   getWorkspaceById: (id: string) => Promise<Workspace>;
   getMembersByWorkspaceId: (id: string) => Promise<GetMembersResponse>;
   getQueueByWorkspaceId(id: string): Promise<GetQueueResponse>;
+  createWorkspace: (request: CreateWorkspaceRequest) => Promise<Workspace>;
   updateWorkspace: (request: UpdateWorkspaceRequest) => Promise<Workspace>;
   getWorkspaces: () => Promise<Workspace[]>;
   watchQueue: (

@@ -1,9 +1,15 @@
+import * as SDK from "@goodtok/sdk";
 import { OnboardingPage } from "~components/onboarding/OnboardingPage";
 import { useAuth } from "~authentication";
 import React, { useEffect } from "react";
 
 function OnboardingContainer() {
-  const { isSignedIn } = useAuth();
+  const { client, signOut, isSignedIn } = useAuth();
+
+  if (!client) {
+    signOut();
+    return;
+  }
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -16,13 +22,32 @@ function OnboardingContainer() {
   };
 
   const handleCreateWorkspace = (request: {
-    workspaceName: string;
+    name: string;
+    timezone: string;
+    calendarUrl: string;
     shopifyUrl: string;
     shopifyApiKey: string;
   }) => {
-    const { workspaceName, shopifyUrl, shopifyApiKey } = request;
-    // TODO: Create workspace
-    window.location.href = "/dashboard";
+    const { name, timezone, calendarUrl, shopifyUrl, shopifyApiKey } = request;
+
+    const workspaces = new SDK.Workspaces(client);
+    workspaces
+      .createWorkspace({
+        name,
+        timezone,
+        calendarUrl,
+        shopifyAccount: {
+          storeDomain: shopifyUrl,
+          accessToken: shopifyApiKey
+        }
+      })
+      .then((res) => {
+        window.location.href = `/workspace/${res.id}`;
+      })
+      .catch((err) => {
+        // TODO: Handle error
+        console.log({ err });
+      });
   };
 
   return (
