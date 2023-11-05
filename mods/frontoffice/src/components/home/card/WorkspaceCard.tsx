@@ -52,6 +52,10 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
   onClick,
   ...props
 }) => {
+  const options: Intl.DateTimeFormatOptions = { month: 'short', year: 'numeric' };
+
+  const formattedDate = createdAt.toLocaleDateString('en-US', options);
+
   return (
     <StyledWorkspaceCard {...props} onClick={() => onClick(id)}>
       <StyledWorkspaceCardCircle>
@@ -63,7 +67,7 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
       <StyledWorkspaceCardNameContainer>
         <StyledWorkspaceCardName>{name}</StyledWorkspaceCardName>
         <StyledWorkspaceCardDate>
-          {createdAt.toDateString()}
+          {formattedDate}
         </StyledWorkspaceCardDate>
       </StyledWorkspaceCardNameContainer>
     </StyledWorkspaceCard>

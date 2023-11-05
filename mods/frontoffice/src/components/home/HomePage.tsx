@@ -20,9 +20,10 @@ import { AppBar } from "../appbar/AppBar";
 import { Box } from "@mui/material";
 import { WorkspaceCardList } from "./list/WorkspaceCardList";
 import {
-  StyleHomePAgeDescription,
+  StyleHomePageDescription,
   StyledHomePageSubTitle,
-  StyledHomePageTitle
+  StyledHomePageTitle,
+  StyledLink
 } from "./HomePageStyles";
 import React from "react";
 
@@ -75,10 +76,10 @@ export const HomePage: React.FC<HomePageProps> = ({
         <StyledHomePageSubTitle sx={{ mt: 5 }}>
           Ready to engage your customers better and faster?
         </StyledHomePageSubTitle>
-        <StyleHomePAgeDescription sx={{ mt: 1 }}>
+        <StyleHomePageDescription sx={{ mt: 1 }}>
           Create a new workspace or use an existing one to begin interacting
-          your customer now. Learn more.
-        </StyleHomePAgeDescription>
+          your customer now. <StyledLink>Learn more.</StyledLink>
+        </StyleHomePageDescription>
       </Box>
 
       <WorkspaceCardList

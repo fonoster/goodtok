@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import "@fontsource/open-sans/500.css";
 import "@fontsource/poppins/600.css";
@@ -28,7 +28,7 @@ export const StyledHomePageSubTitle = styled(Typography)(() => ({
   letterSpacing: "0.5px"
 }));
 
-export const StyleHomePAgeDescription = styled(Typography)(() => ({
+export const StyleHomePageDescription = styled(Typography)(() => ({
   color: "var(--tertiary-dark, #27150C)",
   textAlign: "center",
   fontFeatureSettings: "'clig' off, 'liga' off",
@@ -39,3 +39,20 @@ export const StyleHomePAgeDescription = styled(Typography)(() => ({
   lineHeight: "24px",
   letterSpacing: "-0.176px"
 }));
+
+export const StyledLink = styled(Link)({
+  color: "var(--tertiary-dark, #27150C)",
+  textAlign: "center",
+  fontFeatureSettings: "'clig' off, 'liga' off",
+  fontFamily: "open sans",
+  fontSize: "16px",
+  fontStyle: "normal",
+  fontWeight: 600,
+  lineHeight: "24px",
+  letterSpacing: "-0.176px",
+  textDecoration: "underline",
+  "&:hover": {
+    textDecorationLine: "underline"
+  },
+  cursor: "pointer"
+});
