@@ -24,17 +24,19 @@ import { Button } from "../button/Button";
 import React, { useState } from "react";
 
 type OnboardingPageProps = {
-  onFinished?: (
-    workspaceName: string,
-    shopifyUrl: string,
-    shopifyApiKey: string
-  ) => void;
+  onAbandon: () => void;
+  onCreateWorkspace: (request: {
+    workspaceName: string;
+    shopifyUrl: string;
+    shopifyApiKey: string;
+  }) => void;
 };
 
 const steps = ["Create Workspace", "Add Integration", "Privacy Agreement"];
 
 export const OnboardingPage: React.FC<OnboardingPageProps> = ({
-  onFinished,
+  onAbandon,
+  onCreateWorkspace,
   ...props
 }) => {
   const [activeStep, setActiveStep] = useState(0);
@@ -90,7 +92,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                   gap: 2
                 }}
               >
-                <Button onClick={() => {}} variant="outlined">
+                <Button onClick={onAbandon} variant="outlined">
                   Skip this step
                 </Button>
 
@@ -143,7 +145,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                   gap: 2
                 }}
               >
-                <Button onClick={() => {}} variant="outlined">
+                <Button onClick={onAbandon} variant="outlined">
                   Skip this step
                 </Button>
 
@@ -172,7 +174,11 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
               <Box sx={{ mt: 4 }}>
                 <Button
                   onClick={() => {
-                    onFinished?.(workspaceName, shopifyUrl, shopifyApiKey);
+                    onCreateWorkspace?.({
+                      workspaceName,
+                      shopifyUrl,
+                      shopifyApiKey
+                    });
                   }}
                   disabled={
                     workspaceName.length === 0 ||

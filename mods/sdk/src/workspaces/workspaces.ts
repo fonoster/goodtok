@@ -263,7 +263,9 @@ export default class Workspaces
    * @return {Promise<Workspace[]>} A promise resolving to an array of workspaces
    */
   async getWorkspaces(): Promise<Workspace[]> {
-    throw new Error("method not implemented.");
+    return this.trpc.workspaces.getWorkspaces.query(
+      this.client.getCurrentUserId()
+    );
   }
 
   /**

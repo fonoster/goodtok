@@ -25,6 +25,7 @@ import { getWorkspaceById } from "./getWorkspaceById";
 import { updateWorkspaceSchema } from "./types";
 import { updateWorkspace } from "./updateWorkspace";
 import { watchWorkspaceStatus } from "./watchWorkspaceStatus";
+import { getWorkspaces } from "./getWorkspaces";
 
 export const workspacesRouter = router({
   getMembersByWorkspaceId: protectedProcedure
@@ -38,6 +39,10 @@ export const workspacesRouter = router({
     .query(({ ctx, input }) =>
       getQueueByWorkspaceId(ctx, { workspaceId: input })
     ),
+
+  getWorkspaces: protectedProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => getWorkspaces(ctx, { userId: input })),
 
   watchQueue: protectedProcedure
     .input(z.string())

@@ -21,6 +21,7 @@
     }
   ],
   "include": [
-    "src/**/*"
-, "../common/src/formatTime.ts"  ]
+    "src/**/*",
+    "../common/src/formatTime.ts"
+  ]
 }

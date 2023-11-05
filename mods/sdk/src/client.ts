@@ -60,6 +60,11 @@ export default class Client {
 
   setToken(token: string) {
     this.token = token;
+    const userInfo = jwtDecode(token) as {
+      [key: string]: string;
+    };
+
+    this.currentUserId = userInfo.sub;
   }
 
   getToken() {

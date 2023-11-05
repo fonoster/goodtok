@@ -78,6 +78,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        // TODO: When the user presses enter, the form should be submitted
       />
 
       {error && <ErrorStyled>{error}</ErrorStyled>}

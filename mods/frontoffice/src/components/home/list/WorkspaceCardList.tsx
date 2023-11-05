@@ -50,7 +50,7 @@ export const WorkspaceCardList = (props: WorkspaceCardListProps) => {
             createdAt={workspace.createdAt}
           />
         ))}
-        <AddWorkspaceCard onClick={props.onWorkspaceSelect} />
+        <AddWorkspaceCard onClick={() => props.onWorkspaceSelect()} />
       </WorkspaceCardListWrapper>
     );
   }
@@ -66,7 +66,7 @@ export const WorkspaceCardList = (props: WorkspaceCardListProps) => {
           onClick={() => props.onWorkspaceSelect(workspace.id)}
         />
       ))}
-      <AddWorkspaceCard onClick={props.onWorkspaceSelect} />
+      <AddWorkspaceCard onClick={() => props.onWorkspaceSelect()} />
     </WorkspaceCardListMultiRowWrapper>
   );
 };

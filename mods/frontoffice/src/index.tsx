@@ -4,8 +4,17 @@ import { AuthProvider } from "~authentication";
 import React from "react";
 import LoginContainer from "~containers/login";
 import HomeContainer from "~containers/home";
+import OnboardingContainer from "~containers/onboarding";
 
 const router = createBrowserRouter([
+  {
+    path: "/onboarding",
+    element: <OnboardingContainer />
+  },
+  {
+    path: "/new-workspace",
+    element: <OnboardingContainer />
+  },
   {
     path: "/dashboard",
     element: <HomeContainer />
