@@ -40,8 +40,9 @@ type Story = StoryObj<typeof meta>;
  */
 export const QueuePageExampleWithEmptyQueue: Story = {
   args: {
+    avatar: "https://mui.com/static/images/avatar/3.jpg",
     avgWaitTime: "",
-    userName: "John Doe",
+    userName: "Jane Doe",
     storeURL: "quickstart-43c62e3b.myshopify.com",
     workspaceName: "Demo Workspace",
     isAuthenticated: true,
@@ -54,7 +55,8 @@ export const QueuePageExampleWithEmptyQueue: Story = {
  */
 export const QueuePageExampleWithQueueData: Story = {
   args: {
-    userName: "John Doe",
+    userName: "Jane Doe",
+    avatar: "https://mui.com/static/images/avatar/3.jpg",
     storeURL: "quickstart-43c62e3b.myshopify.com",
     workspaceName: "Demo Workspace",
     isAuthenticated: true,
@@ -70,7 +72,7 @@ export const QueuePageExampleWithQueueData: Story = {
       {
         userId: "2",
         isOnline: false,
-        userName: "Jane Doe",
+        userName: "Peter Doe",
         note: "A super long example of customer note treatment showing that we truncate after a certain point",
         time: "2m"
       }

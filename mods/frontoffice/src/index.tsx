@@ -5,6 +5,7 @@ import React from "react";
 import LoginContainer from "~containers/login";
 import HomeContainer from "~containers/home";
 import OnboardingContainer from "~containers/onboarding";
+import WorkspaceContainer from "~containers/workspace";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <HomeContainer />
+  },
+  {
+    path: "/workspace/:id",
+    element: <WorkspaceContainer />
   },
   {
     path: "/login",

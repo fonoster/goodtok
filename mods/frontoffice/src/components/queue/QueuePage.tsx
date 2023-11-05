@@ -24,29 +24,38 @@ import { CustomerData, QueueList } from "./list/QueueList";
 
 type QueuePageProps = {
   userName: string;
+  avatar: string;
   isAuthenticated: boolean;
   data: CustomerData[];
   storeURL: string;
   workspaceName: string;
   avgWaitTime: string;
   onClick: (id?: string) => void;
+  onSignOut: () => void;
 };
 
 export const QueuePage: React.FC<QueuePageProps> = ({
-  workspaceName,
-  storeURL,
   userName,
+  avatar,
   isAuthenticated,
   data,
+  storeURL,
+  workspaceName,
   avgWaitTime,
-  onClick: onClick,
+  onClick,
+  onSignOut,
   ...props
 }) => {
   const [online, setOnline] = React.useState<boolean>(true);
 
   return (
-    <Box {...props}>
-      <AppBar isAuthenticated={isAuthenticated} userName={userName} />
+    <Box {...props} sx={{ backgroundColor: "#F5F5F5" }}>
+      <AppBar
+        isAuthenticated={isAuthenticated}
+        userName={userName}
+        avatar={avatar}
+        onSignOut={onSignOut}
+      />
       <Box sx={{ p: 5 }} display="flex" flexDirection="row" gap={20}>
         <QueueStatus
           online={online}

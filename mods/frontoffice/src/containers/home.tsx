@@ -23,7 +23,8 @@ function HomeContainer() {
 
   useEffect(() => {
     const users = new SDK.Users(client);
-    users.getCurrentUser()
+    users
+      .getCurrentUser()
       .then((user) => {
         setName(user.name);
         setAvatar(user.avatar);
