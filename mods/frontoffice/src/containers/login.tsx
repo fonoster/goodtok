@@ -4,7 +4,8 @@ import React, { useEffect } from "react";
 
 function LoginContainer() {
   const [error, setError] = React.useState("");
-  const { login, isLoggedIn } = useAuth() as any;
+
+  const { signIn, isSignedIn } = useAuth();
 
   const handleSignInSubmit = async (request: {
     email: string;
@@ -12,7 +13,7 @@ function LoginContainer() {
   }) => {
     const { email, password } = request;
     try {
-      await login(email, password);
+      await signIn(email, password);
       window.location.href = "/dashboard";
     } catch (err) {
       setError(err.message);
@@ -20,7 +21,7 @@ function LoginContainer() {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isSignedIn) {
       window.location.href = "/dashboard";
     }
   });

@@ -27,9 +27,9 @@ import {
 } from "./WorkspaceCardStyles";
 
 type WorkspaceCardProps = {
-  name: string;
-  createdAt: string;
   id: string;
+  name: string;
+  createdAt: Date;
   onClick: (id: string) => void;
 };
 
@@ -62,7 +62,9 @@ export const WorkspaceCard: React.FC<WorkspaceCardProps> = ({
 
       <StyledWorkspaceCardNameContainer>
         <StyledWorkspaceCardName>{name}</StyledWorkspaceCardName>
-        <StyledWorkspaceCardDate>{createdAt}</StyledWorkspaceCardDate>
+        <StyledWorkspaceCardDate>
+          {createdAt.toDateString()}
+        </StyledWorkspaceCardDate>
       </StyledWorkspaceCardNameContainer>
     </StyledWorkspaceCard>
   );

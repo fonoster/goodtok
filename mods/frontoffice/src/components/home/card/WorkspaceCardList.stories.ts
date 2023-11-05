@@ -40,9 +40,10 @@ const meta = {
       control: { type: "object" },
       defaultValue: { summary: "[]" }
     },
-    onClick: {
-      name: "On Click",
-      description: "Triggered when the button is clicked",
+    onWorkspaceSelect: {
+      name: "On Workspace Select",
+      description:
+        "The callback to be called when the user clicks the workspace",
       action: "clicked"
     }
   }
@@ -70,7 +71,7 @@ export const ExampleWithOneWorkspace: Story = {
       {
         id: "1",
         name: "Workspace 1",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       }
     ]
   }
@@ -85,12 +86,12 @@ export const ExampleWithTwoWorkspaces: Story = {
       {
         id: "1",
         name: "Workspace 1",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       },
       {
         id: "2",
         name: "Workspace 2",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       }
     ]
   }
@@ -105,17 +106,17 @@ export const ExampleWithThreeWorkspaces: Story = {
       {
         id: "1",
         name: "Workspace 1",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       },
       {
         id: "2",
         name: "Workspace 2",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       },
       {
         id: "3",
         name: "Workspace 3",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       }
     ]
   }
@@ -127,32 +128,32 @@ export const ExampleWithSixWorkspaces: Story = {
       {
         id: "1",
         name: "Workspace 1",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       },
       {
         id: "2",
         name: "Workspace 2",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       },
       {
         id: "3",
         name: "Workspace 3",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       },
       {
         id: "4",
         name: "Workspace 4",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       },
       {
         id: "5",
         name: "Workspace 5",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       },
       {
         id: "6",
         name: "Workspace 6",
-        createdAt: "2021-10-01"
+        createdAt: new Date("2021-10-01")
       }
     ]
   }

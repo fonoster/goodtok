@@ -32,16 +32,24 @@ type HomePageProps = {
   workspaces: {
     id: string;
     name: string;
-    createdAt: string;
+    createdAt: Date;
   }[];
-  onClick: (id?: string) => void;
+
+  /**
+   * Callback fired when a workspace is selected.
+   * If the `id` is not provided, the create workspace flow will be triggered.
+   */
+  onWorkspaceSelect: (id?: string) => void;
+
+  onSignOut: () => void;
 };
 
 export const HomePage: React.FC<HomePageProps> = ({
   userName,
   isAuthenticated,
   workspaces,
-  onClick: onClick,
+  onWorkspaceSelect,
+  onSignOut,
   ...props
 }) => {
   return (
@@ -54,7 +62,11 @@ export const HomePage: React.FC<HomePageProps> = ({
         alignItems: "center"
       }}
     >
-      <AppBar isAuthenticated={isAuthenticated} userName={userName} />
+      <AppBar
+        isAuthenticated={isAuthenticated}
+        userName={userName}
+        onSignOut={onSignOut}
+      />
       <StyledHomePageTitle sx={{ mt: 10 }}>
         Hey {userName}, welcome to Goodtok 👋
       </StyledHomePageTitle>
@@ -69,7 +81,10 @@ export const HomePage: React.FC<HomePageProps> = ({
         </StyleHomePAgeDescription>
       </Box>
 
-      <WorkspaceCardList workspaces={workspaces} onClick={onClick} />
+      <WorkspaceCardList
+        workspaces={workspaces}
+        onWorkspaceSelect={onWorkspaceSelect}
+      />
     </Box>
   );
 };

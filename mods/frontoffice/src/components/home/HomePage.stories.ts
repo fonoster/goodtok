@@ -33,9 +33,10 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    onClick: {
-      name: "On Click",
-      description: "Triggered when the workspace card is clicked",
+    onWorkspaceSelect: {
+      name: "On Workspace Select",
+      description:
+        "The callback to be called when the user clicks the workspace",
       action: "clicked"
     }
   }
@@ -67,7 +68,7 @@ export const HomePageWithOneWorkspace: Story = {
       {
         id: "1",
         name: "Workspace 1",
-        createdAt: "2021-10-01T00:00:00.000Z"
+        createdAt: new Date("2021-10-01T00:00:00.000Z")
       }
     ]
   }

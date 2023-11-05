@@ -25,12 +25,12 @@ import { AddWorkspaceCard } from "../card/AddWorkspaceCard";
 import React from "react";
 
 type WorkspaceCardListProps = {
-  onClick: (id?: string) => void;
   workspaces: Array<{
     id: string;
     name: string;
-    createdAt: string;
+    createdAt: Date;
   }>;
+  onWorkspaceSelect: (id?: string) => void;
 };
 
 export const WorkspaceCardList = (props: WorkspaceCardListProps) => {
@@ -43,14 +43,14 @@ export const WorkspaceCardList = (props: WorkspaceCardListProps) => {
       <WorkspaceCardListWrapper>
         {sortedWorkspaces.map((workspace) => (
           <WorkspaceCard
-            onClick={() => props.onClick(workspace.id)}
+            onClick={() => props.onWorkspaceSelect(workspace.id)}
             key={workspace.id}
             id={workspace.id}
             name={workspace.name}
             createdAt={workspace.createdAt}
           />
         ))}
-        <AddWorkspaceCard onClick={props.onClick} />
+        <AddWorkspaceCard onClick={props.onWorkspaceSelect} />
       </WorkspaceCardListWrapper>
     );
   }
@@ -63,10 +63,10 @@ export const WorkspaceCardList = (props: WorkspaceCardListProps) => {
           id={workspace.id}
           name={workspace.name}
           createdAt={workspace.createdAt}
-          onClick={() => props.onClick(workspace.id)}
+          onClick={() => props.onWorkspaceSelect(workspace.id)}
         />
       ))}
-      <AddWorkspaceCard onClick={props.onClick} />
+      <AddWorkspaceCard onClick={props.onWorkspaceSelect} />
     </WorkspaceCardListMultiRowWrapper>
   );
 };

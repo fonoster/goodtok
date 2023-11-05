@@ -68,6 +68,6 @@ export const WorkspaceCardExample: Story = {
   args: {
     id: "1",
     name: "Workspace Name",
-    createdAt: "Created 00/00/0000"
+    createdAt: new Date()
   }
 };

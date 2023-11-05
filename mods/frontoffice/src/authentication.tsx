@@ -17,9 +17,9 @@ interface AuthProviderProps {
 
 interface AuthContextType {
   client: any;
-  isLoggedIn: boolean;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
+  isSignedIn: boolean;
+  signIn: (username: string, password: string) => Promise<void>;
+  signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,8 +33,8 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem("isLoggedIn") === "true"; // Initialize state from localStorage
+  const [isSignedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem("isSignedIn") === "true"; // Initialize state from localStorage
   });
 
   const [client, setClient] = useState(() => {
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return null;
   });
 
-  const login = async (username: string, password: string) => {
+  const signIn = async (username: string, password: string) => {
     const client = new SDK.Client({
       endpoint: API_ENDPOINT,
       workspace: "placeholder"
@@ -60,24 +60,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setClient(client);
     setIsLoggedIn(true);
 
-    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("isSignedIn", "true");
     localStorage.setItem("accessToken", client.getToken());
   };
 
-  const logout = () => {
+  const signOut = () => {
     setClient(null);
     setIsLoggedIn(false);
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isSignedIn");
   };
 
   useEffect(() => {
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-      logout();
+    if (localStorage.getItem("isSignedIn") !== "true") {
+      signOut();
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ client, isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ client, isSignedIn, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
