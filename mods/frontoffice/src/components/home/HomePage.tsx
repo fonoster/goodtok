@@ -29,6 +29,7 @@ import React from "react";
 
 type HomePageProps = {
   userName: string;
+  avatar: string;
   isAuthenticated: boolean;
   workspaces: {
     id: string;
@@ -47,6 +48,7 @@ type HomePageProps = {
 
 export const HomePage: React.FC<HomePageProps> = ({
   userName,
+  avatar,
   isAuthenticated,
   workspaces,
   onWorkspaceSelect,
@@ -65,6 +67,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     >
       <AppBar
         isAuthenticated={isAuthenticated}
+        avatar={avatar}
         userName={userName}
         onSignOut={onSignOut}
       />

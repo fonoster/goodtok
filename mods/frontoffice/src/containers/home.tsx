@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 
 function HomeContainer() {
   const [name, setName] = React.useState("");
+  const [avatar, setAvatar] = React.useState("");
   const [workspaces, setWorkspaces] = React.useState<
     Array<{
       id: string;
@@ -21,7 +22,15 @@ function HomeContainer() {
   }
 
   useEffect(() => {
-    setName("John Doe");
+    const users = new SDK.Users(client);
+    users.getCurrentUser()
+      .then((user) => {
+        setName(user.name);
+        setAvatar(user.avatar);
+      })
+      .catch((err) => {
+        // TODO: Handle error
+      });
   });
 
   useEffect(() => {
@@ -61,6 +70,7 @@ function HomeContainer() {
   return (
     <HomePage
       isAuthenticated={true}
+      avatar={avatar}
       userName={name}
       workspaces={workspaces}
       onWorkspaceSelect={handleWorkspaceSelect}
