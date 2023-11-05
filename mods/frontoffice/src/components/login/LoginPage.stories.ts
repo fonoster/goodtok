@@ -21,7 +21,7 @@ import { LoginPage } from "./LoginPage";
 
 /**
  * This story covers the LoginPage component. The LoginPage component is meant to be used as the main page of the
- * application. It contains a login form and links to the signup and forgot password pages.
+ * application. It contains a login form and links to the sign-up and forgot-password pages.
  */
 const meta = {
   title: "FrontOffice/LoginPage",
@@ -34,27 +34,33 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    withGoogleLogin: {
-      name: "With Google Login",
-      description: "Enables the google login button",
+    error: {
+      name: "Error",
+      description: "Error message to display",
+      control: { type: "text" },
+      defaultValue: { summary: "" }
+    },
+    hasGoogleSignIn: {
+      name: "Has Google Sign In",
+      description: "Enables the Google login button",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    withSignup: {
-      name: "With Signup",
-      description: "Enables the signup button",
+    hasSignUp: {
+      name: "Has Sign Up",
+      description: "Enables the sign up button",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    withForgotPassword: {
-      name: "With Forgot Password",
+    hasForgotPassword: {
+      name: "Has Forgot Password",
       description: "Enables the forgot password link",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    onGoogleLoginClick: {
-      name: "On Google Login Click",
-      description: "Triggered when the google login button is clicked",
+    onGoogleSignInClick: {
+      name: "On Google Sign In Click",
+      description: "Triggered when the Google login button is clicked",
       action: "clicked"
     },
     onForgotPasswordClick: {
@@ -62,21 +68,15 @@ const meta = {
       description: "Triggered when the forgot password link is clicked",
       action: "clicked"
     },
-    onSignupClick: {
-      name: "On Signup Click",
+    onSignUpClick: {
+      name: "On Sign Up Click",
       description: "Triggered when the signup button is clicked",
       action: "clicked"
     },
-    signInWithEmailAndPassword: {
-      name: "On Sign In With Email and Password",
-      description: "Triggered when the sign in button is clicked",
+    onSignInSubmit: {
+      name: "On Sign In Submit",
+      description: "Triggered when the login form is submitted",
       action: "clicked"
-    },
-    error: {
-      name: "Error",
-      description: "Error message to display",
-      control: { type: "text" },
-      defaultValue: { summary: "" }
     }
   }
 } satisfies Meta<typeof LoginPage>;
@@ -90,20 +90,21 @@ type Story = StoryObj<typeof meta>;
  */
 export const BasicLoginPage: Story = {
   args: {
-    withGoogleLogin: false,
-    withSignup: false,
-    withForgotPassword: false,
-    error: ""
+    error: "",
+    hasGoogleSignIn: false,
+    hasSignUp: false,
+    hasForgotPassword: false
   }
 };
 
 /**
- * Full login page with Signup, Forgot Password, and Google Login.
+ * Full login page with sign-up, forgot-password, and Google login.
  */
 export const FullLoginPage: Story = {
   args: {
-    withSignup: true,
-    withForgotPassword: true,
-    withGoogleLogin: true
+    error: "",
+    hasGoogleSignIn: true,
+    hasSignUp: true,
+    hasForgotPassword: true
   }
 };

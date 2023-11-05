@@ -20,8 +20,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { LoginForm } from "./LoginForm";
 
 /**
- * This story covers the login form for the Front Office and comes with the ability to enable/disable Signup,
- * Forgot Password, and Google Login.
+ * This story covers the login form for the Front Office and comes with the ability to enable/disable sign-up,
+ * forgot-password, and Google Login.
  */
 const meta = {
   title: "FrontOffice/LoginForm",
@@ -34,27 +34,33 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    withGoogleLogin: {
-      name: "With Google Login",
-      description: "Enables the google login button",
+    error: {
+      name: "Error",
+      description: "Error message to display",
+      control: { type: "text" },
+      defaultValue: { summary: "" }
+    },
+    hasGoogleSignIn: {
+      name: "Has Google Sign In",
+      description: "Enables the Google login button",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    withSignup: {
-      name: "With Signup",
-      description: "Enables the signup button",
+    hasSignUp: {
+      name: "Has Sign Up",
+      description: "Enables the sign up button",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    withForgotPassword: {
-      name: "With Forgot Password",
+    hasForgotPassword: {
+      name: "Has Forgot Password",
       description: "Enables the forgot password link",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    onGoogleLoginClick: {
-      name: "On Google Login Click",
-      description: "Triggered when the google login button is clicked",
+    onGoogleSignInClick: {
+      name: "On Google Sign In Click",
+      description: "Triggered when the Google login button is clicked",
       action: "clicked"
     },
     onForgotPasswordClick: {
@@ -62,21 +68,15 @@ const meta = {
       description: "Triggered when the forgot password link is clicked",
       action: "clicked"
     },
-    onSignupClick: {
-      name: "On Signup Click",
+    onSignUpClick: {
+      name: "On Sign Up Click",
       description: "Triggered when the signup button is clicked",
       action: "clicked"
     },
-    signInWithEmailAndPassword: {
-      name: "On Sign In With Email and Password",
-      description: "Triggered when the sign in button is clicked",
+    onSignInSubmit: {
+      name: "On Sign In Submit",
+      description: "Triggered when the login form is submitted",
       action: "clicked"
-    },
-    error: {
-      name: "Error",
-      description: "Error message to display",
-      control: { type: "text" },
-      defaultValue: { summary: "" }
     }
   }
 } satisfies Meta<typeof LoginForm>;
@@ -86,12 +86,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Basic login form without Google login button, signup button, and forgot password link.
+ * Basic login form without Google sign-in button, sign-up button, and forgot-password link.
  */
 export const BasicLoginForm: Story = {
   args: {
-    withSignup: false,
-    withForgotPassword: false,
-    withGoogleLogin: false
+    hasSignUp: false,
+    hasForgotPassword: false,
+    hasGoogleSignIn: false
   }
 };

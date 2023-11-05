@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Box, Divider } from "@mui/material";
+import { Box } from "@mui/material";
 import {
   ErrorStyled,
   LinkStyled,
@@ -31,24 +31,24 @@ import React, { useState } from "react";
 
 export type LoginFormProps = {
   error?: string;
-  withSignup?: boolean;
-  withForgotPassword?: boolean;
-  withGoogleLogin?: boolean;
+  hasSignUp?: boolean;
+  hasForgotPassword?: boolean;
+  hasGoogleSignIn?: boolean;
   onForgotPasswordClick?: () => void;
-  onGoogleLoginClick?: () => void;
-  onSignupClick?: () => void;
-  signInWithEmailAndPassword: (email: string, password: string) => void;
+  onGoogleSignInClick?: () => void;
+  onSignUpClick?: () => void;
+  onSignInSubmit: (request: { email: string; password: string }) => void;
 };
 
 export const LoginForm: React.FC<LoginFormProps> = ({
   error,
-  signInWithEmailAndPassword,
-  onSignupClick,
+  hasSignUp = false,
+  hasForgotPassword = false,
+  hasGoogleSignIn = false,
+  onSignInSubmit,
+  onSignUpClick,
   onForgotPasswordClick,
-  onGoogleLoginClick,
-  withSignup = false,
-  withForgotPassword = false,
-  withGoogleLogin = false,
+  onGoogleSignInClick,
   ...props
 }) => {
   const [email, setEmail] = useState("");
@@ -82,34 +82,34 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 
       {error && <ErrorStyled>{error}</ErrorStyled>}
 
-      {withForgotPassword && (
+      {hasForgotPassword && (
         <LinkStyled sx={{ mb: 5 }} onClick={onForgotPasswordClick}>
           Forgot Password
         </LinkStyled>
       )}
 
-      <Button onClick={() => signInWithEmailAndPassword(email, password)}>
+      <Button onClick={() => onSignInSubmit({ email, password })}>
         Log In
       </Button>
 
-      {withGoogleLogin && (
+      {hasGoogleSignIn && (
         <>
           <StyledDivider sx={{ mt: 3, mb: 3 }}>Or</StyledDivider>
 
-          <Button variant="outlined" onClick={onGoogleLoginClick}>
+          <Button variant="outlined" onClick={onGoogleSignInClick}>
             <GoogleIcon />
             Login with Google
           </Button>
         </>
       )}
 
-      {withSignup && (
+      {hasSignUp && (
         <>
           <LoginFormFooterText sx={{ mt: 10 }}>
             Don't Have an Account?
           </LoginFormFooterText>
 
-          <Button onClick={onSignupClick} color="secondary">
+          <Button onClick={onSignUpClick} color="secondary">
             Create a Goodtok Account
           </Button>
         </>
