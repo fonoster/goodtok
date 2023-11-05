@@ -15,7 +15,12 @@ function LoginContainer() {
     try {
       await signIn(email, password);
       window.location.href = "/dashboard";
-    } catch (err) {
+    } catch (error) {
+      const err = error as { message: string };
+      if (err.message === "UNAUTHORIZED") {
+        setError("Invalid email or password");
+        return;
+      }
       setError(err.message);
     }
   };
