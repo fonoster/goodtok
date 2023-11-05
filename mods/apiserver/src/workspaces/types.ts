@@ -198,6 +198,7 @@ export type QueueEntry = {
   customer: {
     name: string;
     avatar: string;
+    note: string;
   };
   aor: string;
 };

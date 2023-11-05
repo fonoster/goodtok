@@ -69,7 +69,8 @@ export async function getQueueByWorkspaceId(
         customer: {
           id: customer.id,
           name: customer.name,
-          avatar: customer.avatar
+          avatar: customer.avatar,
+          note: customer.note
         }
       };
     })

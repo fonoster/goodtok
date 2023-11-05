@@ -1,8 +1,9 @@
 import * as SDK from "@goodtok/sdk";
 import { useParams } from "react-router-dom";
 import { useAuth } from "~authentication";
-import React, { useEffect } from "react";
 import { QueuePage } from "~components/queue/QueuePage";
+import React, { useEffect } from "react";
+import moment from "moment";
 
 function WorkspaceContainer() {
   const [name, setName] = React.useState("");
@@ -61,8 +62,8 @@ function WorkspaceContainer() {
         return {
           id: person.customerId,
           name: person.customer.name,
-          note: "Prefers monthly newsletter",
-          time: "10m",
+          note: person.customer.note,
+          time: moment(person.registeredAt).fromNow(),
           isOnline: person.status === "ONLINE"
         };
       };

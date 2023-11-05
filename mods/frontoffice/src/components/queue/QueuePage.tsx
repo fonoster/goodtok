@@ -49,7 +49,10 @@ export const QueuePage: React.FC<QueuePageProps> = ({
   const [online, setOnline] = React.useState<boolean>(true);
 
   return (
-    <Box {...props} sx={{ backgroundColor: "#F5F5F5" }}>
+    <Box
+      {...props}
+      sx={{ backgroundColor: "#F5F5F5", height: "100%", minHeight: "100vh" }}
+    >
       <AppBar
         isAuthenticated={isAuthenticated}
         userName={userName}
