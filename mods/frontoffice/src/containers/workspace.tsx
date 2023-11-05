@@ -5,6 +5,24 @@ import { QueuePage } from "~components/queue/QueuePage";
 import React, { useEffect } from "react";
 import moment from "moment";
 
+const mapQueueEntry = (entry: {
+  customerId: string;
+  customer: {
+    name: string;
+    note: string;
+  };
+  createdAt: string;
+  status: string;
+}) => {
+  return {
+    id: entry.customerId,
+    name: entry.customer.name,
+    note: entry.customer.note,
+    time: moment(entry.createdAt).fromNow(),
+    isOnline: entry.status === "ONLINE"
+  };
+};
+
 function WorkspaceContainer() {
   const [name, setName] = React.useState("");
   const [avatar, setAvatar] = React.useState("");
@@ -52,23 +70,26 @@ function WorkspaceContainer() {
         // TODO: Handle error
       });
 
+    workspaces
+      .getQueueByWorkspaceId(id!)
+      .then((response: { queue: SDK.QueueEntry[] }) => {
+        setPeopleList(response.queue.map((entry: any) => mapQueueEntry(entry)));
+      })
+      .catch((err: any) => {
+        console.log({ err });
+        // TODO: Handle error
+      });
+
     workspaces.watchQueue(id!, (error, person) => {
       if (error) {
         console.error("Failed to watch queue:", error);
         return;
       }
 
-      const mapPerson = (person: any) => {
-        return {
-          id: person.customerId,
-          name: person.customer.name,
-          note: person.customer.note,
-          time: moment(person.registeredAt).fromNow(),
-          isOnline: person.status === "ONLINE"
-        };
-      };
-
-      setPeopleList((peopleList) => [...peopleList, mapPerson(person)]);
+      setPeopleList((peopleList) => {
+        const newPeopleList = peopleList.filter((p) => p.id !== person?.customerId);
+        return [...newPeopleList, mapQueueEntry(person as any)];
+      });
     });
   }, [client]);
 
