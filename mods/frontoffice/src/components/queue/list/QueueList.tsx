@@ -31,10 +31,10 @@ import { QueueItem } from "../item/QueueItem";
 import React from "react";
 
 export type CustomerData = {
-  userId: string;
-  userName: string;
+  id: string;
+  name: string;
   isOnline: boolean;
-  note?: string;
+  note: string;
   time: string;
 };
 
@@ -57,7 +57,7 @@ export const QueueList: React.FC<QueueListProps> = ({
   const sortedData = [...data].sort((a, b) => {
     switch (sort) {
       case "by-name-desc":
-        return b.userName.localeCompare(a.userName);
+        return b.name.localeCompare(a.name);
       case "status":
         return (b.isOnline ? 1 : 0) - (a.isOnline ? 1 : 0);
       default:
@@ -101,13 +101,13 @@ export const QueueList: React.FC<QueueListProps> = ({
             .map((customer, index) => (
               <QueueItem
                 key={index}
-                id={customer.userId}
+                id={customer.id}
                 isOdd={index % 2 === 0}
                 isOnline={customer.isOnline}
-                userName={customer.userName}
+                name={customer.name}
                 time={customer.time}
                 note={customer.note}
-                onClick={() => onQueueEntrySelect(customer.userId)}
+                onClick={() => onQueueEntrySelect(customer.id)}
               />
             ))
             .slice(0, maxItems)}

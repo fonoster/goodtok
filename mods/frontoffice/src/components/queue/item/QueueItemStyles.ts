@@ -42,7 +42,7 @@ export const StyledOnlineTitle = styled(Typography)(() => ({
   lineHeight: "normal"
 }));
 
-export const StyledUserName = styled(Typography)(() => ({
+export const StyledCustomerName = styled(Typography)(() => ({
   color: "var(--tertiary-dark, #27150C)",
   fontFeatureSettings: "'clig' off, 'liga' off",
   fontFamily: "Poppins",
@@ -53,7 +53,7 @@ export const StyledUserName = styled(Typography)(() => ({
   flexGrow: 1
 }));
 
-export const StyledUserNote = styled(Typography)(() => ({
+export const StyledCustomerNote = styled(Typography)(() => ({
   color: "var(--tertiary-dark, #27150C)",
   fontFeatureSettings: "'clig' off, 'liga' off",
   fontFamily: "Poppins",

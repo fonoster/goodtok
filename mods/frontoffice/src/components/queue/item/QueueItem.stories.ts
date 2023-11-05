@@ -31,6 +31,36 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
+    id: {
+      name: "ID",
+      description: "The ID of the queue item",
+      control: "text"
+    },
+    name: {
+      name: "Name",
+      description: "The customer name of the queue item",
+      control: "text"
+    },
+    isOnline: {
+      name: "Is Online",
+      description: "Whether the queue item is online",
+      control: "boolean"
+    },
+    note: {
+      name: "Note",
+      description: "The note of the queue item",
+      control: "text"
+    },
+    time: {
+      name: "Time",
+      description: "The time the queue item was added",
+      control: "text"
+    },
+    isOdd: {
+      name: "Is Odd",
+      description: "Whether the queue item is odd for styling purposes",
+      control: "boolean"
+    },
     onClick: {
       name: "On Click",
       description: "Triggered when the queue item is clicked",
@@ -49,11 +79,11 @@ type Story = StoryObj<typeof meta>;
 export const QueueItemExampleOdd: Story = {
   args: {
     id: "1",
-    isOdd: false,
-    isOnline: true,
-    userName: "John Doe",
+    name: "John Doe",
     note: "Prefers monthly newsletters",
-    time: "10m"
+    isOnline: true,
+    time: "10m",
+    isOdd: false
   }
 };
 
@@ -63,10 +93,10 @@ export const QueueItemExampleOdd: Story = {
 export const QueueItemExampleEven: Story = {
   args: {
     id: "1",
-    isOdd: true,
-    isOnline: false,
-    userName: "John Doe",
+    name: "John Doe",
     note: "A super long example of customer note treatment showing that we truncate after a certain point",
-    time: "2m"
+    isOnline: false,
+    time: "2m",
+    isOdd: true
   }
 };

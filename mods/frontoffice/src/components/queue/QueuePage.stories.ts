@@ -28,7 +28,56 @@ const meta = {
   parameters: {
     layout: "fullscreen"
   },
-  tags: ["autodocs"]
+  tags: ["autodocs"],
+  argTypes: {
+    userName: {
+      name: "User Name",
+      description: "The name of the user for the queue page",
+      control: "text"
+    },
+    avatar: {
+      name: "Avatar",
+      description: "The avatar of the user for the queue page",
+      control: "text"
+    },
+    storeURL: {
+      name: "Store URL",
+      description: "The store URL of the user for the queue page",
+      control: "text"
+    },
+    workspaceName: {
+      name: "Workspace Name",
+      description: "The workspace name of the user for the queue page",
+      control: "text"
+    },
+    isAuthenticated: {
+      name: "Is Authenticated",
+      description: "Whether the user is authenticated",
+      control: "boolean"
+    },
+    avgWaitTime: {
+      name: "Average Wait Time",
+      description: "The average wait time for the queue",
+      control: "text"
+    },
+    data: {
+      name: "Data",
+      description: "The data for the queue",
+      control: "object"
+    },
+    onQueueEntrySelect: {
+      name: "On Queue Entry Select",
+      description:
+        "The callback to be called when the user clicks on a queue entry",
+      action: "clicked"
+    },
+    onSignOut: {
+      name: "On Sign Out",
+      description:
+        "The callback to be called when the user clicks the sign out button",
+      action: "clicked"
+    }
+  }
 } satisfies Meta<typeof QueuePage>;
 
 export default meta;
@@ -63,18 +112,18 @@ export const QueuePageExampleWithQueueData: Story = {
     avgWaitTime: "5m",
     data: [
       {
-        userId: "1",
-        userName: "John Doe",
-        isOnline: true,
+        id: "1",
+        name: "John Doe",
         note: "Prefers monthly newsletter",
-        time: "10m"
+        time: "10m",
+        isOnline: true
       },
       {
-        userId: "2",
-        isOnline: false,
-        userName: "Peter Doe",
+        id: "2",
+        name: "Peter Doe",
         note: "A super long example of customer note treatment showing that we truncate after a certain point",
-        time: "2m"
+        time: "2m",
+        isOnline: false
       }
     ]
   }

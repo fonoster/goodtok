@@ -31,10 +31,23 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    onClick: {
-      name: "On Click",
-      description: "Triggered when and item in the queue list is clicked",
-      action: "clicked"
+    avgWaitTime: {
+      name: "Average Wait Time",
+      description: "The average wait time for the queue"
+    },
+    maxItems: {
+      name: "Max Items",
+      description:
+        "The maximum number of items to display in the queue. Defaults to 8."
+    },
+    data: {
+      name: "Data",
+      description: "The data to display in the queue"
+    },
+    onQueueEntrySelect: {
+      name: "On Queue Entry Select",
+      description:
+        "The callback to be called when the user clicks on a queue entry"
     }
   }
 } satisfies Meta<typeof QueueList>;
@@ -61,18 +74,18 @@ export const QueueListExampleWithItems: Story = {
     avgWaitTime: "5m",
     data: [
       {
-        userId: "1",
-        userName: "John Doe",
-        isOnline: true,
+        id: "1",
+        name: "John Doe",
+        time: "10m",
         note: "Prefers monthly newsletter",
-        time: "10m"
+        isOnline: true
       },
       {
-        userId: "2",
-        isOnline: false,
-        userName: "Jane Doe",
+        id: "2",
+        name: "Jane Doe",
         note: "A super long example of customer note treatment showing that we truncate after a certain point",
-        time: "2m"
+        time: "2m",
+        isOnline: false
       }
     ]
   }
@@ -87,88 +100,88 @@ export const QueueListExampleWithTwelveItems: Story = {
     maxItems: 8,
     data: [
       {
-        userId: "1",
-        userName: "John Smith",
-        isOnline: true,
+        id: "1",
+        name: "John Smith",
         note: "Loves new promotions.",
-        time: "15m"
+        time: "15m",
+        isOnline: true
       },
       {
-        userId: "2",
-        isOnline: false,
-        userName: "Anna White",
+        id: "2",
+        name: "Anna White",
         note: "Needs a callback regarding her last purchase.",
-        time: "3m"
+        time: "3m",
+        isOnline: false
       },
       {
-        userId: "3",
-        userName: "Michael Brown",
-        isOnline: true,
+        id: "3",
+        name: "Michael Brown",
         note: "Requested details about upcoming products.",
-        time: "9m"
+        time: "9m",
+        isOnline: true
       },
       {
-        userId: "4",
-        isOnline: false,
-        userName: "Ella Davis",
+        id: "4",
+        name: "Ella Davis",
         note: "Has issues with the mobile application.",
-        time: "4m"
+        time: "4m",
+        isOnline: false
       },
       {
-        userId: "5",
-        userName: "Tom Wilson",
-        isOnline: true,
+        id: "5",
+        name: "Tom Wilson",
         note: "Enquired about bulk orders.",
-        time: "12m"
+        time: "12m",
+        isOnline: true
       },
       {
-        userId: "6",
-        isOnline: false,
-        userName: "Jane Miller",
+        id: "6",
+        name: "Jane Miller",
         note: "Seeking a refund on a damaged item.",
-        time: "1m"
+        time: "1m",
+        isOnline: false
       },
       {
-        userId: "7",
-        userName: "Robert Johnson",
-        isOnline: true,
+        id: "7",
+        name: "Robert Johnson",
         note: "Asked for a product demo.",
-        time: "17m"
+        time: "17m",
+        isOnline: true
       },
       {
-        userId: "8",
-        isOnline: false,
-        userName: "Mia Jones",
+        id: "8",
+        name: "Mia Jones",
         note: "Needs assistance with setting up her account.",
-        time: "5m"
+        time: "5m",
+        isOnline: false
       },
       {
-        userId: "9",
-        userName: "William Lee",
-        isOnline: true,
+        id: "9",
+        name: "William Lee",
         note: "Wants to collaborate for a blog post.",
-        time: "14m"
+        time: "14m",
+        isOnline: true
       },
       {
-        userId: "10",
-        isOnline: false,
-        userName: "Lucy Clark",
+        id: "10",
+        name: "Lucy Clark",
         note: "Facing issues with payment gateway.",
-        time: "2m"
+        time: "2m",
+        isOnline: false
       },
       {
-        userId: "11",
-        userName: "Charlie Taylor",
-        isOnline: true,
+        id: "11",
+        name: "Charlie Taylor",
         note: "Wants to upgrade his subscription plan.",
-        time: "19m"
+        time: "19m",
+        isOnline: true
       },
       {
-        userId: "12",
-        isOnline: false,
-        userName: "Sophie Evans",
+        id: "12",
+        name: "Sophie Evans",
         note: "Has suggestions for the new UI design.",
-        time: "6m"
+        time: "6m",
+        isOnline: false
       }
     ]
   }

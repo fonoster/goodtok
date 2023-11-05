@@ -22,29 +22,29 @@ import {
   StyledQueueItem,
   StyledQueueItemContainer,
   StyledTime,
-  StyledUserName,
-  StyledUserNote
+  StyledCustomerName,
+  StyledCustomerNote
 } from "./QueueItemStyles";
 import { OnlineIndicatorIcon } from "./OnlineIndicatorIcon";
 import React from "react";
 
 type QueueItemProps = {
   id: string;
-  isOdd: boolean;
+  name: string;
+  note: string;
   isOnline: boolean;
-  userName: string;
-  note?: string;
   time: string;
+  isOdd: boolean;
   onClick: (id: string) => void;
 };
 
 export const QueueItem: React.FC<QueueItemProps> = ({
   id,
-  isOdd = false,
-  isOnline = false,
-  userName,
+  name,
   note,
+  isOnline = false,
   time,
+  isOdd = false,
   onClick,
   ...props
 }) => {
@@ -56,10 +56,10 @@ export const QueueItem: React.FC<QueueItemProps> = ({
           {isOnline ? "Online" : "Offline"}
         </StyledOnlineTitle>
         <FlexBox>
-          <StyledUserName>{userName}</StyledUserName>
+          <StyledCustomerName>{name}</StyledCustomerName>
           <StyledTime>{time}</StyledTime>
         </FlexBox>
-        <StyledUserNote>{note}</StyledUserNote>
+        <StyledCustomerNote>{note}</StyledCustomerNote>
       </StyledQueueItemContainer>
     </StyledQueueItem>
   );

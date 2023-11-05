@@ -59,11 +59,11 @@ function WorkspaceContainer() {
 
       const mapPerson = (person: any) => {
         return {
-          userId: person.customerId,
-          userName: person.customer.name,
-          isOnline: person.status === "ONLINE",
+          id: person.customerId,
+          name: person.customer.name,
           note: "Prefers monthly newsletter",
-          time: "10m"
+          time: "10m",
+          isOnline: person.status === "ONLINE"
         };
       };
 
