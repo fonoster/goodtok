@@ -17,14 +17,14 @@
  * limitations under the License.
  */
 import type { Meta, StoryObj } from "@storybook/react";
-import { ForgotPasswordPage } from "./ForgotPasswordPage";
+import { ResetPasswordPage } from "./ResetPasswordPage";
 
 /**
- * Forgot Password Page component.
+ * Reset Password Page component.
  */
 const meta = {
-  title: "FrontOffice/ForgotPasswordPage",
-  component: ForgotPasswordPage,
+  title: "FrontOffice/ResetPasswordPage",
+  component: ResetPasswordPage,
   parameters: {
     layout: "fullscreen",
     backgrounds: {
@@ -33,26 +33,20 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    onSubmit: {
-      name: "On Submit",
+    onReset: {
+      name: "On Reset",
       description:
-        "The callback to be called when the user clicks the submit button",
-      action: "clicked"
-    },
-    onReturnToSignIn: {
-      name: "On Return To Sign In",
-      description:
-        "The callback to be called when the user clicks the return to sign in button",
+        "The callback to be called when the user clicks the reset button",
       action: "clicked"
     }
   }
-} satisfies Meta<typeof ForgotPasswordPage>;
+} satisfies Meta<typeof ResetPasswordPage>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 /**
- * Example of a Forgot Password Page.
+ * Example of a Reset Password Page.
  */
-export const ForgotPasswordPageExample: Story = {};
+export const ResetPasswordPageExample: Story = {};

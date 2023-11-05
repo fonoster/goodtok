@@ -17,42 +17,36 @@
  * limitations under the License.
  */
 import type { Meta, StoryObj } from "@storybook/react";
-import { ForgotPasswordPage } from "./ForgotPasswordPage";
+import { ResetPasswordForm } from "./ResetPasswordForm";
 
 /**
- * Forgot Password Page component.
+ * Reset Password Form component.
  */
 const meta = {
-  title: "FrontOffice/ForgotPasswordPage",
-  component: ForgotPasswordPage,
+  title: "FrontOffice/ResetPasswordForm",
+  component: ResetPasswordForm,
   parameters: {
-    layout: "fullscreen",
+    layout: "centered",
     backgrounds: {
       default: "goodtok-light"
     }
   },
   tags: ["autodocs"],
   argTypes: {
-    onSubmit: {
-      name: "On Submit",
+    onReset: {
+      name: "On Reset",
       description:
-        "The callback to be called when the user clicks the submit button",
-      action: "clicked"
-    },
-    onReturnToSignIn: {
-      name: "On Return To Sign In",
-      description:
-        "The callback to be called when the user clicks the return to sign in button",
+        "The callback to be called when the user clicks the reset button",
       action: "clicked"
     }
   }
-} satisfies Meta<typeof ForgotPasswordPage>;
+} satisfies Meta<typeof ResetPasswordForm>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 /**
- * Example of a Forgot Password Page.
+ * Example of a Reset Password Form.
  */
-export const ForgotPasswordPageExample: Story = {};
+export const ResetPasswordFormExample: Story = {};
