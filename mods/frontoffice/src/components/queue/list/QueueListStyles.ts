@@ -79,7 +79,7 @@ export const StyledSelect = styled(Select)(() => ({
   height: 40,
   borderRadius: 0,
   background: "#FFFFFF",
-  boxShadow: 'none',
+  boxShadow: "none",
   fontFamily: "Poppins",
   fontSize: "12px",
   fontStyle: "normal",
@@ -87,18 +87,18 @@ export const StyledSelect = styled(Select)(() => ({
   lineHeight: "24px",
   letterSpacing: "0.5px",
   color: "#333",
-  '& .MuiOutlinedInput-notchedOutline': {
-    border: 'none',
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: "none"
   },
-  '&:hover .MuiOutlinedInput-notchedOutline': {
+  "&:hover .MuiOutlinedInput-notchedOutline": {
     border: "1px solid #E8E8E8"
   },
-  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
     border: "1px solid #E8E8E8"
   },
-  '&.MuiSelect-select': {
-    '&:focus': {
-      background: '#FFFFFF',
+  "&.MuiSelect-select": {
+    "&:focus": {
+      background: "#FFFFFF"
     }
   }
 }));

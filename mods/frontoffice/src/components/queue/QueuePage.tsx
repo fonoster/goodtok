@@ -19,8 +19,8 @@
 import { AppBar } from "../appbar/AppBar";
 import { Box } from "@mui/material";
 import { QueueStatus } from "./status/QueueStatus";
-import React from "react";
 import { CustomerData, QueueList } from "./list/QueueList";
+import React from "react";
 
 type QueuePageProps = {
   userName: string;
@@ -30,7 +30,9 @@ type QueuePageProps = {
   storeURL: string;
   workspaceName: string;
   avgWaitTime: string;
+  isOnline: boolean;
   onQueueEntrySelect: (id: string) => void;
+  onOnlineStatusChange: (isOnline: boolean) => void;
   onSignOut: () => void;
 };
 
@@ -42,11 +44,15 @@ export const QueuePage: React.FC<QueuePageProps> = ({
   storeURL,
   workspaceName,
   avgWaitTime,
+  isOnline,
   onQueueEntrySelect,
+  onOnlineStatusChange,
   onSignOut,
   ...props
 }) => {
-  const [online, setOnline] = React.useState<boolean>(true);
+  const handleOnlineChange = (newOnlineStatus: boolean) => {
+    onOnlineStatusChange(newOnlineStatus); // Notify the parent component
+  };
 
   return (
     <Box
@@ -61,10 +67,10 @@ export const QueuePage: React.FC<QueuePageProps> = ({
       />
       <Box sx={{ p: 5 }} display="flex" flexDirection="row" gap={20}>
         <QueueStatus
-          online={online}
+          online={isOnline}
           workspaceName={workspaceName}
           storeURL={storeURL}
-          onChange={setOnline}
+          onChange={handleOnlineChange}
         />
         <QueueList
           avgWaitTime={avgWaitTime}

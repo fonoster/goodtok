@@ -74,7 +74,9 @@ export const QueueList: React.FC<QueueListProps> = ({
         <Box>
           <StyledQueueListTitle>Customer Queue</StyledQueueListTitle>
           {!hideAvgWaitTime && (
-            <StyledAvgWaitTime>Avg waiting time: {avgWaitTime}</StyledAvgWaitTime>
+            <StyledAvgWaitTime>
+              Avg waiting time: {avgWaitTime}
+            </StyledAvgWaitTime>
           )}
         </Box>
         <FormControl size="small">
@@ -120,8 +122,9 @@ export const QueueList: React.FC<QueueListProps> = ({
       )}
       <Box display="flex" justifyContent="center" alignItems="center">
         <StyledQueueListItemCount sx={{ mt: 2 }}>
-          {`Showing ${Math.min(maxItems, sortedData.length)} of ${data.length
-            } Customers`}
+          {`Showing ${Math.min(maxItems, sortedData.length)} of ${
+            data.length
+          } Customers`}
         </StyledQueueListItemCount>
       </Box>
     </Box>

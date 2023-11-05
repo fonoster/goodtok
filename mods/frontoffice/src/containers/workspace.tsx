@@ -30,6 +30,8 @@ function WorkspaceContainer() {
   const [workspaceName, setWorkspaceName] = React.useState("");
   const [avgWaitTime, setAvgWaitTime] = React.useState("");
   const [peopleList, setPeopleList] = React.useState<any[]>([]);
+  const [isOnline, setIsOnline] = React.useState(false);
+  
   let { id } = useParams();
 
   const { client, signOut, isSignedIn } = useAuth();
@@ -87,14 +89,35 @@ function WorkspaceContainer() {
       }
 
       setPeopleList((peopleList) => {
-        const newPeopleList = peopleList.filter((p) => p.id !== person?.customerId);
+        const newPeopleList = peopleList.filter(
+          (p) => p.id !== person?.customerId
+        );
         return [...newPeopleList, mapQueueEntry(person as any)];
       });
     });
   }, [client]);
 
+  useEffect(() => {
+    const workspaces = new SDK.Workspaces(client);
+    workspaces.watchWorkspaceStatus(id!, (error, status) => {
+      if (error) {
+        console.error("Failed to watch workspace status:", error);
+        return;
+      }
+
+      setIsOnline(status?.online!);
+    });
+  });
+
   const handleQueueEntrySelect = (id: string) => {
     window.location.href = `/session/${id}`;
+  };
+
+  const handleOnlineChange = (newOnlineStatus: boolean) => {
+    const workspaces = new SDK.Workspaces(client);
+    const status = newOnlineStatus ? "ONLINE" : "OFFLINE";
+    workspaces.updateWorkspace({ id: id!, status });
+    setIsOnline(newOnlineStatus);
   };
 
   return (
@@ -106,7 +129,9 @@ function WorkspaceContainer() {
       avgWaitTime={avgWaitTime}
       data={peopleList}
       isAuthenticated={true}
+      isOnline={isOnline}
       onQueueEntrySelect={handleQueueEntrySelect}
+      onOnlineStatusChange={handleOnlineChange}
       onSignOut={signOut}
     />
   );

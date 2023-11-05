@@ -16,7 +16,7 @@ function LoginContainer() {
       await signIn(email, password);
       window.location.href = "/dashboard";
     } catch (error) {
-      const err = error as { data: { code : string}, message: string };
+      const err = error as { data: { code: string }; message: string };
       if (err.data.code === "UNAUTHORIZED") {
         setError("Invalid email or password");
         return;
