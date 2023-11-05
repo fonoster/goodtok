@@ -26,7 +26,9 @@ import React, { useState } from "react";
 type OnboardingPageProps = {
   onAbandon: () => void;
   onCreateWorkspace: (request: {
-    workspaceName: string;
+    name: string;
+    timezone: string;
+    calendarUrl: string;
     shopifyUrl: string;
     shopifyApiKey: string;
   }) => void;
@@ -175,7 +177,10 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                 <Button
                   onClick={() => {
                     onCreateWorkspace?.({
-                      workspaceName,
+                      name: workspaceName,
+                      // Fixme: This should be dynamic
+                      timezone: "America/New_York",
+                      calendarUrl: "https://cal.com/some-calendar",
                       shopifyUrl,
                       shopifyApiKey
                     });

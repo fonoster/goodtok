@@ -19,6 +19,7 @@
 import { getLogger } from "@fonoster/logger";
 import { CreateWorkspaceRequest, WeeklyHoursType, Workspace } from "./types";
 import { Context } from "../context";
+import { customAlphabet } from "nanoid";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -30,7 +31,7 @@ export async function createWorkspace(
 
   const createData = {
     ownerId: ctx.userId,
-    // We should write and id that stars with g- to indicate that is a goodtok workspace
+    id: `g-${customAlphabet("1234567890abcdef", 10)()}`,
     name: request.name,
     timezone: request.timezone,
     status: request.status,
