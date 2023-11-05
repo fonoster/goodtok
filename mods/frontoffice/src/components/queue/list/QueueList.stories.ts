@@ -35,6 +35,10 @@ const meta = {
       name: "Average Wait Time",
       description: "The average wait time for the queue"
     },
+    hideAvgWaitTime: {
+      name: "Hide Average Wait Time",
+      description: "Whether or not to hide the average wait time"
+    },
     maxItems: {
       name: "Max Items",
       description:
@@ -72,6 +76,7 @@ export const QueueListExampleEmpty: Story = {
 export const QueueListExampleWithItems: Story = {
   args: {
     avgWaitTime: "5m",
+    hideAvgWaitTime: true,
     data: [
       {
         id: "1",
@@ -97,6 +102,7 @@ export const QueueListExampleWithItems: Story = {
 export const QueueListExampleWithTwelveItems: Story = {
   args: {
     avgWaitTime: "5m",
+    hideAvgWaitTime: false,
     maxItems: 8,
     data: [
       {

@@ -21,6 +21,7 @@ import {
   StyledEmptyQueueListBody,
   StyledEmptyQueueListContainer,
   StyledEmptyQueueListTitle,
+  StyledMenuItem,
   StyledQueueListBox,
   StyledQueueListItemCount,
   StyledQueueListTitle,
@@ -42,6 +43,7 @@ type QueueListProps = {
   avgWaitTime?: string;
   maxItems?: number;
   data: CustomerData[];
+  hideAvgWaitTime?: boolean;
   onQueueEntrySelect: (id: string) => void;
 };
 
@@ -49,6 +51,7 @@ export const QueueList: React.FC<QueueListProps> = ({
   avgWaitTime = "",
   maxItems = 8,
   data,
+  hideAvgWaitTime = true,
   onQueueEntrySelect,
   ...props
 }) => {
@@ -70,15 +73,17 @@ export const QueueList: React.FC<QueueListProps> = ({
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Box>
           <StyledQueueListTitle>Customer Queue</StyledQueueListTitle>
-          <StyledAvgWaitTime>Avg waiting time: {avgWaitTime}</StyledAvgWaitTime>
+          {!hideAvgWaitTime && (
+            <StyledAvgWaitTime>Avg waiting time: {avgWaitTime}</StyledAvgWaitTime>
+          )}
         </Box>
         <FormControl size="small">
           <StyledSelect
             value={sort}
             onChange={(e) => setSort(e.target.value as any)}
           >
-            <MenuItem value={"status"}>Sort by status</MenuItem>
-            <MenuItem value={"by-name-desc"}>Sort by name</MenuItem>
+            <StyledMenuItem value={"status"}>Sort by status</StyledMenuItem>
+            <StyledMenuItem value={"by-name-desc"}>Sort by name</StyledMenuItem>
           </StyledSelect>
         </FormControl>
       </Box>
@@ -115,9 +120,8 @@ export const QueueList: React.FC<QueueListProps> = ({
       )}
       <Box display="flex" justifyContent="center" alignItems="center">
         <StyledQueueListItemCount sx={{ mt: 2 }}>
-          {`Showing ${Math.min(maxItems, sortedData.length)} of ${
-            data.length
-          } Customers`}
+          {`Showing ${Math.min(maxItems, sortedData.length)} of ${data.length
+            } Customers`}
         </StyledQueueListItemCount>
       </Box>
     </Box>

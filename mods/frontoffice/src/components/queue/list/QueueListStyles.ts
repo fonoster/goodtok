@@ -1,5 +1,6 @@
-import { Box, Select, Typography } from "@mui/material";
+import { Box, MenuItem, Select, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+
 import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/400.css";
 
@@ -76,6 +77,45 @@ export const StyledEmptyQueueListBody = styled(Typography)(() => ({
 export const StyledSelect = styled(Select)(() => ({
   width: 200,
   height: 40,
-  border: "1px solid white",
-  borderRadius: 0
+  borderRadius: 0,
+  background: "#FFFFFF",
+  boxShadow: 'none',
+  fontFamily: "Poppins",
+  fontSize: "12px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "24px",
+  letterSpacing: "0.5px",
+  color: "#333",
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
+  '&:hover .MuiOutlinedInput-notchedOutline': {
+    border: "1px solid #E8E8E8"
+  },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    border: "1px solid #E8E8E8"
+  },
+  '&.MuiSelect-select': {
+    '&:focus': {
+      background: '#FFFFFF',
+    }
+  }
 }));
+
+export const StyledMenuItem = styled(MenuItem)({
+  fontFamily: "Poppins",
+  fontSize: "12px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "24px",
+  letterSpacing: "0.5px",
+  color: "#333",
+  "&.Mui-selected": {
+    color: "#333",
+    backgroundColor: "#F1DED7 !important"
+  },
+  "&.Mui-selected:hover": {
+    backgroundColor: "#F1DED7"
+  }
+});
