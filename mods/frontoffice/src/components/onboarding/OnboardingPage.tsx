@@ -16,11 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Box, Step, Stepper, StepLabel, Typography } from "@mui/material";
+import { Box, Step, Stepper, StepLabel } from "@mui/material";
 import { AppBar } from "../appbar/AppBar";
 import { OnboardingBody, OnboardingTitle, StyledStepButton } from "./styles";
 import { TextField } from "../textfield/TextField";
 import { Button } from "../button/Button";
+import { timezones } from "../../utils/timezones";
+import { Select } from "../../components/select/Select";
 import React, { useState } from "react";
 
 type OnboardingPageProps = {
@@ -34,7 +36,7 @@ type OnboardingPageProps = {
   }) => void;
 };
 
-const steps = ["Create Workspace", "Add Integration", "Privacy Agreement"];
+const steps = ["Create Workspace", "Shopify Credentials", "Calendar URL"];
 
 export const OnboardingPage: React.FC<OnboardingPageProps> = ({
   onAbandon,
@@ -45,12 +47,14 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
   const [workspaceName, setWorkspaceName] = useState("");
   const [shopifyUrl, setShopifyUrl] = useState("");
   const [shopifyApiKey, setShopifyApiKey] = useState("");
+  const [timezone, setTimezone] = useState("America/New_York");
+  const [calendarUrl, setCalendarUrl] = useState("");
 
   return (
     <Box {...props} display="flex" flexDirection="column" minHeight="100vh">
       <AppBar />
       <Box
-        sx={{ pt: 10, display: "flex", justifyContent: "center" }}
+        sx={{ pt: 5, display: "flex", justifyContent: "center" }}
         minWidth="100%"
       >
         <Stepper nonLinear activeStep={activeStep} sx={{ width: 764 }}>
@@ -65,25 +69,33 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "center" }} minWidth="100%">
-        <Box mt={20}>
+        <Box mt={6}>
           {activeStep === 0 && (
             <Box sx={{ width: "440px" }}>
               {" "}
               {/* Align the Box on the parent Box */}
-              <OnboardingTitle sx={{ mb: 2, textAlign: "left" }}>
+              <OnboardingTitle sx={{ textAlign: "left" }}>
                 Create a Workspace to get started managing your queues and more.
               </OnboardingTitle>
-              <OnboardingBody sx={{ mb: 10, mt: 6, textAlign: "left" }}>
+              <OnboardingBody sx={{ mt: 6, textAlign: "left" }}>
                 Worspace is how you manage a property in Goodtok. With a
                 workspace you can invite members, access the customer queue,
                 enable integrations and more.
               </OnboardingBody>
               <TextField
+                sx={{ mt: 8, mb: 4 }}
                 label="Name"
                 placeholder="Workspace Name"
                 helperText="Please enter a name for your workspace"
                 value={workspaceName}
                 onChange={(e) => setWorkspaceName(e.target.value)}
+              />
+              <Select
+                label="Timezone"
+                helperText="Please select a timezone"
+                value={timezone}
+                data={timezones}
+                onChange={(e) => setTimezone(e.target.value)}
               />
               <Box
                 sx={{
@@ -95,7 +107,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                 }}
               >
                 <Button onClick={onAbandon} variant="outlined">
-                  Skip this step
+                  Skip for now
                 </Button>
 
                 <Button
@@ -111,17 +123,18 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
           )}
           {activeStep === 1 && (
             <Box sx={{ width: "440px" }}>
-              <OnboardingTitle sx={{ mb: 2, textAlign: "left" }}>
-                Select Your Integration.
+              <OnboardingTitle sx={{ textAlign: "left" }}>
+                Set your Shopify credentials.
               </OnboardingTitle>
-              <OnboardingBody sx={{ mb: 5, mt: 2, textAlign: "left" }}>
+              <OnboardingBody sx={{ mt: 2, textAlign: "left" }}>
                 For information on how to obtain an API key for your integration
-                please head over to our documentation and search for SHOPIFY API
-                KEY.
+                please head over to our documentation and search for "Shopify
+                API KEY."
               </OnboardingBody>
 
               {/* TODO: Validate that it is a valid shopify url */}
               <TextField
+                sx={{ mt: 8 }}
                 label="Store URL"
                 placeholder="mystore-43c62e3b.myshopify.com"
                 helperText="Please enter your store URL"
@@ -130,6 +143,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
               />
 
               <TextField
+                sx={{ mt: 4 }}
                 label="API Key"
                 placeholder="shpss_1234567890abcdef1234567890abcdef"
                 helperText="Please enter your API Key"
@@ -148,7 +162,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                 }}
               >
                 <Button onClick={onAbandon} variant="outlined">
-                  Skip this step
+                  Skip for now
                 </Button>
 
                 <Button
@@ -166,34 +180,42 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
           )}
           {activeStep === 2 && (
             <Box sx={{ width: "440px" }}>
-              <OnboardingTitle sx={{ mb: 2, textAlign: "left" }}>
-                Privacy Agreement.
+              <OnboardingTitle sx={{ textAlign: "left" }}>
+                Set your calendar URL.
               </OnboardingTitle>
-              <OnboardingBody sx={{ mb: 5, mt: 2, textAlign: "left" }}>
+              <OnboardingBody sx={{ mt: 2, textAlign: "left" }}>
                 By clicking on the button below you agree to our privacy policy.
               </OnboardingBody>
 
-              <Box sx={{ mt: 4 }}>
-                <Button
-                  onClick={() => {
-                    onCreateWorkspace?.({
-                      name: workspaceName,
-                      // Fixme: This should be dynamic
-                      timezone: "America/New_York",
-                      calendarUrl: "https://cal.com/some-calendar",
-                      shopifyUrl,
-                      shopifyApiKey
-                    });
-                  }}
-                  disabled={
-                    workspaceName.length === 0 ||
-                    shopifyUrl.length === 0 ||
-                    shopifyApiKey.length === 0
-                  }
-                >
-                  Create Workspace
-                </Button>
-              </Box>
+              <TextField
+                sx={{ mt: 6 }}
+                label="Calendar URL"
+                placeholder="https://cal.com/some-calendar"
+                helperText="Please enter your calendar URL"
+                value={calendarUrl}
+                onChange={(e) => setCalendarUrl(e.target.value)}
+              />
+
+              <Button
+                sx={{ mt: 4 }}
+                onClick={() => {
+                  onCreateWorkspace?.({
+                    name: workspaceName,
+                    timezone,
+                    calendarUrl,
+                    shopifyUrl,
+                    shopifyApiKey
+                  });
+                }}
+                disabled={
+                  workspaceName.length === 0 ||
+                  shopifyUrl.length === 0 ||
+                  shopifyApiKey.length === 0 ||
+                  calendarUrl.length === 0
+                }
+              >
+                Create Workspace
+              </Button>
             </Box>
           )}
         </Box>

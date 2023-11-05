@@ -37,7 +37,6 @@ function HomeContainer() {
       .getWorkspaces()
       .then((res) => {
         const workspacesList = res.map((workspace) => {
-
           return {
             id: workspace.id,
             name: workspace.name,

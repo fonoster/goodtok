@@ -20,9 +20,9 @@ import { Box, Typography } from "@mui/material";
 import { TextField } from "../../textfield/TextField";
 import { StyledBox, SettingsTitle } from "./WorkspaceSettingsStyles";
 import { Button } from "../../button/Button";
-import React, { useState } from "react";
 import { Select } from "../../select/Select";
-import { timezones } from "./timezones";
+import { timezones } from "../../../utils/timezones";
+import React, { useState } from "react";
 
 type WorkspaceSettingsProps = {
   initialName: string;
