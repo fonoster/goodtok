@@ -102,7 +102,7 @@ export const QueueList: React.FC<QueueListProps> = ({
               <QueueItem
                 key={index}
                 id={customer.userId}
-                isOdd={index % 2 !== 0}
+                isOdd={index % 2 === 0}
                 isOnline={customer.isOnline}
                 userName={customer.userName}
                 time={customer.time}
