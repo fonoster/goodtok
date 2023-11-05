@@ -26,6 +26,7 @@ type ButtonProps = {
   color?: "primary" | "secondary";
   onClick?: () => void;
   disabled?: boolean;
+  sx?: any;
 };
 
 export const Button: React.FC<ButtonProps> = ({
@@ -33,16 +34,18 @@ export const Button: React.FC<ButtonProps> = ({
   color = "primary",
   children,
   variant = "contained",
+  sx,
   onClick,
   ...props
 }) => {
   if (variant === "outlined") {
     return (
       <OutlinedButtonStyle
+        {...props}
         onClick={onClick}
         color={color}
-        {...props}
         disabled={disabled}
+        sx={sx}
       >
         {children}
       </OutlinedButtonStyle>
@@ -50,10 +53,11 @@ export const Button: React.FC<ButtonProps> = ({
   }
   return (
     <PrimaryButtonStyle
+      {...props}
       onClick={onClick}
       color={color}
-      {...props}
       disabled={disabled}
+      sx={sx}
     >
       {children}
     </PrimaryButtonStyle>

@@ -58,4 +58,4 @@ We reserve the right to modify these terms at any time. Your continued use of Go
 ## Contact Us
 
 For any questions about these terms, please contact us at [contact information].
-`
+`;

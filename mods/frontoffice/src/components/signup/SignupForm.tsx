@@ -108,7 +108,9 @@ export const SignupForm: React.FC<SignupFormProps> = ({
               checked={termsAndConditions}
               onChange={() => setTermsAndConditions(!termsAndConditions)}
             />
-            <LinkStyled onClick={() => setTermsAndConditionsOpen(true)}>Agree to the terms and conditions</LinkStyled>
+            <LinkStyled onClick={() => setTermsAndConditionsOpen(true)}>
+              Agree to the terms and conditions
+            </LinkStyled>
           </Box>
         )}
 
@@ -156,10 +158,16 @@ export const SignupForm: React.FC<SignupFormProps> = ({
         onClose={() => setTermsAndConditionsOpen(false)}
         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
-        <Box sx={{ width: 600, backgroundColor: "#fff", p: 2, overflow: "auto", maxHeight: "80vh" }}>
-          <StyledMarkdown>
-            {termsAndConditionsText}
-          </StyledMarkdown>
+        <Box
+          sx={{
+            width: 600,
+            backgroundColor: "#fff",
+            p: 2,
+            overflow: "auto",
+            maxHeight: "80vh"
+          }}
+        >
+          <StyledMarkdown>{termsAndConditionsText}</StyledMarkdown>
         </Box>
       </Modal>
     </>

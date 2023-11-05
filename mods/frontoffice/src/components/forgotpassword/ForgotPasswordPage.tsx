@@ -18,12 +18,17 @@
  */
 import { Box } from "@mui/material";
 import { AppBar } from "../appbar/AppBar";
-import { SignupForm, SignupFormProps } from "./SignupForm";
+import {
+  ForgotPasswordForm,
+  ForgotPasswordFormProps
+} from "./ForgotPasswordForm";
 import React from "react";
 
-type SignupPageProps = SignupFormProps;
+type ForgotPasswordPageProps = ForgotPasswordFormProps;
 
-export const SignupPage: React.FC<SignupPageProps> = ({ ...props }) => {
+export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
+  ...props
+}) => {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <AppBar />
@@ -33,7 +38,7 @@ export const SignupPage: React.FC<SignupPageProps> = ({ ...props }) => {
         justifyContent="center"
         alignItems="center"
       >
-        <SignupForm {...props} />
+        <ForgotPasswordForm {...props} />
       </Box>
     </Box>
   );
