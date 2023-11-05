@@ -25,7 +25,7 @@ import {
   StyledMenuItem,
   StyledMenuUser,
   StyledToolbar
-} from "./styles";
+} from "./AppBarStyles";
 import React from "react";
 
 type AppBarProps = {
@@ -63,7 +63,7 @@ export const AppBar: React.FC<AppBarProps> = ({
     >
       <StyledContainer maxWidth={false}>
         <StyledToolbar isAuthenticated={isAuthenticated}>
-          <GoodtokLogo />
+          <GoodtokLogo onClick={() => (window.location.href = "/")} />
           {isAuthenticated && (
             <>
               <div style={{ flexGrow: 1 }} />

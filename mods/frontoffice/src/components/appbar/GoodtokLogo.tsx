@@ -26,6 +26,7 @@ export function GoodtokLogo(props: any) {
       height="29"
       viewBox="0 0 136 29"
       fill="none"
+      style={{ cursor: "pointer" }}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

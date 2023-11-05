@@ -18,7 +18,7 @@ function OnboardingContainer() {
   });
 
   const handleAbandon = () => {
-    window.location.href = "/dashboard";
+    window.location.href = "/";
   };
 
   const handleCreateWorkspace = (request: {

@@ -14,7 +14,7 @@ function LoginContainer() {
     const { email, password } = request;
     try {
       await signIn(email, password);
-      window.location.href = "/dashboard";
+      window.location.href = "/";
     } catch (error) {
       const err = error as { data: { code: string }; message: string };
       if (err.data.code === "UNAUTHORIZED") {
@@ -27,7 +27,7 @@ function LoginContainer() {
 
   useEffect(() => {
     if (isSignedIn) {
-      window.location.href = "/dashboard";
+      window.location.href = "/";
     }
   });
 

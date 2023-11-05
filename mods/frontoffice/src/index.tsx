@@ -9,16 +9,16 @@ import WorkspaceContainer from "~containers/workspace";
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: <HomeContainer />
+  },
+  {
     path: "/onboarding",
     element: <OnboardingContainer />
   },
   {
     path: "/new-workspace",
     element: <OnboardingContainer />
-  },
-  {
-    path: "/dashboard",
-    element: <HomeContainer />
   },
   {
     path: "/workspace/:id",
