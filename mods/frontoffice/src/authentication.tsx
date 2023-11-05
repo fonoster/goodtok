@@ -65,9 +65,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const signOut = () => {
-    setClient(null);
-    setIsLoggedIn(false);
     localStorage.removeItem("isSignedIn");
+    // FIXME: Set client to null causes a crash
+    // setClient(null);
+    setIsLoggedIn(false);
   };
 
   useEffect(() => {
