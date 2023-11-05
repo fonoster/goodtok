@@ -71,13 +71,9 @@ function WorkspaceContainer() {
     });
   }, [client]);
 
-  // const handleWorkspaceSelect = (id?: string) => {
-  //   if (!id) {
-  //     window.location.href = "/new-workspace";
-  //     return;
-  //   }
-  //   window.location.href = `/workspace/${id}`;
-  // };
+  const handleQueueEntrySelect = (id: string) => {
+    window.location.href = `/session/${id}`;
+  };
 
   return (
     <QueuePage
@@ -88,7 +84,7 @@ function WorkspaceContainer() {
       avgWaitTime={avgWaitTime}
       data={peopleList}
       isAuthenticated={true}
-      onClick={() => {}}
+      onQueueEntrySelect={handleQueueEntrySelect}
       onSignOut={signOut}
     />
   );

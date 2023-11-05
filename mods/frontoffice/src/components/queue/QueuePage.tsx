@@ -30,7 +30,7 @@ type QueuePageProps = {
   storeURL: string;
   workspaceName: string;
   avgWaitTime: string;
-  onClick: (id?: string) => void;
+  onQueueEntrySelect: (id: string) => void;
   onSignOut: () => void;
 };
 
@@ -42,7 +42,7 @@ export const QueuePage: React.FC<QueuePageProps> = ({
   storeURL,
   workspaceName,
   avgWaitTime,
-  onClick,
+  onQueueEntrySelect,
   onSignOut,
   ...props
 }) => {
@@ -63,7 +63,11 @@ export const QueuePage: React.FC<QueuePageProps> = ({
           storeURL={storeURL}
           onChange={setOnline}
         />
-        <QueueList avgWaitTime={avgWaitTime} onClick={onClick} data={data} />
+        <QueueList
+          avgWaitTime={avgWaitTime}
+          onQueueEntrySelect={onQueueEntrySelect}
+          data={data}
+        />
       </Box>
     </Box>
   );

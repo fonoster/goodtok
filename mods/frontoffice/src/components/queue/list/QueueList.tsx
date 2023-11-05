@@ -26,7 +26,7 @@ import {
   StyledQueueListTitle,
   StyledSelect
 } from "./QueueListStyles";
-import { Box, FormControl, MenuItem, Select } from "@mui/material";
+import { Box, FormControl, MenuItem } from "@mui/material";
 import { QueueItem } from "../item/QueueItem";
 import React from "react";
 
@@ -42,14 +42,14 @@ type QueueListProps = {
   avgWaitTime?: string;
   maxItems?: number;
   data: CustomerData[];
-  onClick: (id: string) => void;
+  onQueueEntrySelect: (id: string) => void;
 };
 
 export const QueueList: React.FC<QueueListProps> = ({
   avgWaitTime = "",
   maxItems = 8,
   data,
-  onClick,
+  onQueueEntrySelect,
   ...props
 }) => {
   const [sort, setSort] = React.useState("status");
@@ -107,7 +107,7 @@ export const QueueList: React.FC<QueueListProps> = ({
                 userName={customer.userName}
                 time={customer.time}
                 note={customer.note}
-                onClick={() => onClick(customer.userId)}
+                onClick={() => onQueueEntrySelect(customer.userId)}
               />
             ))
             .slice(0, maxItems)}
