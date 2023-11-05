@@ -24,12 +24,14 @@ type ButtonProps = {
   className?: string;
   variant?: "contained" | "outlined";
   color?: "primary" | "secondary";
+  type?: "button" | "submit";
   onClick?: () => void;
   disabled?: boolean;
   sx?: any;
 };
 
 export const Button: React.FC<ButtonProps> = ({
+  type = "button",
   disabled = false,
   color = "primary",
   children,
@@ -42,10 +44,11 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <OutlinedButtonStyle
         {...props}
-        onClick={onClick}
+        type={type}
         color={color}
         disabled={disabled}
         sx={sx}
+        onClick={onClick}
       >
         {children}
       </OutlinedButtonStyle>
@@ -54,10 +57,11 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <PrimaryButtonStyle
       {...props}
-      onClick={onClick}
+      type={type}
       color={color}
       disabled={disabled}
       sx={sx}
+      onClick={onClick}
     >
       {children}
     </PrimaryButtonStyle>

@@ -54,8 +54,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSignInSubmit({ email, password });
+  };
+
   return (
     <Box
+      component="form"
+      onSubmit={handleSubmit}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -63,8 +70,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         width: "440px"
       }}
       {...props}
+      noValidate
     >
       <LoginFormTitle>Log In</LoginFormTitle>
+
       <TextField
         label="Email address"
         type="email"
@@ -72,6 +81,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
+
       <TextField
         label="Password"
         type="password"
@@ -89,9 +99,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         </LinkStyled>
       )}
 
-      <Button onClick={() => onSignInSubmit({ email, password })}>
-        Log In
-      </Button>
+      <Button type="submit">Log In</Button>
 
       {hasGoogleSignIn && (
         <>
