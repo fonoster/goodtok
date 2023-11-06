@@ -27,7 +27,7 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 export async function getCustomerById(
   ctx: Context,
   request: GetCustomerByIdRequest
-): Promise<Customer> {
+): Promise<Customer | null> {
   logger.verbose("get customer by id", { request });
 
   const workspace = await ctx.prisma.workspace.findUnique({
@@ -45,20 +45,18 @@ export async function getCustomerById(
       request.customerId
     );
 
-    if (!shopifyCustomer) {
-      return null;
-    }
-
-    return {
-      id: shopifyCustomer.id.toString(),
-      name: `${shopifyCustomer.first_name} ${shopifyCustomer.last_name}`,
-      email: shopifyCustomer.email,
-      phone: shopifyCustomer.phone,
-      birthday: "",
-      note: shopifyCustomer.note,
-      address: formatShopifyAddress(shopifyCustomer.default_address),
-      avatar: null
-    };
+    return shopifyCustomer
+      ? {
+          id: shopifyCustomer.id.toString(),
+          name: `${shopifyCustomer.first_name} ${shopifyCustomer.last_name}`,
+          email: shopifyCustomer.email,
+          phone: shopifyCustomer.phone,
+          birthday: "",
+          note: shopifyCustomer.note,
+          address: formatShopifyAddress(shopifyCustomer.default_address),
+          avatar: null
+        }
+      : null;
   } catch (err) {
     logger.error("error getting customer by id", { err });
     return null;

@@ -1,14 +1,21 @@
 import * as SDK from "@goodtok/sdk";
-import { Method, ConnectionObject } from "@goodtok/common";
+import { Method, ConnectionObject, mediaToggle } from "@goodtok/common";
 import { ChatPage } from "~components/chat/ChatPage";
 import { useParams } from "react-router-dom";
 import { useAuth } from "~authentication";
 import { CustomerProfile } from "~components/chat/customer/types";
 import { jwtDecode } from "jwt-decode";
-import React, { useEffect, useRef } from "react";
+import { Web } from "sip.js";
+import React, { useEffect, useRef, useState } from "react";
+
+type VideoRefs = {
+  remoteVideo: HTMLVideoElement;
+  remoteAudio: HTMLAudioElement;
+  localVideo: HTMLVideoElement;
+};
 
 function ChatContainer() {
-  const videoRefs = useRef<null | React.RefObject<HTMLVideoElement>>(null);
+  const videoRefs = useRef<VideoRefs>();
   const [isActiveCall, setIsActiveCall] = React.useState(false);
   const [isLocalCameraMuted, setIsLocalCameraMuted] = React.useState(false);
   const [isLocalMicrophoneMuted, setIsLocalMicrophoneMuted] =
@@ -17,6 +24,7 @@ function ChatContainer() {
   const [avatar, setAvatar] = React.useState("");
   const [customerProfile, setCustomerProfile] =
     React.useState<CustomerProfile>();
+  const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
 
   const { client, signOut } = useAuth();
 
@@ -53,12 +61,13 @@ function ChatContainer() {
   }, [workspaceId, customerId, client]);
 
   const handleVideoRefsReady = (
-    refs: React.RefObject<HTMLVideoElement> | null
+    refs: VideoRefs
   ) => {
-    videoRefs.current = refs;
+    videoRefs.current = refs
   };
 
   const handleStartCall = async () => {
+    setIsActiveCall(true);
     const tokens = new SDK.Tokens(client);
     const inviterToken = await tokens.createToken({
       ref: customerId!,
@@ -69,15 +78,74 @@ function ChatContainer() {
     });
 
     const connectionObject = jwtDecode(inviterToken) as ConnectionObject;
+
+    if (!connectionObject || !videoRefs.current) {
+      // TODO: Handle error
+      return;
+    }
+
+    const localVideo = videoRefs.current.localVideo
+    const remoteAudio = videoRefs.current.remoteAudio;
+    const remoteVideo = videoRefs.current.remoteVideo;
+    const options = {
+      aor: connectionObject.aor,
+      media: {
+        constraints: { audio: true, video: true },
+        remote: {
+          audio: remoteAudio,
+          video: remoteVideo
+        },
+        local: {
+          video: localVideo
+        }
+      }
+    };
+    const simpleUser = new Web.SimpleUser(connectionObject.signalingServer, options);
+
+    const delegate = {
+      onCallHangup: () => {
+        setIsActiveCall(false);
+        if (simpleUser) {
+          simpleUser.disconnect();
+        }
+      }
+    };
+    simpleUser.delegate = delegate;
+    setSimpleUser(simpleUser);
+
+    await simpleUser.connect();
+    await simpleUser.call(connectionObject.aorLink, {
+      extraHeaders: [`X-Connect-Token: ${inviterToken}`]
+    });
   };
 
-  const handleReturnToQueue = async () => {};
+  const handleReturnToQueue = async () => { 
+    if (simpleUser) {
+      simpleUser.hangup();
+    }
 
-  const handleHangup = async () => {};
+    window.location.href = `/workspace/${workspaceId}`;
+  };
 
-  const handleMuteCamera = async () => {};
+  const handleHangup = async () => { 
+    if (simpleUser) {
+      simpleUser.hangup();
+    }
+  };
 
-  const handleMuteMicrophone = async () => {};
+  const handleMuteCamera = async () => { 
+    if (simpleUser) {
+      setIsLocalCameraMuted(!isLocalCameraMuted);
+      mediaToggle(simpleUser, isLocalCameraMuted, "video");
+    }
+  };
+
+  const handleMuteMicrophone = async () => { 
+    if (simpleUser) {
+      setIsLocalMicrophoneMuted(!isLocalMicrophoneMuted);
+      mediaToggle(simpleUser, isLocalMicrophoneMuted, "audio");
+    }
+  }
 
   return (
     <ChatPage

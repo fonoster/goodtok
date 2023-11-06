@@ -18,11 +18,11 @@
  */
 import { watchNats } from "../nats";
 import { getLogger } from "@fonoster/logger";
-import { NATS_URL } from "../envs";
 import { updateQueueEntry } from "./updateQueueEntry";
 import { getCustomerById } from "../customers/getCustomerById";
 import { prisma } from "../db";
 import { natsObservers } from "./observers";
+import { NATS_URL } from "../envs";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -42,18 +42,24 @@ watchNats(NATS_URL, async (event) => {
   const customer = await getCustomerById(ctx, { workspaceId, customerId });
 
   if (!customer) {
-    logger.warn("customer not found", { customerId, workspaceId });
-    return;
+    logger.warn("id not found, marking it as anonymous", { customerId });
   }
 
   const entryWithCustomer = {
     ...entry,
-    customer: {
-      id: customer.id,
-      name: customer.name,
-      avatar: customer.avatar,
-      note: customer.note
-    }
+    customer: customer
+      ? {
+          id: customerId,
+          name: customer.name,
+          avatar: customer.avatar,
+          note: customer.note
+        }
+      : {
+          id: customerId,
+          name: "Anonymous",
+          avatar: null,
+          note: null
+        }
   };
 
   // Notify all observers

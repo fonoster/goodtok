@@ -44,22 +44,22 @@ const meta = {
       },
       action: "clicked"
     },
-    onCameraMuted: {
-      name: "Camera Muted Callback",
-      description: "Callback when the camera is muted",
+    onMuteCamera: {
+      name: "Mute Camera Callback",
+      description: "Callback when the mute camera button is clicked",
       control: {
         type: "function"
       },
       action: "clicked"
     },
-    onMicrophoneMuted: {
-      name: "Microphone Muted Callback",
-      description: "Callback when the microphone is muted",
+    onMuteMicrophone: {
+      name: "Mute Microphone Callback",
+      description: "Callback when the mute microphone button is clicked",
       control: {
         type: "function"
       },
       action: "clicked"
-    }
+    },
   }
 } satisfies Meta<typeof FOVideo>;
 
@@ -73,7 +73,8 @@ type Story = StoryObj<typeof meta>;
 export const VideoExample: Story = {
   args: {
     isOpen: true,
-    isLocalCameraMuted: false
+    isLocalCameraMuted: false,
+    isLocalMicrophoneMuted: false,
   },
   play: () => {
     const remoteVideo = document.querySelector(
