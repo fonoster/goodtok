@@ -19,18 +19,16 @@
 import {
   Box,
   Paper,
-  Tab,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  Tabs
+  TableRow
 } from "@mui/material";
 import { CustomerProfile, OrderItem } from "./types";
-import React from "react";
 import { StyledTab, StyledTabs } from "./CustomerStyles";
+import React from "react";
 
 type CustomerInfoProps = {
   profile: CustomerProfile;
@@ -61,28 +59,38 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
       </StyledTabs>
       {value === 0 && (
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Fullname</TableCell>
-                <TableCell align="right">Email Address</TableCell>
-                <TableCell align="right">Phone Number</TableCell>
-                <TableCell align="right">Birthday</TableCell>
-                <TableCell align="right">Notes</TableCell>
+                <TableCell>Email Address</TableCell>
+                <TableCell>Phone Number</TableCell>
+                {/* <TableCell>Birthday</TableCell> */}
+                <TableCell>Note</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow
-                key={profile.email}
+                key={profile?.email}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {profile.name}
+                <TableCell
+                  component="th"
+                  scope="row"
+                  sx={{ verticalAlign: "top" }}
+                >
+                  {profile?.name}
                 </TableCell>
-                <TableCell align="right">{profile.email}</TableCell>
-                <TableCell align="right">{profile.phone}</TableCell>
-                <TableCell align="right">{profile.birthday}</TableCell>
-                <TableCell align="right">{profile.notes}</TableCell>
+                <TableCell sx={{ verticalAlign: "top" }}>
+                  {profile?.email}
+                </TableCell>
+                <TableCell sx={{ verticalAlign: "top" }}>
+                  {profile?.phone}
+                </TableCell>
+                {/* <TableCell>{profile?.birthday}</TableCell> */}
+                <TableCell sx={{ verticalAlign: "top" }}>
+                  <Box sx={{ maxWidth: 400 }}>{profile?.note}</Box>
+                </TableCell>
               </TableRow>
             </TableBody>
           </Table>
@@ -94,9 +102,9 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
             <TableHead>
               <TableRow>
                 <TableCell>Date Purchased</TableCell>
-                <TableCell align="right">Item Name</TableCell>
-                <TableCell align="right">Item ID</TableCell>
-                <TableCell align="right">Photo of Item</TableCell>
+                <TableCell>Item Name</TableCell>
+                <TableCell>Item ID</TableCell>
+                <TableCell>Photo of Item</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -108,9 +116,9 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
                   <TableCell component="th" scope="row">
                     {row.createdAt}
                   </TableCell>
-                  <TableCell align="right">{row.name}</TableCell>
-                  <TableCell align="right">{row.id}</TableCell>
-                  <TableCell align="right">
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.id}</TableCell>
+                  <TableCell>
                     {row.photo && <img src={row.photo} style={{ width: 40 }} />}
                   </TableCell>
                 </TableRow>

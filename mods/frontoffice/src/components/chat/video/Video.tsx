@@ -16,12 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React, {
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle
-} from "react";
 import { CameraIcon } from "../../icons/CameraIcon";
 import { MutedCameraIcon } from "../../icons/MutedCameraIcon";
 import { CircleMicrophoneIcon } from "../../icons/CircleMicrophoneIcon";
@@ -29,6 +23,13 @@ import { CircleCameraIcon } from "../../icons/CircleCameraIcon";
 import { CircleHangupIcon } from "../../icons/CircleHangupIcon";
 import { CircleMicrophoneMutedIcon } from "../../icons/CircleMicrophoneMutedIcon";
 import { CircleCameraMutedIcon } from "../../icons/CircleCameraMutedIcon";
+import { formatTime } from "@goodtok/common";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle
+} from "react";
 import {
   ButtonCircleWrapper,
   Controls,
@@ -41,19 +42,17 @@ import {
   RemoteVideo,
   RemoteVideoContainer
 } from "./VideoStyles";
-import { formatTime } from "@goodtok/common";
 
 type FOVideoProps = {
-  isLocalCameraMuted?: boolean;
-  isOpen?: boolean;
-  onHangup?: () => void;
-  onCameraMuted?: (muted: boolean) => void;
-  onMicrophoneMuted?: (muted: boolean) => void;
+  isLocalCameraMuted: boolean;
+  isLocalMicrophoneMuted: boolean;
+  isOpen: boolean;
+  onHangup: () => void;
+  onMuteCamera: () => void;
+  onMuteMicrophone: () => void;
 };
 
 export const FOVideo = forwardRef((props: FOVideoProps, ref) => {
-  const [isLocalCameraMuted, setIsCustomeCameraMuted] = useState(false);
-  const [isLocalMicrophoneMuted, setIsLocalMicrophoneMuted] = useState(false);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const remoteVideoRef = React.createRef<HTMLVideoElement>();
   const remoteAudio = React.createRef<HTMLAudioElement>();
@@ -91,7 +90,7 @@ export const FOVideo = forwardRef((props: FOVideoProps, ref) => {
     <GoodtokWidget style={{ display: props.isOpen ? "block" : "none" }}>
       <Header>
         <HeaderContainer>
-          {isLocalCameraMuted ? <MutedCameraIcon /> : <CameraIcon />}
+          {props.isLocalCameraMuted ? <MutedCameraIcon /> : <CameraIcon />}
           <p>{formatTime(secondsElapsed)}</p>
           <div></div>
         </HeaderContainer>
@@ -101,7 +100,7 @@ export const FOVideo = forwardRef((props: FOVideoProps, ref) => {
           <p>Your browser doesn't support HTML5 audio.</p>
         </audio>
         <RemoteVideo ref={remoteVideoRef} className="goodtok-video__remote" />
-        {isLocalCameraMuted && (
+        {props.isLocalCameraMuted && (
           <MutedOverlay>
             <MutedCameraIcon />
           </MutedOverlay>
@@ -110,25 +109,15 @@ export const FOVideo = forwardRef((props: FOVideoProps, ref) => {
           <LocalVideo ref={localVideoRef} className="goodtok-video__local" />
         </LocalVideoContainer>
         <Controls>
-          <ButtonCircleWrapper
-            onClick={() => {
-              setIsLocalMicrophoneMuted(!isLocalMicrophoneMuted);
-              props.onMicrophoneMuted(isLocalMicrophoneMuted);
-            }}
-          >
-            {isLocalMicrophoneMuted ? (
+          <ButtonCircleWrapper onClick={() => props.onMuteMicrophone()}>
+            {props.isLocalMicrophoneMuted ? (
               <CircleMicrophoneMutedIcon />
             ) : (
               <CircleMicrophoneIcon />
             )}
           </ButtonCircleWrapper>
-          <ButtonCircleWrapper
-            onClick={() => {
-              setIsCustomeCameraMuted(!isLocalCameraMuted);
-              props.onCameraMuted(isLocalCameraMuted);
-            }}
-          >
-            {isLocalCameraMuted ? (
+          <ButtonCircleWrapper onClick={() => props.onMuteCamera()}>
+            {props.isLocalCameraMuted ? (
               <CircleCameraMutedIcon />
             ) : (
               <CircleCameraIcon />

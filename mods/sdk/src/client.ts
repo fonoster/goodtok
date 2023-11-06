@@ -16,11 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type { AppRouter } from "@goodtok/apiserver";
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { ClientOptions } from "./types";
 import { Buffer } from "buffer";
-import type { AppRouter } from "@goodtok/apiserver";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export default class Client {
   private options: ClientOptions;

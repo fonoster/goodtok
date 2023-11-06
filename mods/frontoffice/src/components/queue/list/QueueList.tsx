@@ -27,7 +27,7 @@ import {
   StyledQueueListTitle,
   StyledSelect
 } from "./QueueListStyles";
-import { Box, FormControl, MenuItem } from "@mui/material";
+import { Box, FormControl } from "@mui/material";
 import { QueueItem } from "../item/QueueItem";
 import React from "react";
 
@@ -37,6 +37,7 @@ export type CustomerData = {
   isOnline: boolean;
   note: string;
   time: string;
+  aor: string;
 };
 
 type QueueListProps = {
@@ -44,7 +45,7 @@ type QueueListProps = {
   maxItems?: number;
   data: CustomerData[];
   hideAvgWaitTime?: boolean;
-  onQueueEntrySelect: (id: string) => void;
+  onQueueEntrySelect: (id: string, aor: string) => void;
 };
 
 export const QueueList: React.FC<QueueListProps> = ({
@@ -114,7 +115,12 @@ export const QueueList: React.FC<QueueListProps> = ({
                 name={customer.name}
                 time={customer.time}
                 note={customer.note}
-                onClick={() => onQueueEntrySelect(customer.id)}
+                aor={customer.aor}
+                // onClick={() => onQueueEntrySelect(customer.id, customer.aor)}
+                // Base64 encode the aor to avoid issues with special characters
+                onClick={() =>
+                  onQueueEntrySelect(customer.id, btoa(customer.aor))
+                }
               />
             ))
             .slice(0, maxItems)}

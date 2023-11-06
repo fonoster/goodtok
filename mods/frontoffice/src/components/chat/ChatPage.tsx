@@ -25,21 +25,39 @@ import React, { useEffect, useRef } from "react";
 import Video from "./video/Video";
 
 type ChatPageProps = {
+  userName: string;
+  avatar: string;
   isAuthenticated: boolean;
   isActiveCall: boolean;
-  userName: string;
   customerProfile: CustomerProfile;
   orders: OrderItem[];
+  isLocalCameraMuted: boolean;
+  isLocalMicrophoneMuted: boolean;
+  onStartCall: () => void;
+  onReturnToQueue: () => void;
   onVideoRefsReady: (refs: any) => void;
+  onSignOut: () => void;
+  onHangup: () => void;
+  onMuteCamera: () => void;
+  onMuteMicrophone: () => void;
 };
 
 export const ChatPage: React.FC<ChatPageProps> = ({
+  userName,
+  avatar,
   isAuthenticated,
   isActiveCall = true,
-  userName,
   customerProfile,
   orders,
+  isLocalCameraMuted,
+  isLocalMicrophoneMuted,
+  onStartCall,
+  onReturnToQueue,
   onVideoRefsReady,
+  onSignOut,
+  onHangup,
+  onMuteCamera,
+  onMuteMicrophone,
   ...props
 }) => {
   const videoRefs = useRef(null);
@@ -54,14 +72,21 @@ export const ChatPage: React.FC<ChatPageProps> = ({
     <Box
       {...props}
       sx={{
-        mb: 5,
+        backgroundColor: "#F5F5F5",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        height: "calc(100vh - 64px)"
+        height: "100%",
+        minHeight: "100vh"
       }}
     >
-      <AppBar isAuthenticated={isAuthenticated} userName={userName} />
+      <AppBar
+        isAuthenticated={isAuthenticated}
+        userName={userName}
+        avatar={avatar}
+        onSignOut={onSignOut}
+      />
+
       <Box
         sx={{
           pt: 2,
@@ -72,9 +97,23 @@ export const ChatPage: React.FC<ChatPageProps> = ({
         }}
       >
         {!isActiveCall && (
-          <StartCall onReturnToQueue={() => {}} onStartCall={() => {}} />
+          <StartCall
+            onReturnToQueue={onReturnToQueue}
+            onStartCall={onStartCall}
+          />
         )}
-        {isActiveCall && <Video ref={videoRefs} isOpen={true} />}
+
+        {isActiveCall && (
+          <Video
+            isLocalCameraMuted={isLocalCameraMuted}
+            isLocalMicrophoneMuted={isLocalMicrophoneMuted}
+            onHangup={onHangup}
+            onMuteCamera={onMuteCamera}
+            onMuteMicrophone={onMuteMicrophone}
+            ref={videoRefs}
+            isOpen={true}
+          />
+        )}
 
         <CustomerInfo profile={customerProfile} orders={orders} />
       </Box>

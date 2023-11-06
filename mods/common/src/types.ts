@@ -24,3 +24,8 @@ export type ConnectionObject = {
   workspaceId: string;
   calendarUrl: string;
 };
+
+export enum Method {
+  INVITE = "INVITE",
+  REGISTER = "REGISTER"
+}

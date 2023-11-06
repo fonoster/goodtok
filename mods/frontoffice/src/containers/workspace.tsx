@@ -13,13 +13,15 @@ const mapQueueEntry = (entry: {
   };
   createdAt: string;
   status: string;
+  aor: string;
 }) => {
   return {
     id: entry.customerId,
     name: entry.customer.name,
     note: entry.customer.note,
     time: moment(entry.createdAt).fromNow(),
-    isOnline: entry.status === "ONLINE"
+    isOnline: entry.status === "ONLINE",
+    aor: entry.aor
   };
 };
 
@@ -29,10 +31,11 @@ function WorkspaceContainer() {
   const [storeURL, setStoreURL] = React.useState("");
   const [workspaceName, setWorkspaceName] = React.useState("");
   const [avgWaitTime, setAvgWaitTime] = React.useState("");
+  // Fix this any
   const [peopleList, setPeopleList] = React.useState<any[]>([]);
   const [isOnline, setIsOnline] = React.useState(false);
-  
-  let { id } = useParams();
+
+  let { id: workspaceId } = useParams();
 
   const { client, signOut, isSignedIn } = useAuth();
 
@@ -63,7 +66,7 @@ function WorkspaceContainer() {
   useEffect(() => {
     const workspaces = new SDK.Workspaces(client);
     workspaces
-      .getWorkspaceById(id!)
+      .getWorkspaceById(workspaceId!)
       .then((workspace) => {
         setStoreURL(workspace.shopifyAccount?.storeDomain!);
         setWorkspaceName(workspace.name);
@@ -73,7 +76,7 @@ function WorkspaceContainer() {
       });
 
     workspaces
-      .getQueueByWorkspaceId(id!)
+      .getQueueByWorkspaceId(workspaceId!)
       .then((response: { queue: SDK.QueueEntry[] }) => {
         setPeopleList(response.queue.map((entry: any) => mapQueueEntry(entry)));
       })
@@ -82,7 +85,7 @@ function WorkspaceContainer() {
         // TODO: Handle error
       });
 
-    workspaces.watchQueue(id!, (error, person) => {
+    workspaces.watchQueue(workspaceId!, (error, person) => {
       if (error) {
         console.error("Failed to watch queue:", error);
         return;
@@ -99,7 +102,7 @@ function WorkspaceContainer() {
 
   useEffect(() => {
     const workspaces = new SDK.Workspaces(client);
-    workspaces.watchWorkspaceStatus(id!, (error, status) => {
+    workspaces.watchWorkspaceStatus(workspaceId!, (error, status) => {
       if (error) {
         console.error("Failed to watch workspace status:", error);
         return;
@@ -109,14 +112,14 @@ function WorkspaceContainer() {
     });
   });
 
-  const handleQueueEntrySelect = (id: string) => {
-    window.location.href = `/session/${id}`;
+  const handleQueueEntrySelect = (id: string, aor: string) => {
+    window.location.href = `/w/${workspaceId}/s/${id}/aor/${aor}`;
   };
 
   const handleOnlineChange = (newOnlineStatus: boolean) => {
     const workspaces = new SDK.Workspaces(client);
     const status = newOnlineStatus ? "ONLINE" : "OFFLINE";
-    workspaces.updateWorkspace({ id: id!, status });
+    workspaces.updateWorkspace({ id: workspaceId!, status });
     setIsOnline(newOnlineStatus);
   };
 

@@ -54,7 +54,7 @@ export async function getCustomerById(
       name: `${shopifyCustomer.first_name} ${shopifyCustomer.last_name}`,
       email: shopifyCustomer.email,
       phone: shopifyCustomer.phone,
-      birthday: shopifyCustomer.note,
+      birthday: "",
       note: shopifyCustomer.note,
       address: formatShopifyAddress(shopifyCustomer.default_address),
       avatar: null

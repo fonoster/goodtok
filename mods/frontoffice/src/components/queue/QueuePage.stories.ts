@@ -95,6 +95,7 @@ export const QueuePageExampleWithEmptyQueue: Story = {
     storeURL: "quickstart-43c62e3b.myshopify.com",
     workspaceName: "Demo Workspace",
     isAuthenticated: true,
+    isOnline: true,
     data: []
   }
 };
@@ -110,10 +111,12 @@ export const QueuePageExampleWithQueueData: Story = {
     workspaceName: "Demo Workspace",
     isAuthenticated: true,
     avgWaitTime: "5m",
+    isOnline: true,
     data: [
       {
         id: "1",
         name: "John Doe",
+        aor: "sip:1@sip.goodtok.io",
         note: "Prefers monthly newsletter",
         time: "10m",
         isOnline: true
@@ -121,6 +124,7 @@ export const QueuePageExampleWithQueueData: Story = {
       {
         id: "2",
         name: "Peter Doe",
+        aor: "sip:2@sip.goodtok.io",
         note: "A super long example of customer note treatment showing that we truncate after a certain point",
         time: "2m",
         isOnline: false

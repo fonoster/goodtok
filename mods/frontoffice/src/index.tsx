@@ -6,6 +6,7 @@ import LoginContainer from "~containers/login";
 import HomeContainer from "~containers/home";
 import OnboardingContainer from "~containers/onboarding";
 import WorkspaceContainer from "~containers/workspace";
+import ChatContainer from "~containers/chat";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/workspace/:id",
     element: <WorkspaceContainer />
+  },
+  {
+    path: "/w/:id/s/:sessionId/aor/:encodedAor",
+    element: <ChatContainer />
   },
   {
     path: "/login",

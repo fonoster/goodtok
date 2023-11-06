@@ -31,7 +31,7 @@ type QueuePageProps = {
   workspaceName: string;
   avgWaitTime: string;
   isOnline: boolean;
-  onQueueEntrySelect: (id: string) => void;
+  onQueueEntrySelect: (id: string, aor: string) => void;
   onOnlineStatusChange: (isOnline: boolean) => void;
   onSignOut: () => void;
 };

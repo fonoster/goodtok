@@ -3,7 +3,7 @@ export type CustomerProfile = {
   phone: string;
   email: string;
   birthday: string;
-  notes: string;
+  note: string;
 };
 
 export type OrderItem = {

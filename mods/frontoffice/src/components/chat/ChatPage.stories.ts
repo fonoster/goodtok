@@ -28,7 +28,44 @@ const meta = {
   parameters: {
     layout: "fullscreen"
   },
-  tags: ["autodocs"]
+  tags: ["autodocs"],
+  argTypes: {
+    userName: {
+      name: "User Name",
+      description: "The name of the user for the queue page",
+      control: "text"
+    },
+    avatar: {
+      name: "Avatar",
+      description: "The avatar of the user for the queue page",
+      control: "text"
+    },
+    isAuthenticated: {
+      name: "Is Authenticated",
+      description: "Whether the user is authenticated",
+      control: "boolean"
+    },
+    isActiveCall: {
+      name: "Is Active Call",
+      description: "Whether the user is in an active call",
+      control: "boolean"
+    },
+    customerProfile: {
+      name: "Customer Profile",
+      description: "The customer profile of the user for the queue page",
+      control: "object"
+    },
+    orders: {
+      name: "Orders",
+      description: "The orders of the user for the queue page",
+      control: "object"
+    },
+    onVideoRefsReady: {
+      name: "On Video Refs Ready",
+      description: "The callback to be called when the video refs are ready",
+      action: "clicked"
+    }
+  }
 } satisfies Meta<typeof ChatPage>;
 
 export default meta;
@@ -40,7 +77,8 @@ type Story = StoryObj<typeof meta>;
  */
 export const ChatPageExample: Story = {
   args: {
-    userName: "John Doe",
+    userName: "Jane Doe",
+    avatar: "https://mui.com/static/images/avatar/3.jpg",
     isAuthenticated: true,
     isActiveCall: false,
     customerProfile: {
@@ -48,7 +86,7 @@ export const ChatPageExample: Story = {
       email: "peters@example.com",
       phone: "(785)317-9945",
       birthday: "1980-01-01",
-      notes: "This is a note"
+      note: "This is a note"
     },
     orders: []
   }
@@ -66,7 +104,8 @@ export type OrderItem = {
  */
 export const ChatPageWithActiveCall: Story = {
   args: {
-    userName: "John Doe",
+    userName: "Jane Doe",
+    avatar: "https://mui.com/static/images/avatar/3.jpg",
     isAuthenticated: true,
     isActiveCall: true,
     customerProfile: {
@@ -74,7 +113,7 @@ export const ChatPageWithActiveCall: Story = {
       email: "peters@example.com",
       phone: "(785)317-9945",
       birthday: "1980-01-01",
-      notes: "This is a note"
+      note: "This is a note"
     },
     orders: [
       {

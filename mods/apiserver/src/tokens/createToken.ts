@@ -35,7 +35,7 @@ export async function createToken(
     aorLink
   });
 
-  const aor = `sip:${ref}@${ctx.config.sipDomain}`;
+  const aor = `sip:${ctx.userId}@${ctx.config.sipDomain}`;
 
   const claims = {
     ref: ref,

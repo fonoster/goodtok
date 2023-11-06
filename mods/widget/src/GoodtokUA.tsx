@@ -20,13 +20,13 @@ import * as SDK from "@goodtok/sdk";
 import { GoodtokWidget } from "./components/goodtokwidget/GoodtokWidget";
 import { GoodtokWidgetEvents } from "./components/goodtokwidget/types";
 import { ConnectionObject, mediaToggle } from "@goodtok/common";
-import { Web } from "sip.js";
 import { getAPIServer, getCustomerToken, getWorkspaceId } from "./utils";
+import { Web } from "sip.js";
+import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useRef, useState } from "react";
-import jwtDecode from "jwt-decode";
 
 const GoodtokUA = () => {
-  const videoRefsRef = useRef<any>(null);
+  const videoRefs = useRef(null);
   const [calendarUrl, setCalendarUrl] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
@@ -38,13 +38,11 @@ const GoodtokUA = () => {
     null
   );
 
-  const handleVideoRefsReady = (videoRefs: unknown) => {
-    videoRefsRef.current = videoRefs;
+  const handleVideoRefsReady = (refs: unknown) => {
+    videoRefs.current = refs;
   };
 
   const handleWidgetEvents = async (event: GoodtokWidgetEvents) => {
-    console.log("Event received: ", event);
-
     if (event === GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST) {
       window.open(calendarUrl, "_blank");
       return;
@@ -159,9 +157,9 @@ const GoodtokUA = () => {
 
   useEffect(() => {
     if (connectionObj) {
-      const customerVideo = videoRefsRef.current.customerVideo;
-      const staffAudio = videoRefsRef.current.staffAudio;
-      const staffVideo = videoRefsRef.current.staffVideo;
+      const customerVideo = videoRefs.current.customerVideo;
+      const staffAudio = videoRefs.current.staffAudio;
+      const staffVideo = videoRefs.current.staffVideo;
       const options = {
         aor: connectionObj.aor,
         media: {
@@ -188,7 +186,7 @@ const GoodtokUA = () => {
       user.delegate = delegate;
       setSimpleUser(user);
     }
-  }, [videoRefsRef, connectionObj]);
+  }, [videoRefs, connectionObj]);
 
   useEffect(() => {
     const workspaceId = getWorkspaceId(document);
