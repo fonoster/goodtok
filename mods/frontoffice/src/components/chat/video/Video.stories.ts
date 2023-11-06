@@ -59,7 +59,7 @@ const meta = {
         type: "function"
       },
       action: "clicked"
-    },
+    }
   }
 } satisfies Meta<typeof FOVideo>;
 
@@ -74,7 +74,7 @@ export const VideoExample: Story = {
   args: {
     isOpen: true,
     isLocalCameraMuted: false,
-    isLocalMicrophoneMuted: false,
+    isLocalMicrophoneMuted: false
   },
   play: () => {
     const remoteVideo = document.querySelector(

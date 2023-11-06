@@ -60,10 +60,8 @@ function ChatContainer() {
       });
   }, [workspaceId, customerId, client]);
 
-  const handleVideoRefsReady = (
-    refs: VideoRefs
-  ) => {
-    videoRefs.current = refs
+  const handleVideoRefsReady = (refs: VideoRefs) => {
+    videoRefs.current = refs;
   };
 
   const handleStartCall = async () => {
@@ -84,7 +82,7 @@ function ChatContainer() {
       return;
     }
 
-    const localVideo = videoRefs.current.localVideo
+    const localVideo = videoRefs.current.localVideo;
     const remoteAudio = videoRefs.current.remoteAudio;
     const remoteVideo = videoRefs.current.remoteVideo;
     const options = {
@@ -100,7 +98,10 @@ function ChatContainer() {
         }
       }
     };
-    const simpleUser = new Web.SimpleUser(connectionObject.signalingServer, options);
+    const simpleUser = new Web.SimpleUser(
+      connectionObject.signalingServer,
+      options
+    );
 
     const delegate = {
       onCallHangup: () => {
@@ -119,7 +120,7 @@ function ChatContainer() {
     });
   };
 
-  const handleReturnToQueue = async () => { 
+  const handleReturnToQueue = async () => {
     if (simpleUser) {
       simpleUser.hangup();
     }
@@ -127,25 +128,25 @@ function ChatContainer() {
     window.location.href = `/workspace/${workspaceId}`;
   };
 
-  const handleHangup = async () => { 
+  const handleHangup = async () => {
     if (simpleUser) {
       simpleUser.hangup();
     }
   };
 
-  const handleMuteCamera = async () => { 
+  const handleMuteCamera = async () => {
     if (simpleUser) {
       setIsLocalCameraMuted(!isLocalCameraMuted);
       mediaToggle(simpleUser, isLocalCameraMuted, "video");
     }
   };
 
-  const handleMuteMicrophone = async () => { 
+  const handleMuteMicrophone = async () => {
     if (simpleUser) {
       setIsLocalMicrophoneMuted(!isLocalMicrophoneMuted);
       mediaToggle(simpleUser, isLocalMicrophoneMuted, "audio");
     }
-  }
+  };
 
   return (
     <ChatPage
