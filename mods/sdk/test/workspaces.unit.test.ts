@@ -181,7 +181,8 @@ describe("@sdk[workspace]", () => {
       workspaceId,
       customer: {
         name: "John",
-        avatar: "https://example.com/avatar.png"
+        avatar: "https://example.com/avatar.png",
+        note: "Some note"
       }
     };
 

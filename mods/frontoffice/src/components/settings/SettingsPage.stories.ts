@@ -19,6 +19,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { SettingsPage } from "./SettingsPage";
 import { Role, Status } from "./members/types";
+import { HBarSection } from "./hbar/types";
 
 /**
  * This components holds the settings screens for the Front Office including the UserSettings, WorkspaceSettings,
@@ -35,6 +36,27 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
+    userSettings: {
+      name: "User Settings",
+      description: "The user settings to be displayed in the user settings form"
+    },
+    workspaceSettings: {
+      name: "Workspace Settings",
+      description:
+        "The workspace settings to be displayed in the workspace settings form"
+    },
+    members: {
+      name: "Members",
+      description: "The members to be displayed in the members section"
+    },
+    currentSection: {
+      name: "Current Section",
+      description: "The current section to be displayed",
+      control: {
+        type: "select",
+        options: Object.values(HBarSection)
+      }
+    },
     onSignOut: {
       name: "On Sign Out",
       description: "The callback to be called when the user clicks sign out",
@@ -158,6 +180,7 @@ export const SettingsPageExample: Story = {
         status: Status.ACTIVE,
         createdAt: new Date("2019-12-01T08:00:00Z")
       }
-    ]
+    ],
+    currentSection: HBarSection.PERSONAL_SETTINGS
   }
 };

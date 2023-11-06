@@ -16,7 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { InviteInfo, Member, Role, Status } from "./types";
+import { InviteInfo, Member, Status } from "./types";
+import { Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
+import { Invite } from "../invite/Invite";
 import {
   Box,
   IconButton,
@@ -35,8 +37,6 @@ import {
   StyledTableHeadCell,
   StyledTitle
 } from "./MembersStyles";
-import { Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
-import { Invite } from "../invite/Invite";
 import React from "react";
 
 type MembersProps = {
@@ -115,6 +115,14 @@ export const Members: React.FC<MembersProps> = ({
                   </StyledTableCell>
                 </TableRow>
               ))}
+
+              {data.length === 0 && (
+                <TableRow>
+                  <StyledTableCell colSpan={6} align="center">
+                    This workspace has no members yet.
+                  </StyledTableCell>
+                </TableRow>
+              )}
             </TableBody>
           </StyledTable>
         </StyledTableContainer>

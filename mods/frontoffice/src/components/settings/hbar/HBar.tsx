@@ -25,31 +25,26 @@ import {
 } from "@mui/material";
 import { StyledDrawer, StyledLink, StyledTitle } from "./HBarStyles";
 import { HBarSection } from "./types";
-import React, { useState } from "react";
+import React from "react";
 
 type HBarProps = {
   userName: string;
-  onSignOut?: () => void;
-  onSectionChange?: (section: HBarSection) => void;
+  currentSection: HBarSection;
+  onSignOut: () => void;
+  onSectionChange: (section: HBarSection) => void;
 };
 
 export const HBar: React.FC<HBarProps> = ({
   userName,
+  currentSection,
   onSignOut,
   onSectionChange
 }) => {
-  const [selectedItem, setSelectedItem] = useState(
-    HBarSection.PERSONAL_SETTINGS
-  );
-
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement>,
     section: HBarSection
   ) => {
-    setSelectedItem(section);
-    if (onSectionChange) {
-      onSectionChange(section);
-    }
+    onSectionChange(section);
   };
 
   return (
@@ -69,7 +64,7 @@ export const HBar: React.FC<HBarProps> = ({
               disablePadding
               alignItems="center"
               sx={{ justifyContent: "center" }}
-              selected={selectedItem === section}
+              selected={currentSection === section}
               onClick={(event) => handleListItemClick(event, section)}
             >
               <ListItemButton sx={{ justifyContent: "center" }}>

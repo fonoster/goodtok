@@ -32,22 +32,14 @@ type AppBarProps = {
   userName: string;
   avatar: string;
   isAuthenticated: boolean;
-  onSignOutSelect: () => void;
-  onPersonalSettingsSelect: () => void;
-  onWorkspaceSettingsSelect: () => void;
-  onWorkspaceMembersSelect: () => void;
-  onDocumentationSelect: () => void;
+  onSignOut: () => void;
 };
 
 export const AppBar: React.FC<AppBarProps> = ({
   userName,
   avatar,
   isAuthenticated = false,
-  onSignOutSelect,
-  onPersonalSettingsSelect,
-  onWorkspaceSettingsSelect,
-  onWorkspaceMembersSelect,
-  onDocumentationSelect,
+  onSignOut,
   ...props
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -58,6 +50,26 @@ export const AppBar: React.FC<AppBarProps> = ({
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleOnPersonalSettingsSelect = () => {
+    window.location.href = "/settings/personal";
+  };
+
+  const handleOnWorkspaceSettingsSelect = () => {
+    window.location.href = "/settings/workspace";
+  };
+
+  const handleOnWorkspaceMembersSelect = () => {
+    window.location.href = "/settings/members";
+  };
+
+  const handleOnDocumentationSelect = () => {
+    window.open("https://docs.goodtok.io", "_blank");
+  };
+
+  const handleOnSignOutSelect = () => {
+    onSignOut();
   };
 
   return (
@@ -103,11 +115,21 @@ export const AppBar: React.FC<AppBarProps> = ({
                   onClose={handleClose}
                 >
                   <StyledMenuUser>Hi {userName}!</StyledMenuUser>
-                  <StyledMenuItem onClick={onPersonalSettingsSelect}>Personal Settings</StyledMenuItem>
-                  <StyledMenuItem onClick={onWorkspaceMembersSelect}>Workspace Settings</StyledMenuItem>
-                  <StyledMenuItem onClick={onWorkspaceMembersSelect}>Workspace Members</StyledMenuItem>
-                  <StyledMenuItem onClick={onDocumentationSelect}>Documentation</StyledMenuItem>
-                  <StyledMenuItem onClick={onSignOutSelect}>Sign Out</StyledMenuItem>
+                  <StyledMenuItem onClick={handleOnPersonalSettingsSelect}>
+                    Personal Settings
+                  </StyledMenuItem>
+                  <StyledMenuItem onClick={handleOnWorkspaceSettingsSelect}>
+                    Workspace Settings
+                  </StyledMenuItem>
+                  <StyledMenuItem onClick={handleOnWorkspaceMembersSelect}>
+                    Workspace Members
+                  </StyledMenuItem>
+                  <StyledMenuItem onClick={handleOnDocumentationSelect}>
+                    Documentation
+                  </StyledMenuItem>
+                  <StyledMenuItem onClick={handleOnSignOutSelect}>
+                    Sign Out
+                  </StyledMenuItem>
                 </StyledMenu>
               </div>
             </>

@@ -16,6 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  UserSettings as UserSettingsType,
+  WorkspaceSettings as WorkspaceSettingsType
+} from "./types";
 import { AppBar } from "../appbar/AppBar";
 import { Box } from "@mui/material";
 import { HBar } from "./hbar/HBar";
@@ -26,65 +30,47 @@ import { Members } from "./members/Members";
 import { InviteInfo, Member } from "./members/types";
 import React from "react";
 
-type UserSettings = {
-  name: string;
-  email: string;
-  avatarUrl: string;
-};
-
-type WorkspaceSettings = {
-  name: string;
-  timezone: string;
-  shopifyStoreUrl: string;
-  calendarUrl: string;
-  schedule: {
-    [day: string]: {
-      from: string | boolean;
-      to: string | boolean;
-    };
-  };
-};
-
 type SettingsPageProps = {
   members: Member[];
-  userSettings: UserSettings;
-  workspaceSettings: WorkspaceSettings;
-  onSignOut?: () => void;
-  onUserSettingsSave?: (name: string, password: string) => void;
-  onWorkspaceSettingsSave?: (
-    settings: WorkspaceSettings & { shopifyStoreAPIkey: string }
+  userSettings: UserSettingsType;
+  workspaceSettings: WorkspaceSettingsType;
+  currentSection: HBarSection;
+  onSignOut: () => void;
+  onUserSettingsSave: (name: string, password: string) => void;
+  onWorkspaceSettingsSave: (
+    settings: WorkspaceSettingsType & { shopifyStoreAPIkey: string }
   ) => void;
-  onMemberDelete?: (id: string) => void;
-  onInvite?: (info: InviteInfo) => void;
+  onMemberDelete: (id: string) => void;
+  onInvite: (info: InviteInfo) => void;
+  onSectionChange: (section: HBarSection) => void;
 };
 
 export const SettingsPage: React.FC<SettingsPageProps> = ({
   userSettings,
   workspaceSettings,
   members,
+  currentSection,
   onSignOut,
   onWorkspaceSettingsSave,
   onUserSettingsSave,
   onMemberDelete,
   onInvite,
+  onSectionChange,
   ...props
 }) => {
-  const [currentSection, setCurrentSection] = React.useState<HBarSection>(
-    HBarSection.PERSONAL_SETTINGS
-  );
-
   return (
-    <Box {...props}>
+    <Box {...props} sx={{ background: "#F5F5F5", minHeight: "100vh" }}>
       <AppBar
         isAuthenticated={true}
-        userName={userSettings.name}
+        userName={userSettings.name || ""}
         avatar={userSettings.avatarUrl}
         onSignOut={onSignOut}
       />
 
       <HBar
+        currentSection={currentSection}
         userName={userSettings.name}
-        onSectionChange={(section: HBarSection) => setCurrentSection(section)}
+        onSectionChange={onSectionChange}
         onSignOut={onSignOut}
       />
 
@@ -115,7 +101,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             initialCalendarUrl={workspaceSettings.calendarUrl}
             initialSchedule={workspaceSettings.schedule}
             onSave={(
-              settings: WorkspaceSettings & { shopifyStoreAPIkey: string }
+              settings: WorkspaceSettingsType & { shopifyStoreAPIkey: string }
             ) => onWorkspaceSettingsSave && onWorkspaceSettingsSave(settings)}
           />
         )}

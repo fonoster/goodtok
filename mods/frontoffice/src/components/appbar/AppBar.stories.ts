@@ -46,30 +46,10 @@ const meta = {
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    onPersonalSettingsSelect: {
-      name: "On Personal Settings Select",
-      description: "Callback when the user selects the personal settings option",
-      action: "clicked",
-    },
-    onWorkspaceSettingsSelect: {
-      name: "On Workspace Settings Select",
-      description: "Callback when the user selects the workspace settings option",
-      action: "clicked",
-    },
-    onWorkspaceMembersSelect: {
-      name: "On Workspace Members Select",
-      description: "Callback when the user selects the workspace members option",
-      action: "clicked",
-    },
-    onDocumentationSelect: {
-      name: "On Documentation Select",
-      description: "Callback when the user selects the documentation option",
-      action: "clicked"
-    },
-    onSignOutSelect: {
-      name: "On Sign Out Select",
-      description: "Callback when the user selects the sign out option",
-      action: "clicked"
+    onSignOut: {
+      name: "Sign Out",
+      description: "Callback to be called when the user signs out",
+      control: { type: "function" }
     }
   }
 } satisfies Meta<typeof AppBar>;

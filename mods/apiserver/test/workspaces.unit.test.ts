@@ -186,7 +186,8 @@ describe("@apiserver[workspaces]", () => {
       getCustomerById: sandbox.stub().resolves({
         id: testWorkspace.queue[0].customerId,
         name: "John Doe",
-        avatar: "https://example.com/avatar.png"
+        avatar: "https://example.com/avatar.png",
+        note: "Some note"
       })
     } as unknown as Context;
 
@@ -213,7 +214,8 @@ describe("@apiserver[workspaces]", () => {
           customer: {
             id: testWorkspace.queue[0].customerId,
             name: "John Doe",
-            avatar: "https://example.com/avatar.png"
+            avatar: "https://example.com/avatar.png",
+            note: "Some note"
           }
         }
       ]
