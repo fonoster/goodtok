@@ -29,17 +29,25 @@ import {
 import React from "react";
 
 type AppBarProps = {
-  isAuthenticated?: boolean;
-  avatar?: string;
-  userName?: string;
-  onSignOut?: () => void;
+  userName: string;
+  avatar: string;
+  isAuthenticated: boolean;
+  onSignOutSelect: () => void;
+  onPersonalSettingsSelect: () => void;
+  onWorkspaceSettingsSelect: () => void;
+  onWorkspaceMembersSelect: () => void;
+  onDocumentationSelect: () => void;
 };
 
 export const AppBar: React.FC<AppBarProps> = ({
-  userName = "",
-  avatar = "",
+  userName,
+  avatar,
   isAuthenticated = false,
-  onSignOut,
+  onSignOutSelect,
+  onPersonalSettingsSelect,
+  onWorkspaceSettingsSelect,
+  onWorkspaceMembersSelect,
+  onDocumentationSelect,
   ...props
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -95,11 +103,11 @@ export const AppBar: React.FC<AppBarProps> = ({
                   onClose={handleClose}
                 >
                   <StyledMenuUser>Hi {userName}!</StyledMenuUser>
-                  <StyledMenuItem>Personal Settings</StyledMenuItem>
-                  <StyledMenuItem>Workspace Settings</StyledMenuItem>
-                  <StyledMenuItem>Workspace Members</StyledMenuItem>
-                  <StyledMenuItem>Documentation</StyledMenuItem>
-                  <StyledMenuItem onClick={onSignOut}>Sign Out</StyledMenuItem>
+                  <StyledMenuItem onClick={onPersonalSettingsSelect}>Personal Settings</StyledMenuItem>
+                  <StyledMenuItem onClick={onWorkspaceMembersSelect}>Workspace Settings</StyledMenuItem>
+                  <StyledMenuItem onClick={onWorkspaceMembersSelect}>Workspace Members</StyledMenuItem>
+                  <StyledMenuItem onClick={onDocumentationSelect}>Documentation</StyledMenuItem>
+                  <StyledMenuItem onClick={onSignOutSelect}>Sign Out</StyledMenuItem>
                 </StyledMenu>
               </div>
             </>

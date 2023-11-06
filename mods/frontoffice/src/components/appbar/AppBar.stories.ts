@@ -30,14 +30,14 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    avatar: {
-      name: "Avatar",
-      description: "The avatar of the user",
-      control: { type: "text" }
-    },
     userName: {
       name: "User Name",
       description: "The name of the user",
+      control: { type: "text" }
+    },
+    avatar: {
+      name: "Avatar",
+      description: "The avatar of the user",
       control: { type: "text" }
     },
     isAuthenticated: {
@@ -46,9 +46,29 @@ const meta = {
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
-    onSignOut: {
-      name: "On Sign Out",
-      description: "The callback to be called when the user clicks sign out",
+    onPersonalSettingsSelect: {
+      name: "On Personal Settings Select",
+      description: "Callback when the user selects the personal settings option",
+      action: "clicked",
+    },
+    onWorkspaceSettingsSelect: {
+      name: "On Workspace Settings Select",
+      description: "Callback when the user selects the workspace settings option",
+      action: "clicked",
+    },
+    onWorkspaceMembersSelect: {
+      name: "On Workspace Members Select",
+      description: "Callback when the user selects the workspace members option",
+      action: "clicked",
+    },
+    onDocumentationSelect: {
+      name: "On Documentation Select",
+      description: "Callback when the user selects the documentation option",
+      action: "clicked"
+    },
+    onSignOutSelect: {
+      name: "On Sign Out Select",
+      description: "Callback when the user selects the sign out option",
       action: "clicked"
     }
   }
@@ -63,6 +83,8 @@ type Story = StoryObj<typeof meta>;
  */
 export const BasicAppBar: Story = {
   args: {
+    userName: "Jane",
+    avatar: "https://mui.com/static/images/avatar/3.jpg",
     isAuthenticated: false
   }
 };
@@ -72,8 +94,8 @@ export const BasicAppBar: Story = {
  */
 export const AuthenticatedAppBar: Story = {
   args: {
-    isAuthenticated: true,
+    userName: "Jane",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
-    userName: "Jane"
+    isAuthenticated: true
   }
 };
