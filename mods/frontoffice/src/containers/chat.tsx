@@ -69,9 +69,6 @@ function ChatContainer() {
     });
 
     const connectionObject = jwtDecode(inviterToken) as ConnectionObject;
-
-    console.log(inviterToken);
-    console.log(connectionObject);
   };
 
   const handleReturnToQueue = async () => {};
