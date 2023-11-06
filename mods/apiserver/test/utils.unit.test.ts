@@ -78,13 +78,14 @@ describe("@apiserver[utils]", () => {
       jwtSignOptions: {
         expiresIn: "24h"
       }
-    } as any;
+    };
 
     // Act
     const { generateToken } = await import("../src/utils");
 
     // Assert
-    chai.expect(generateToken(request)).to.be.a("string");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    chai.expect(generateToken(request as any)).to.be.a("string");
   });
 
   it("verifies the the function throws an error if the token is invalid", async () => {

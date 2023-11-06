@@ -97,6 +97,7 @@ export const VideoExample: Story = {
       "https://storage.googleapis.com/fn01/videos/demo_call_staff.mp4";
     staffVideo.loop = true;
     staffVideo.muted = true;
+    // eslint-disable-next-line storybook/context-in-play-function
     staffVideo.play();
 
     const videoCustomer = document.querySelector(
@@ -107,6 +108,7 @@ export const VideoExample: Story = {
     videoCustomer.loop = true;
     videoCustomer.muted = true;
 
+    // eslint-disable-next-line storybook/context-in-play-function
     videoCustomer.play();
 
     // Changed position to fit the storybook

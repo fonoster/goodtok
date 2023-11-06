@@ -18,7 +18,6 @@
  */
 import { assertEnvsAreSet } from "./utils";
 import { join } from "path";
-import crypto from "crypto";
 import fs from "fs";
 import dotenv from "dotenv";
 

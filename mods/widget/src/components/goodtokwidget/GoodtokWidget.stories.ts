@@ -91,6 +91,7 @@ export const GoodtokWidgetExample: Story = {
         "https://storage.googleapis.com/fn01/videos/demo_call_staff.mp4";
       video.loop = true;
       video.muted = true;
+      // eslint-disable-next-line storybook/context-in-play-function
       video.play();
 
       const videoCustomer = document.querySelector(
@@ -100,6 +101,7 @@ export const GoodtokWidgetExample: Story = {
         "https://storage.googleapis.com/fn01/videos/demo_call_customer.mp4";
       videoCustomer.loop = true;
       videoCustomer.muted = true;
+      // eslint-disable-next-line storybook/context-in-play-function
       videoCustomer.play();
     };
 
