@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TextField } from "../textfield/TextField";
-import { Button } from "../button/Button";
+import { TextField } from "../../textfield/TextField";
+import { Button } from "../../button/Button";
 import {
   ForgotPasswordFormContainer,
   ForgotPasswordFormDescription,

@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { Box } from "@mui/material";
-import { AppBar } from "../appbar/AppBar";
+import { AppBar } from "../../appbar/AppBar";
 import {
   ForgotPasswordForm,
   ForgotPasswordFormProps
