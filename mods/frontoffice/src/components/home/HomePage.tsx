@@ -20,6 +20,7 @@ import { AppBar } from "../appbar/AppBar";
 import { Box } from "@mui/material";
 import { WorkspaceCardList } from "./list/WorkspaceCardList";
 import { ExternalLinkIcon } from "../common/ExternalLinkIcon";
+import { getFirstname } from "~utils/getFirstname";
 import {
   StyleHomePageDescription,
   StyledHomePageSubTitle,
@@ -76,7 +77,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       />
 
       <StyledHomePageTitle sx={{ mt: 5 }}>
-        Hey {userName}, welcome to Goodtok 👋
+        Hey {getFirstname(userName)}, welcome to Goodtok 👋
       </StyledHomePageTitle>
 
       <Box sx={{ mb: 2, width: 440, textAlign: "center" }}>
