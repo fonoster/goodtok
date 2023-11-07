@@ -8,7 +8,7 @@ export enum Role {
 // FIXME: This is a duplicate of the one in the backend
 export enum Status {
   ACTIVE = "ACTIVE",
-  PENDING = "PENDING",
+  PENDING = "PENDING"
 }
 
 // FIXME: This is a duplicate of the one in the backend

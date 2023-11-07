@@ -25,10 +25,12 @@ import {
   wsLink
 } from "@trpc/client";
 import type {
+  AddWorkspaceMemberRequest,
   AppRouter,
   CreateWorkspaceRequest,
   GetMembersResponse,
   GetQueueResponse,
+  Member,
   UpdateWorkspaceRequest,
   Workspace,
   WorkspaceStatus
@@ -295,6 +297,21 @@ export default class Workspaces
     return this.trpc.workspaces.getWorkspaces.query(
       this.client.getCurrentUserId()
     );
+  }
+
+  /**
+   * Adds a member to a workspace.
+   *
+   * @param {AddWorkspaceMemberRequest} request - The request object containing the workspace ID and member details
+   * @param {string} request.workspaceId - The workspace ID
+   * @param {string} request.name - The member name
+   * @param {string} request.email - The member email
+   * @param {string} request.role - The member role
+   */
+  async addWorkspaceMember(
+    request: AddWorkspaceMemberRequest
+  ): Promise<Member> {
+    return this.trpc.workspaces.addWorkspaceMember.mutate(request);
   }
 
   /**

@@ -117,7 +117,7 @@ export const MembersExample: Story = {
         role: Role.OWNER,
         status: Status.ACTIVE,
         createdAt: new Date("2021-01-01T00:00:00Z")
-      },
+      }
     ]
   }
 };

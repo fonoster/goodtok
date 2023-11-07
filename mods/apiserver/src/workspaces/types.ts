@@ -16,11 +16,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { z } from "zod";
 import {
   QueueEntryStatus,
   WorkspaceStatus as WorkspaceStatusFromPrisma
 } from "@prisma/client";
-import { z } from "zod";
+
+export enum WorkspaceMemberStatus {
+  ACTIVE,
+  PENDING
+}
+
+export enum WorkspaceMemberRole {
+  OWNER,
+  ADMIN,
+  MEMBER
+}
 
 export const updateWorkspaceSchema = z.object({
   id: z.string(),
@@ -97,6 +108,13 @@ export const createWorkspaceSchema = updateWorkspaceSchema
       .required()
   );
 
+export const addWorkspaceMemberSchema = z.object({
+  workspaceId: z.string().min(1),
+  name: z.string().min(1),
+  email: z.string().min(1),
+  role: z.string().min(1)
+});
+
 export enum Day {
   Monday = "Monday",
   Tuesday = "Tuesday",
@@ -128,17 +146,6 @@ export type WorkspaceStatus = {
   online: boolean;
 };
 
-export enum WorkspaceMemberStatus {
-  ACTIVE,
-  PENDING
-}
-
-export enum WorkspaceMemberRole {
-  OWNER,
-  ADMIN,
-  MEMBER
-}
-
 export type Member = {
   id: string;
   name: string;
@@ -166,6 +173,10 @@ export type QueueEntry = {
 export type UpdateWorkspaceRequest = z.infer<typeof updateWorkspaceSchema>;
 
 export type CreateWorkspaceRequest = z.infer<typeof createWorkspaceSchema>;
+
+export type AddWorkspaceMemberRequest = z.infer<
+  typeof addWorkspaceMemberSchema
+>;
 
 export type GetMembersResponse = {
   members: Member[];

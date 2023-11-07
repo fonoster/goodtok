@@ -102,14 +102,16 @@ export const Members: React.FC<MembersProps> = ({
             <TableBody>
               {sorterdData.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <StyledTableCell component="th" scope="row">
                     {row.name}
                   </StyledTableCell>
                   <StyledTableCell>{row.email}</StyledTableCell>
-                  <StyledTableCell>{roleToHumanReadable(row.role)}</StyledTableCell>
+                  <StyledTableCell>
+                    {roleToHumanReadable(row.role)}
+                  </StyledTableCell>
                   <StyledTableCell>
                     {row.createdAt.toDateString()}
                   </StyledTableCell>
@@ -124,14 +126,14 @@ export const Members: React.FC<MembersProps> = ({
                       </IconButton>
                     )}
 
-                    {row.role !== "OWNER" &&
+                    {row.role !== "OWNER" && (
                       <IconButton
                         aria-label="delete"
                         onClick={() => onDelete && onDelete(row.id)}
                       >
                         <DeleteIcon />
                       </IconButton>
-                    }
+                    )}
                   </StyledTableCell>
                 </TableRow>
               ))}

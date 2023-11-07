@@ -112,7 +112,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <Members
             data={members}
             onResend={(id: string) => onResendInvite(id)}
-            onDelete={(id: string) =>  onMemberDelete(id)}
+            onDelete={(id: string) => onMemberDelete(id)}
             onInvite={(info: InviteInfo) => onInvite(info)}
           />
         )}

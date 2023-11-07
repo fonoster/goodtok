@@ -5,7 +5,12 @@ import { HBarSection } from "~components/settings/hbar/types";
 import { useParams } from "react-router-dom";
 import { UserSettingsType } from "~components/settings/user/types";
 import { WorkspaceSettingsType } from "~components/settings/workspace/types";
-import { InviteInfo, Member, Role, Status } from "~components/settings/members/types";
+import {
+  InviteInfo,
+  Member,
+  Role,
+  Status
+} from "~components/settings/members/types";
 import React, { useEffect } from "react";
 
 function SettingsContainer() {
@@ -49,6 +54,7 @@ function SettingsContainer() {
 
   useEffect(() => {
     const users = new SDK.Users(client!);
+
     users
       .getCurrentUser()
       .then((user) => {
@@ -68,6 +74,7 @@ function SettingsContainer() {
 
   useEffect(() => {
     const workspaces = new SDK.Workspaces(client!);
+
     workspaces
       .getWorkspaceById(workspaceId!)
       .then((workspace) => {
@@ -86,8 +93,9 @@ function SettingsContainer() {
 
   useEffect(() => {
     const workspaces = new SDK.Workspaces(client!);
-    workspaces.
-      getMembersByWorkspaceId(workspaceId!)
+
+    workspaces
+      .getMembersByWorkspaceId(workspaceId!)
       .then((response) => {
         const newMembers = response.members.map((member) => {
           console.log(member);
@@ -161,12 +169,27 @@ function SettingsContainer() {
   };
 
   const handleOnInvite = (info: InviteInfo) => {
-    console.log("invite", { info });
+    console.log("invite = ", info);
+    const workspaces = new SDK.Workspaces(client!);
+
+    workspaces
+      .addWorkspaceMember({
+        workspaceId: workspaceId!,
+        name: info.name,
+        email: info.email,
+        role: info.role
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const handleResendInvite = (id: string) => {
     console.log("resend invite", { id });
-  }
+  };
 
   const handleOnSectionChange = (section: HBarSection) => {
     switch (section) {
