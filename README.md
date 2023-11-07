@@ -56,7 +56,7 @@ openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
 Then, create a `.env` file with the following content:
 
 ```bash
-EXTERNAL_ADDRS=${YOUR DOCKER HOST IP}
+DOCKER_HOST_ADDRESS=${YOUR DOCKER HOST IP}
 SIP_DOMAIN=sip.local
 SIP_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok

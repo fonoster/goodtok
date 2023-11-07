@@ -17,7 +17,7 @@ function LoginContainer() {
       window.location.href = "/";
     } catch (error) {
       const err = error as { data: { code: string }; message: string };
-      if (err.data.code === "UNAUTHORIZED") {
+      if (err.data?.code === "UNAUTHORIZED") {
         setError("Invalid email or password");
         return;
       }

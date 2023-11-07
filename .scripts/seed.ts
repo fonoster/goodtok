@@ -18,17 +18,8 @@
  */
 import { join } from "path";
 import { prisma } from "../mods/apiserver/src/db";
-import dotenv from "dotenv";
-
-dotenv.config({ path: join(__dirname, "..", ".env") });
 
 async function main() {
-  const {
-    TEST_WORKSPACE_ID,
-    SHOPIFY_STORE_DOMAIN,
-    SHOPIFY_ACCESS_TOKEN
-  } = process.env;
-
   await prisma.user.create({
     data: {
       id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
@@ -39,29 +30,13 @@ async function main() {
     }
   });
 
-  await prisma.user.create({
-    data: {
-      id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc2",
-      username: "member",
-      email: "member@goodtok.io",
-      password: "changeme",
-      name: "Goodtok Member"
-    },
-  });
-
   await prisma.workspace.create({
     data: {
-      id: TEST_WORKSPACE_ID,
-      name: "My Workspace",
+      id: "g-4f90d13a42",
+      name: "Default Workspace",
       ownerId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
       timezone: "America/New_York",
       calendarUrl: "https://cal.com/goodtok",
-      shopifyAccount: SHOPIFY_STORE_DOMAIN && SHOPIFY_ACCESS_TOKEN ? {
-        create: {
-          storeDomain: SHOPIFY_STORE_DOMAIN,
-          accessToken: SHOPIFY_ACCESS_TOKEN
-        }
-      } : undefined,
       hoursOfOperation: {
         Monday: { from: "09:00", to: "17:00" },
         Tuesday: { from: "09:00", to: "17:00" },
@@ -71,15 +46,6 @@ async function main() {
         Saturday: {},
         Sunday: {}
       }
-    },
-  });
-
-  await prisma.workspaceMember.create({
-    data: {
-      userId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
-      workspaceId: TEST_WORKSPACE_ID || "",
-      status: "ACTIVE",
-      role: "MEMBER"
     },
   });
 }

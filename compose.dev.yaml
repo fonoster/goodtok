@@ -31,7 +31,7 @@ services:
   routr:
     image: fonoster/routr-one:latest
     environment:
-      EXTERNAL_ADDRS: ${EXTERNAL_ADDRS}
+      EXTERNAL_ADDRS: ${DOCKER_HOST_ADDRESS}
       CONNECT_VERIFIER_PUBLIC_KEY_PATH: /keys/public.key
       NATS_PUBLISHER_ENABLED: true
       NATS_PUBLISHER_URL: nats:4222
