@@ -17,12 +17,14 @@
  * limitations under the License.
  */
 import { Avatar, IconButton } from "@mui/material";
+import { ExternalLinkIcon } from "../common/ExternalLinkIcon";
 import { GoodtokLogo } from "./GoodtokLogo";
 import {
   StyledAppBar,
   StyledContainer,
   StyledMenu,
   StyledMenuItem,
+  StyledMenuItemSignout,
   StyledMenuUser,
   StyledToolbar
 } from "./AppBarStyles";
@@ -127,11 +129,11 @@ export const AppBar: React.FC<AppBarProps> = ({
                     Workspace Members
                   </StyledMenuItem>
                   <StyledMenuItem onClick={handleOnDocumentationSelect}>
-                    Documentation
+                    Documentation &nbsp; <ExternalLinkIcon />
                   </StyledMenuItem>
-                  <StyledMenuItem onClick={handleOnSignOutSelect}>
+                  <StyledMenuItemSignout onClick={handleOnSignOutSelect}>
                     Sign Out
-                  </StyledMenuItem>
+                  </StyledMenuItemSignout>
                 </StyledMenu>
               </div>
             </>

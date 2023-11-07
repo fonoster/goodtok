@@ -19,6 +19,7 @@
 import { AppBar } from "../appbar/AppBar";
 import { Box } from "@mui/material";
 import { WorkspaceCardList } from "./list/WorkspaceCardList";
+import { ExternalLinkIcon } from "../common/ExternalLinkIcon";
 import {
   StyleHomePageDescription,
   StyledHomePageSubTitle,
@@ -61,7 +62,6 @@ export const HomePage: React.FC<HomePageProps> = ({
     <Box
       {...props}
       sx={{
-        mb: 5,
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
@@ -75,17 +75,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         onSignOut={onSignOut}
       />
 
-      <StyledHomePageTitle sx={{ mt: 10 }}>
+      <StyledHomePageTitle sx={{ mt: 5 }}>
         Hey {userName}, welcome to Goodtok 👋
       </StyledHomePageTitle>
 
       <Box sx={{ mb: 2, width: 440, textAlign: "center" }}>
-        <StyledHomePageSubTitle sx={{ mt: 5 }}>
+        <StyledHomePageSubTitle sx={{ mt: 4 }}>
           Ready to engage your customers better and faster?
         </StyledHomePageSubTitle>
-        <StyleHomePageDescription sx={{ mt: 1 }}>
+        <StyleHomePageDescription sx={{ mt: 2, mb: 1 }}>
           Create a new workspace or use an existing one to begin interacting
-          your customer now. <StyledLink>Learn more.</StyledLink>
+          your customer now. <StyledLink>Learn more</StyledLink> <ExternalLinkIcon />
         </StyleHomePageDescription>
       </Box>
 

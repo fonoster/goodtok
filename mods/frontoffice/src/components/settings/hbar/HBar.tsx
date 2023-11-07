@@ -73,7 +73,7 @@ export const HBar: React.FC<HBarProps> = ({
             </ListItem>
           ))}
         </List>
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2, mb: 3 }}>
           <StyledLink onClick={() => onSignOut && onSignOut()}>
             Sign out
           </StyledLink>

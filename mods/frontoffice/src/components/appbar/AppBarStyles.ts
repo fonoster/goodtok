@@ -6,8 +6,9 @@ import {
   MenuItem as MuiMenuItem
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import "@fontsource/poppins/400.css";
+
 import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/400.css";
 
 type StyledToolbarProps = {
   isAuthenticated?: boolean;
@@ -35,6 +36,20 @@ export const StyledMenuItem = styled(MuiMenuItem)({
     fontWeight: 400,
     lineHeight: "150%",
     height: "44px"
+  }
+});
+
+export const StyledMenuItemSignout = styled(MuiMenuItem)({
+  "&.MuiMenuItem-root": {
+    padding: "0px 10px",
+    color: "#000",
+    fontFamily: "Poppins",
+    fontSize: "12px",
+    fontStyle: "normal",
+    fontWeight: 600,
+    lineHeight: "150%",
+    height: "44px",
+    textDecoration: "underline"
   }
 });
 
