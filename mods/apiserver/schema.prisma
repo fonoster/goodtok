@@ -23,6 +23,7 @@ enum WorkspaceMemberStatus {
 
 enum WorkspaceMemberRole {
   OWNER
+  ADMIN
   MEMBER
 
   @@map("workspace_member_role")

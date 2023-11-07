@@ -109,7 +109,15 @@ export const MembersExample: Story = {
         role: Role.MEMBER,
         status: Status.ACTIVE,
         createdAt: new Date("2019-12-01T08:00:00Z")
-      }
+      },
+      {
+        id: "1",
+        name: "Peter Clock",
+        email: "peter@example.com",
+        role: Role.OWNER,
+        status: Status.ACTIVE,
+        createdAt: new Date("2021-01-01T00:00:00Z")
+      },
     ]
   }
 };

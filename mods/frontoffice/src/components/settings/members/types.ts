@@ -1,13 +1,17 @@
-export enum Status {
-  ACTIVE = "Active",
-  PENDING = "Pending"
-}
-
+// FIXME: This is a duplicate of the one in the backend
 export enum Role {
-  ADMIN = "Admin",
-  MEMBER = "Member"
+  OWNER = "OWNER",
+  ADMIN = "ADMIN",
+  MEMBER = "MEMBER"
 }
 
+// FIXME: This is a duplicate of the one in the backend
+export enum Status {
+  ACTIVE = "ACTIVE",
+  PENDING = "PENDING",
+}
+
+// FIXME: This is a duplicate of the one in the backend
 export type Member = {
   id: string;
   name: string;

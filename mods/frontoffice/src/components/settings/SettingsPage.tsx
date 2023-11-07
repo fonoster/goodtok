@@ -41,6 +41,7 @@ type SettingsPageProps = {
   ) => void;
   onMemberDelete: (id: string) => void;
   onInvite: (info: InviteInfo) => void;
+  onResendInvite: (id: string) => void;
   onSectionChange: (section: HBarSection) => void;
 };
 
@@ -55,6 +56,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   onUserSettingsSave,
   onMemberDelete,
   onInvite,
+  onResendInvite,
   onSectionChange,
   ...props
 }) => {
@@ -90,7 +92,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             email={userSettings.email}
             avatarUrl={userSettings.avatarUrl}
             onSave={(name: string, password: string) =>
-              onUserSettingsSave && onUserSettingsSave(name, password)
+              onUserSettingsSave(name, password)
             }
           />
         )}
@@ -103,14 +105,15 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             initialHoursOfOperation={workspaceSettings.hoursOfOperation}
             onSave={(
               settings: WorkspaceSettingsType & { shopifyStoreAPIkey: string }
-            ) => onWorkspaceSettingsSave && onWorkspaceSettingsSave(settings)}
+            ) => onWorkspaceSettingsSave(settings)}
           />
         )}
         {currentSection === HBarSection.MEMBERS && (
           <Members
             data={members}
-            onDelete={(id: string) => onMemberDelete && onMemberDelete(id)}
-            onInvite={(info: InviteInfo) => onInvite && onInvite(info)}
+            onResend={(id: string) => onResendInvite(id)}
+            onDelete={(id: string) =>  onMemberDelete(id)}
+            onInvite={(info: InviteInfo) => onInvite(info)}
           />
         )}
       </Box>

@@ -16,10 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GetMembersResponse } from "./types";
 import { TRPCError } from "@trpc/server";
 import { Context } from "../context";
 import { getLogger } from "@fonoster/logger";
+import {
+  GetMembersResponse,
+  WorkspaceMemberRole,
+  WorkspaceMemberStatus
+} from "./types";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -48,10 +52,12 @@ export async function getMembersByWorkspaceId(
 
   const members = workspace.members.map((member) => {
     return {
-      userId: member.userId,
+      id: member.userId,
       name: member.user.name,
-      status: member.status,
-      avatar: member.user.avatar
+      email: member.user.email,
+      status: member.status as unknown as WorkspaceMemberStatus,
+      role: member.role as unknown as WorkspaceMemberRole,
+      createdAt: member.createdAt
     };
   });
 

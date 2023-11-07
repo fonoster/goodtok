@@ -17,11 +17,11 @@
  * limitations under the License.
  */
 import { StyledBox, StyledTitle } from "./InviteStyles";
+import { Box } from "@mui/material";
 import { TextField } from "../../textfield/TextField";
 import { Select } from "../../select/Select";
-import { Role } from "../members/types";
 import { Button } from "../../button/Button";
-import { Box } from "@mui/material";
+import { Role } from "../members/types";
 import React from "react";
 
 type InviteProps = {
@@ -34,6 +34,7 @@ export const Invite: React.FC<InviteProps> = ({ onInvite }) => {
   const [role, setRole] = React.useState(Role.MEMBER);
 
   const data = [
+    { label: "Owner", value: Role.OWNER },
     { label: "Admin", value: Role.ADMIN },
     { label: "Member", value: Role.MEMBER }
   ];

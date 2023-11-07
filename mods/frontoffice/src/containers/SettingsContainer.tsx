@@ -5,9 +5,11 @@ import { HBarSection } from "~components/settings/hbar/types";
 import { useParams } from "react-router-dom";
 import { UserSettingsType } from "~components/settings/user/types";
 import { WorkspaceSettingsType } from "~components/settings/workspace/types";
+import { InviteInfo, Member, Role, Status } from "~components/settings/members/types";
 import React, { useEffect } from "react";
 
 function SettingsContainer() {
+  const [members, setMembers] = React.useState<Member[]>([]);
   const [userSettings, setUserSettings] = React.useState<UserSettingsType>();
   const [workspaceSettings, setWorkspaceSettings] =
     React.useState<WorkspaceSettingsType>();
@@ -51,9 +53,11 @@ function SettingsContainer() {
       .getCurrentUser()
       .then((user) => {
         setUserSettings({
+          id: user.id,
           name: user.name,
           email: user.email,
-          avatarUrl: user.avatar
+          avatarUrl: user.avatar,
+          createdAt: new Date(user.createdAt)
         });
       })
       .catch((err) => {
@@ -79,6 +83,39 @@ function SettingsContainer() {
         console.error(err);
       });
   }, [client]);
+
+  useEffect(() => {
+    const workspaces = new SDK.Workspaces(client!);
+    workspaces.
+      getMembersByWorkspaceId(workspaceId!)
+      .then((response) => {
+        const newMembers = response.members.map((member) => {
+          console.log(member);
+
+          return {
+            id: member.id,
+            name: member.name,
+            email: member.email,
+            role: member.role,
+            status: member.status,
+            createdAt: new Date(member.createdAt)
+          };
+        });
+
+        const ownerMember = {
+          id: userSettings!.id,
+          name: userSettings!.name,
+          email: userSettings!.email,
+          role: Role.OWNER,
+          status: Status.ACTIVE,
+          createdAt: userSettings!.createdAt
+        };
+        setMembers([ownerMember, ...newMembers] as unknown as Member[]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [client, userSettings]);
 
   const handleOnUserSettingsSave = (name: string, password: string) => {
     const currentUserSettings = userSettings;
@@ -119,9 +156,17 @@ function SettingsContainer() {
       });
   };
 
-  const handleOnMemberDelete = () => {};
+  const handleOnMemberDelete = (id: string) => {
+    console.log("delete = ", id);
+  };
 
-  const handleOnInvite = () => {};
+  const handleOnInvite = (info: InviteInfo) => {
+    console.log("invite", { info });
+  };
+
+  const handleResendInvite = (id: string) => {
+    console.log("resend invite", { id });
+  }
 
   const handleOnSectionChange = (section: HBarSection) => {
     switch (section) {
@@ -143,12 +188,13 @@ function SettingsContainer() {
       <SettingsPage
         workspaceId={workspaceId!}
         currentSection={currentSection}
-        members={[]}
+        members={members}
         userSettings={userSettings}
         workspaceSettings={workspaceSettings}
         onSignOut={signOut}
         onMemberDelete={handleOnMemberDelete}
         onInvite={handleOnInvite}
+        onResendInvite={handleResendInvite}
         onUserSettingsSave={handleOnUserSettingsSave}
         onWorkspaceSettingsSave={handleOnWorkspaceSettingsSave}
         onSectionChange={handleOnSectionChange}

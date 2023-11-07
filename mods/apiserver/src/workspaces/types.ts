@@ -128,11 +128,24 @@ export type WorkspaceStatus = {
   online: boolean;
 };
 
+export enum WorkspaceMemberStatus {
+  ACTIVE,
+  PENDING
+}
+
+export enum WorkspaceMemberRole {
+  OWNER,
+  ADMIN,
+  MEMBER
+}
+
 export type Member = {
-  userId: string;
+  id: string;
   name: string;
-  status: string;
-  avatar: string;
+  email: string;
+  role: WorkspaceMemberRole;
+  status: WorkspaceMemberStatus;
+  createdAt: Date;
 };
 
 export type QueueEntry = {

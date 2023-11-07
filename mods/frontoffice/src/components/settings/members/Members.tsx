@@ -16,14 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { InviteInfo, Member, Status } from "./types";
+import { InviteInfo, Member, Role, Status } from "./types";
 import { Delete as DeleteIcon, Email as EmailIcon } from "@mui/icons-material";
 import { Invite } from "../invite/Invite";
 import {
   Box,
   IconButton,
   Modal,
-  Paper,
   TableBody,
   TableHead,
   TableRow
@@ -40,10 +39,10 @@ import {
 import React from "react";
 
 type MembersProps = {
-  data?: Member[];
-  onDelete?: (id: string) => void;
-  onResend?: (id: string) => void;
-  onInvite?: (info: InviteInfo) => void;
+  data: Member[];
+  onDelete: (id: string) => void;
+  onResend: (id: string) => void;
+  onInvite: (info: InviteInfo) => void;
 };
 
 export const Members: React.FC<MembersProps> = ({
@@ -53,6 +52,24 @@ export const Members: React.FC<MembersProps> = ({
   data = []
 }) => {
   const [inviteOpen, setInviteOpen] = React.useState(false);
+
+  // Sort data so that OWNER is always first
+  const sorterdData = data.sort((a, b) => {
+    if (a.role === "OWNER") return -1;
+    if (b.role === "OWNER") return 1;
+    return 0;
+  });
+
+  function roleToHumanReadable(role: Role) {
+    switch (role) {
+      case Role.OWNER:
+        return "Owner";
+      case Role.ADMIN:
+        return "Admin";
+      case Role.MEMBER:
+        return "Member";
+    }
+  }
 
   return (
     <>
@@ -70,7 +87,7 @@ export const Members: React.FC<MembersProps> = ({
         </StyledLink>
       </Box>
       <StyledBox sx={{ p: 2, backgroundColor: "#FFFFFF" }}>
-        <StyledTableContainer component={Paper}>
+        <StyledTableContainer>
           <StyledTable aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -83,7 +100,7 @@ export const Members: React.FC<MembersProps> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row) => (
+              {sorterdData.map((row) => (
                 <TableRow
                   key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -92,7 +109,7 @@ export const Members: React.FC<MembersProps> = ({
                     {row.name}
                   </StyledTableCell>
                   <StyledTableCell>{row.email}</StyledTableCell>
-                  <StyledTableCell>{row.role}</StyledTableCell>
+                  <StyledTableCell>{roleToHumanReadable(row.role)}</StyledTableCell>
                   <StyledTableCell>
                     {row.createdAt.toDateString()}
                   </StyledTableCell>
@@ -106,12 +123,15 @@ export const Members: React.FC<MembersProps> = ({
                         <EmailIcon />
                       </IconButton>
                     )}
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => onDelete && onDelete(row.id)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+
+                    {row.role !== "OWNER" &&
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => onDelete && onDelete(row.id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    }
                   </StyledTableCell>
                 </TableRow>
               ))}
