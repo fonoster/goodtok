@@ -86,8 +86,8 @@ function SettingsContainer() {
 
     users
       .updateUser({
-        id: client.getCurrentUserId(),
-        name: name
+        name: name,
+        password: password
       })
       .then(() => {
         setUserSettings({

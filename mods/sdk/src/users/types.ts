@@ -24,13 +24,7 @@ export type UsersClient = {
   updateUser: (request: UpdateUserRequest) => Promise<UpdateUserResponse>;
 };
 
-export type UpdateUserRequest = {
-  id: string;
-  name?: string;
-  username?: string;
-  email?: string;
-  avatar?: string;
-};
+export type UpdateUserRequest = Omit<Partial<User>, "id" | "createdAt">;
 
 export type UpdateUserResponse = {
   id: string;

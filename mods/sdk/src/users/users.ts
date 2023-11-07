@@ -123,7 +123,6 @@ export default class Users extends AbstractBaseClient implements UsersClient {
    */
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
     const { id } = await this.trpc.users.updateUser.mutate({
-      id: request.id,
       data: request
     });
     return { id };

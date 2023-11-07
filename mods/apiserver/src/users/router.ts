@@ -40,8 +40,6 @@ export const usersRouter = router({
     .query(({ ctx, input }) => getUserById(ctx, { id: input })),
 
   updateUser: protectedProcedure
-    .input(z.object({ id: z.string(), data: z.any() }))
-    .mutation(({ ctx, input }) =>
-      updateUser(ctx, { id: input.id, data: input.data })
-    )
+    .input(z.object({ data: z.any() }))
+    .mutation(({ ctx, input }) => updateUser(ctx, { data: input.data }))
 });

@@ -25,17 +25,17 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function updateUser(
   ctx: Context,
-  request: { id: string; data: Partial<User> }
+  request: { data: Partial<User> }
 ): Promise<User> {
-  const { id, data } = request;
+  const { data } = request;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password, ...rest } = data;
 
-  logger.verbose(`updating user with id ${id}`, { rest });
+  logger.verbose("updating user", { id: ctx.userId });
 
   const userFromDB = await ctx.prisma.user.findUnique({
     where: {
-      id
+      id: ctx.userId
     }
   });
 
@@ -43,10 +43,11 @@ export async function updateUser(
 
   const updatedUser = await ctx.prisma.user.update({
     where: {
-      id
+      id: ctx.userId
     },
     data: {
       ...data,
+      password: password ? password : userFromDB.password,
       updatedAt: new Date()
     }
   });
