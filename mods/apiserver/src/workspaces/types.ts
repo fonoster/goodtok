@@ -26,106 +26,58 @@ export const updateWorkspaceSchema = z.object({
   id: z.string(),
   name: z.string().optional(),
   timezone: z.string().optional(),
+  calendarUrl: z.string().optional(),
   status: z
     .enum([WorkspaceStatusFromPrisma.ONLINE, WorkspaceStatusFromPrisma.OFFLINE])
     .optional(),
   shopifyAccount: z
     .object({
       storeDomain: z.string().min(1).optional(),
-      accessToken: z.string().min(1).optional()
+      accessToken: z.string()
     })
     .optional(),
   hoursOfOperation: z
     .object({
       Monday: z
         .object({
-          enabled: z.boolean().optional(),
-          hours: z
-            .array(
-              z.object({
-                start: z.string().optional(),
-                end: z.string().optional()
-              })
-            )
-            .optional()
+          from: z.string().optional(),
+          to: z.string().optional()
         })
         .optional(),
       Tuesday: z
         .object({
-          enabled: z.boolean().optional(),
-          hours: z
-            .array(
-              z.object({
-                start: z.string().optional(),
-                end: z.string().optional()
-              })
-            )
-            .optional()
+          from: z.string().optional(),
+          to: z.string().optional()
         })
         .optional(),
       Wednesday: z
         .object({
-          enabled: z.boolean().optional(),
-          hours: z
-            .array(
-              z.object({
-                start: z.string().optional(),
-                end: z.string().optional()
-              })
-            )
-            .optional()
+          from: z.string().optional(),
+          to: z.string().optional()
         })
         .optional(),
       Thursday: z
         .object({
-          enabled: z.boolean().optional(),
-          hours: z
-            .array(
-              z.object({
-                start: z.string().optional(),
-                end: z.string().optional()
-              })
-            )
-            .optional()
+          from: z.string().optional(),
+          to: z.string().optional()
         })
         .optional(),
       Friday: z
         .object({
-          enabled: z.boolean().optional(),
-          hours: z
-            .array(
-              z.object({
-                start: z.string().optional(),
-                end: z.string().optional()
-              })
-            )
-            .optional()
+          from: z.string().optional(),
+          to: z.string().optional()
         })
         .optional(),
       Saturday: z
         .object({
-          enabled: z.boolean().optional(),
-          hours: z
-            .array(
-              z.object({
-                start: z.string().optional(),
-                end: z.string().optional()
-              })
-            )
-            .optional()
+          from: z.string().optional(),
+          to: z.string().optional()
         })
         .optional(),
       Sunday: z
         .object({
-          enabled: z.boolean().optional(),
-          hours: z
-            .array(
-              z.object({
-                start: z.string().optional(),
-                end: z.string().optional()
-              })
-            )
-            .optional()
+          from: z.string().optional(),
+          to: z.string().optional()
         })
         .optional()
     })
@@ -145,12 +97,7 @@ export const createWorkspaceSchema = updateWorkspaceSchema
       .required()
   );
 
-export type DayPreferences = {
-  enabled: boolean;
-  hours: { start: string; end: string }[];
-};
-
-export enum Days {
+export enum Day {
   Monday = "Monday",
   Tuesday = "Tuesday",
   Wednesday = "Wednesday",
@@ -161,7 +108,7 @@ export enum Days {
 }
 
 export type WeeklyHoursType = {
-  [key in Days]: DayPreferences;
+  [key in Day]: { from: string; to: string };
 };
 
 export type Workspace = {

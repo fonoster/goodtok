@@ -16,37 +16,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { WeeklyHoursType, Day } from "@goodtok/sdk";
 import { Box, Typography } from "@mui/material";
 import { TextField } from "../../textfield/TextField";
 import { StyledBox, SettingsTitle } from "./WorkspaceSettingsStyles";
 import { Button } from "../../button/Button";
 import { Select } from "../../select/Select";
 import { timezones } from "../../../utils/timezones";
+import { WorkspaceSettingsType } from "./types";
 import React, { useState } from "react";
+
+type HoursOfOperationErrors = {
+  [day: string]: {
+    from: boolean;
+    to: boolean;
+  };
+};
 
 type WorkspaceSettingsProps = {
   initialName: string;
   initialTimezone: string;
   initialShopifyStoreUrl: string;
   initialCalendarUrl: string;
-  initialSchedule: WeekdaySchedule;
-  onSave?: (settings: Settings) => void;
-};
-
-type WeekdaySchedule = {
-  [day: string]: {
-    from: string | boolean;
-    to: string | boolean;
-  };
-};
-
-type Settings = {
-  name: string;
-  timezone: string;
-  shopifyStoreUrl: string;
-  shopifyStoreAPIkey: string;
-  calendarUrl: string;
-  schedule: WeekdaySchedule;
+  initialHoursOfOperation: WeeklyHoursType;
+  onSave?: (settings: WorkspaceSettingsType) => void;
 };
 
 export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
@@ -54,7 +47,7 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   initialTimezone,
   initialCalendarUrl,
   initialShopifyStoreUrl,
-  initialSchedule,
+  initialHoursOfOperation,
   onSave
 }) => {
   const [name, setName] = useState(initialName);
@@ -64,7 +57,24 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   const [shopifyStoreUrl, setShopifyStoreUrl] = useState(
     initialShopifyStoreUrl
   );
-  const [schedule, setSchedule] = useState<WeekdaySchedule>(initialSchedule);
+  const [hoursOfOperation, setHoursOfOperation] = useState(
+    initialHoursOfOperation
+  );
+
+  const orderedDays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ];
+
+  // Sort the hours of operation by the correct order of days
+  const sortedHours = Object.entries(hoursOfOperation).sort(
+    ([day1], [day2]) => orderedDays.indexOf(day1) - orderedDays.indexOf(day2)
+  );
 
   const handleSave = () => {
     onSave &&
@@ -74,12 +84,12 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
         calendarUrl,
         shopifyStoreUrl,
         shopifyStoreAPIkey,
-        schedule
+        hoursOfOperation
       });
   };
 
-  const [scheduleErrors, setScheduleErrors] = useState<WeekdaySchedule>(
-    Object.keys(initialSchedule).reduce(
+  const [scheduleErrors, setScheduleErrors] = useState<HoursOfOperationErrors>(
+    Object.keys(initialHoursOfOperation).reduce(
       (acc, day) => ({
         ...acc,
         [day]: { from: false, to: false }
@@ -91,8 +101,8 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   // Function to check if 'from' time is before 'to' time
   const isValidTimeRange = (from: string, to: string) => {
     if (from === "" && to === "") return true; // If both are empty, consider it valid
-    const [fromHours, fromMinutes] = from.split(":").map(Number);
-    const [toHours, toMinutes] = to.split(":").map(Number);
+    const [fromHours, fromMinutes] = from?.split(":").map(Number) || [0, 0];
+    const [toHours, toMinutes] = to?.split(":").map(Number) || [0, 0];
     return (
       new Date(0, 0, 0, fromHours, fromMinutes) <
       new Date(0, 0, 0, toHours, toMinutes)
@@ -100,21 +110,18 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   };
 
   const handleScheduleChange = (
-    day: string,
+    day: Day,
     type: "from" | "to",
     value: string
   ) => {
     const updatedTimes = {
-      ...schedule[day],
+      ...hoursOfOperation[day],
       [type]: value
     };
 
-    const timesAreValid = isValidTimeRange(
-      updatedTimes.from as string,
-      updatedTimes.to as string
-    );
+    const timesAreValid = isValidTimeRange(updatedTimes.from, updatedTimes.to);
 
-    setSchedule((prev) => ({
+    setHoursOfOperation((prev) => ({
       ...prev,
       [day]: updatedTimes
     }));
@@ -173,7 +180,7 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
 
       <SettingsTitle sx={{ mt: 4 }}>Hours of Operation</SettingsTitle>
       <StyledBox sx={{ pb: 1 }}>
-        {Object.entries(schedule).map(([day, times]) => (
+        {sortedHours.map(([day, times]) => (
           <Box key={day} display="flex">
             <Typography
               variant="body1"
@@ -185,12 +192,12 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
               <TextField
                 label="From"
                 type="time"
-                value={times.from as string}
+                value={times.from}
                 onChange={(e) =>
-                  handleScheduleChange(day, "from", e.target.value)
+                  handleScheduleChange(day as Day, "from", e.target.value)
                 }
                 sx={{ marginRight: "8px" }}
-                error={scheduleErrors[day].from as boolean}
+                error={!!scheduleErrors[day]?.from}
               />
               <Typography variant="body2" sx={{ marginX: "10px" }}>
                 -
@@ -198,12 +205,12 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
               <TextField
                 label="To"
                 type="time"
-                value={times.to as string}
+                value={times.to}
                 onChange={(e) =>
-                  handleScheduleChange(day, "to", e.target.value)
+                  handleScheduleChange(day as Day, "to", e.target.value)
                 }
                 sx={{ marginLeft: "8px" }}
-                error={scheduleErrors[day].to as boolean}
+                error={!!scheduleErrors[day]?.to}
               />
             </Box>
           </Box>

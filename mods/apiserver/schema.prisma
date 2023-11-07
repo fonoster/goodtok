@@ -59,10 +59,10 @@ model User {
 // The hours of operations field for the workspace holds the following structure:
 // 
 // {
-//   Sunday: { enabled: false, hours: [{start: "09:00", end: "17:00" }] },
-//   Monday: { enabled: false, hours: [{ start: "09:00", end: "17:00" }] },
-//   Tuesday: { enabled: false, hours: [{ start: "09:00", end: "17:00" }] }
+//   Sunday: { from: "09:00", to: "17:00" },
+//   Monday: { from: "09:00", to: "17:00" },
 //   ...
+//   Saturday: { } // Denotes that the workspace is closed on Saturday
 // }
 model Workspace {
   id               String          @id @default(uuid())

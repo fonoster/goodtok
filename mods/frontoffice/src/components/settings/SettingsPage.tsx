@@ -16,10 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  UserSettings as UserSettingsType,
-  WorkspaceSettings as WorkspaceSettingsType
-} from "./types";
 import { AppBar } from "../appbar/AppBar";
 import { Box } from "@mui/material";
 import { HBar } from "./hbar/HBar";
@@ -28,6 +24,8 @@ import { HBarSection } from "./hbar/types";
 import { WorkspaceSettings } from "./workspace/WorkspaceSettings";
 import { Members } from "./members/Members";
 import { InviteInfo, Member } from "./members/types";
+import { WorkspaceSettingsType } from "./workspace/types";
+import { UserSettingsType } from "./user/types";
 import React from "react";
 
 type SettingsPageProps = {
@@ -99,7 +97,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             initialTimezone={workspaceSettings.timezone}
             initialShopifyStoreUrl={workspaceSettings.shopifyStoreUrl}
             initialCalendarUrl={workspaceSettings.calendarUrl}
-            initialSchedule={workspaceSettings.schedule}
+            initialHoursOfOperation={workspaceSettings.hoursOfOperation}
             onSave={(
               settings: WorkspaceSettingsType & { shopifyStoreAPIkey: string }
             ) => onWorkspaceSettingsSave && onWorkspaceSettingsSave(settings)}

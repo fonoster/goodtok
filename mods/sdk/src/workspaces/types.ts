@@ -19,14 +19,13 @@
 import type {
   Member,
   QueueEntry,
-  DayPreferences,
   WeeklyHoursType,
   Workspace,
   WorkspaceStatus,
   UpdateWorkspaceRequest,
   GetMembersResponse,
   GetQueueResponse,
-  Days,
+  Day,
   CreateWorkspaceRequest
 } from "@goodtok/apiserver";
 
@@ -51,4 +50,4 @@ export type WorkspacesClient = {
   ) => void;
 };
 
-export { Member, QueueEntry, Days, WeeklyHoursType, DayPreferences, Workspace };
+export { Member, QueueEntry, Day, WeeklyHoursType, Workspace };

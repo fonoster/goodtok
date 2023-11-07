@@ -36,14 +36,14 @@ export async function createWorkspace(
     timezone: request.timezone,
     status: request.status,
     calendarUrl: request.calendarUrl,
-    hoursOfOperation: request.hoursOfOperation || {
-      Monday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
-      Tuesday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
-      Wednesday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
-      Thursday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
-      Friday: { hours: [{ start: "09:00", end: "17:00" }], enabled: true },
-      Saturday: { hours: [], enabled: false },
-      Sunday: { hours: [], enabled: false }
+    hoursOfOperation: request?.hoursOfOperation || {
+      Monday: { from: "09:00", to: "17:00" },
+      Tuesday: { from: "09:00", to: "17:00" },
+      Wednesday: { from: "09:00", to: "17:00" },
+      Thursday: { from: "09:00", to: "17:00" },
+      Friday: { from: "09:00", to: "17:00" },
+      Saturday: {},
+      Sunday: {}
     },
     shopifyAccount: {}
   };

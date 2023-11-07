@@ -3,13 +3,14 @@ import { useAuth } from "~authentication";
 import { SettingsPage } from "~components/settings/SettingsPage";
 import { HBarSection } from "~components/settings/hbar/types";
 import { useParams } from "react-router-dom";
-import { UserSettings, WorkspaceSettings } from "~components/settings/types";
+import { UserSettingsType } from "~components/settings/user/types";
+import { WorkspaceSettingsType } from "~components/settings/workspace/types";
 import React, { useEffect } from "react";
 
 function SettingsContainer() {
-  const [userSettings, setUserSettings] = React.useState<UserSettings>();
+  const [userSettings, setUserSettings] = React.useState<UserSettingsType>();
   const [workspaceSettings, setWorkspaceSettings] =
-    React.useState<WorkspaceSettings>();
+    React.useState<WorkspaceSettingsType>();
 
   const { id: workspaceId, section } = useParams();
   let hbarSection = HBarSection.PERSONAL_SETTINGS;
@@ -61,28 +62,12 @@ function SettingsContainer() {
     workspaces
       .getWorkspaceById(workspaceId!)
       .then((workspace) => {
-        let schedule = {} as WorkspaceSettings["schedule"];
-        Object.entries(workspace.hoursOfOperation).forEach(([key, value]) => {
-          console.log(key, value);
-          const dayKey = key.toLowerCase();
-
-          // For now, we only support one set of hours per day
-          if (!value.hours || value.hours.length === 0) {
-            schedule[dayKey] = { from: "", to: "" };
-            return;
-          }
-
-          const from = value.hours[0].start;
-          const to = value.hours[0].end;
-          schedule[dayKey] = { from, to };
-        });
-
         setWorkspaceSettings({
           name: workspace.name,
           timezone: workspace.timezone,
           shopifyStoreUrl: workspace.shopifyAccount?.storeDomain!,
           calendarUrl: workspace.calendarUrl,
-          schedule
+          hoursOfOperation: workspace.hoursOfOperation
         });
       })
       .catch((err) => {
@@ -110,7 +95,7 @@ function SettingsContainer() {
       });
   };
 
-  const handleOnWorkspaceSettingsSave = (settings: WorkspaceSettings) => {
+  const handleOnWorkspaceSettingsSave = (settings: WorkspaceSettingsType) => {
     const workspaces = new SDK.Workspaces(client!);
     workspaces
       .updateWorkspace({
@@ -119,9 +104,10 @@ function SettingsContainer() {
         timezone: settings.timezone!,
         shopifyAccount: {
           storeDomain: settings.shopifyStoreUrl!,
-          accessToken: settings.shopifyStoreUrl!
-        }
-        // calendarUrl: settings.calendarUrl!
+          accessToken: settings.shopifyStoreAPIkey!
+        },
+        calendarUrl: settings.calendarUrl!,
+        hoursOfOperation: settings.hoursOfOperation!
       })
       .then(() => {
         console.log("updated workspace");

@@ -63,34 +63,13 @@ async function main() {
         }
       } : undefined,
       hoursOfOperation: {
-        Monday: {
-          enabled: false,
-          hours: []
-        },
-        Tuesday: {
-          enabled: false,
-          hours: []
-        },
-        Wednesday: {
-          enabled: false,
-          hours: []
-        },
-        Thursday: {
-          enabled: false,
-          hours: []
-        },
-        Friday: {
-          enabled: false,
-          hours: []
-        },
-        Saturday: {
-          enabled: false,
-          hours: []
-        },
-        Sunday: {
-          enabled: true,
-          hours: []
-        }
+        Monday: { from: "09:00", to: "17:00" },
+        Tuesday: { from: "09:00", to: "17:00" },
+        Wednesday: { from: "09:00", to: "17:00" },
+        Thursday: { from: "09:00", to: "17:00" },
+        Friday: { from: "09:00", to: "17:00" },
+        Saturday: {},
+        Sunday: {}
       }
     },
   });

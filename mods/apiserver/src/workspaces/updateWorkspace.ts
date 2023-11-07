@@ -34,6 +34,7 @@ export async function updateWorkspace(
     id: request.id,
     name: request.name,
     timezone: request.timezone,
+    calendarUrl: request.calendarUrl,
     status: request.status,
     hoursOfOperation: request.hoursOfOperation,
     shopifyAccount: {}
@@ -54,16 +55,18 @@ export async function updateWorkspace(
           workspaceId: request.id
         },
         update: {
-          accessToken: request.shopifyAccount.accessToken,
           storeDomain: request.shopifyAccount.storeDomain,
+          accessToken:
+            request.shopifyAccount.accessToken ||
+            existingShopifyAccount.accessToken,
           updatedAt: new Date()
         }
       };
     } else {
       updateData.shopifyAccount = {
         create: {
-          accessToken: request.shopifyAccount.accessToken,
-          storeDomain: request.shopifyAccount.storeDomain
+          storeDomain: request.shopifyAccount.storeDomain,
+          accessToken: request.shopifyAccount.accessToken
         }
       };
     }
