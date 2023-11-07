@@ -121,13 +121,13 @@ function SettingsContainer() {
   const handleOnSectionChange = (section: HBarSection) => {
     switch (section) {
       case HBarSection.PERSONAL_SETTINGS:
-        window.location.href = `/settings/personal`;
+        window.location.href = `/workspace/${workspaceId}/settings/personal`;
         break;
       case HBarSection.WORKSPACE_SETTINGS:
-        window.location.href = `/settings/workspace`;
+        window.location.href = `/workspace/${workspaceId}/settings/workspace`;
         break;
       case HBarSection.MEMBERS:
-        window.location.href = `/settings/members`;
+        window.location.href = `/workspace/${workspaceId}/settings/members`;
         break;
     }
   };
