@@ -19,7 +19,7 @@ services:
       dockerfile: ./mods/apiserver/Dockerfile
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      SIGNALING_SERVER: ${SIGNALING_SERVER}
+      SIP_SIGNALING_SERVER: ${SIP_SIGNALING_SERVER}
       SIP_DOMAIN: ${SIP_DOMAIN}
       NATS_URL: nats:4222
       LOGS_LEVEL: ${LOGS_LEVEL}

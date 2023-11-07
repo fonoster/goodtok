@@ -32,12 +32,18 @@ function SettingsContainer() {
 
   const [currentSection] = React.useState<HBarSection>(hbarSection);
 
-  const { client, signOut } = useAuth();
+  const { client, signOut, isSignedIn } = useAuth();
 
   if (!client) {
     signOut();
     return;
   }
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      window.location.href = "/login";
+    }
+  });
 
   useEffect(() => {
     const users = new SDK.Users(client!);
