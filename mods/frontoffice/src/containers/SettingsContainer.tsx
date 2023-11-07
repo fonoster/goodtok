@@ -44,7 +44,6 @@ function SettingsContainer() {
     users
       .getCurrentUser()
       .then((user) => {
-        console.log(user);
         setUserSettings({
           name: user.name,
           email: user.email,
@@ -53,7 +52,7 @@ function SettingsContainer() {
       })
       .catch((err) => {
         // TODO: Handle error
-        console.log(err);
+        console.error(err);
       });
   }, [client]);
 

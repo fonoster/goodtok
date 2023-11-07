@@ -17,5 +17,5 @@
  * limitations under the License.
  */
 export function getFirstname(name: string) {
-  return name.split(' ')[0];
+  return name.split(" ")[0];
 }

@@ -59,7 +59,7 @@ function HomeContainer() {
         setWorkspaces(workspacesList);
       })
       .catch((err) => {
-        console.log({ err });
+        console.error({ err });
       });
   }, [client]);
 

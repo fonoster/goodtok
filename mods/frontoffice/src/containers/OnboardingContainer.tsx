@@ -46,7 +46,7 @@ function OnboardingContainer() {
       })
       .catch((err) => {
         // TODO: Handle error
-        console.log({ err });
+        console.error({ err });
       });
   };
 

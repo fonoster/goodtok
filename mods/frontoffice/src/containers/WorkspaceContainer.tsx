@@ -81,7 +81,7 @@ function WorkspaceContainer() {
         setPeopleList(response.queue.map((entry: any) => mapQueueEntry(entry)));
       })
       .catch((err: any) => {
-        console.log({ err });
+        console.error({ err });
         // TODO: Handle error
       });
 
