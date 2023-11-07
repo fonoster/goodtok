@@ -125,6 +125,7 @@ function WorkspaceContainer() {
 
   return (
     <QueuePage
+      workspaceId={workspaceId!}
       userName={name}
       avatar={avatar}
       storeURL={storeURL}

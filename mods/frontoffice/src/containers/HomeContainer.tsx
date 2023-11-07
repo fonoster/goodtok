@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 function HomeContainer() {
   const [name, setName] = React.useState("");
   const [avatar, setAvatar] = React.useState("");
+  const [defaultWorkspaceId, setDefaultWorkspaceId] = React.useState<string>();
   const [workspaces, setWorkspaces] = React.useState<
     Array<{
       id: string;
@@ -22,6 +23,8 @@ function HomeContainer() {
   }
 
   useEffect(() => {
+    setDefaultWorkspaceId(client.getDefaultWorkspaceId());
+
     const users = new SDK.Users(client);
     users
       .getCurrentUser()
@@ -70,6 +73,7 @@ function HomeContainer() {
 
   return (
     <HomePage
+      workspaceId={defaultWorkspaceId!}
       isAuthenticated={true}
       avatar={avatar}
       userName={name}

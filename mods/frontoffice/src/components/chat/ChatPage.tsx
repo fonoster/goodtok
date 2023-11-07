@@ -25,6 +25,7 @@ import React, { useEffect, useRef } from "react";
 import Video from "./video/Video";
 
 type ChatPageProps = {
+  workspaceId: string;
   userName: string;
   avatar: string;
   isAuthenticated: boolean;
@@ -43,6 +44,7 @@ type ChatPageProps = {
 };
 
 export const ChatPage: React.FC<ChatPageProps> = ({
+  workspaceId,
   userName,
   avatar,
   isAuthenticated,
@@ -81,6 +83,7 @@ export const ChatPage: React.FC<ChatPageProps> = ({
       }}
     >
       <AppBar
+        workspaceId={workspaceId}
         isAuthenticated={isAuthenticated}
         userName={userName}
         avatar={avatar}

@@ -31,7 +31,14 @@ export const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
 }) => {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
-      <AppBar />
+      <AppBar
+        workspaceId=""
+        userName=""
+        avatar=""
+        // This will hide the avatar and its menu
+        isAuthenticated={false}
+        onSignOut={() => {}}
+      />
       <Box
         flexGrow={1}
         display="flex"

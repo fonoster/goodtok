@@ -28,6 +28,7 @@ import {
 import React from "react";
 
 type HomePageProps = {
+  workspaceId: string;
   userName: string;
   avatar: string;
   isAuthenticated: boolean;
@@ -47,6 +48,7 @@ type HomePageProps = {
 };
 
 export const HomePage: React.FC<HomePageProps> = ({
+  workspaceId,
   userName,
   avatar,
   isAuthenticated,
@@ -66,11 +68,13 @@ export const HomePage: React.FC<HomePageProps> = ({
       }}
     >
       <AppBar
+        workspaceId={workspaceId}
         isAuthenticated={isAuthenticated}
         avatar={avatar}
         userName={userName}
         onSignOut={onSignOut}
       />
+
       <StyledHomePageTitle sx={{ mt: 10 }}>
         Hey {userName}, welcome to Goodtok 👋
       </StyledHomePageTitle>

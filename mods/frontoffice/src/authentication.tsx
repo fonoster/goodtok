@@ -1,3 +1,5 @@
+import * as SDK from "@goodtok/sdk";
+import { getDefaultWorkspaceId } from "~utils/getDefaultWorkspaceId";
 import React, {
   createContext,
   useContext,
@@ -5,8 +7,6 @@ import React, {
   useEffect,
   ReactNode
 } from "react";
-
-import * as SDK from "@goodtok/sdk";
 
 // TODO: Fix this hardcoded value
 const API_ENDPOINT = "http://localhost:6789/v1";
@@ -39,10 +39,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const [client, setClient] = useState(() => {
     const accessToken = localStorage.getItem("accessToken");
+
     if (accessToken) {
       const client = new SDK.Client({
         endpoint: API_ENDPOINT,
-        workspace: "placeholder"
+        workspace: getDefaultWorkspaceId(accessToken)
       });
       client.setToken(accessToken);
       return client;
@@ -52,11 +53,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const signIn = async (username: string, password: string) => {
     const client = new SDK.Client({
-      endpoint: API_ENDPOINT,
-      workspace: "placeholder"
+      endpoint: API_ENDPOINT
     });
 
     await client.login(username, password);
+
+    const defaultWorkspaceId = getDefaultWorkspaceId(client.getToken());
+    client.setDefaultWorkspaceId(defaultWorkspaceId);
+
     setClient(client);
     setIsLoggedIn(true);
 

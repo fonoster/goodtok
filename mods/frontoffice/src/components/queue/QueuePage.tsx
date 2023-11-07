@@ -23,6 +23,7 @@ import { CustomerData, QueueList } from "./list/QueueList";
 import React from "react";
 
 type QueuePageProps = {
+  workspaceId: string;
   userName: string;
   avatar: string;
   isAuthenticated: boolean;
@@ -37,6 +38,7 @@ type QueuePageProps = {
 };
 
 export const QueuePage: React.FC<QueuePageProps> = ({
+  workspaceId,
   userName,
   avatar,
   isAuthenticated,
@@ -60,6 +62,7 @@ export const QueuePage: React.FC<QueuePageProps> = ({
       sx={{ backgroundColor: "#F5F5F5", height: "100%", minHeight: "100vh" }}
     >
       <AppBar
+        workspaceId={workspaceId}
         isAuthenticated={isAuthenticated}
         userName={userName}
         avatar={avatar}

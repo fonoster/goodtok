@@ -52,7 +52,14 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
 
   return (
     <Box {...props} display="flex" flexDirection="column" minHeight="100vh">
-      <AppBar />
+      <AppBar
+        workspaceId=""
+        userName=""
+        avatar=""
+        // This will hide the avatar and its menu
+        isAuthenticated={false}
+        onSignOut={() => {}}
+      />
       <Box
         sx={{ pt: 5, display: "flex", justifyContent: "center" }}
         minWidth="100%"

@@ -136,6 +136,7 @@ function SettingsContainer() {
     userSettings &&
     workspaceSettings && (
       <SettingsPage
+        workspaceId={workspaceId!}
         currentSection={currentSection}
         members={[]}
         userSettings={userSettings}

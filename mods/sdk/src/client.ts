@@ -26,8 +26,10 @@ export default class Client {
   private options: ClientOptions;
   private token: string;
   private currentUserId: string;
+  private defaultWorkspaceId: string;
   constructor(options: ClientOptions) {
     this.options = options;
+    this.defaultWorkspaceId = options.workspace;
     if (!options.endpoint) {
       // Default to the public API :)
       this.options.endpoint = "https://api.goodtok.io/v1";
@@ -75,8 +77,12 @@ export default class Client {
     return this.options.endpoint;
   }
 
+  setDefaultWorkspaceId(workspaceId: string) {
+    this.defaultWorkspaceId = workspaceId;
+  }
+
   getDefaultWorkspaceId() {
-    return this.options.workspace;
+    return this.defaultWorkspaceId;
   }
 
   getCurrentUserId() {

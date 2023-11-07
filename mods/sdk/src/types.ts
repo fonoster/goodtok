@@ -18,5 +18,5 @@
  */
 export type ClientOptions = {
   endpoint?: string;
-  workspace: string;
+  workspace?: string;
 };

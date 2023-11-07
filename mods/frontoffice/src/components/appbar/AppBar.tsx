@@ -29,6 +29,7 @@ import {
 import React from "react";
 
 type AppBarProps = {
+  workspaceId: string;
   userName: string;
   avatar: string;
   isAuthenticated: boolean;
@@ -36,6 +37,7 @@ type AppBarProps = {
 };
 
 export const AppBar: React.FC<AppBarProps> = ({
+  workspaceId,
   userName,
   avatar,
   isAuthenticated = false,
@@ -53,15 +55,15 @@ export const AppBar: React.FC<AppBarProps> = ({
   };
 
   const handleOnPersonalSettingsSelect = () => {
-    window.location.href = "/settings/personal";
+    window.location.href = `/workspace/${workspaceId}/settings/personal`;
   };
 
   const handleOnWorkspaceSettingsSelect = () => {
-    window.location.href = "/settings/workspace";
+    window.location.href = `/workspace/${workspaceId}/settings/workspace`;
   };
 
   const handleOnWorkspaceMembersSelect = () => {
-    window.location.href = "/settings/members";
+    window.location.href = `/workspace/${workspaceId}/settings/members`;
   };
 
   const handleOnDocumentationSelect = () => {

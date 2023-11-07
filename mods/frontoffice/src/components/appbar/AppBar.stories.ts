@@ -63,6 +63,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const BasicAppBar: Story = {
   args: {
+    workspaceId: "1",
     userName: "Jane",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
     isAuthenticated: false
@@ -74,6 +75,7 @@ export const BasicAppBar: Story = {
  */
 export const AuthenticatedAppBar: Story = {
   args: {
+    workspaceId: "1",
     userName: "Jane",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
     isAuthenticated: true

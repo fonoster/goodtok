@@ -150,6 +150,7 @@ function ChatContainer() {
 
   return (
     <ChatPage
+      workspaceId={workspaceId!}
       userName={name}
       avatar={avatar}
       customerProfile={customerProfile!}

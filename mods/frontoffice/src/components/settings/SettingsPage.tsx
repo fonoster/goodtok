@@ -29,6 +29,7 @@ import { UserSettingsType } from "./user/types";
 import React from "react";
 
 type SettingsPageProps = {
+  workspaceId: string;
   members: Member[];
   userSettings: UserSettingsType;
   workspaceSettings: WorkspaceSettingsType;
@@ -44,6 +45,7 @@ type SettingsPageProps = {
 };
 
 export const SettingsPage: React.FC<SettingsPageProps> = ({
+  workspaceId,
   userSettings,
   workspaceSettings,
   members,
@@ -59,6 +61,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   return (
     <Box {...props} sx={{ background: "#F5F5F5", minHeight: "100vh" }}>
       <AppBar
+        workspaceId={workspaceId}
         isAuthenticated={true}
         userName={userSettings.name || ""}
         avatar={userSettings.avatarUrl}
