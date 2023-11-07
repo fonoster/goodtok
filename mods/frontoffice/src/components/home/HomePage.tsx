@@ -85,7 +85,15 @@ export const HomePage: React.FC<HomePageProps> = ({
         </StyledHomePageSubTitle>
         <StyleHomePageDescription sx={{ mt: 2, mb: 1 }}>
           Create a new workspace or use an existing one to begin interacting
-          your customer now. <StyledLink>Learn more</StyledLink> <ExternalLinkIcon />
+          your customer now.{" "}
+          <StyledLink
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://docs.goodtok.io"
+          >
+            Learn more
+          </StyledLink>{" "}
+          <ExternalLinkIcon />
         </StyleHomePageDescription>
       </Box>
 

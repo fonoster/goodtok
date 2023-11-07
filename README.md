@@ -57,15 +57,11 @@ Then, create a `.env` file with the following content:
 
 ```bash
 EXTERNAL_ADDRS=${YOUR DOCKER HOST IP}
+SIP_DOMAIN=sip.local
+SIP_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
-NATS_URL=nats:4222
-NATS_PUBLISHER_URL=nats:4222
-NATS_PUBLISHER_ENABLED=true
-CONNECT_VERIFIER_PUBLIC_KEY_PATH=/keys/public.key
-SIP_DOMAIN=sip.local
-SIP_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
 ```
 
 Next, run the following command to start the application:

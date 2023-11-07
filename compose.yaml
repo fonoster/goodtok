@@ -5,18 +5,18 @@ services:
   frontoffice:
     image: fonoster/goodtok-frontoffice:latest
     environment:
-      - LOGS_LEVEL
+      LOGS_LEVEL: ${LOGS_LEVEL}
     ports:
       - 8080:8080
 
   apiserver:
     image: fonoster/goodtok-apiserver:latest
     environment:
-      - LOGS_LEVEL
-      - NATS_URL
-      - SIP_SIGNALING_SERVER
-      - SIP_DOMAIN
-      - DATABASE_URL
+      SIP_SIGNALING_SERVER: ${SIP_SIGNALING_SERVER}
+      SIP_DOMAIN: ${SIP_DOMAIN}
+      DATABASE_URL: ${DATABASE_URL}
+      NATS_URL: nats:4222
+      LOGS_LEVEL: ${LOGS_LEVEL}
     ports:
       - 6789:6789
     volumes:
@@ -25,11 +25,11 @@ services:
   routr:
     image: fonoster/routr-one:latest
     environment:
-      - LOGS_LEVEL
-      - EXTERNAL_ADDRS
-      - CONNECT_VERIFIER_PUBLIC_KEY_PATH
-      - NATS_PUBLISHER_ENABLED
-      - NATS_PUBLISHER_URL
+      EXTERNAL_ADDRS: ${EXTERNAL_ADDRS}
+      CONNECT_VERIFIER_PUBLIC_KEY_PATH: /keys/public.key
+      NATS_PUBLISHER_ENABLED: true
+      NATS_PUBLISHER_URL: nats:4222
+      LOGS_LEVEL: ${LOGS_LEVEL}
     ports:
       - 5062:5062
       - 5063:5063

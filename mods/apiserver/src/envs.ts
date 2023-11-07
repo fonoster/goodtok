@@ -31,7 +31,7 @@ const e = process.env;
 const defaultSignOptions = { expiresIn: "24h", algorithm: "RS256" };
 
 // NATS configurations
-export const NATS_URL = e.NATS_URL;
+export const NATS_URL = e.NATS_URL || "localhost:4222";
 
 // API server configurations
 export const APISERVER_BIND_PORT = e.APISERVER_BIND_PORT ?? "6789";

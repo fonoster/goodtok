@@ -7,9 +7,7 @@ import React, {
   useEffect,
   ReactNode
 } from "react";
-
-// TODO: Fix this hardcoded value
-const API_ENDPOINT = "http://localhost:6789/v1";
+import { API_ENDPOINT } from "~envs";
 
 interface AuthProviderProps {
   children: ReactNode;

@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "jsx": "react",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "paths": {
       "~*": [
