@@ -33,6 +33,7 @@ import { getWorkspaces } from "./getWorkspaces";
 import { createWorkspace } from "./createWorkspace";
 import { addWorkspaceMember } from "./addWorkspaceMember";
 import { removeWorkspaceMember } from "./removeWorkspaceMember";
+import { resendWorkspaceMemberInvite } from "./resendWorkspaceMemberInvite";
 
 export const workspacesRouter = router({
   getMembersByWorkspaceId: protectedProcedure
@@ -77,5 +78,9 @@ export const workspacesRouter = router({
 
   removeWorkspaceMember: protectedProcedure
     .input(z.string())
-    .mutation(({ ctx, input }) => removeWorkspaceMember(ctx, input))
+    .mutation(({ ctx, input }) => removeWorkspaceMember(ctx, input)),
+
+  resendWorkspaceMemberInvite: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => resendWorkspaceMemberInvite(ctx, input))
 });

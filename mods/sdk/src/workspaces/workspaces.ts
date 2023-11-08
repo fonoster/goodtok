@@ -350,6 +350,23 @@ export default class Workspaces
   }
 
   /**
+   * Resends a workspace member invite.
+   *
+   * @param {string} id - The member ID
+   * @return {Promise<void>} A promise resolving to void
+   * @example
+   *
+   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   *
+   * workspaces.resendWorkspaceMemberInvite(id)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
+  async resendWorkspaceMemberInvite(id: string): Promise<void> {
+    return this.trpc.workspaces.resendWorkspaceMemberInvite.mutate(id);
+  }
+
+  /**
    * Registers a callback for real-time updates on queue entries within a workspace.
    *
    * @param {string} id - The ID of the workspace

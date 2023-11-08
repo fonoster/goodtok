@@ -178,7 +178,6 @@ function SettingsContainer() {
   };
 
   const handleOnInvite = (info: InviteInfo) => {
-    console.log("invite = ", info);
     const workspaces = new SDK.Workspaces(client!);
 
     workspaces
@@ -197,7 +196,16 @@ function SettingsContainer() {
   };
 
   const handleResendInvite = (id: string) => {
-    console.log("resend invite", { id });
+    const workspaces = new SDK.Workspaces(client!);
+
+    workspaces
+      .resendWorkspaceMemberInvite(id)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const handleOnSectionChange = (section: HBarSection) => {
