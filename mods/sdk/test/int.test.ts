@@ -55,7 +55,6 @@ describe("@sdk[integration]", () => {
 
     const users = new Users(client);
     const user = await users.updateUser({
-      id: userId,
       name: "Goodtok"
     });
     expect(user).to.be.an("object").that.has.property("id");
@@ -79,7 +78,7 @@ describe("@sdk[integration]", () => {
     expect(response.queue).to.be.an("array");
   });
 
-  it.only("updates a workspace", async () => {
+  it("updates a workspace", async () => {
     await client.login("goodtok", "changeme");
 
     const workspaces = new Workspaces(client);

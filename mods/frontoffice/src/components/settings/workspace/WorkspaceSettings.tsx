@@ -24,9 +24,9 @@ import { Button } from "../../button/Button";
 import { Select } from "../../select/Select";
 import { timezones } from "../../../utils/timezones";
 import { WorkspaceSettingsType } from "./types";
-import { Formik, Field, Form } from 'formik';
-import { z } from 'zod';
-import { toFormikValidationSchema } from 'zod-formik-adapter';
+import { Formik, Field, Form } from "formik";
+import { z } from "zod";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import React, { useState } from "react";
 
 type HoursOfOperationErrors = {

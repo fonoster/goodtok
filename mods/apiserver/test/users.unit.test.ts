@@ -182,10 +182,7 @@ describe("@apiserver[users]", () => {
     } as unknown as Context;
 
     const request = {
-      id: testUser.id,
-      data: {
-        name: "John Doe x"
-      }
+      name: "John Doe x"
     };
 
     const { updateUser } = await import("../src/users/updateUser");

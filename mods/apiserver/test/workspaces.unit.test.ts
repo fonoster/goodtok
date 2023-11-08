@@ -61,13 +61,16 @@ describe("@apiserver[workspaces]", () => {
   };
 
   const testMember = {
+    id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
     userId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
     status: "PENDING",
+    role: "ADMIN",
     user: {
-      userId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
       name: "John Doe",
+      email: "john@example.com",
       avatar: "https://example.com/avatar.png"
-    }
+    },
+    createdAt: new Date()
   };
 
   afterEach(() => sandbox.restore());
@@ -143,10 +146,13 @@ describe("@apiserver[workspaces]", () => {
     chai.expect(members).to.deep.equal({
       members: [
         {
-          userId: testMember.user.userId,
+          id: testMember.id,
+          userId: testMember.userId,
+          email: testMember.user.email,
           name: testMember.user.name,
           status: testMember.status,
-          avatar: testMember.user.avatar
+          role: testMember.role,
+          createdAt: testMember.createdAt
         }
       ]
     });

@@ -21,6 +21,7 @@ import { UsersClient, UpdateUserResponse } from "./types";
 import { createTRPCProxyClient } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
+import { formatAndThrowError } from "../errors";
 import Client from "../client";
 
 /**
@@ -92,7 +93,11 @@ export default class Users extends AbstractBaseClient implements UsersClient {
    *   .catch(console.error); // handle any errors
    */
   async getUserById(id: string): Promise<User> {
-    return this.trpc.users.getUserById.query(id);
+    try {
+      return await this.trpc.users.getUserById.query(id);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**

@@ -20,7 +20,6 @@
   "dependencies": {
     "@fonoster/logger": "0.3.24",
     "@goodtok/apiserver": "^0.0.11",
-    "@goodtok/common": "^0.0.11",
     "@trpc/client": "^10.38.5",
     "@trpc/server": "^10.38.5",
     "buffer": "^6.0.3",
