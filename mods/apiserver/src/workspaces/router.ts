@@ -22,11 +22,6 @@ import { getMembersByWorkspaceId } from "./getMembersByWorkspaceId";
 import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
 import { watchQueue } from "./watchQueue";
 import { getWorkspaceById } from "./getWorkspaceById";
-import {
-  addWorkspaceMemberSchema,
-  createWorkspaceSchema,
-  updateWorkspaceSchema
-} from "./types";
 import { updateWorkspace } from "./updateWorkspace";
 import { watchWorkspaceStatus } from "./watchWorkspaceStatus";
 import { getWorkspaces } from "./getWorkspaces";
@@ -34,6 +29,11 @@ import { createWorkspace } from "./createWorkspace";
 import { addWorkspaceMember } from "./addWorkspaceMember";
 import { removeWorkspaceMember } from "./removeWorkspaceMember";
 import { resendWorkspaceMemberInvite } from "./resendWorkspaceMemberInvite";
+import {
+  createWorkspaceSchema,
+  updateWorkspaceSchema,
+  addWorkspaceMemberSchema
+} from "./validation";
 
 export const workspacesRouter = router({
   getMembersByWorkspaceId: protectedProcedure

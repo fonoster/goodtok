@@ -42,7 +42,7 @@ model User {
   id        String   @id @default(uuid())
   username  String   @unique @db.VarChar(60)
   password  String   @map("password_hash") /// @encrypted
-  email     String   @unique
+  email     String   @unique @db.VarChar(255)
   name      String   @db.VarChar(60)
   avatar    String?  @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
