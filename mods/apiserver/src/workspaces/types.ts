@@ -148,6 +148,7 @@ export type WorkspaceStatus = {
 
 export type Member = {
   id: string;
+  userId: string;
   name: string;
   email: string;
   role: WorkspaceMemberRole;

@@ -30,8 +30,9 @@ import {
 import { updateWorkspace } from "./updateWorkspace";
 import { watchWorkspaceStatus } from "./watchWorkspaceStatus";
 import { getWorkspaces } from "./getWorkspaces";
-import { createWorkspace } from "./createWorkspace ";
+import { createWorkspace } from "./createWorkspace";
 import { addWorkspaceMember } from "./addWorkspaceMember";
+import { removeWorkspaceMember } from "./removeWorkspaceMember";
 
 export const workspacesRouter = router({
   getMembersByWorkspaceId: protectedProcedure
@@ -72,5 +73,9 @@ export const workspacesRouter = router({
 
   addWorkspaceMember: protectedProcedure
     .input(addWorkspaceMemberSchema)
-    .mutation(({ ctx, input }) => addWorkspaceMember(ctx, input))
+    .mutation(({ ctx, input }) => addWorkspaceMember(ctx, input)),
+
+  removeWorkspaceMember: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => removeWorkspaceMember(ctx, input))
 });

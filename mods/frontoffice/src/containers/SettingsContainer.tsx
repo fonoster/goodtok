@@ -165,7 +165,16 @@ function SettingsContainer() {
   };
 
   const handleOnMemberDelete = (id: string) => {
-    console.log("delete = ", id);
+    const workspaces = new SDK.Workspaces(client!);
+
+    workspaces
+      .removeWorkspaceMember(id)
+      .then((response) => {
+        setMembers(members.filter((member) => member.id !== id));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const handleOnInvite = (info: InviteInfo) => {

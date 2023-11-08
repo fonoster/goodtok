@@ -14,6 +14,7 @@ export enum Status {
 // FIXME: This is a duplicate of the one in the backend
 export type Member = {
   id: string;
+  userId: string;
   name: string;
   email: string;
   role: Role;

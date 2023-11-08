@@ -292,6 +292,11 @@ export default class Workspaces
    * Retrieves all workspaces for the authenticated user.
    *
    * @return {Promise<Workspace[]>} A promise resolving to an array of workspaces
+   * @example
+   *
+   * workspaces.getWorkspaces()
+   *  .then(console.log)
+   *  .catch(console.error); // handle any errors
    */
   async getWorkspaces(): Promise<Workspace[]> {
     return this.trpc.workspaces.getWorkspaces.query(
@@ -307,11 +312,41 @@ export default class Workspaces
    * @param {string} request.name - The member name
    * @param {string} request.email - The member email
    * @param {string} request.role - The member role
+   * @return {Promise<Member>} A promise resolving to the added member
+   * @example
+   *
+   * const request = {
+   *   workspaceId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
+   *   name: "John Doe",
+   *   email: "jhon@example.com",
+   *   role: "MEMBER"
+   * };
+   *
+   * workspaces.addWorkspaceMember(request)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
    */
   async addWorkspaceMember(
     request: AddWorkspaceMemberRequest
   ): Promise<Member> {
     return this.trpc.workspaces.addWorkspaceMember.mutate(request);
+  }
+
+  /**
+   * Removes a member from a workspace.
+   *
+   * @param {string} id - The member ID
+   * @return {Promise<void>} A promise resolving to void
+   * @example
+   *
+   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   *
+   * workspaces.removeWorkspaceMember(id)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
+  async removeWorkspaceMember(id: string): Promise<void> {
+    return this.trpc.workspaces.removeWorkspaceMember.mutate(id);
   }
 
   /**

@@ -52,7 +52,8 @@ export async function getMembersByWorkspaceId(
 
   const members = workspace.members.map((member) => {
     return {
-      id: member.userId,
+      id: member.id,
+      userId: member.userId,
       name: member.user.name,
       email: member.user.email,
       status: member.status as unknown as WorkspaceMemberStatus,
