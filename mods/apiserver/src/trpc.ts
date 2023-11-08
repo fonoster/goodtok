@@ -19,25 +19,10 @@
 import { initTRPC, inferAsyncReturnType } from "@trpc/server";
 import { createContext } from "./context";
 import { verifyToken } from "./utils";
-import { ZodError } from "zod";
 
 export type Context = inferAsyncReturnType<typeof createContext>;
 
-const t = initTRPC.context<Context>().create({
-  errorFormatter(opts) {
-    const { shape, error } = opts;
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.code === "BAD_REQUEST" && error.cause instanceof ZodError
-            ? error.cause.flatten()
-            : null
-      }
-    };
-  }
-});
+const t = initTRPC.context<Context>().create();
 
 export const createTRPCRouter = t.router;
 

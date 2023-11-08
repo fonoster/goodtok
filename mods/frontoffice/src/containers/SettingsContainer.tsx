@@ -4,7 +4,6 @@ import { SettingsPage } from "~components/settings/SettingsPage";
 import { HBarSection } from "~components/settings/hbar/types";
 import { UserSettingsType } from "~components/settings/user/types";
 import { WorkspaceSettingsType } from "~components/settings/workspace/types";
-import { getFieldError } from "~/utils/getFieldError";
 import { useSnackbar } from "~snackbar";
 import { useParams } from "react-router-dom";
 import {
@@ -145,18 +144,7 @@ function SettingsContainer() {
         });
       })
       .catch((err) => {
-        if (err.data.zodError) {
-          const passwordError = getFieldError(err.data.zodError, "password");
-          const nameError = getFieldError(err.data.zodError, "name");
-
-          if (passwordError) {
-            showErrorSnackbar(passwordError);
-          }
-
-          if (nameError) {
-            showErrorSnackbar(nameError);
-          }
-        }
+        showErrorSnackbar(err.message)
       });
   };
 

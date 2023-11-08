@@ -26,7 +26,7 @@ interface TRPCError {
   message: string;
 }
 
-export function formatAndThrowError(err: TRPCError): never {
+export function formatAndThrowError(err: TRPCError) {
   const formattedError: GoodtokError = new GoodtokError(
     err.data.code as TRPCErrorCode,
     err.message
