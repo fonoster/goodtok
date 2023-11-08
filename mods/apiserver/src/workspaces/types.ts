@@ -17,10 +17,12 @@
  * limitations under the License.
  */
 import { z } from "zod";
+import { QueueEntryStatus } from "@prisma/client";
 import {
-  QueueEntryStatus,
-  WorkspaceStatus as WorkspaceStatusFromPrisma
-} from "@prisma/client";
+  updateWorkspaceSchema,
+  createWorkspaceSchema,
+  addWorkspaceMemberSchema
+} from "./validation";
 
 export enum WorkspaceMemberStatus {
   ACTIVE,
@@ -32,88 +34,6 @@ export enum WorkspaceMemberRole {
   ADMIN,
   MEMBER
 }
-
-export const updateWorkspaceSchema = z.object({
-  id: z.string(),
-  name: z.string().optional(),
-  timezone: z.string().optional(),
-  calendarUrl: z.string().optional(),
-  status: z
-    .enum([WorkspaceStatusFromPrisma.ONLINE, WorkspaceStatusFromPrisma.OFFLINE])
-    .optional(),
-  shopifyAccount: z
-    .object({
-      storeDomain: z.string().min(1).optional(),
-      accessToken: z.string()
-    })
-    .optional(),
-  hoursOfOperation: z
-    .object({
-      Monday: z
-        .object({
-          from: z.string().optional(),
-          to: z.string().optional()
-        })
-        .optional(),
-      Tuesday: z
-        .object({
-          from: z.string().optional(),
-          to: z.string().optional()
-        })
-        .optional(),
-      Wednesday: z
-        .object({
-          from: z.string().optional(),
-          to: z.string().optional()
-        })
-        .optional(),
-      Thursday: z
-        .object({
-          from: z.string().optional(),
-          to: z.string().optional()
-        })
-        .optional(),
-      Friday: z
-        .object({
-          from: z.string().optional(),
-          to: z.string().optional()
-        })
-        .optional(),
-      Saturday: z
-        .object({
-          from: z.string().optional(),
-          to: z.string().optional()
-        })
-        .optional(),
-      Sunday: z
-        .object({
-          from: z.string().optional(),
-          to: z.string().optional()
-        })
-        .optional()
-    })
-    .optional()
-});
-
-export const createWorkspaceSchema = updateWorkspaceSchema
-  .omit({
-    id: true
-  })
-  .merge(
-    z
-      .object({
-        name: z.string(),
-        calendarUrl: z.string()
-      })
-      .required()
-  );
-
-export const addWorkspaceMemberSchema = z.object({
-  workspaceId: z.string().min(1),
-  name: z.string().min(1),
-  email: z.string().min(1),
-  role: z.string().min(1)
-});
 
 export enum Day {
   Monday = "Monday",
