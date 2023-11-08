@@ -122,6 +122,10 @@ export default class Users extends AbstractBaseClient implements UsersClient {
    *   .catch(console.error); // handle any errors
    */
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
-    return this.trpc.users.updateUser.mutate(request);
+    try {
+      return await this.trpc.users.updateUser.mutate(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 }

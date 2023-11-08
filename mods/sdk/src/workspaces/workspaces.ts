@@ -18,6 +18,7 @@
  */
 import { QueueEntry, WorkspacesClient } from "./types";
 import {
+  TRPCClientError,
   createTRPCProxyClient,
   createWSClient,
   httpBatchLink,
@@ -36,6 +37,8 @@ import type {
   WorkspaceStatus
 } from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
+import { formatAndThrowError } from "../errors";
+import { GoodtokError } from "../errors/GoodtokError";
 import Client from "../client";
 import isomorphicWS from "isomorphic-ws";
 
@@ -141,8 +144,12 @@ export default class Workspaces
    *  .then(console.log)
    *  .catch(console.error); // handle any errors
    */
-  createWorkspace(request: CreateWorkspaceRequest): Promise<Workspace> {
-    return this.trpc.workspaces.createWorkspace.mutate(request);
+  async createWorkspace(request: CreateWorkspaceRequest): Promise<Workspace> {
+    try {
+      return await this.trpc.workspaces.createWorkspace.mutate(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -168,9 +175,13 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async getDefaultWorkspace(): Promise<Workspace> {
-    return this.trpc.workspaces.getWorkspaceById.query(
-      this.client.getDefaultWorkspaceId()
-    );
+    try {
+      return await this.trpc.workspaces.getWorkspaceById.query(
+        this.client.getDefaultWorkspaceId()
+      );
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -184,9 +195,13 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async getDefaultWorkspaceQueue(): Promise<GetQueueResponse> {
-    return this.trpc.workspaces.getQueueByWorkspaceId.query(
-      this.client.getDefaultWorkspaceId()
-    );
+    try {
+      return await this.trpc.workspaces.getQueueByWorkspaceId.query(
+        this.client.getDefaultWorkspaceId()
+      );
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -200,9 +215,13 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async getDefaultWorkspaceMembers(): Promise<GetMembersResponse> {
-    return this.trpc.workspaces.getMembersByWorkspaceId.query(
-      this.client.getDefaultWorkspaceId()
-    );
+    try {
+      return await this.trpc.workspaces.getMembersByWorkspaceId.query(
+        this.client.getDefaultWorkspaceId()
+      );
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -219,7 +238,11 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async getWorkspaceById(id: string): Promise<Workspace> {
-    return this.trpc.workspaces.getWorkspaceById.query(id);
+    try {
+      return await this.trpc.workspaces.getWorkspaceById.query(id);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -236,7 +259,11 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async getMembersByWorkspaceId(id: string): Promise<GetMembersResponse> {
-    return this.trpc.workspaces.getMembersByWorkspaceId.query(id);
+    try {
+      return await this.trpc.workspaces.getMembersByWorkspaceId.query(id);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -253,7 +280,11 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async getQueueByWorkspaceId(id: string): Promise<GetQueueResponse> {
-    return this.trpc.workspaces.getQueueByWorkspaceId.query(id);
+    try {
+      return await this.trpc.workspaces.getQueueByWorkspaceId.query(id);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -285,7 +316,11 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async updateWorkspace(request: UpdateWorkspaceRequest): Promise<Workspace> {
-    return this.trpc.workspaces.updateWorkspace.mutate(request);
+    try {
+      return await this.trpc.workspaces.updateWorkspace.mutate(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -299,9 +334,13 @@ export default class Workspaces
    *  .catch(console.error); // handle any errors
    */
   async getWorkspaces(): Promise<Workspace[]> {
-    return this.trpc.workspaces.getWorkspaces.query(
-      this.client.getCurrentUserId()
-    );
+    try {
+      return await this.trpc.workspaces.getWorkspaces.query(
+        this.client.getCurrentUserId()
+      );
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -329,7 +368,11 @@ export default class Workspaces
   async addWorkspaceMember(
     request: AddWorkspaceMemberRequest
   ): Promise<Member> {
-    return this.trpc.workspaces.addWorkspaceMember.mutate(request);
+    try {
+      return await this.trpc.workspaces.addWorkspaceMember.mutate(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -346,7 +389,11 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async removeWorkspaceMember(id: string): Promise<void> {
-    return this.trpc.workspaces.removeWorkspaceMember.mutate(id);
+    try {
+      return await this.trpc.workspaces.removeWorkspaceMember.mutate(id);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -363,7 +410,11 @@ export default class Workspaces
    *   .catch(console.error); // handle any errors
    */
   async resendWorkspaceMemberInvite(id: string): Promise<void> {
-    return this.trpc.workspaces.resendWorkspaceMemberInvite.mutate(id);
+    try {
+      return await this.trpc.workspaces.resendWorkspaceMemberInvite.mutate(id);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -384,13 +435,16 @@ export default class Workspaces
    *   console.log(data);
    * });
    */
-  watchQueue(id: string, callback: (error: Error, data?: QueueEntry) => void) {
+  watchQueue(
+    id: string,
+    callback: (error: GoodtokError, data?: QueueEntry) => void
+  ) {
     this.trpc.workspaces.watchQueue.subscribe(id, {
       onData(data: QueueEntry) {
         callback(null, data);
       },
-      onError(err: Error) {
-        callback(err);
+      onError(err: TRPCClientError<any>) {
+        callback(new GoodtokError(err.data.code, err.data.message));
       }
     });
   }
@@ -415,14 +469,14 @@ export default class Workspaces
    */
   watchWorkspaceStatus(
     id: string,
-    callback: (error: Error, data?: WorkspaceStatus) => void
+    callback: (error: GoodtokError, data?: WorkspaceStatus) => void
   ) {
     this.trpc.workspaces.watchWorkspaceStatus.subscribe(id, {
       onData(data: WorkspaceStatus) {
         callback(null, data);
       },
-      onError(err: Error) {
-        callback(err);
+      onError(err: TRPCClientError<any>) {
+        callback(new GoodtokError(err.data.code, err.data.message));
       }
     });
   }

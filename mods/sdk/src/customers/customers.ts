@@ -20,6 +20,7 @@ import { createTRPCProxyClient } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 import { Customer, CustomersClient, GetCustomerRequest } from "./types";
 import { AbstractBaseClient } from "../base";
+import { formatAndThrowError } from "../errors";
 import Client from "../client";
 
 /**
@@ -81,7 +82,11 @@ export default class Customers
    *   .catch(console.error); // handle any errors
    */
   async getCustomer(request: GetCustomerRequest): Promise<Customer> {
-    return this.trpc.customers.getCustomerById.query(request);
+    try {
+      return await this.trpc.customers.getCustomerById.query(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -98,9 +103,13 @@ export default class Customers
    *   .catch(console.error); // handle any errors
    */
   async getCustomerInDefaultWorkspace(id: string): Promise<Customer> {
-    return this.getCustomer({
-      workspaceId: this.client.getDefaultWorkspaceId(),
-      customerId: id
-    });
+    try {
+      return await this.getCustomer({
+        workspaceId: this.client.getDefaultWorkspaceId(),
+        customerId: id
+      });
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 }

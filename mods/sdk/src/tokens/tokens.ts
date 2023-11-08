@@ -24,6 +24,7 @@ import {
   CreateTokenInput
 } from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
+import { formatAndThrowError } from "../errors";
 import Client from "../client";
 
 /**
@@ -89,7 +90,11 @@ export default class Tokens extends AbstractBaseClient implements TokensClient {
    *   .catch(console.error) // handle any errors
    */
   async createAnonymousToken(request: CreateAnonymousTokenInput) {
-    return this.trpc.tokens.createAnonymousToken.mutate(request);
+    try {
+      return await this.trpc.tokens.createAnonymousToken.mutate(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 
   /**
@@ -116,6 +121,10 @@ export default class Tokens extends AbstractBaseClient implements TokensClient {
    *   .catch(console.error); // handle any errors
    */
   async createToken(request: CreateTokenInput) {
-    return this.trpc.tokens.createToken.mutate(request);
+    try {
+      return await this.trpc.tokens.createToken.mutate(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 }
