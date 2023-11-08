@@ -16,15 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { User } from "@goodtok/apiserver";
+import type { UpdateUserRequest, User } from "@goodtok/apiserver";
 
 export type UsersClient = {
   getCurrentUser: () => Promise<User>;
   getUserById: (id: string) => Promise<User>;
   updateUser: (request: UpdateUserRequest) => Promise<UpdateUserResponse>;
 };
-
-export type UpdateUserRequest = Omit<Partial<User>, "id" | "createdAt">;
 
 export type UpdateUserResponse = {
   id: string;

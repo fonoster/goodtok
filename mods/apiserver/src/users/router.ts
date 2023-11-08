@@ -21,6 +21,7 @@ import { router, protectedProcedure, publicProcedure } from "../trpc";
 import { login } from "./login";
 import { getUserById } from "./getUserById";
 import { updateUser } from "./updateUser";
+import { updateUserSchema } from "./types";
 
 export const usersRouter = router({
   login: publicProcedure
@@ -40,6 +41,6 @@ export const usersRouter = router({
     .query(({ ctx, input }) => getUserById(ctx, { id: input })),
 
   updateUser: protectedProcedure
-    .input(z.object({ data: z.any() }))
-    .mutation(({ ctx, input }) => updateUser(ctx, { data: input.data }))
+    .input(updateUserSchema)
+    .mutation(({ ctx, input }) => updateUser(ctx, input))
 });

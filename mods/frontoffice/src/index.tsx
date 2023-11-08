@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "~authentication";
+import { SnackbarProvider } from "~snackbar";
 import LoginContainer from "~containers/LoginContainer";
 import HomeContainer from "~containers/HomeContainer";
 import OnboardingContainer from "~containers/OnboardingContainer";
@@ -43,7 +44,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <SnackbarProvider>
+        <RouterProvider router={router} />
+      </SnackbarProvider>
     </React.StrictMode>
   </AuthProvider>
 );

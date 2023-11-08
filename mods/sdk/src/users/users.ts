@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from "@goodtok/apiserver";
-import { UsersClient, UpdateUserRequest, UpdateUserResponse } from "./types";
+import { UpdateUserRequest, User } from "@goodtok/apiserver";
+import { UsersClient, UpdateUserResponse } from "./types";
 import { createTRPCProxyClient } from "@trpc/client";
 import { AppRouter } from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
@@ -99,20 +99,15 @@ export default class Users extends AbstractBaseClient implements UsersClient {
    * Updates a user's details. The calling user must have an admin role to update other users.
    *
    * @param {UpdateUserRequest} request - A request object containing the user ID and update data
-   * @param {string} request.id - The user ID
    * @param {string} request.name - Optional parameter to update the user's name
-   * @param {string} request.email - Optional parameter to update the user's email
    * @param {string} request.password - Optional parameter to update the user's password
    * @param {string} request.avatar - Optional parameter to update the user's avatar
    * @return {Promise<UpdateUserResponse>} A promise resolving to the updated user's details
-   * @throws Will throw an error if the user is not found
    * @throws If the user is not an admin and the user ID does not match the logged-in user's ID
    * @example
    *
    * const request = {
-   *   id: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d",
    *   name: "John Doe",
-   *   email: "john@example.com",
    *   password: "mysecretpassword",
    *   avatar: "https://example.com/avatar.png"
    * };
@@ -122,9 +117,6 @@ export default class Users extends AbstractBaseClient implements UsersClient {
    *   .catch(console.error); // handle any errors
    */
   async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
-    const { id } = await this.trpc.users.updateUser.mutate({
-      data: request
-    });
-    return { id };
+    return this.trpc.users.updateUser.mutate(request);
   }
 }

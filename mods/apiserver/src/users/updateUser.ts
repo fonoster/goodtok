@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { User } from "./types";
+import { UpdateUserRequest, User } from "./types";
 import { TRPCError } from "@trpc/server";
 import { Context } from "../context";
 import { getLogger } from "@fonoster/logger";
@@ -25,11 +25,10 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function updateUser(
   ctx: Context,
-  request: { data: Partial<User> }
+  request: UpdateUserRequest
 ): Promise<User> {
-  const { data } = request;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { password, ...rest } = data;
+  const { password, ...rest } = request;
 
   logger.verbose("updating user", { id: ctx.userId });
 
@@ -46,7 +45,7 @@ export async function updateUser(
       id: ctx.userId
     },
     data: {
-      ...data,
+      ...request,
       password: password ? password : userFromDB.password,
       updatedAt: new Date()
     }

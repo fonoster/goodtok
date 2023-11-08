@@ -18,19 +18,37 @@
  */
 import { Box } from "@mui/material";
 import { TextField } from "../../textfield/TextField";
+import { Button } from "../../button/Button";
+import { Formik, Form, Field } from "formik";
+import { z } from "zod";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import {
   StyledAvatar,
   StyledBox,
   UserSettingsTitle
 } from "./UserSettingsStyles";
-import { Button } from "../../button/Button";
-import React, { useState } from "react";
+import React from "react";
+
+// Zod schema for validation
+const validationSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .max(60, "Name must be less than 60 characters"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .optional()
+});
+
+// Formik validation schema from the Zod schema
+const formikValidationSchema = toFormikValidationSchema(validationSchema);
 
 type UserSettingsProps = {
   initialName: string;
   email: string;
   avatarUrl?: string;
-  onSave?: (name: string, password: string) => void;
+  onSave: (name: string, password: string) => void;
 };
 
 export const UserSettings: React.FC<UserSettingsProps> = ({
@@ -39,44 +57,53 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
   avatarUrl,
   onSave
 }) => {
-  const [name, setName] = useState(initialName);
-  const [password, setPassword] = useState("");
-
-  const handleSave = () => {
-    onSave && onSave(name, password);
-  };
-
   return (
-    <Box>
-      <UserSettingsTitle>Personal Settings</UserSettingsTitle>
-      <StyledBox>
-        <TextField
-          label="Name"
-          placeholder="John Doe"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+    <Formik
+      initialValues={{ name: initialName, password: "" }}
+      validationSchema={formikValidationSchema}
+      onSubmit={(values) => {
+        onSave(values.name, values.password);
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form>
+          <Box>
+            <UserSettingsTitle>Personal Settings</UserSettingsTitle>
+            <StyledBox>
+              <Field
+                as={TextField}
+                label="Name"
+                name="name"
+                placeholder="Name"
+                error={touched.name && errors.name}
+                helperText={touched.name && errors.name}
+              />
 
-        <TextField label="Email Address" value={email} readonly />
+              <TextField label="Email Address" value={email} readonly />
 
-        <TextField
-          label="Password"
-          placeholder="******"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+              <Field
+                as={TextField}
+                label="Password"
+                name="password"
+                type="password"
+                placeholder="Password"
+                error={touched.password && errors.password}
+                helperText={touched.password && errors.password}
+              />
 
-        <StyledAvatar
-          alt={name || "Avatar"}
-          src={avatarUrl}
-          onClick={() => window.open("https://gravatar.com", "_blank")}
-        />
-      </StyledBox>
+              <StyledAvatar
+                alt={initialName || "Avatar"}
+                src={avatarUrl}
+                onClick={() => window.open("https://gravatar.com", "_blank")}
+              />
+            </StyledBox>
 
-      <Box sx={{ width: 206, mt: 5 }}>
-        <Button onClick={handleSave}>Save changes</Button>
-      </Box>
-    </Box>
+            <Box sx={{ width: 206, mt: 5 }}>
+              <Button type="submit">Save changes</Button>
+            </Box>
+          </Box>
+        </Form>
+      )}
+    </Formik>
   );
 };

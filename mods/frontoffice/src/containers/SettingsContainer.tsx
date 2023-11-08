@@ -2,9 +2,11 @@ import * as SDK from "@goodtok/sdk";
 import { useAuth } from "~authentication";
 import { SettingsPage } from "~components/settings/SettingsPage";
 import { HBarSection } from "~components/settings/hbar/types";
-import { useParams } from "react-router-dom";
 import { UserSettingsType } from "~components/settings/user/types";
 import { WorkspaceSettingsType } from "~components/settings/workspace/types";
+import { getFieldError } from "~/utils/getFieldError";
+import { useSnackbar } from "~snackbar";
+import { useParams } from "react-router-dom";
 import {
   InviteInfo,
   Member,
@@ -40,6 +42,7 @@ function SettingsContainer() {
   const [currentSection] = React.useState<HBarSection>(hbarSection);
 
   const { client, signOut, isSignedIn } = useAuth();
+  const { showSnackbar, showErrorSnackbar } = useSnackbar();
 
   if (!client) {
     signOut();
@@ -135,13 +138,25 @@ function SettingsContainer() {
         password: password
       })
       .then(() => {
+        showSnackbar("Settings saved");
         setUserSettings({
           ...currentUserSettings!,
           name: name
         });
       })
       .catch((err) => {
-        console.error(err);
+        if (err.data.zodError) {
+          const passwordError = getFieldError(err.data.zodError, "password");
+          const nameError = getFieldError(err.data.zodError, "name");
+
+          if (passwordError) {
+            showErrorSnackbar(passwordError);
+          }
+
+          if (nameError) {
+            showErrorSnackbar(nameError);
+          }
+        }
       });
   };
 
@@ -160,7 +175,10 @@ function SettingsContainer() {
         hoursOfOperation: settings.hoursOfOperation!
       })
       .then(() => {
-        console.log("updated workspace");
+        showSnackbar("Settings saved");
+      })
+      .catch((err) => {
+        console.error(err);
       });
   };
 
@@ -170,6 +188,7 @@ function SettingsContainer() {
     workspaces
       .removeWorkspaceMember(id)
       .then((response) => {
+        showSnackbar("Member removed");
         setMembers(members.filter((member) => member.id !== id));
       })
       .catch((err) => {
@@ -188,7 +207,7 @@ function SettingsContainer() {
         role: info.role
       })
       .then((response) => {
-        console.log(response);
+        showSnackbar("Invite sent");
       })
       .catch((err) => {
         console.error(err);
@@ -200,8 +219,8 @@ function SettingsContainer() {
 
     workspaces
       .resendWorkspaceMemberInvite(id)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        showSnackbar("Invite resent");
       })
       .catch((err) => {
         console.error(err);

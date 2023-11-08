@@ -40,11 +40,11 @@ enum QueueEntryStatus {
 
 model User {
   id        String   @id @default(uuid())
-  username  String   @unique
+  username  String   @unique @db.VarChar(60)
   password  String   @map("password_hash") /// @encrypted
   email     String   @unique
-  name      String
-  avatar    String?
+  name      String   @db.VarChar(60)
+  avatar    String?  @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamptz(3)
 
@@ -67,10 +67,10 @@ model User {
 // }
 model Workspace {
   id               String          @id @default(uuid())
-  name             String
+  name             String          @db.VarChar(60)
   hoursOfOperation Json            @map("hours_of_operation")
   status           WorkspaceStatus @default(OFFLINE)
-  calendarUrl      String          @map("calendar_url")
+  calendarUrl      String          @map("calendar_url") @db.VarChar(255)
   timezone         String
 
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
@@ -112,7 +112,7 @@ model QueueEntry {
   updatedAt    DateTime         @default(now()) @map("updated_at") @db.Timestamptz(3)
   registeredAt DateTime         @default(now()) @map("registered_at") @db.Timestamptz(3)
   status       QueueEntryStatus
-  aor          String
+  aor          String           @db.VarChar(323) // Address of record
 
   // Relations
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
@@ -126,8 +126,8 @@ model QueueEntry {
 
 model ShopifyAccount {
   id          String @id @default(uuid())
-  accessToken String @map("access_token") /// @encrypted
-  storeDomain String @map("store_domain")
+  accessToken String @map("access_token") @db.VarChar(255) /// @encrypted
+  storeDomain String @map("store_domain") @db.VarChar(255)
 
   // Relations
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
