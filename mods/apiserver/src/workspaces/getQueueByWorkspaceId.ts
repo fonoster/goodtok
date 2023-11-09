@@ -25,10 +25,8 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function getQueueByWorkspaceId(
   ctx: Context,
-  request: { workspaceId: string }
+  workspaceId: string
 ): Promise<GetQueueResponse> {
-  const { workspaceId } = request;
-
   logger.verbose(`get queue by workspace id ${workspaceId}`, { workspaceId });
 
   const workspace = await ctx.prisma.workspace.findUnique({
@@ -66,12 +64,19 @@ export async function getQueueByWorkspaceId(
         status: queueEntry.status,
         workspaceId: queueEntry.workspaceId,
         aor: queueEntry.aor,
-        customer: {
-          id: customer.id,
-          name: customer.name,
-          avatar: customer.avatar,
-          note: customer.note
-        }
+        customer: customer
+          ? {
+              id: customer.id,
+              name: customer.name,
+              avatar: customer.avatar,
+              note: customer.note
+            }
+          : {
+              id: queueEntry.customerId,
+              name: "Anonymous",
+              avatar: null,
+              note: null
+            }
       };
     })
   );

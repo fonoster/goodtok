@@ -34,11 +34,8 @@ export const usersRouter = router({
     ),
 
   getUserById: protectedProcedure
-    .input((val: unknown) => {
-      if (typeof val === "string") return val;
-      throw new Error(`Invalid input: ${typeof val}`);
-    })
-    .query(({ ctx, input }) => getUserById(ctx, { id: input })),
+    .input(z.string())
+    .query(({ ctx, input }) => getUserById(ctx, input)),
 
   updateUser: protectedProcedure
     .input(updateUserSchema)

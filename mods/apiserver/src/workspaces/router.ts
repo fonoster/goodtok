@@ -44,9 +44,7 @@ export const workspacesRouter = router({
 
   getQueueByWorkspaceId: protectedProcedure
     .input(z.string())
-    .query(({ ctx, input }) =>
-      getQueueByWorkspaceId(ctx, { workspaceId: input })
-    ),
+    .query(({ ctx, input }) => getQueueByWorkspaceId(ctx, input)),
 
   getWorkspaces: protectedProcedure
     .input(z.string())

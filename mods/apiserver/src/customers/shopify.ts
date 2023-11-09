@@ -16,9 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import axios from "axios";
 import { ShopifyCustomer } from "./types";
 import { TRPCError } from "@trpc/server";
+import logger from "@fonoster/logger";
+import axios from "axios";
 
 export default class ShopifyAPI {
   shop: string;
@@ -52,6 +53,13 @@ export default class ShopifyAPI {
 
       return null;
     } catch (error) {
+      logger.error("an error occurred while getting customer by id", {
+        error,
+        customerId,
+        shop: this.shop,
+        baseUrl: this.baseUrl,
+        defaultHeaders: this.defaultHeaders
+      });
       throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error });
     }
   }

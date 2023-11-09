@@ -23,12 +23,7 @@ import { getLogger } from "@fonoster/logger";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export async function getUserById(
-  ctx: Context,
-  request: { id: string }
-): Promise<User> {
-  const { id } = request;
-
+export async function getUserById(ctx: Context, id: string): Promise<User> {
   logger.verbose(`fetching user with id ${id}`);
 
   const userFromDB = await ctx.prisma.user.findUnique({

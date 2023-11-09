@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 import { Box } from "@mui/material";
-import React from "react";
 import {
   StyledQueueStatusText,
   StyledShopifyLogo,
@@ -26,6 +25,7 @@ import {
   StyledStatusTitle,
   SyledSwitch
 } from "./QueueStatusStyles";
+import React from "react";
 
 type QueueStatusProps = {
   workspaceName: string;

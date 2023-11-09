@@ -58,7 +58,7 @@ export async function getCustomerById(
         }
       : null;
   } catch (err) {
-    logger.error("error getting customer by id", { err });
+    logger.warn("error getting customer by id", { err });
     return null;
   }
 }
