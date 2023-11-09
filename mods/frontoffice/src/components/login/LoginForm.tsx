@@ -26,8 +26,20 @@ import {
 } from "./LoginFormStyles";
 import { TextField } from "../textfield/TextField";
 import { Button } from "../button/Button";
+import { Formik, Form, Field } from "formik";
+import { z } from "zod";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import { GoogleIcon } from "../button/GoogleIcon";
-import React, { useState } from "react";
+import React from "react";
+
+// Zod schema for validation
+const validationSchema = z.object({
+  email: z.string().min(1),
+  password: z.string().min(1)
+});
+
+// Formik validation schema from the Zod schema
+const formikValidationSchema = toFormikValidationSchema(validationSchema);
 
 export type LoginFormProps = {
   error?: string;
@@ -51,78 +63,82 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   onGoogleSignInClick,
   ...props
 }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSignInSubmit({ email, password });
-  };
-
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        width: "440px"
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      validationSchema={formikValidationSchema}
+      onSubmit={(values, { setSubmitting }) => {
+        onSignInSubmit(values);
+        setSubmitting(false); // Prevent multiple submissions
       }}
-      {...props}
-      noValidate
     >
-      <LoginFormTitle>Log In</LoginFormTitle>
+      {({ errors, touched }) => (
+        <Form>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              width: "440px"
+            }}
+            {...props}
+          >
+            <LoginFormTitle>Log In</LoginFormTitle>
 
-      <TextField
-        label="Email address"
-        type="email"
-        placeholder="Email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+            <Field
+              as={TextField}
+              label="Email address"
+              name="email"
+              placeholder="Email address"
+              error={touched.email && !!errors.email} // Make sure to cast the error to boolean
+              helperText={touched.email && errors.email}
+            />
 
-      <TextField
-        label="Password"
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        // TODO: When the user presses enter, the form should be submitted
-      />
+            <Field
+              as={TextField}
+              label="Password"
+              name="password"
+              placeholder="Password"
+              type="password"
+              error={touched.password && !!errors.password} // Make sure to cast the error to boolean
+              helperText={touched.password && errors.password}
+            />
 
-      {error && <ErrorStyled>{error}</ErrorStyled>}
+            {error && <ErrorStyled>{error}</ErrorStyled>}
 
-      {hasForgotPassword && (
-        <LinkStyled sx={{ mb: 5 }} onClick={onForgotPasswordClick}>
-          Forgot Password
-        </LinkStyled>
+            {hasForgotPassword && (
+              <LinkStyled sx={{ mb: 5 }} onClick={onForgotPasswordClick}>
+                Forgot Password
+              </LinkStyled>
+            )}
+
+            <Button type="submit">Log In</Button>
+
+            {hasGoogleSignIn && (
+              <>
+                <StyledDivider sx={{ mt: 3, mb: 3 }}>Or</StyledDivider>
+
+                <Button variant="outlined" onClick={onGoogleSignInClick}>
+                  <GoogleIcon />
+                  Login with Google
+                </Button>
+              </>
+            )}
+
+            {hasSignUp && (
+              <>
+                <LoginFormFooterText sx={{ mt: 10 }}>
+                  Don't Have an Account?
+                </LoginFormFooterText>
+
+                <Button onClick={onSignUpClick} color="secondary">
+                  Create a Goodtok Account
+                </Button>
+              </>
+            )}
+          </Box>
+        </Form>
       )}
-
-      <Button type="submit">Log In</Button>
-
-      {hasGoogleSignIn && (
-        <>
-          <StyledDivider sx={{ mt: 3, mb: 3 }}>Or</StyledDivider>
-
-          <Button variant="outlined" onClick={onGoogleSignInClick}>
-            <GoogleIcon />
-            Login with Google
-          </Button>
-        </>
-      )}
-
-      {hasSignUp && (
-        <>
-          <LoginFormFooterText sx={{ mt: 10 }}>
-            Don't Have an Account?
-          </LoginFormFooterText>
-
-          <Button onClick={onSignUpClick} color="secondary">
-            Create a Goodtok Account
-          </Button>
-        </>
-      )}
-    </Box>
+    </Formik>
   );
 };
