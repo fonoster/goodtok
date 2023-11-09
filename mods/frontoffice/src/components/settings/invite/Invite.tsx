@@ -21,58 +21,88 @@ import { Box } from "@mui/material";
 import { TextField } from "../../textfield/TextField";
 import { Select } from "../../select/Select";
 import { Button } from "../../button/Button";
+import { Formik, Form, Field } from "formik";
+import { z } from "zod";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import { Role } from "../members/types";
 import React from "react";
 
+// Zod schema for validation
+const validationSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .max(60, "Name must be less than 60 characters"),
+  email: z
+    .string()
+    .email("Invalid email address")
+    .max(255, "Email must be less than 255 characters")
+});
+
+// Formik validation schema from the Zod schema
+const formikValidationSchema = toFormikValidationSchema(validationSchema);
+
 type InviteProps = {
-  onInvite?: (name: string, email: string, role: Role) => void;
+  onInvite: (name: string, email: string, role: Role) => void;
 };
 
 export const Invite: React.FC<InviteProps> = ({ onInvite }) => {
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
   const [role, setRole] = React.useState(Role.MEMBER);
 
   const data = [
-    { label: "Owner", value: Role.OWNER },
     { label: "Admin", value: Role.ADMIN },
     { label: "Member", value: Role.MEMBER }
   ];
 
   return (
-    <StyledBox>
-      <StyledTitle>Invite new members to your workspace</StyledTitle>
-      <TextField
-        sx={{ mt: 6, mb: 4 }}
-        label="Name"
-        value={name}
-        onChange={(event) => setName(event.target.value)}
-      />
+    <Formik
+      initialValues={{ name: "", email: "" }}
+      validationSchema={formikValidationSchema}
+      onSubmit={(values) => {
+        onInvite(values.name, values.email, role);
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form>
+          <StyledBox>
+            <StyledTitle>Invite new members to your workspace</StyledTitle>
+            <Field
+              as={TextField}
+              label="Name"
+              name="name"
+              placeholder="Name"
+              error={touched.name && errors.name}
+              helperText={touched.name && errors.name}
+              sx={{ mt: 6, mb: 4 }}
+            />
 
-      <TextField
-        sx={{ mb: 4 }}
-        label="Email Address"
-        type="email"
-        value={email}
-        onChange={(event) => setEmail(event.target.value)}
-      />
+            <Field
+              as={TextField}
+              label="Email Address"
+              name="email"
+              placeholder="Email Address"
+              type="email"
+              error={touched.email && errors.email}
+              helperText={touched.email && errors.email}
+              sx={{ mb: 4 }}
+            />
 
-      <Select
-        sx={{ mb: 6 }}
-        label="Role"
-        value={role}
-        data={data}
-        onChange={(event) => setRole(event.target.value as Role)}
-      />
+            <Select
+              sx={{ mb: 6 }}
+              label="Role"
+              value={role}
+              data={data}
+              onChange={(event) => setRole(event.target.value as Role)}
+            />
 
-      <Box sx={{ width: 210 }}>
-        <Button
-          variant="contained"
-          onClick={() => onInvite && onInvite(name, email, role)}
-        >
-          Send Invite
-        </Button>
-      </Box>
-    </StyledBox>
+            <Box sx={{ width: 210 }}>
+              <Button variant="contained" type="submit">
+                Send Invite
+              </Button>
+            </Box>
+          </StyledBox>
+        </Form>
+      )}
+    </Formik>
   );
 };
