@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * http://github.com/fonoster/goodtok
+ *
+ * This file is part of Goodtok
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *    https://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import * as SDK from "@goodtok/sdk";
 import { Method, ConnectionObject, mediaToggle } from "@goodtok/common";
 import { ChatPage } from "~components/chat/ChatPage";
@@ -6,6 +24,7 @@ import { useAuth } from "~authentication";
 import { CustomerProfile } from "~components/chat/customer/types";
 import { jwtDecode } from "jwt-decode";
 import { Web } from "sip.js";
+import { useLogger } from "~logger";
 import React, { useEffect, useRef, useState } from "react";
 
 type VideoRefs = {
@@ -27,8 +46,8 @@ function ChatContainer() {
   const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
 
   const { client, signOut } = useAuth();
-
-  let { id: workspaceId, sessionId: customerId, encodedAor } = useParams();
+  const { id: workspaceId, sessionId: customerId, encodedAor } = useParams();
+  const logger = useLogger();
 
   if (!client) {
     signOut();
@@ -44,7 +63,7 @@ function ChatContainer() {
         setAvatar(user.avatar);
       })
       .catch((err) => {
-        // TODO: Handle error
+        logger.error("Error getting current user", err);
       });
   });
 
@@ -56,7 +75,7 @@ function ChatContainer() {
         setCustomerProfile(profile);
       })
       .catch((err) => {
-        // TODO: Handle error
+        logger.error("Error getting current user", err);
       });
   }, [workspaceId, customerId, client]);
 
@@ -75,7 +94,7 @@ function ChatContainer() {
       methods: [Method.INVITE]
     });
 
-    const connectionObject = jwtDecode(inviterToken) as ConnectionObject;
+    const connectionObject = jwtDecode(inviterToken!) as ConnectionObject;
 
     if (!connectionObject || !videoRefs.current) {
       // TODO: Handle error

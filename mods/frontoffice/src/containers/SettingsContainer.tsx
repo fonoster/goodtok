@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * http://github.com/fonoster/goodtok
+ *
+ * This file is part of Goodtok
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *    https://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import * as SDK from "@goodtok/sdk";
 import { useAuth } from "~authentication";
 import { SettingsPage } from "~components/settings/SettingsPage";
@@ -12,6 +30,7 @@ import {
   Role,
   Status
 } from "~components/settings/members/types";
+import { useLogger } from "~logger";
 import React, { useEffect } from "react";
 
 function SettingsContainer() {
@@ -42,6 +61,7 @@ function SettingsContainer() {
 
   const { client, signOut, isSignedIn } = useAuth();
   const { showSnackbar, showErrorSnackbar } = useSnackbar();
+  const logger = useLogger();
 
   if (!client) {
     signOut();
@@ -55,7 +75,7 @@ function SettingsContainer() {
   });
 
   useEffect(() => {
-    const users = new SDK.Users(client!);
+    const users = new SDK.Users(client);
 
     users
       .getCurrentUser()
@@ -69,39 +89,36 @@ function SettingsContainer() {
         });
       })
       .catch((err) => {
-        // TODO: Handle error
-        console.error(err);
+        logger.error("error creating workspace", err);
       });
   }, [client]);
 
   useEffect(() => {
-    const workspaces = new SDK.Workspaces(client!);
+    const workspaces = new SDK.Workspaces(client);
 
     workspaces
-      .getWorkspaceById(workspaceId!)
+      .getWorkspaceById(workspaceId as string)
       .then((workspace) => {
         setWorkspaceSettings({
           name: workspace.name,
           timezone: workspace.timezone,
-          shopifyStoreUrl: workspace.shopifyAccount?.storeDomain!,
+          shopifyStoreUrl: workspace.shopifyAccount?.storeDomain as string,
           calendarUrl: workspace.calendarUrl,
           hoursOfOperation: workspace.hoursOfOperation
         });
       })
       .catch((err) => {
-        console.error(err);
+        logger.error("error getting workspace", err);
       });
-  }, [client]);
+  }, [client, workspaceId]);
 
   useEffect(() => {
-    const workspaces = new SDK.Workspaces(client!);
+    const workspaces = new SDK.Workspaces(client);
 
     workspaces
-      .getMembersByWorkspaceId(workspaceId!)
+      .getMembersByWorkspaceId(workspaceId as string)
       .then((response) => {
         const newMembers = response.members.map((member) => {
-          console.log(member);
-
           return {
             id: member.id,
             name: member.name,
@@ -113,7 +130,7 @@ function SettingsContainer() {
         });
 
         const ownerMember = {
-          id: userSettings!.id,
+          id: userSettings.id!,
           name: userSettings!.name,
           email: userSettings!.email,
           role: Role.OWNER,
@@ -123,13 +140,13 @@ function SettingsContainer() {
         setMembers([ownerMember, ...newMembers] as unknown as Member[]);
       })
       .catch((err) => {
-        console.error(err);
+        logger.error("error getting workspace members", err);
       });
-  }, [client, userSettings]);
+  }, [client, userSettings, workspaceId]);
 
   const handleOnUserSettingsSave = (name: string, password: string) => {
     const currentUserSettings = userSettings;
-    const users = new SDK.Users(client!);
+    const users = new SDK.Users(client);
 
     users
       .updateUser({
@@ -145,11 +162,12 @@ function SettingsContainer() {
       })
       .catch((err) => {
         showErrorSnackbar(err.message);
+        logger.error("error updating user", err);
       });
   };
 
   const handleOnWorkspaceSettingsSave = (settings: WorkspaceSettingsType) => {
-    const workspaces = new SDK.Workspaces(client!);
+    const workspaces = new SDK.Workspaces(client);
     workspaces
       .updateWorkspace({
         id: workspaceId!,
@@ -167,11 +185,12 @@ function SettingsContainer() {
       })
       .catch((err) => {
         showErrorSnackbar(err.message);
+        logger.error("error updating workspace", err);
       });
   };
 
   const handleOnMemberDelete = (id: string) => {
-    const workspaces = new SDK.Workspaces(client!);
+    const workspaces = new SDK.Workspaces(client);
 
     workspaces
       .removeWorkspaceMember(id)
@@ -180,12 +199,12 @@ function SettingsContainer() {
         setMembers(members.filter((member) => member.id !== id));
       })
       .catch((err) => {
-        console.error(err);
+        logger.error("error removing workspace member", err);
       });
   };
 
   const handleOnInvite = (info: InviteInfo) => {
-    const workspaces = new SDK.Workspaces(client!);
+    const workspaces = new SDK.Workspaces(client);
 
     workspaces
       .addWorkspaceMember({
@@ -198,12 +217,12 @@ function SettingsContainer() {
         showSnackbar("Invite sent");
       })
       .catch((err) => {
-        console.error(err);
+        logger.error("error adding workspace member", err);
       });
   };
 
   const handleResendInvite = (id: string) => {
-    const workspaces = new SDK.Workspaces(client!);
+    const workspaces = new SDK.Workspaces(client);
 
     workspaces
       .resendWorkspaceMemberInvite(id)
@@ -211,7 +230,7 @@ function SettingsContainer() {
         showSnackbar("Invite resent");
       })
       .catch((err) => {
-        console.error(err);
+        logger.error("error resending workspace member invite", err);
       });
   };
 
