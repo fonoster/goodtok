@@ -1,7 +1,26 @@
+/*
+ * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+ * http://github.com/fonoster/goodtok
+ *
+ * This file is part of Goodtok
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ *    https://opensource.org/licenses/MIT
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import * as SDK from "@goodtok/sdk";
 import { useParams } from "react-router-dom";
 import { useAuth } from "~authentication";
 import { QueuePage } from "~components/queue/QueuePage";
+import { useLogger } from "~logger";
 import React, { useEffect } from "react";
 import moment from "moment";
 
@@ -11,7 +30,7 @@ const mapQueueEntry = (entry: {
     name: string;
     note: string;
   };
-  createdAt: string;
+  createdAt: Date;
   status: string;
   aor: string;
 }) => {
@@ -30,14 +49,14 @@ function WorkspaceContainer() {
   const [avatar, setAvatar] = React.useState("");
   const [storeURL, setStoreURL] = React.useState("");
   const [workspaceName, setWorkspaceName] = React.useState("");
-  const [avgWaitTime, setAvgWaitTime] = React.useState("");
+  const [avgWaitTime] = React.useState("");
   // Fix this any
   const [peopleList, setPeopleList] = React.useState<any[]>([]);
   const [isOnline, setIsOnline] = React.useState(false);
 
-  let { id: workspaceId } = useParams();
-
+  const { id: workspaceId } = useParams() as { id: string };
   const { client, signOut, isSignedIn } = useAuth();
+  const logger = useLogger();
 
   if (!client) {
     signOut();
@@ -53,7 +72,7 @@ function WorkspaceContainer() {
         setAvatar(user.avatar);
       })
       .catch((err) => {
-        // TODO: Handle error
+        logger.error("err getting current user", err);
       });
   });
 
@@ -66,28 +85,27 @@ function WorkspaceContainer() {
   useEffect(() => {
     const workspaces = new SDK.Workspaces(client);
     workspaces
-      .getWorkspaceById(workspaceId!)
+      .getWorkspaceById(workspaceId)
       .then((workspace) => {
-        setStoreURL(workspace.shopifyAccount?.storeDomain!);
+        setStoreURL(workspace.shopifyAccount?.storeDomain as string);
         setWorkspaceName(workspace.name);
       })
       .catch((err) => {
-        // TODO: Handle error
+        logger.error("err getting workspace", err);
       });
 
     workspaces
-      .getQueueByWorkspaceId(workspaceId!)
+      .getQueueByWorkspaceId(workspaceId)
       .then((response: { queue: SDK.QueueEntry[] }) => {
-        setPeopleList(response.queue.map((entry: any) => mapQueueEntry(entry)));
+        setPeopleList(response.queue.map((entry) => mapQueueEntry(entry)));
       })
-      .catch((err: any) => {
-        console.error({ err });
-        // TODO: Handle error
+      .catch((err) => {
+        logger.error("err getting queue", err);
       });
 
-    workspaces.watchQueue(workspaceId!, (error, person) => {
-      if (error) {
-        console.error("Failed to watch queue:", error);
+    workspaces.watchQueue(workspaceId, (err, person) => {
+      if (err) {
+        logger.error("failed to watch queue:", err);
         return;
       }
 
@@ -95,20 +113,20 @@ function WorkspaceContainer() {
         const newPeopleList = peopleList.filter(
           (p) => p.id !== person?.customerId
         );
-        return [...newPeopleList, mapQueueEntry(person as any)];
+        return [...newPeopleList, mapQueueEntry(person as SDK.QueueEntry)];
       });
     });
-  }, [client]);
+  }, [client, workspaceId]);
 
   useEffect(() => {
     const workspaces = new SDK.Workspaces(client);
-    workspaces.watchWorkspaceStatus(workspaceId!, (error, status) => {
-      if (error) {
-        console.error("Failed to watch workspace status:", error);
+    workspaces.watchWorkspaceStatus(workspaceId, (err, status) => {
+      if (err) {
+        logger.error("failed to watch workspace status:", err);
         return;
       }
 
-      setIsOnline(status?.online!);
+      setIsOnline(status?.online as boolean);
     });
   });
 
@@ -119,13 +137,13 @@ function WorkspaceContainer() {
   const handleOnlineChange = (newOnlineStatus: boolean) => {
     const workspaces = new SDK.Workspaces(client);
     const status = newOnlineStatus ? "ONLINE" : "OFFLINE";
-    workspaces.updateWorkspace({ id: workspaceId!, status });
+    workspaces.updateWorkspace({ id: workspaceId, status });
     setIsOnline(newOnlineStatus);
   };
 
   return (
     <QueuePage
-      workspaceId={workspaceId!}
+      workspaceId={workspaceId}
       userName={name}
       avatar={avatar}
       storeURL={storeURL}
