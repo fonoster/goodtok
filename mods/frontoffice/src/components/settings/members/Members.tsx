@@ -37,6 +37,7 @@ import {
   StyledTitle
 } from "./MembersStyles";
 import React from "react";
+import { ConfirmationForm } from "../../../components/confirmation/ConfirmationForm";
 
 type MembersProps = {
   data: Member[];
@@ -52,6 +53,8 @@ export const Members: React.FC<MembersProps> = ({
   data = []
 }) => {
   const [inviteOpen, setInviteOpen] = React.useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false);
+  const [memberToDelete, setMemberToDelete] = React.useState<string | null>();
 
   // Sort data so that OWNER is always first
   const sorterdData = data.sort((a, b) => {
@@ -129,7 +132,10 @@ export const Members: React.FC<MembersProps> = ({
                     {row.role !== "OWNER" && (
                       <IconButton
                         aria-label="delete"
-                        onClick={() => onDelete && onDelete(row.id)}
+                        onClick={() => {
+                          setConfirmDeleteOpen(true);
+                          setMemberToDelete(row.id);
+                        }}
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -165,6 +171,29 @@ export const Members: React.FC<MembersProps> = ({
           onInvite={(name, email, role) => {
             setInviteOpen(false);
             onInvite && onInvite({ name, email, role });
+          }}
+        />
+      </Modal>
+      <Modal
+        BackdropProps={{
+          style: {
+            backgroundColor: "#27150C",
+            opacity: 0.8
+          }
+        }}
+        open={confirmDeleteOpen}
+        onClose={() => setConfirmDeleteOpen(false)}
+        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      >
+        <ConfirmationForm
+          title="Remove Member"
+          description="Are you sure you want to remove this member from your workspace? This action cannot be undone."
+          confirmationText="DELETE"
+          onCancel={() => setConfirmDeleteOpen(false)}
+          onConfirm={() => {
+            setConfirmDeleteOpen(false);
+            memberToDelete && onDelete(memberToDelete);
+            setMemberToDelete(null);
           }}
         />
       </Modal>

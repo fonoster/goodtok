@@ -98,50 +98,54 @@ type Story = StoryObj<typeof meta>;
  */
 export const SettingsPageExample: Story = {
   args: {
+    workspaceId: "1",
     userSettings: {
+      id: "1",
       name: "Jane Doe",
       email: "jane@example.com",
-      avatarUrl: "https://mui.com/static/images/avatar/3.jpg"
+      avatarUrl: "https://mui.com/static/images/avatar/3.jpg",
+      createdAt: new Date("2021-01-01T00:00:00Z")
     },
     workspaceSettings: {
       name: "My Workspace",
       timezone: "America/New_York",
       shopifyStoreUrl: "quickstart-43c62e3b.myshopify.com",
       calendarUrl: "https://cal.com/some-calendar",
-      schedule: {
-        monday: {
+      hoursOfOperation: {
+        Monday: {
           from: "09:00",
           to: "17:00"
         },
-        tuesday: {
+        Tuesday: {
           from: "09:00",
           to: "17:00"
         },
-        wednesday: {
+        Wednesday: {
           from: "09:00",
           to: "17:00"
         },
-        thursday: {
+        Thursday: {
           from: "09:00",
           to: "17:00"
         },
-        friday: {
+        Friday: {
           from: "09:00",
           to: "17:00"
         },
-        saturday: {
-          from: false,
-          to: false
+        Saturday: {
+          from: "",
+          to: ""
         },
-        sunday: {
-          from: false,
-          to: false
+        Sunday: {
+          from: "",
+          to: ""
         }
       }
     },
     members: [
       {
         id: "1",
+        userId: "101",
         name: "John Doe",
         email: "john@example.com",
         role: Role.ADMIN,
@@ -150,6 +154,7 @@ export const SettingsPageExample: Story = {
       },
       {
         id: "2",
+        userId: "102",
         name: "Lisa Smith",
         email: "lisa.smith@service.com",
         role: Role.MEMBER,
@@ -158,6 +163,7 @@ export const SettingsPageExample: Story = {
       },
       {
         id: "3",
+        userId: "103",
         name: "Omar Ahmad",
         email: "omar.ahmad@mysite.net",
         role: Role.MEMBER,
@@ -166,6 +172,7 @@ export const SettingsPageExample: Story = {
       },
       {
         id: "4",
+        userId: "104",
         name: "Emily Johnson",
         email: "emilyj@corporate.org",
         role: Role.ADMIN,
@@ -174,6 +181,7 @@ export const SettingsPageExample: Story = {
       },
       {
         id: "5",
+        userId: "105",
         name: "Raj Patel",
         email: "raj.patel@exampleshop.com",
         role: Role.MEMBER,
