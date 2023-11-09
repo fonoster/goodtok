@@ -143,14 +143,6 @@ export const Members: React.FC<MembersProps> = ({
                   </StyledTableCell>
                 </TableRow>
               ))}
-
-              {data.length === 0 && (
-                <TableRow>
-                  <StyledTableCell colSpan={6} align="center">
-                    This workspace has no members yet.
-                  </StyledTableCell>
-                </TableRow>
-              )}
             </TableBody>
           </StyledTable>
         </StyledTableContainer>

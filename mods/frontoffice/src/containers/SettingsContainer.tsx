@@ -114,39 +114,44 @@ function SettingsContainer() {
   }, [client, workspaceId]);
 
   useEffect(() => {
-    if (!workspaceId || userSettings === null) {
+    if (userSettings === null) {
       return;
     }
+
     const workspaces = new SDK.Workspaces(client);
+
+    // Initialize members with owner data
+    const ownerMember = {
+      id: userSettings.id,
+      userId: userSettings.id,
+      name: userSettings.name,
+      email: userSettings.email,
+      role: Role.OWNER,
+      status: Status.ACTIVE,
+      createdAt: new Date(userSettings.createdAt)
+    };
+
+    setMembers([ownerMember]); // set initial state with only the owner
 
     workspaces
       .getMembersByWorkspaceId(workspaceId as string)
       .then((response) => {
-        const newMembers = response.members.map((member) => {
-          return {
-            id: member.id,
-            name: member.name,
-            email: member.email,
-            role: member.role,
-            status: member.status,
-            createdAt: new Date(member.createdAt)
-          };
-        });
+        const newMembers = response.members.map((member) => ({
+          id: member.id,
+          userId: member.userId,
+          name: member.name,
+          email: member.email,
+          role: member.role as unknown as Role,
+          status: member.status as unknown as Status,
+          createdAt: new Date(member.createdAt)
+        }));
 
-        const ownerMember = {
-          id: userSettings.id!,
-          name: userSettings!.name,
-          email: userSettings!.email,
-          role: Role.OWNER,
-          status: Status.ACTIVE,
-          createdAt: userSettings!.createdAt
-        };
-        setMembers([ownerMember, ...newMembers] as unknown as Member[]);
+        setMembers((prevMembers) => [prevMembers[0], ...newMembers]);
       })
       .catch((err) => {
         logger.error("error getting workspace members", err);
       });
-  }, [client]);
+  }, [client, workspaceId, userSettings]);
 
   const handleOnUserSettingsSave = (name: string, password: string) => {
     const currentUserSettings = userSettings;
