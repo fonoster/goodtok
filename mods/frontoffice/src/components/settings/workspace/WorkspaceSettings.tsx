@@ -18,19 +18,24 @@
  */
 import { z } from "zod";
 import { HoursOfOperationErrors, WorkspaceSettingsProps } from "./types";
-import { Box, Typography } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 import { TextField } from "../../textfield/TextField";
 import { Button } from "../../button/Button";
 import { Select } from "../../select/Select";
 import { timezones } from "../../../utils/timezones";
 import { Formik, Field, Form } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { StyledBox, SettingsTitle } from "./WorkspaceSettingsStyles";
+import {
+  StyledBox,
+  SettingsTitle,
+  StyledDangerZone
+} from "./WorkspaceSettingsStyles";
 import { Day } from "@goodtok/sdk";
 import { sortHours } from "./sortedHours";
 import { isValidTimeRange } from "./isValidTimeRange";
 import { hasScheduleErrors } from "./hasScheduleErrors";
 import React, { useRef, useState } from "react";
+import { ConfirmationForm } from "~components/confirmation/ConfirmationForm";
 
 // Zod schema for validation
 const validationSchema = z.object({
@@ -65,6 +70,7 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   initialHoursOfOperation,
   onSave
 }) => {
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const hoursOfOperationRef = useRef(initialHoursOfOperation);
   const [hoursOfOperation, setHoursOfOperation] = useState(
     initialHoursOfOperation
@@ -126,8 +132,8 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
         }
       }}
     >
-      {({ errors, touched, setFieldValue }) => (
-        <Form>
+      {({ errors, touched }) => (
+        <Form style={{ display: "flex", alignItems: "flex-start" }}>
           <Box>
             <SettingsTitle>Workspace Settings</SettingsTitle>
             <StyledBox>
@@ -226,6 +232,52 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
               <Button type="submit">Save changes</Button>
             </Box>
           </Box>
+          <Box sx={{ ml: 5 }}>
+            <SettingsTitle>Danger Zone</SettingsTitle>
+            <StyledDangerZone>
+              <Typography variant="body1">Delete Workspace</Typography>
+              <Typography variant="body2" sx={{ mt: 1 }}>
+                This will permanently delete your workspace and all of its data.
+                This action cannot be undone.
+              </Typography>
+
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{ mt: 2 }}
+                onClick={() => setConfirmDeleteOpen(true)}
+              >
+                Delete workspace
+              </Button>
+            </StyledDangerZone>
+          </Box>
+          <Modal
+            BackdropProps={{
+              style: {
+                backgroundColor: "#27150C",
+                opacity: 0.8
+              }
+            }}
+            open={confirmDeleteOpen}
+            onClose={() => setConfirmDeleteOpen(false)}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <ConfirmationForm
+              title="Delete Workspace"
+              description="Are you sure you want to delete this workspace? You will lose all associated data. This action cannot be undone."
+              confirmationText={initialName}
+              onCancel={() => setConfirmDeleteOpen(false)}
+              onConfirm={() => {
+                setConfirmDeleteOpen(false);
+                // memberToDelete && onDelete(memberToDelete);
+                // setMemberToDelete(null);
+              }}
+            />
+          </Modal>
         </Form>
       )}
     </Formik>

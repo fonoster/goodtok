@@ -80,7 +80,7 @@ export const WorkspaceSettingsExample: Story = {
     initialShopifyStoreUrl: "quickstart-43c62e3b.myshopify.com",
     initialTimezone: "America/New_York",
     initialCalendarUrl: "https://cal.com/some-calendar",
-    initialSchedule: {
+    initialHoursOfOperation: {
       Monday: { from: "09:00", to: "17:00" },
       Tuesday: { from: "09:00", to: "17:00" },
       Wednesday: { from: "09:00", to: "17:00" },

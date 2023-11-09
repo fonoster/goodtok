@@ -35,7 +35,8 @@ import React, { useEffect } from "react";
 
 function SettingsContainer() {
   const [members, setMembers] = React.useState<Member[]>([]);
-  const [userSettings, setUserSettings] = React.useState<UserSettingsType>();
+  const [userSettings, setUserSettings] =
+    React.useState<UserSettingsType | null>(null);
   const [workspaceSettings, setWorkspaceSettings] =
     React.useState<WorkspaceSettingsType>();
 
@@ -113,6 +114,9 @@ function SettingsContainer() {
   }, [client, workspaceId]);
 
   useEffect(() => {
+    if (!workspaceId || userSettings === null) {
+      return;
+    }
     const workspaces = new SDK.Workspaces(client);
 
     workspaces
@@ -142,7 +146,7 @@ function SettingsContainer() {
       .catch((err) => {
         logger.error("error getting workspace members", err);
       });
-  }, [client, userSettings, workspaceId]);
+  }, [client]);
 
   const handleOnUserSettingsSave = (name: string, password: string) => {
     const currentUserSettings = userSettings;

@@ -26,7 +26,8 @@ export const StyledBox = styled(Box)(() => ({
   background: "var(--base-01, #FFF)",
   paddingTop: "32px",
   paddingLeft: "24px",
-  paddingRight: "24px"
+  paddingRight: "24px",
+  paddingBottom: "32px"
 }));
 
 export const SettingsTitle = styled(Typography)(() => ({
@@ -39,4 +40,10 @@ export const SettingsTitle = styled(Typography)(() => ({
   lineHeight: "28px",
   letterSpacing: "0.5px",
   marginBottom: "8px"
+}));
+
+export const StyledDangerZone = styled(Box)(() => ({
+  background: "var(--danger-light, #FFFFFF)",
+  border: "1px solid var(--danger, #FF0000)",
+  padding: "16px"
 }));
