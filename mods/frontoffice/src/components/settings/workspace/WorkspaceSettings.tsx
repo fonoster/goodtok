@@ -34,8 +34,8 @@ import { Day } from "@goodtok/sdk";
 import { sortHours } from "./sortedHours";
 import { isValidTimeRange } from "./isValidTimeRange";
 import { hasScheduleErrors } from "./hasScheduleErrors";
+import { ConfirmationForm } from "../../../components/confirmation/ConfirmationForm";
 import React, { useRef, useState } from "react";
-import { ConfirmationForm } from "~components/confirmation/ConfirmationForm";
 
 // Zod schema for validation
 const validationSchema = z.object({
