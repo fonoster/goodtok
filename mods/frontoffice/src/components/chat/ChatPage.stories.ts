@@ -149,6 +149,8 @@ export const ChatPageWithActiveCall: Story = {
         "https://storage.googleapis.com/fn01/videos/demo_call_staff.mp4";
       remoteVideo.loop = true;
       remoteVideo.muted = true;
+
+      // eslint-disable-next-line storybook/context-in-play-function
       remoteVideo.play();
 
       const localVideo = document.querySelector(
@@ -158,6 +160,8 @@ export const ChatPageWithActiveCall: Story = {
         "https://storage.googleapis.com/fn01/videos/demo_call_customer.mp4";
       localVideo.loop = true;
       localVideo.muted = true;
+
+      // eslint-disable-next-line storybook/context-in-play-function
       localVideo.play();
 
       // Changed position to fit the storybook

@@ -38,6 +38,7 @@ const validationSchema = z.object({
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
+    .max(255, "Password must be less than 255 characters")
     .optional()
 });
 

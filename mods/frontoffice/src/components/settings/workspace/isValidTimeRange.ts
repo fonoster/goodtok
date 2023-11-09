@@ -16,30 +16,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Tab, Tabs } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import "@fontsource/poppins/500.css";
-import "@fontsource/poppins/400.css";
-
-export const StyledTab = styled(Tab)({
-  color: "#000000",
-  fontFamily: "Poppins",
-  fontSize: 14,
-  fontStyle: "normal",
-  fontWeight: 400,
-  lineHeight: "28px",
-  letterSpacing: "0.5px",
-
-  textTransform: "none",
-  "&.Mui-selected": {
-    color: "#000000",
-    fontWeight: 500,
-    textTransform: "none"
-  }
-});
-
-export const StyledTabs = styled(Tabs)({
-  "& .MuiTabs-indicator": {
-    backgroundColor: "orange"
-  }
-});
+// Function to check if 'from' time is before 'to' time
+export const isValidTimeRange = (from: string, to: string) => {
+  if (from === "" && to === "") return true; // If both are empty, consider it valid
+  const [fromHours, fromMinutes] = from?.split(":").map(Number) || [0, 0];
+  const [toHours, toMinutes] = to?.split(":").map(Number) || [0, 0];
+  return (
+    new Date(0, 0, 0, fromHours, fromMinutes) <
+    new Date(0, 0, 0, toHours, toMinutes)
+  );
+};

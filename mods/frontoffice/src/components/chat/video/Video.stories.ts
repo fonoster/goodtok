@@ -84,6 +84,8 @@ export const VideoExample: Story = {
       "https://storage.googleapis.com/fn01/videos/demo_call_staff.mp4";
     remoteVideo.loop = true;
     remoteVideo.muted = true;
+
+    // eslint-disable-next-line storybook/context-in-play-function
     remoteVideo.play();
 
     const localVideo = document.querySelector(
@@ -94,6 +96,7 @@ export const VideoExample: Story = {
     localVideo.loop = true;
     localVideo.muted = true;
 
+    // eslint-disable-next-line storybook/context-in-play-function
     localVideo.play();
 
     // Changed position to fit the storybook

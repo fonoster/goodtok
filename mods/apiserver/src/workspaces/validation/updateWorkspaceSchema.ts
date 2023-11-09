@@ -21,7 +21,7 @@ import { WorkspaceStatus } from "@prisma/client";
 import { MAX_LENGTH_FOR_ANY_INPUT, MAX_LENGTH_FOR_NAME } from "../../constants";
 
 export const updateWorkspaceSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().min(1),
   name: z
     .string()
     .min(1)
@@ -43,7 +43,6 @@ export const updateWorkspaceSchema = z.object({
         .optional(),
       accessToken: z
         .string()
-        .min(1)
         .max(MAX_LENGTH_FOR_ANY_INPUT, "Access token is too long")
         .optional()
     })

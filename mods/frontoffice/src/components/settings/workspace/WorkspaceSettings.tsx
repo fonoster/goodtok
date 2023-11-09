@@ -16,34 +16,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WeeklyHoursType, Day } from "@goodtok/sdk";
+import { z } from "zod";
+import { HoursOfOperationErrors, WorkspaceSettingsProps } from "./types";
 import { Box, Typography } from "@mui/material";
 import { TextField } from "../../textfield/TextField";
-import { StyledBox, SettingsTitle } from "./WorkspaceSettingsStyles";
 import { Button } from "../../button/Button";
 import { Select } from "../../select/Select";
 import { timezones } from "../../../utils/timezones";
-import { WorkspaceSettingsType } from "./types";
 import { Formik, Field, Form } from "formik";
-import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import React, { useState } from "react";
+import { StyledBox, SettingsTitle } from "./WorkspaceSettingsStyles";
+import { Day } from "@goodtok/sdk";
+import { sortHours } from "./sortedHours";
+import { isValidTimeRange } from "./isValidTimeRange";
+import { hasScheduleErrors } from "./hasScheduleErrors";
+import React, { useRef, useState } from "react";
 
-type HoursOfOperationErrors = {
-  [day: string]: {
-    from: boolean;
-    to: boolean;
-  };
-};
+// Zod schema for validation
+const validationSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Name is required")
+    .max(60, "Name must be less than 60 characters"),
+  calendarUrl: z
+    .string()
+    .min(1, "Calendar URL is required")
+    .url("Invalid URL format")
+    .max(255, "Calendar URL must be less than 100 characters"),
+  shopifyStoreUrl: z
+    .string()
+    .min(1, "Shopify Store URL is required")
+    .url("Invalid URL format")
+    .max(255, "Shopify Store URL must be less than 255 characters"),
+  shopifyStoreAPIkey: z
+    .string()
+    .max(255, "API Key must be less than 255 characters")
+    .optional()
+});
 
-type WorkspaceSettingsProps = {
-  initialName: string;
-  initialTimezone: string;
-  initialShopifyStoreUrl: string;
-  initialCalendarUrl: string;
-  initialHoursOfOperation: WeeklyHoursType;
-  onSave?: (settings: WorkspaceSettingsType) => void;
-};
+// Convert Zod schema to Formik validation schema
+const formikValidationSchema = toFormikValidationSchema(validationSchema);
 
 export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   initialName,
@@ -53,44 +65,10 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   initialHoursOfOperation,
   onSave
 }) => {
-  const [name, setName] = useState(initialName);
-  const [timezone, setTimezone] = useState(initialTimezone);
-  const [calendarUrl, setCalendarUrl] = useState(initialCalendarUrl);
-  const [shopifyStoreAPIkey, setShopifyStoreAPIkey] = useState("");
-  const [shopifyStoreUrl, setShopifyStoreUrl] = useState(
-    initialShopifyStoreUrl
-  );
+  const hoursOfOperationRef = useRef(initialHoursOfOperation);
   const [hoursOfOperation, setHoursOfOperation] = useState(
     initialHoursOfOperation
   );
-
-  const orderedDays = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
-  ];
-
-  // Sort the hours of operation by the correct order of days
-  const sortedHours = Object.entries(hoursOfOperation).sort(
-    ([day1], [day2]) => orderedDays.indexOf(day1) - orderedDays.indexOf(day2)
-  );
-
-  const handleSave = () => {
-    onSave &&
-      onSave({
-        name,
-        timezone,
-        calendarUrl,
-        shopifyStoreUrl,
-        shopifyStoreAPIkey,
-        hoursOfOperation
-      });
-  };
-
   const [scheduleErrors, setScheduleErrors] = useState<HoursOfOperationErrors>(
     Object.keys(initialHoursOfOperation).reduce(
       (acc, day) => ({
@@ -100,17 +78,6 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
       {}
     )
   );
-
-  // Function to check if 'from' time is before 'to' time
-  const isValidTimeRange = (from: string, to: string) => {
-    if (from === "" && to === "") return true; // If both are empty, consider it valid
-    const [fromHours, fromMinutes] = from?.split(":").map(Number) || [0, 0];
-    const [toHours, toMinutes] = to?.split(":").map(Number) || [0, 0];
-    return (
-      new Date(0, 0, 0, fromHours, fromMinutes) <
-      new Date(0, 0, 0, toHours, toMinutes)
-    );
-  };
 
   const handleScheduleChange = (
     day: Day,
@@ -138,93 +105,129 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
     }));
   };
 
-  const hasScheduleErrors = () => {
-    return Object.values(scheduleErrors).some((day) => day.from || day.to);
-  };
-
   return (
-    <Box>
-      <SettingsTitle>Workspace Settings</SettingsTitle>
-      <StyledBox>
-        <TextField
-          label="Name"
-          placeholder="My store"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <Select
-          label="Timezone"
-          value={timezone}
-          data={timezones}
-          onChange={(e) => setTimezone(e.target.value)}
-        />
-
-        <TextField
-          label="Calendar URL"
-          value={calendarUrl}
-          onChange={(e) => setCalendarUrl(e.target.value)}
-        />
-
-        <TextField
-          label="Shopify Store URL"
-          value={shopifyStoreUrl}
-          onChange={(e) => setShopifyStoreUrl(e.target.value)}
-        />
-
-        <TextField
-          label="Shopify API Key"
-          type="password"
-          placeholder="********"
-          value={shopifyStoreAPIkey}
-          onChange={(e) => setShopifyStoreAPIkey(e.target.value)}
-        />
-      </StyledBox>
-
-      <SettingsTitle sx={{ mt: 4 }}>Hours of Operation</SettingsTitle>
-      <StyledBox sx={{ pb: 1 }}>
-        {sortedHours.map(([day, times]) => (
-          <Box key={day} display="flex">
-            <Typography
-              variant="body1"
-              sx={{ width: "90px", marginRight: "19px", textAlign: "right" }}
-            >
-              {day}
-            </Typography>
-            <Box display="flex" alignItems="center" mb={3}>
-              <TextField
-                label="From"
-                type="time"
-                value={times.from}
-                onChange={(e) =>
-                  handleScheduleChange(day as Day, "from", e.target.value)
-                }
-                sx={{ marginRight: "8px" }}
-                error={!!scheduleErrors[day]?.from}
+    <Formik
+      initialValues={{
+        name: initialName,
+        timezone: initialTimezone,
+        calendarUrl: initialCalendarUrl,
+        shopifyStoreUrl: initialShopifyStoreUrl,
+        shopifyStoreAPIkey: ""
+      }}
+      validationSchema={formikValidationSchema}
+      onSubmit={(values, { setSubmitting }) => {
+        if (!hasScheduleErrors(scheduleErrors)) {
+          onSave &&
+            onSave({
+              ...values,
+              hoursOfOperation: hoursOfOperationRef.current
+            });
+          setSubmitting(false);
+        }
+      }}
+    >
+      {({ errors, touched, setFieldValue }) => (
+        <Form>
+          <Box>
+            <SettingsTitle>Workspace Settings</SettingsTitle>
+            <StyledBox>
+              <Field
+                as={TextField}
+                label="Name"
+                name="name"
+                placeholder="Name"
+                error={touched.name && errors.name}
+                helperText={touched.name && errors.name}
               />
-              <Typography variant="body2" sx={{ marginX: "10px" }}>
-                -
-              </Typography>
-              <TextField
-                label="To"
-                type="time"
-                value={times.to}
-                onChange={(e) =>
-                  handleScheduleChange(day as Day, "to", e.target.value)
-                }
-                sx={{ marginLeft: "8px" }}
-                error={!!scheduleErrors[day]?.to}
+
+              <Field
+                as={Select}
+                label="Timezone"
+                name="timezone"
+                data={timezones}
+                error={touched.timezone && errors.timezone}
+                helperText={touched.timezone && errors.timezone}
               />
+
+              <Field
+                as={TextField}
+                label="Calendar URL"
+                name="calendarUrl"
+                error={touched.calendarUrl && errors.calendarUrl}
+                helperText={touched.calendarUrl && errors.calendarUrl}
+              />
+
+              <Field
+                as={TextField}
+                label="Shopify Store URL"
+                name="shopifyStoreUrl"
+                error={touched.shopifyStoreUrl && errors.shopifyStoreUrl}
+                helperText={touched.shopifyStoreUrl && errors.shopifyStoreUrl}
+              />
+
+              <Field
+                as={TextField}
+                label="Shopify API Key"
+                name="shopifyStoreAPIkey"
+                type="password"
+                placeholder="API Key"
+                error={touched.shopifyStoreAPIkey && errors.shopifyStoreAPIkey}
+                helperText={
+                  touched.shopifyStoreAPIkey && errors.shopifyStoreAPIkey
+                }
+              />
+            </StyledBox>
+
+            <SettingsTitle sx={{ mt: 4 }}>Hours of Operation</SettingsTitle>
+
+            <StyledBox sx={{ pb: 1 }}>
+              {sortHours(hoursOfOperation).map(([day, times]) => (
+                <Box key={day} display="flex">
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      width: "90px",
+                      marginRight: "19px",
+                      textAlign: "right"
+                    }}
+                  >
+                    {day}
+                  </Typography>
+                  <Box display="flex" alignItems="center" mb={3}>
+                    <TextField
+                      label="From"
+                      type="time"
+                      value={times.from}
+                      onChange={(e) =>
+                        handleScheduleChange(day as Day, "from", e.target.value)
+                      }
+                      sx={{ marginRight: "8px" }}
+                      error={!!scheduleErrors[day]?.from}
+                    />
+                    <Typography variant="body2" sx={{ marginX: "10px" }}>
+                      -
+                    </Typography>
+                    <TextField
+                      label="To"
+                      type="time"
+                      value={times.to}
+                      onChange={(e) =>
+                        handleScheduleChange(day as Day, "to", e.target.value)
+                      }
+                      sx={{ marginLeft: "8px" }}
+                      error={!!scheduleErrors[day]?.to}
+                    />
+                  </Box>
+                </Box>
+              ))}
+            </StyledBox>
+
+            <Box sx={{ width: 206, mt: 5 }}>
+              <Button type="submit">Save changes</Button>
             </Box>
           </Box>
-        ))}
-      </StyledBox>
-
-      <Box sx={{ width: 206, mt: 5 }}>
-        <Button onClick={handleSave} disabled={hasScheduleErrors()}>
-          Save changes
-        </Button>
-      </Box>
-    </Box>
+        </Form>
+      )}
+    </Formik>
   );
 };

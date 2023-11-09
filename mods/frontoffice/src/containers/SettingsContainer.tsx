@@ -144,7 +144,7 @@ function SettingsContainer() {
         });
       })
       .catch((err) => {
-        showErrorSnackbar(err.message)
+        showErrorSnackbar(err.message);
       });
   };
 
@@ -166,7 +166,7 @@ function SettingsContainer() {
         showSnackbar("Settings saved");
       })
       .catch((err) => {
-        console.error(err);
+        showErrorSnackbar(err.message);
       });
   };
 
