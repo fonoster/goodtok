@@ -37,7 +37,7 @@ type ChatPageProps = {
   isLocalMicrophoneMuted: boolean;
   isAdmin: boolean;
   onStartCall: () => void;
-  onReturnToQueue: () => void;
+  onCustomerDequeue: () => void;
   onVideoRefsReady: (refs: any) => void;
   onSignOut: () => void;
   onHangup: () => void;
@@ -57,7 +57,7 @@ export const ChatPage: React.FC<ChatPageProps> = ({
   isLocalMicrophoneMuted,
   isAdmin,
   onStartCall,
-  onReturnToQueue,
+  onCustomerDequeue,
   onVideoRefsReady,
   onSignOut,
   onHangup,
@@ -107,7 +107,7 @@ export const ChatPage: React.FC<ChatPageProps> = ({
 
         {!isActiveCall && (
           <StartCall
-            onReturnToQueue={onReturnToQueue}
+            onCustomerDequeue={onCustomerDequeue}
             onStartCall={onStartCall}
           />
         )}

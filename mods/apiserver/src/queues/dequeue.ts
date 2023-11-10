@@ -16,22 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractBaseClient } from "./base";
-import Client from "./client";
-import Users from "./users";
-import Workspaces from "./workspaces";
-import Tokens from "./tokens";
-import Customers from "./customers";
-import Queues from "./queues";
+import { getLogger } from "@fonoster/logger";
+import { Context } from "../context";
+import { DequeueRequest } from "./types";
 
-export {
-  AbstractBaseClient,
-  Client,
-  Users,
-  Workspaces,
-  Tokens,
-  Customers,
-  Queues
-};
-export * from "./workspaces/types";
-export * from "./users/types";
+const logger = getLogger({ service: "apiserver", filePath: __filename });
+
+export function dequeue(ctx: Context, request: DequeueRequest) {
+  const { workspaceId, queueEntryId } = request;
+
+  logger.verbose("remove customer from queue", { workspaceId, queueEntryId });
+}

@@ -16,22 +16,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractBaseClient } from "./base";
-import Client from "./client";
-import Users from "./users";
-import Workspaces from "./workspaces";
-import Tokens from "./tokens";
-import Customers from "./customers";
-import Queues from "./queues";
-
-export {
-  AbstractBaseClient,
-  Client,
-  Users,
-  Workspaces,
-  Tokens,
-  Customers,
-  Queues
-};
-export * from "./workspaces/types";
-export * from "./users/types";
+export { default } from "./queues";

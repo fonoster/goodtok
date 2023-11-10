@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 import { z } from "zod";
-import { QueueEntryStatus } from "@prisma/client";
 import {
   updateWorkspaceSchema,
   createWorkspaceSchema,
@@ -76,21 +75,6 @@ export type Member = {
   createdAt: Date;
 };
 
-export type QueueEntry = {
-  customerId: string;
-  registeredAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
-  status: QueueEntryStatus;
-  workspaceId: string;
-  customer: {
-    name: string;
-    avatar: string;
-    note: string;
-  };
-  aor: string;
-};
-
 export type UpdateWorkspaceRequest = z.infer<typeof updateWorkspaceSchema>;
 
 export type CreateWorkspaceRequest = z.infer<typeof createWorkspaceSchema>;
@@ -101,8 +85,4 @@ export type AddWorkspaceMemberRequest = z.infer<
 
 export type GetMembersResponse = {
   members: Member[];
-};
-
-export type GetQueueResponse = {
-  queue: QueueEntry[];
 };

@@ -16,10 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { QueueEntry } from "./types";
 import { observable } from "@trpc/server/observable";
 import { getLogger } from "@fonoster/logger";
-import { natsObservers } from "./observers";
+import { natsObservers } from "../workspaces/observers";
+import { QueueEntry } from "./types";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 

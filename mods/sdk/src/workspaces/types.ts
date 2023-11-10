@@ -18,13 +18,11 @@
  */
 import type {
   Member,
-  QueueEntry,
   WeeklyHoursType,
   Workspace,
   WorkspaceStatus,
   UpdateWorkspaceRequest,
   GetMembersResponse,
-  GetQueueResponse,
   Day,
   CreateWorkspaceRequest,
   AddWorkspaceMemberRequest
@@ -34,10 +32,8 @@ export type WorkspacesClient = {
   getDefaultWorkspaceId: () => string;
   getDefaultWorkspace: () => Promise<Workspace>;
   getDefaultWorkspaceMembers: () => Promise<GetMembersResponse>;
-  getDefaultWorkspaceQueue: () => Promise<GetQueueResponse>;
   getWorkspaceById: (id: string) => Promise<Workspace>;
   getMembersByWorkspaceId: (id: string) => Promise<GetMembersResponse>;
-  getQueueByWorkspaceId(id: string): Promise<GetQueueResponse>;
   createWorkspace: (request: CreateWorkspaceRequest) => Promise<Workspace>;
   updateWorkspace: (request: UpdateWorkspaceRequest) => Promise<Workspace>;
   getWorkspaces: () => Promise<Workspace[]>;
@@ -45,14 +41,10 @@ export type WorkspacesClient = {
   removeWorkspaceMember: (id: string) => Promise<void>;
   removeWorkspace: (id: string) => Promise<void>;
   resendWorkspaceMemberInvite: (id: string) => Promise<void>;
-  watchQueue: (
-    id: string,
-    callback: (error: Error, data?: QueueEntry) => void
-  ) => void;
   watchWorkspaceStatus: (
     id: string,
     callback: (error: Error, data?: WorkspaceStatus) => void
   ) => void;
 };
 
-export { Member, QueueEntry, Day, WeeklyHoursType, Workspace };
+export { Member, Day, WeeklyHoursType, Workspace };

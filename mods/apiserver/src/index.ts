@@ -30,7 +30,7 @@ import express from "express";
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 // Start NATS watcher
-import("./workspaces/watchNats");
+import("./queues/watchNats");
 
 // Setup express
 const app = express();
@@ -64,3 +64,4 @@ export type * from "./customers/types";
 export type * from "./workspaces/types";
 export type * from "./users/types";
 export type * from "./tokens/types";
+export type * from "./queues/types";

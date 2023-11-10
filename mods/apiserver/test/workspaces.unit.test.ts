@@ -199,7 +199,7 @@ describe("@apiserver[workspaces]", () => {
     } as unknown as Context;
 
     const { getQueueByWorkspaceId } = await import(
-      "../src/workspaces/getQueueByWorkspaceId"
+      "../src/queues/getQueueByWorkspaceId"
     );
 
     // Act
@@ -238,7 +238,7 @@ describe("@apiserver[workspaces]", () => {
     } as unknown as Context;
 
     const { getQueueByWorkspaceId } = await import(
-      "../src/workspaces/getQueueByWorkspaceId"
+      "../src/queues/getQueueByWorkspaceId"
     );
 
     // Act
@@ -382,9 +382,7 @@ describe("@apiserver[workspaces]", () => {
       workspaceId: testWorkspace.queue[0].workspaceId
     };
 
-    const { updateQueueEntry } = await import(
-      "../src/workspaces/updateQueueEntry"
-    );
+    const { updateQueueEntry } = await import("../src/queues/updateQueueEntry");
 
     // Act
     const queueEntry = await updateQueueEntry(ctx, request);
@@ -400,7 +398,7 @@ describe("@apiserver[workspaces]", () => {
       next: callback
     };
 
-    const { watchQueue } = await import("../src/workspaces/watchQueue");
+    const { watchQueue } = await import("../src/queues/watchQueue");
     const observable = await watchQueue(testWorkspace.id);
 
     // Act

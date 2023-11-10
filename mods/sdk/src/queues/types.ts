@@ -16,22 +16,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractBaseClient } from "./base";
-import Client from "./client";
-import Users from "./users";
-import Workspaces from "./workspaces";
-import Tokens from "./tokens";
-import Customers from "./customers";
-import Queues from "./queues";
+import type { QueueEntry, GetQueueResponse } from "@goodtok/apiserver";
 
-export {
-  AbstractBaseClient,
-  Client,
-  Users,
-  Workspaces,
-  Tokens,
-  Customers,
-  Queues
+export type QueuesClient = {
+  getDefaultWorkspaceQueue: () => Promise<GetQueueResponse>;
+  getQueueByWorkspaceId(id: string): Promise<GetQueueResponse>;
+  watchQueue: (
+    id: string,
+    callback: (error: Error, data?: QueueEntry) => void
+  ) => void;
 };
-export * from "./workspaces/types";
-export * from "./users/types";
+
+export { QueueEntry };

@@ -64,6 +64,11 @@ const meta = {
       name: "On Video Refs Ready",
       description: "The callback to be called when the video refs are ready",
       action: "clicked"
+    },
+    onCustomerDequeue: {
+      name: "On Customer Dequeue",
+      description: "The callback to be called when the customer dequeues",
+      action: "clicked"
     }
   }
 } satisfies Meta<typeof ChatPage>;

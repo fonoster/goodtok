@@ -84,6 +84,7 @@ function WorkspaceContainer() {
 
   useEffect(() => {
     const workspaces = new SDK.Workspaces(client);
+    const queues = new SDK.Queues(client);
     workspaces
       .getWorkspaceById(workspaceId)
       .then((workspace) => {
@@ -94,7 +95,7 @@ function WorkspaceContainer() {
         logger.error("err getting workspace", err);
       });
 
-    workspaces
+    queues
       .getQueueByWorkspaceId(workspaceId)
       .then((response: { queue: SDK.QueueEntry[] }) => {
         setPeopleList(response.queue.map((entry) => mapQueueEntry(entry)));
@@ -103,7 +104,7 @@ function WorkspaceContainer() {
         logger.error("err getting queue", err);
       });
 
-    workspaces.watchQueue(workspaceId, (err, person) => {
+    queues.watchQueue(workspaceId, (err, person) => {
       if (err) {
         logger.error("failed to watch queue:", err);
         return;

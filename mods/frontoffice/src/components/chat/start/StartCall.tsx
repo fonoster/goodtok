@@ -28,12 +28,12 @@ import { Box } from "@mui/material";
 
 type StartCallProps = {
   onStartCall: () => void;
-  onReturnToQueue: () => void;
+  onCustomerDequeue: () => void;
 };
 
 export const StartCall: React.FC<StartCallProps> = ({
   onStartCall,
-  onReturnToQueue,
+  onCustomerDequeue,
   ...props
 }) => {
   return (
@@ -62,13 +62,13 @@ export const StartCall: React.FC<StartCallProps> = ({
           }}
         >
           <StyledStartCallButton onClick={onStartCall}>
-            Start the call
+            Call customer
           </StyledStartCallButton>
           <StyledReturnToQueueButton
-            onClick={onReturnToQueue}
+            onClick={onCustomerDequeue}
             variant="outlined"
           >
-            Return to the Queue
+            Remove from queue
           </StyledReturnToQueueButton>
         </Box>
       </Box>

@@ -26,6 +26,7 @@ import { jwtDecode } from "jwt-decode";
 import { Web } from "sip.js";
 import { useLogger } from "~logger";
 import React, { useEffect, useRef, useState } from "react";
+import { useSnackbar } from "~snackbar";
 
 type VideoRefs = {
   remoteVideo: HTMLVideoElement;
@@ -46,6 +47,8 @@ function ChatContainer() {
   const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
 
   const { client, signOut, isAdmin } = useAuth();
+  const { showSnackbar } = useSnackbar();
+
   const {
     id: workspaceId,
     sessionId: customerId,
@@ -149,12 +152,12 @@ function ChatContainer() {
     });
   };
 
-  const handleReturnToQueue = async () => {
+  const onCustomerDequeue = async () => {
     if (simpleUser) {
       simpleUser.hangup();
     }
 
-    window.location.href = `/workspace/${workspaceId}`;
+    showSnackbar("Customer removed from queue");
   };
 
   const handleHangup = async () => {
@@ -190,7 +193,7 @@ function ChatContainer() {
       isLocalCameraMuted={isLocalCameraMuted}
       isLocalMicrophoneMuted={isLocalMicrophoneMuted}
       onStartCall={handleStartCall}
-      onReturnToQueue={handleReturnToQueue}
+      onCustomerDequeue={onCustomerDequeue}
       onVideoRefsReady={handleVideoRefsReady}
       onHangup={handleHangup}
       onMuteCamera={handleMuteCamera}

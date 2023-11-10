@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { QueueEntry, WorkspacesClient } from "./types";
+import { WorkspacesClient } from "./types";
 import {
   TRPCClientError,
   createTRPCProxyClient,
@@ -30,7 +30,6 @@ import type {
   AppRouter,
   CreateWorkspaceRequest,
   GetMembersResponse,
-  GetQueueResponse,
   Member,
   UpdateWorkspaceRequest,
   Workspace,
@@ -185,29 +184,9 @@ export default class Workspaces
   }
 
   /**
-   * Retrieves the queue for the default workspace.
-   *
-   * @return {Promise<GetQueueResponse>} A promise resolving to the queue
-   * @example
-   *
-   * workspaces.getDefaultWorkspaceQueue()
-   *   .then(console.log)
-   *   .catch(console.error); // handle any errors
-   */
-  async getDefaultWorkspaceQueue(): Promise<GetQueueResponse> {
-    try {
-      return await this.trpc.workspaces.getQueueByWorkspaceId.query(
-        this.client.getDefaultWorkspaceId()
-      );
-    } catch (err) {
-      formatAndThrowError(err);
-    }
-  }
-
-  /**
    * Retrieves the members for the default workspace.
    *
-   * @return {Promise<GetQueueResponse>} A promise resolving to the queue
+   * @return {Promise<GetMembersResponse>} A promise resolving to the members
    * @example
    *
    * workspaces.getDefaultWorkspaceMembers()
@@ -261,27 +240,6 @@ export default class Workspaces
   async getMembersByWorkspaceId(id: string): Promise<GetMembersResponse> {
     try {
       return await this.trpc.workspaces.getMembersByWorkspaceId.query(id);
-    } catch (err) {
-      formatAndThrowError(err);
-    }
-  }
-
-  /**
-   * Retrieves the queue for a workspace by its ID.
-   *
-   * @param {string} id - The workspace ID
-   * @return {Promise<Workspace>} A promise resolving to an object containing an array of queue entries
-   * @example
-   *
-   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
-   *
-   * workspaces.getQueueByWorkspaceId(id)
-   *   .then(console.log)
-   *   .catch(console.error); // handle any errors
-   */
-  async getQueueByWorkspaceId(id: string): Promise<GetQueueResponse> {
-    try {
-      return await this.trpc.workspaces.getQueueByWorkspaceId.query(id);
     } catch (err) {
       formatAndThrowError(err);
     }
@@ -436,38 +394,6 @@ export default class Workspaces
     } catch (err) {
       formatAndThrowError(err);
     }
-  }
-
-  /**
-   * Registers a callback for real-time updates on queue entries within a workspace.
-   *
-   * @param {string} id - The ID of the workspace
-   * @param {function} callback - The callback to be invoked when a queue entry updates
-   * @example
-   *
-   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
-   *
-   * workspaces.watchQueue(id, (err, data) => {
-   *   if (err) {
-   *    console.error(err);
-   *    return;
-   *   }
-   *
-   *   console.log(data);
-   * });
-   */
-  watchQueue(
-    id: string,
-    callback: (error: GoodtokError, data?: QueueEntry) => void
-  ) {
-    this.trpc.workspaces.watchQueue.subscribe(id, {
-      onData(data: QueueEntry) {
-        callback(null, data);
-      },
-      onError(err: TRPCClientError<any>) {
-        callback(new GoodtokError(err.data.code, err.data.message));
-      }
-    });
   }
 
   /**

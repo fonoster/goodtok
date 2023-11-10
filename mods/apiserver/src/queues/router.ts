@@ -16,22 +16,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractBaseClient } from "./base";
-import Client from "./client";
-import Users from "./users";
-import Workspaces from "./workspaces";
-import Tokens from "./tokens";
-import Customers from "./customers";
-import Queues from "./queues";
+import { z } from "zod";
+import { router, protectedProcedure } from "../trpc";
+import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
+import { watchQueue } from "../queues/watchQueue";
+import { dequeue } from "./dequeue";
+import { dequeueSchema } from "./validation";
 
-export {
-  AbstractBaseClient,
-  Client,
-  Users,
-  Workspaces,
-  Tokens,
-  Customers,
-  Queues
-};
-export * from "./workspaces/types";
-export * from "./users/types";
+export const queuesRouter = router({
+  getQueueByWorkspaceId: protectedProcedure
+    .input(z.string())
+    .query(({ ctx, input }) => getQueueByWorkspaceId(ctx, input)),
+
+  watchQueue: protectedProcedure
+    .input(z.string())
+    .subscription((req) => watchQueue(req.input)),
+
+  dequeue: protectedProcedure
+    .input(dequeueSchema)
+    .mutation(({ ctx, input }) => dequeue(ctx, input))
+});

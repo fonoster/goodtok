@@ -16,22 +16,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AbstractBaseClient } from "./base";
-import Client from "./client";
-import Users from "./users";
-import Workspaces from "./workspaces";
-import Tokens from "./tokens";
-import Customers from "./customers";
-import Queues from "./queues";
+import { QueueEntryStatus } from "@prisma/client";
+import { dequeueSchema } from "./validation";
+import { z } from "zod";
 
-export {
-  AbstractBaseClient,
-  Client,
-  Users,
-  Workspaces,
-  Tokens,
-  Customers,
-  Queues
+export type QueueEntry = {
+  customerId: string;
+  registeredAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  status: QueueEntryStatus;
+  workspaceId: string;
+  customer: {
+    name: string;
+    avatar: string;
+    note: string;
+  };
+  aor: string;
 };
-export * from "./workspaces/types";
-export * from "./users/types";
+
+export type GetQueueResponse = {
+  queue: QueueEntry[];
+};
+
+export type DequeueRequest = z.infer<typeof dequeueSchema>;

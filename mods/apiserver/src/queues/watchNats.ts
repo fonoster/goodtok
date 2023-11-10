@@ -21,7 +21,7 @@ import { getLogger } from "@fonoster/logger";
 import { updateQueueEntry } from "./updateQueueEntry";
 import { getCustomerById } from "../customers/getCustomerById";
 import { prisma } from "../db";
-import { natsObservers } from "./observers";
+import { natsObservers } from "../workspaces/observers";
 import { NATS_URL } from "../envs";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
