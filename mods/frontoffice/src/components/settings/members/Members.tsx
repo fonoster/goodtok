@@ -80,7 +80,7 @@ export const Members: React.FC<MembersProps> = ({
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          mb: 2,
+          mb: 3,
           alignItems: "center"
         }}
       >
@@ -89,7 +89,7 @@ export const Members: React.FC<MembersProps> = ({
           + Invite New Member
         </StyledLink>
       </Box>
-      <StyledBox sx={{ p: 2, backgroundColor: "#FFFFFF" }}>
+      <StyledBox>
         <StyledTableContainer>
           <StyledTable aria-label="simple table">
             <TableHead>

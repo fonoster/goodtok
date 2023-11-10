@@ -31,7 +31,7 @@ import "@fontsource/poppins/400.css";
 
 export const StyledBox = styled(Box)({
   backgroundColor: "#FFFFFF",
-  padding: "24px"
+  padding: "16px 40px 12px 40px"
 });
 
 export const StyledTable = styled(Table)({

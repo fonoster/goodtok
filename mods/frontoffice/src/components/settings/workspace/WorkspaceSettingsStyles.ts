@@ -26,8 +26,7 @@ export const StyledBox = styled(Box)(() => ({
   background: "var(--base-01, #FFF)",
   paddingTop: "32px",
   paddingLeft: "24px",
-  paddingRight: "24px",
-  paddingBottom: "32px"
+  paddingRight: "24px"
 }));
 
 export const SettingsTitle = styled(Typography)(() => ({

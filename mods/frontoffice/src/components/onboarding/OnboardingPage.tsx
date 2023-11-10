@@ -158,7 +158,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                       error={touched.name && !!errors.name}
                       helperText={
                         (touched.name && errors.name) ||
-                        "Please enter a name for your workspace"
+                        "Please enter your preferred Workspace name"
                       }
                       sx={{ mt: 8, mb: 4 }}
                     />
