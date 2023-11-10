@@ -93,8 +93,8 @@ function HomeContainer() {
 
   return (
     <HomePage
-      isAdmin={isAdmin(defaultWorkspaceId!)}
       workspaceId={defaultWorkspaceId!}
+      isAdmin={isAdmin(defaultWorkspaceId!)}
       isAuthenticated={true}
       avatar={avatar}
       userName={name}

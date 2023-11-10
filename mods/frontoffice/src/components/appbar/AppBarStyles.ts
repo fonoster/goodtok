@@ -26,6 +26,7 @@ import {
 import { styled } from "@mui/material/styles";
 
 import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/500.css";
 import "@fontsource/poppins/400.css";
 
 type StyledToolbarProps = {
@@ -76,6 +77,17 @@ export const StyledMenuUser = styled("p")({
   fontSize: "14px",
   fontStyle: "normal",
   fontWeight: 600,
+  lineHeight: "150%",
+  color: "#000",
+  margin: "0px 10px",
+  height: "44px"
+});
+
+export const StyledMenuWorkspace = styled("p")({
+  fontFamily: "Poppins",
+  fontSize: "12px",
+  fontStyle: "normal",
+  fontWeight: 400,
   lineHeight: "150%",
   color: "#000",
   margin: "0px 10px",

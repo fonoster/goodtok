@@ -26,6 +26,7 @@ import {
   StyledMenuItem,
   StyledMenuItemSignout,
   StyledMenuUser,
+  StyledMenuWorkspace,
   StyledToolbar
 } from "./AppBarStyles";
 import React from "react";
@@ -122,6 +123,8 @@ export const AppBar: React.FC<AppBarProps> = ({
                     onClose={handleClose}
                   >
                     <StyledMenuUser>Hi {userName}!</StyledMenuUser>
+                    <StyledMenuWorkspace>({workspaceId})</StyledMenuWorkspace>
+
                     <StyledMenuItem onClick={handleOnPersonalSettingsSelect}>
                       Personal Settings
                     </StyledMenuItem>

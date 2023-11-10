@@ -55,7 +55,7 @@ function WorkspaceContainer() {
   const [isOnline, setIsOnline] = React.useState(false);
 
   const { id: workspaceId } = useParams() as { id: string };
-  const { client, signOut, isSignedIn } = useAuth();
+  const { client, signOut, isSignedIn, isAdmin } = useAuth();
   const logger = useLogger();
 
   if (!client) {
@@ -148,14 +148,15 @@ function WorkspaceContainer() {
   return (
     <QueuePage
       workspaceId={workspaceId}
+      workspaceName={workspaceName}
       userName={name}
       avatar={avatar}
       storeURL={storeURL}
-      workspaceName={workspaceName}
       avgWaitTime={avgWaitTime}
       data={peopleList}
       isAuthenticated={true}
       isOnline={isOnline}
+      isAdmin={isAdmin(workspaceId)}
       onQueueEntrySelect={handleQueueEntrySelect}
       onOnlineStatusChange={handleOnlineChange}
       onSignOut={signOut}

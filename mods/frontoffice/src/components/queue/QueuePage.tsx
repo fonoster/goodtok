@@ -24,14 +24,15 @@ import React from "react";
 
 type QueuePageProps = {
   workspaceId: string;
+  workspaceName: string;
   userName: string;
   avatar: string;
-  isAuthenticated: boolean;
   data: CustomerData[];
   storeURL: string;
-  workspaceName: string;
   avgWaitTime: string;
   isOnline: boolean;
+  isAuthenticated: boolean;
+  isAdmin: boolean;
   onQueueEntrySelect: (id: string, aor: string) => void;
   onOnlineStatusChange: (isOnline: boolean) => void;
   onSignOut: () => void;
@@ -39,14 +40,15 @@ type QueuePageProps = {
 
 export const QueuePage: React.FC<QueuePageProps> = ({
   workspaceId,
+  workspaceName,
   userName,
   avatar,
-  isAuthenticated,
   data,
   storeURL,
-  workspaceName,
   avgWaitTime,
   isOnline,
+  isAuthenticated,
+  isAdmin,
   onQueueEntrySelect,
   onOnlineStatusChange,
   onSignOut,
@@ -63,10 +65,11 @@ export const QueuePage: React.FC<QueuePageProps> = ({
     >
       <AppBar
         workspaceId={workspaceId}
-        isAuthenticated={isAuthenticated}
         userName={userName}
         avatar={avatar}
         onSignOut={onSignOut}
+        isAdmin={isAdmin}
+        isAuthenticated={isAuthenticated}
       />
       <Box sx={{ p: 5 }} display="flex" flexDirection="row" gap={20}>
         <QueueStatus
