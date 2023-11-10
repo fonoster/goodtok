@@ -60,7 +60,8 @@ export const StyledQueueListBox = styled(Box)(() => ({
 export const StyledEmptyQueueListContainer = styled(Box)(() => ({
   background: "#E8E8E8",
   width: "670px",
-  height: "595px",
+  height: "calc(100vh - 244px)",
+  minHeight: "244px",
   flexShrink: 0,
   display: "flex",
   flexDirection: "column",
