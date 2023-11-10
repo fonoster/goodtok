@@ -51,12 +51,10 @@ describe("@apiserver[users]", () => {
       }
     } as unknown as Context;
 
-    const request = { id: testUser.id };
-
     const { getUserById } = await import("../src/users/getUserById");
 
     // Act
-    const user = await getUserById(ctx, request);
+    const user = await getUserById(ctx, testUser.id);
 
     // Assert
     chai.expect(user).to.be.an("object");
@@ -79,12 +77,10 @@ describe("@apiserver[users]", () => {
       }
     } as unknown as Context;
 
-    const request = { id: testUser.id };
-
     const { getUserById } = await import("../src/users/getUserById");
 
     // Act
-    const promise = getUserById(ctx, request);
+    const promise = getUserById(ctx, testUser.id);
 
     // Assert
     await chai.expect(promise).to.eventually.be.rejectedWith(TRPCError);
@@ -96,6 +92,9 @@ describe("@apiserver[users]", () => {
       prisma: {
         user: {
           findUnique: sandbox.stub().resolves(testUser)
+        },
+        workspaceMember: {
+          findMany: sandbox.stub().resolves([])
         }
       },
       config: {

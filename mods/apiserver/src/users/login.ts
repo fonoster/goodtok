@@ -20,6 +20,7 @@ import { TRPCError } from "@trpc/server";
 import { generateToken } from "../utils";
 import { Context } from "../context";
 import { getLogger } from "@fonoster/logger";
+import { WorkspaceMemberRole } from "../workspaces/types";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -44,9 +45,34 @@ export async function login(
 
   if (user.password !== password) throw new TRPCError({ code: "UNAUTHORIZED" });
 
+  const workspaces: { id: string; role: WorkspaceMemberRole }[] = [];
+
+  // Create a list of owned workspaces
+  user.ownedWorkspaces?.forEach((workspace) => {
+    workspaces.push({
+      id: workspace.id,
+      role: WorkspaceMemberRole.OWNER
+    });
+  });
+
+  // Find all the workspaces where the user is a member
+  const memberships = await ctx.prisma.workspaceMember.findMany({
+    where: {
+      userId: user.id
+    }
+  });
+
+  memberships?.forEach((membership) => {
+    workspaces.push({
+      id: membership.workspaceId,
+      role: membership.role as unknown as WorkspaceMemberRole
+    });
+  });
+
   return generateToken({
     user,
     jwtSecuritySalt: ctx.config.jwtSecuritySalt,
-    jwtSignOptions: ctx.config.jwtSignOptions
+    jwtSignOptions: ctx.config.jwtSignOptions,
+    workspaces
   });
 }

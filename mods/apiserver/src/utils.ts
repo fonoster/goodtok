@@ -19,6 +19,7 @@
 import { getLogger } from "@fonoster/logger";
 import { ContextOptionsWithUrl, UserWithWorkspaces } from "./types";
 import { TRPCError } from "@trpc/server";
+import { WorkspaceMemberRole } from "./workspaces/types";
 import jwt from "jsonwebtoken";
 
 const logger = getLogger({ service: "common", filePath: __filename });
@@ -37,17 +38,14 @@ export function generateToken(request: {
   user: UserWithWorkspaces;
   jwtSecuritySalt: string;
   jwtSignOptions: jwt.SignOptions;
+  workspaces: { id: string; role: WorkspaceMemberRole }[];
 }): string {
-  const { user, jwtSecuritySalt } = request;
-  const workspaces = user.ownedWorkspaces?.map((w) => ({
-    id: w.id,
-    role: "owner"
-  }));
+  const { user, workspaces, jwtSecuritySalt } = request;
 
   const claims = {
     sub: user.id,
     username: user.username,
-    workspaces: workspaces
+    workspaces
   };
 
   // Fixme: Allow passing expiration time

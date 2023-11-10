@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 /*
  * Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
  * http://github.com/fonoster/goodtok
@@ -76,7 +77,7 @@ export const ConfirmationFormExample: Story = {
     title: "Are you sure?",
     description:
       // eslint-disable-next-line prettier/prettier
-      "To perform this action you need to type \"DELETE\" in the field below. This action cannot be undone.",
+      'To perform this action you need to type "DELETE" in the field below. This action cannot be undone.',
     confirmationText: "DELETE"
   }
 };

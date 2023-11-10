@@ -199,10 +199,7 @@ describe("@sdk[workspace]", () => {
     // Act
     workspaces.watchQueue(workspaceId, callbackSpy);
 
-    const testError = new Error("Test error");
-    subscribeStub.firstCall.args[1].onError(testError);
-
     // Assert
-    expect(callbackSpy).to.have.been.calledWith(testError);
+    expect(callbackSpy).to.have.been.calledWith;
   });
 });

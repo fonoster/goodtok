@@ -197,14 +197,12 @@ describe("@apiserver[workspaces]", () => {
       })
     } as unknown as Context;
 
-    const request = { workspaceId: testWorkspace.id };
-
     const { getQueueByWorkspaceId } = await import(
       "../src/workspaces/getQueueByWorkspaceId"
     );
 
     // Act
-    const queue = await getQueueByWorkspaceId(ctx, request);
+    const queue = await getQueueByWorkspaceId(ctx, testWorkspace.id);
 
     // Assert
     chai.expect(queue).to.deep.equal({
@@ -238,14 +236,12 @@ describe("@apiserver[workspaces]", () => {
       }
     } as unknown as Context;
 
-    const request = { workspaceId: testWorkspace.id };
-
     const { getQueueByWorkspaceId } = await import(
       "../src/workspaces/getQueueByWorkspaceId"
     );
 
     // Act
-    const promise = getQueueByWorkspaceId(ctx, request);
+    const promise = getQueueByWorkspaceId(ctx, testWorkspace.id);
 
     // Assert
     await chai.expect(promise).to.be.rejectedWith(TRPCError);

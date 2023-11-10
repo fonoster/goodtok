@@ -25,14 +25,14 @@ import {
 } from "./validation";
 
 export enum WorkspaceMemberStatus {
-  ACTIVE,
-  PENDING
+  ACTIVE = "ACTIVE",
+  PENDING = "PENDING"
 }
 
 export enum WorkspaceMemberRole {
-  OWNER,
-  ADMIN,
-  MEMBER
+  OWNER = "OWNER",
+  ADMIN = "ADMIN",
+  MEMBER = "MEMBER"
 }
 
 export enum Day {
