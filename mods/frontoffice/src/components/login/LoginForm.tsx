@@ -83,7 +83,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             }}
             {...props}
           >
-            <LoginFormTitle>Log In</LoginFormTitle>
+            <LoginFormTitle sx={{ mb: 5 }}>Log In</LoginFormTitle>
 
             <Field
               as={TextField}
@@ -91,7 +91,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               name="email"
               placeholder="Email address"
               error={touched.email && !!errors.email} // Make sure to cast the error to boolean
-              helperText={touched.email && errors.email}
+              helperText={
+                (touched.email && errors.email) ||
+                "Please enter your email address"
+              }
             />
 
             <Field
@@ -101,7 +104,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
               placeholder="Password"
               type="password"
               error={touched.password && !!errors.password} // Make sure to cast the error to boolean
-              helperText={touched.password && errors.password}
+              helperText={
+                (touched.password && errors.password) ||
+                "Please enter your password"
+              }
             />
 
             {error && <ErrorStyled>{error}</ErrorStyled>}
