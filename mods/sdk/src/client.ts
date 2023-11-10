@@ -60,6 +60,22 @@ export default class Client {
     this.currentUserId = userInfo.sub;
   }
 
+  async renewToken() {
+    const trpc = createTRPCProxyClient<AppRouter>({
+      links: [
+        httpBatchLink({
+          url: this.options.endpoint,
+          headers: {
+            authorization: `Bearer ${this.token}`
+          }
+        })
+      ],
+      transformer: undefined
+    });
+
+    this.token = await trpc.users.renewToken.mutate(this.token);
+  }
+
   setToken(token: string) {
     this.token = token;
     const userInfo = jwtDecode(token) as {

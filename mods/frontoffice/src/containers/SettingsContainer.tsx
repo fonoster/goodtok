@@ -64,7 +64,7 @@ function SettingsContainer() {
 
   const [currentSection] = React.useState<HBarSection>(hbarSection);
 
-  const { client, signOut, isSignedIn, isAdmin } = useAuth();
+  const { client, signOut, renewToken, isSignedIn, isAdmin } = useAuth();
   const { showSnackbar, showErrorSnackbar } = useSnackbar();
   const logger = useLogger();
 
@@ -207,7 +207,8 @@ function SettingsContainer() {
 
     workspaces
       .removeWorkspace(workspaceId)
-      .then(() => {
+      .then(async function () {
+        await renewToken();
         window.location.href = "/";
       })
       .catch((err) => {

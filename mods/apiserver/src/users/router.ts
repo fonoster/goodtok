@@ -22,6 +22,7 @@ import { login } from "./login";
 import { getUserById } from "./getUserById";
 import { updateUser } from "./updateUser";
 import { updateUserSchema } from "./types";
+import { renewToken } from "./renewToken";
 
 export const usersRouter = router({
   login: publicProcedure
@@ -32,6 +33,10 @@ export const usersRouter = router({
         password: input.password
       })
     ),
+
+  renewToken: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => renewToken(ctx, { token: input })),
 
   getUserById: protectedProcedure
     .input(z.string())

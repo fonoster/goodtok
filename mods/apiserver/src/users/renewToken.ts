@@ -16,27 +16,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { TRPCError } from "@trpc/server";
-import { generateToken } from "../utils";
+import { generateToken, verifyToken } from "../utils";
 import { Context } from "../context";
 import { getLogger } from "@fonoster/logger";
 import { getMemberships } from "./getMemberships";
+import { jwtDecode } from "jwt-decode";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export async function login(
+export async function renewToken(
   ctx: Context,
-  input: { username: string; password: string }
+  input: { token: string }
 ): Promise<string> {
-  const { username, password } = input;
+  const { token } = input;
+  const { username, sub: userId } = jwtDecode(token) as {
+    sub: string;
+    username: string;
+  };
 
-  logger.verbose("new user login", { username });
+  logger.verbose("renew user token", { userId });
+
+  verifyToken({
+    token: ctx.token,
+    jwtSecuritySalt: ctx.config.jwtSecuritySalt,
+    jwtSignOptions: ctx.config.jwtSignOptions
+  });
 
   const { user, workspaces } = await getMemberships(ctx, { username });
-
-  if (!user) throw new TRPCError({ code: "UNAUTHORIZED" });
-
-  if (user.password !== password) throw new TRPCError({ code: "UNAUTHORIZED" });
 
   return generateToken({
     user,

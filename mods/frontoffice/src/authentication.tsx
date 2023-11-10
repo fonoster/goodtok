@@ -39,6 +39,7 @@ interface AuthContextType {
   signIn: (username: string, password: string) => Promise<void>;
   signOut: () => void;
   isAdmin: (workspaceId: string) => boolean;
+  renewToken: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -87,6 +88,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem("accessToken", client.getToken());
   };
 
+  const renewToken = async () => {
+    const client = new SDK.Client({
+      endpoint: API_ENDPOINT
+    });
+
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (accessToken) {
+      client.setToken(accessToken);
+      await client.renewToken();
+      // The client token has already been updated
+      const defaultWorkspaceId = getDefaultWorkspaceId(client.getToken());
+      client.setDefaultWorkspaceId(defaultWorkspaceId);
+
+      setClient(client);
+      setIsLoggedIn(true);
+
+      localStorage.setItem("isSignedIn", "true");
+      localStorage.setItem("accessToken", client.getToken());
+    }
+  };
+
   const signOut = () => {
     localStorage.removeItem("isSignedIn");
     // FIXME: Set client to null causes a crash
@@ -113,7 +136,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider
-      value={{ client, isSignedIn, signIn, signOut, isAdmin }}
+      value={{ client, isSignedIn, signIn, signOut, isAdmin, renewToken }}
     >
       {children}
     </AuthContext.Provider>

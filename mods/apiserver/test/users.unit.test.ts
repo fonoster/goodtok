@@ -116,12 +116,15 @@ describe("@apiserver[users]", () => {
     chai.expect(token).to.be.a("string");
   });
 
-  it("should throw an error if user is not found", async () => {
+  it("fails to login if user is not found", async () => {
     // Arrange
     const ctx = {
       prisma: {
         user: {
           findUnique: sandbox.stub().resolves(null)
+        },
+        workspaceMember: {
+          findMany: sandbox.stub().resolves([])
         }
       }
     } as unknown as Context;
@@ -147,6 +150,9 @@ describe("@apiserver[users]", () => {
       prisma: {
         user: {
           findUnique: sandbox.stub().resolves(testUser)
+        },
+        workspaceMember: {
+          findMany: sandbox.stub().resolves([])
         }
       }
     } as unknown as Context;
@@ -197,5 +203,40 @@ describe("@apiserver[users]", () => {
     chai.expect(user.email).to.be.equal(testUser.email);
     chai.expect(user.avatar).to.be.equal(testUser.avatar);
     chai.expect(user.createdAt).to.be.an("date").equal(testUser.createdAt);
+  });
+
+  it("should get a list of workspaces where the user is a member", async () => {
+    // Arrange
+    const ctx = {
+      prisma: {
+        user: {
+          findUnique: sandbox.stub().resolves(testUser)
+        },
+        workspaceMember: {
+          findMany: sandbox.stub().resolves([
+            {
+              id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
+              role: "OWNER",
+              workspaceId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
+              userId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1"
+            }
+          ])
+        }
+      }
+    } as unknown as Context;
+
+    const { getMemberships } = await import("../src/users/getMemberships");
+
+    // Act
+    const memberships = await getMemberships(ctx, {
+      username: testUser.username
+    });
+
+    // Assert
+    chai.expect(memberships.workspaces).to.be.an("array");
+    chai
+      .expect(memberships.workspaces[0].id)
+      .to.be.equal("c5a6a3a6-fe03-4b10-9313-62b46dc191bc1");
+    chai.expect(memberships.workspaces[0].role).to.be.equal("OWNER");
   });
 });

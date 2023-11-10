@@ -23,7 +23,7 @@ import { useLogger } from "~logger";
 import React, { useEffect } from "react";
 
 function OnboardingContainer() {
-  const { client, signOut, isSignedIn } = useAuth();
+  const { client, signOut, renewToken, isSignedIn } = useAuth();
   const logger = useLogger();
 
   if (!client) {
@@ -61,7 +61,8 @@ function OnboardingContainer() {
           accessToken: shopifyApiKey
         }
       })
-      .then((res) => {
+      .then(async function (res) {
+        await renewToken();
         window.location.href = `/workspace/${res.id}`;
       })
       .catch((err) => {
