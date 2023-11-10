@@ -40,6 +40,7 @@ type SettingsPageProps = {
   onWorkspaceSettingsSave: (
     settings: WorkspaceSettingsType & { shopifyStoreAPIkey: string }
   ) => void;
+  onWorkspaceDelete: () => void;
   onMemberDelete: (id: string) => void;
   onInvite: (info: InviteInfo) => void;
   onResendInvite: (id: string) => void;
@@ -55,6 +56,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   isAdmin,
   onSignOut,
   onWorkspaceSettingsSave,
+  onWorkspaceDelete,
   onUserSettingsSave,
   onMemberDelete,
   onInvite,
@@ -108,6 +110,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             initialShopifyStoreUrl={workspaceSettings.shopifyStoreUrl}
             initialCalendarUrl={workspaceSettings.calendarUrl}
             initialHoursOfOperation={workspaceSettings.hoursOfOperation}
+            onWorkspaceDelete={onWorkspaceDelete}
             onSave={(
               settings: WorkspaceSettingsType & { shopifyStoreAPIkey: string }
             ) => onWorkspaceSettingsSave(settings)}

@@ -397,6 +397,27 @@ export default class Workspaces
   }
 
   /**
+   * Removes a workspace.
+   *
+   * @param {string} id - The workspace ID
+   * @return {Promise<void>} A promise resolving to void
+   * @example
+   *
+   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   *
+   * workspaces.removeWorkspace(id)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
+  async removeWorkspace(id: string): Promise<void> {
+    try {
+      return await this.trpc.workspaces.removeWorkspace.mutate(id);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
+  }
+
+  /**
    * Resends a workspace member invite.
    *
    * @param {string} id - The member ID

@@ -202,6 +202,19 @@ function SettingsContainer() {
       });
   };
 
+  const handleOnWorkspaceDelete = () => {
+    const workspaces = new SDK.Workspaces(client);
+
+    workspaces
+      .removeWorkspace(workspaceId)
+      .then(() => {
+        window.location.href = "/";
+      })
+      .catch((err) => {
+        logger.error("error deleting workspace", err);
+      });
+  };
+
   const handleOnMemberDelete = (id: string) => {
     const workspaces = new SDK.Workspaces(client);
 
@@ -277,6 +290,7 @@ function SettingsContainer() {
         onResendInvite={handleResendInvite}
         onUserSettingsSave={handleOnUserSettingsSave}
         onWorkspaceSettingsSave={handleOnWorkspaceSettingsSave}
+        onWorkspaceDelete={handleOnWorkspaceDelete}
         onSectionChange={handleOnSectionChange}
       />
     )

@@ -69,7 +69,8 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   initialShopifyStoreUrl,
   initialHoursOfOperation,
   isAdmin,
-  onSave
+  onSave,
+  onWorkspaceDelete
 }) => {
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const hoursOfOperationRef = useRef(initialHoursOfOperation);
@@ -276,8 +277,7 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
               onCancel={() => setConfirmDeleteOpen(false)}
               onConfirm={() => {
                 setConfirmDeleteOpen(false);
-                // memberToDelete && onDelete(memberToDelete);
-                // setMemberToDelete(null);
+                onWorkspaceDelete();
               }}
             />
           </Modal>

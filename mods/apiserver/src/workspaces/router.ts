@@ -29,6 +29,7 @@ import { createWorkspace } from "./createWorkspace";
 import { addWorkspaceMember } from "./addWorkspaceMember";
 import { removeWorkspaceMember } from "./removeWorkspaceMember";
 import { resendWorkspaceMemberInvite } from "./resendWorkspaceMemberInvite";
+import { removeWorkspace } from "./removeWorkspace";
 import {
   createWorkspaceSchema,
   updateWorkspaceSchema,
@@ -80,5 +81,9 @@ export const workspacesRouter = router({
 
   resendWorkspaceMemberInvite: protectedProcedure
     .input(z.string())
-    .mutation(({ ctx, input }) => resendWorkspaceMemberInvite(ctx, input))
+    .mutation(({ ctx, input }) => resendWorkspaceMemberInvite(ctx, input)),
+
+  removeWorkspace: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => removeWorkspace(ctx, input))
 });

@@ -16,31 +16,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WeeklyHoursType } from "@goodtok/sdk";
+import { getLogger } from "@fonoster/logger";
+import { Context } from "../context";
 
-export type WorkspaceSettingsType = {
-  name: string;
-  timezone: string;
-  shopifyStoreUrl: string;
-  shopifyStoreAPIkey?: string;
-  calendarUrl: string;
-  hoursOfOperation: WeeklyHoursType;
-};
+const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export type HoursOfOperationErrors = {
-  [day: string]: {
-    from: boolean;
-    to: boolean;
-  };
-};
+export async function removeWorkspace(
+  ctx: Context,
+  workspaceId: string
+): Promise<void> {
+  logger.verbose("removing workspace", { workspaceId });
 
-export type WorkspaceSettingsProps = {
-  initialName: string;
-  initialTimezone: string;
-  initialShopifyStoreUrl: string;
-  initialCalendarUrl: string;
-  initialHoursOfOperation: WeeklyHoursType;
-  isAdmin: boolean;
-  onSave: (settings: WorkspaceSettingsType) => void;
-  onWorkspaceDelete: () => void;
-};
+  await ctx.prisma.workspace.delete({
+    where: {
+      id: workspaceId
+    }
+  });
+
+  return;
+}

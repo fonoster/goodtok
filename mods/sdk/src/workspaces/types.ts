@@ -43,6 +43,7 @@ export type WorkspacesClient = {
   getWorkspaces: () => Promise<Workspace[]>;
   addWorkspaceMember: (request: AddWorkspaceMemberRequest) => Promise<Member>;
   removeWorkspaceMember: (id: string) => Promise<void>;
+  removeWorkspace: (id: string) => Promise<void>;
   resendWorkspaceMemberInvite: (id: string) => Promise<void>;
   watchQueue: (
     id: string,

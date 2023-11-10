@@ -409,4 +409,25 @@ describe("@apiserver[workspaces]", () => {
     // Assert
     chai.expect(callback).to.have.been.calledOnce;
   });
+
+  it("should remove a workspace", async () => {
+    // Arrange
+    const ctx = {
+      prisma: {
+        workspace: {
+          delete: sandbox.stub().resolves()
+        }
+      }
+    } as unknown as Context;
+
+    const { removeWorkspace } = await import(
+      "../src/workspaces/removeWorkspace"
+    );
+
+    // Act
+    await removeWorkspace(ctx, testWorkspace.id);
+
+    // Assert
+    chai.expect(ctx.prisma?.workspace.delete).to.have.been.calledOnce;
+  });
 });
