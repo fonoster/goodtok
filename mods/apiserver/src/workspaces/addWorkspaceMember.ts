@@ -16,26 +16,109 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { AddWorkspaceMemberRequest, Member } from "./types";
+import {
+  AddWorkspaceMemberRequest,
+  Member,
+  WorkspaceMemberRole,
+  WorkspaceMemberStatus
+} from "./types";
 import { Context } from "../context";
 import { getLogger } from "@fonoster/logger";
+import { WorkspaceMemberStatus as PrismaWorkspaceMemberStatus } from "@prisma/client";
+import { WorkspaceMemberRole as PrismaWorkspaceMemberRole } from "@prisma/client";
+import { customAlphabet } from "nanoid";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
+
+function toMember(
+  userId: string,
+  request: AddWorkspaceMemberRequest,
+  member: {
+    id: string;
+    status: PrismaWorkspaceMemberStatus;
+    role: PrismaWorkspaceMemberRole;
+  }
+): Member {
+  return {
+    id: member.id,
+    name: request.name,
+    email: request.email,
+    status: member.status as WorkspaceMemberStatus,
+    userId,
+    role: member.role as WorkspaceMemberRole,
+    createdAt: new Date()
+  };
+}
 
 export async function addWorkspaceMember(
   ctx: Context,
   input: AddWorkspaceMemberRequest
 ): Promise<Member> {
-  // LOGIC
-  // 1. See if the user exists
-  // 2. See if the user is alredy a member
-  // 3. If not, add the user to Goodtok
-  // 4. Add the user to the workspace
-  // 6. Send an email to the owner of the workspace
-  // 7. Send an email to the admin of the workspace
-  // 8. Send an email to the member of the workspace
-  // 8. If the it is a new user consider sending a one time password
+  const { name, email, workspaceId, role } = input;
 
-  logger.verbose("input", { input });
-  return null;
+  logger.verbose("verifying if user exists", { email });
+
+  let user = await ctx.prisma.user.findUnique({
+    where: {
+      email: input.email
+    }
+  });
+
+  const oneTimePassword = customAlphabet("1234567890abcdef", 10)();
+
+  if (!user) {
+    // Let's create a new user with a one time password
+    logger.verbose("user does not exists, creating a new one", {
+      email
+    });
+
+    user = await ctx.prisma.user.create({
+      data: {
+        username: email,
+        email,
+        name,
+        password: oneTimePassword
+      }
+    });
+  }
+
+  // Let's see if the user is already a member of the workspace
+  logger.verbose("verifying if user is already a member", {
+    email,
+    workspaceId
+  });
+
+  const member = await ctx.prisma.workspaceMember.findFirst({
+    where: {
+      userId: user.id,
+      workspaceId
+    }
+  });
+
+  if (member) {
+    logger.verbose("user is already a member", {
+      email,
+      workspaceId
+    });
+
+    return toMember(user.id, input, member);
+  }
+
+  // Let's add the user to the workspace
+  logger.verbose("adding user to workspace", {
+    email,
+    workspaceId,
+    role
+  });
+
+  const newMember = await ctx.prisma.workspaceMember.create({
+    data: {
+      userId: user.id,
+      workspaceId: input.workspaceId,
+      role: role as WorkspaceMemberRole,
+      status: WorkspaceMemberStatus.PENDING
+    }
+  });
+
+  return toMember(user.id, input, newMember);
 }

@@ -62,10 +62,11 @@ describe("@apiserver[workspaces]", () => {
 
   const testMember = {
     id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
-    userId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
+    userId: "c5a6a3a6-fe03-4b10-9313-62b46dc11111",
     status: "PENDING",
     role: "ADMIN",
     user: {
+      id: "c5a6a3a6-fe03-4b10-9313-62b46dc11111",
       name: "John Doe",
       email: "john@example.com",
       avatar: "https://example.com/avatar.png"
@@ -450,5 +451,44 @@ describe("@apiserver[workspaces]", () => {
 
     // Assert
     chai.expect(ctx.prisma?.workspaceMember.delete).to.have.been.calledOnce;
+  });
+
+  it("should add a workspace member", async () => {
+    // Arrange
+    const ctx = {
+      prisma: {
+        workspaceMember: {
+          create: sandbox.stub().resolves(testMember),
+          findFirst: sandbox.stub().resolves(null)
+        },
+        user: {
+          findUnique: sandbox.stub().resolves(testMember.user)
+        }
+      }
+    } as unknown as Context;
+
+    const request = {
+      name: testMember.user.name,
+      workspaceId: testWorkspace.id,
+      email: testMember.user.email,
+      userId: testMember.userId,
+      role: testMember.role
+    };
+
+    const { addWorkspaceMember } = await import(
+      "../src/workspaces/addWorkspaceMember"
+    );
+
+    // Act
+    const member = await addWorkspaceMember(ctx, request);
+
+    // Assert
+    chai.expect(member.id).to.be.equal(testMember.id);
+    chai.expect(member.userId).to.be.equal(testMember.userId);
+    chai.expect(member.status).to.be.equal(testMember.status);
+    chai.expect(member.role).to.be.equal(testMember.role);
+    chai.expect(member.createdAt).to.be.an.instanceOf(Date);
+    chai.expect(member.name).to.be.equal(testMember.user.name);
+    chai.expect(member.email).to.be.equal(testMember.user.email);
   });
 });
