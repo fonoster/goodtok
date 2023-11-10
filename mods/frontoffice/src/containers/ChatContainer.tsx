@@ -45,8 +45,16 @@ function ChatContainer() {
     React.useState<CustomerProfile>();
   const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
 
-  const { client, signOut } = useAuth();
-  const { id: workspaceId, sessionId: customerId, encodedAor } = useParams();
+  const { client, signOut, isAdmin } = useAuth();
+  const {
+    id: workspaceId,
+    sessionId: customerId,
+    encodedAor
+  } = useParams() as {
+    id: string;
+    sessionId: string;
+    encodedAor: string;
+  };
   const logger = useLogger();
 
   if (!client) {
@@ -70,7 +78,7 @@ function ChatContainer() {
   useEffect(() => {
     const session = new SDK.Customers(client);
     session
-      .getCustomer({ workspaceId: workspaceId!, customerId: customerId! })
+      .getCustomer({ workspaceId, customerId })
       .then((profile) => {
         setCustomerProfile(profile);
       })
@@ -87,14 +95,16 @@ function ChatContainer() {
     setIsActiveCall(true);
     const tokens = new SDK.Tokens(client);
     const inviterToken = await tokens.createToken({
-      ref: customerId!,
-      workspaceId: workspaceId!,
-      customerId: customerId!,
-      aorLink: atob(encodedAor!),
+      ref: customerId,
+      workspaceId: workspaceId,
+      customerId: customerId,
+      aorLink: atob(encodedAor),
       methods: [Method.INVITE]
     });
 
-    const connectionObject = jwtDecode(inviterToken!) as ConnectionObject;
+    const connectionObject = jwtDecode(
+      inviterToken as string
+    ) as ConnectionObject;
 
     if (!connectionObject || !videoRefs.current) {
       // TODO: Handle error
@@ -169,7 +179,8 @@ function ChatContainer() {
 
   return (
     <ChatPage
-      workspaceId={workspaceId!}
+      isAdmin={isAdmin(workspaceId)}
+      workspaceId={workspaceId}
       userName={name}
       avatar={avatar}
       customerProfile={customerProfile!}

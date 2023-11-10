@@ -34,6 +34,7 @@ type SettingsPageProps = {
   userSettings: UserSettingsType;
   workspaceSettings: WorkspaceSettingsType;
   currentSection: HBarSection;
+  isAdmin: boolean;
   onSignOut: () => void;
   onUserSettingsSave: (name: string, password: string) => void;
   onWorkspaceSettingsSave: (
@@ -51,6 +52,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   workspaceSettings,
   members,
   currentSection,
+  isAdmin,
   onSignOut,
   onWorkspaceSettingsSave,
   onUserSettingsSave,
@@ -68,6 +70,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
         userName={userSettings.name || ""}
         avatar={userSettings.avatarUrl}
         onSignOut={onSignOut}
+        isAdmin={isAdmin}
       />
 
       <HBar
@@ -75,6 +78,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
         userName={userSettings.name}
         onSectionChange={onSectionChange}
         onSignOut={onSignOut}
+        isAdmin={isAdmin}
       />
 
       <Box
@@ -98,6 +102,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
         )}
         {currentSection === HBarSection.WORKSPACE_SETTINGS && (
           <WorkspaceSettings
+            isAdmin={isAdmin}
             initialName={workspaceSettings.name}
             initialTimezone={workspaceSettings.timezone}
             initialShopifyStoreUrl={workspaceSettings.shopifyStoreUrl}

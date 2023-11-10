@@ -34,7 +34,7 @@ function HomeContainer() {
     }>
   >([]);
 
-  const { client, signOut, isSignedIn } = useAuth();
+  const { client, signOut, isSignedIn, isAdmin } = useAuth();
   const logger = useLogger();
 
   if (!client) {
@@ -93,6 +93,7 @@ function HomeContainer() {
 
   return (
     <HomePage
+      isAdmin={isAdmin(defaultWorkspaceId!)}
       workspaceId={defaultWorkspaceId!}
       isAuthenticated={true}
       avatar={avatar}

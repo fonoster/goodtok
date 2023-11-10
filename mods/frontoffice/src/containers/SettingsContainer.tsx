@@ -40,7 +40,11 @@ function SettingsContainer() {
   const [workspaceSettings, setWorkspaceSettings] =
     React.useState<WorkspaceSettingsType>();
 
-  const { id: workspaceId, section } = useParams();
+  const { id: workspaceId, section } = useParams() as {
+    id: string;
+    section: string;
+  };
+
   let hbarSection = HBarSection.PERSONAL_SETTINGS;
 
   switch (section) {
@@ -60,7 +64,7 @@ function SettingsContainer() {
 
   const [currentSection] = React.useState<HBarSection>(hbarSection);
 
-  const { client, signOut, isSignedIn } = useAuth();
+  const { client, signOut, isSignedIn, isAdmin } = useAuth();
   const { showSnackbar, showErrorSnackbar } = useSnackbar();
   const logger = useLogger();
 
@@ -98,7 +102,7 @@ function SettingsContainer() {
     const workspaces = new SDK.Workspaces(client);
 
     workspaces
-      .getWorkspaceById(workspaceId as string)
+      .getWorkspaceById(workspaceId)
       .then((workspace) => {
         setWorkspaceSettings({
           name: workspace.name,
@@ -134,7 +138,7 @@ function SettingsContainer() {
     setMembers([ownerMember]); // set initial state with only the owner
 
     workspaces
-      .getMembersByWorkspaceId(workspaceId as string)
+      .getMembersByWorkspaceId(workspaceId)
       .then((response) => {
         const newMembers = response.members.map((member) => ({
           id: member.id,
@@ -179,15 +183,15 @@ function SettingsContainer() {
     const workspaces = new SDK.Workspaces(client);
     workspaces
       .updateWorkspace({
-        id: workspaceId!,
-        name: settings.name!,
-        timezone: settings.timezone!,
+        id: workspaceId,
+        name: settings.name,
+        timezone: settings.timezone,
         shopifyAccount: {
-          storeDomain: settings.shopifyStoreUrl!,
-          accessToken: settings.shopifyStoreAPIkey!
+          storeDomain: settings.shopifyStoreUrl,
+          accessToken: settings.shopifyStoreAPIkey
         },
-        calendarUrl: settings.calendarUrl!,
-        hoursOfOperation: settings.hoursOfOperation!
+        calendarUrl: settings.calendarUrl,
+        hoursOfOperation: settings.hoursOfOperation
       })
       .then(() => {
         showSnackbar("Settings saved");
@@ -203,7 +207,7 @@ function SettingsContainer() {
 
     workspaces
       .removeWorkspaceMember(id)
-      .then((response) => {
+      .then(() => {
         showSnackbar("Member removed");
         setMembers(members.filter((member) => member.id !== id));
       })
@@ -217,12 +221,12 @@ function SettingsContainer() {
 
     workspaces
       .addWorkspaceMember({
-        workspaceId: workspaceId!,
+        workspaceId: workspaceId,
         name: info.name,
         email: info.email,
         role: info.role
       })
-      .then((response) => {
+      .then(() => {
         showSnackbar("Invite sent");
       })
       .catch((err) => {
@@ -261,7 +265,8 @@ function SettingsContainer() {
     userSettings &&
     workspaceSettings && (
       <SettingsPage
-        workspaceId={workspaceId!}
+        isAdmin={isAdmin(workspaceId)}
+        workspaceId={workspaceId}
         currentSection={currentSection}
         members={members}
         userSettings={userSettings}

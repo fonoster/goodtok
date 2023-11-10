@@ -34,6 +34,7 @@ type HomePageProps = {
   userName: string;
   avatar: string;
   isAuthenticated: boolean;
+  isAdmin: boolean;
   workspaces: {
     id: string;
     name: string;
@@ -54,6 +55,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   userName,
   avatar,
   isAuthenticated,
+  isAdmin,
   workspaces,
   onWorkspaceSelect,
   onSignOut,
@@ -74,6 +76,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         avatar={avatar}
         userName={userName}
         onSignOut={onSignOut}
+        isAdmin={isAdmin}
       />
 
       <StyledHomePageTitle sx={{ mt: 5 }}>

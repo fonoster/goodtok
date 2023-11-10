@@ -18,6 +18,9 @@
  */
 import * as SDK from "@goodtok/sdk";
 import { getDefaultWorkspaceId } from "~utils/getDefaultWorkspaceId";
+import { API_ENDPOINT } from "~envs";
+import { jwtDecode } from "jwt-decode";
+import { Role } from "~components/settings/members/types";
 import React, {
   createContext,
   useContext,
@@ -25,7 +28,6 @@ import React, {
   useEffect,
   ReactNode
 } from "react";
-import { API_ENDPOINT } from "~envs";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -36,6 +38,7 @@ interface AuthContextType {
   isSignedIn: boolean;
   signIn: (username: string, password: string) => Promise<void>;
   signOut: () => void;
+  isAdmin: (workspaceId: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -91,6 +94,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsLoggedIn(false);
   };
 
+  const isAdmin = (workspaceId: string) => {
+    const payload = jwtDecode(client?.getToken() as string) as {
+      workspaces: { id: string; role: Role }[];
+    };
+
+    return payload.workspaces.some(
+      (w) =>
+        w.id === workspaceId && (w.role === Role.ADMIN || w.role === Role.OWNER)
+    );
+  };
+
   useEffect(() => {
     if (localStorage.getItem("isSignedIn") !== "true") {
       signOut();
@@ -98,7 +112,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ client, isSignedIn, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ client, isSignedIn, signIn, signOut, isAdmin }}
+    >
       {children}
     </AuthContext.Provider>
   );

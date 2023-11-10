@@ -34,6 +34,7 @@ type ChatPageProps = {
   orders: OrderItem[];
   isLocalCameraMuted: boolean;
   isLocalMicrophoneMuted: boolean;
+  isAdmin: boolean;
   onStartCall: () => void;
   onReturnToQueue: () => void;
   onVideoRefsReady: (refs: any) => void;
@@ -53,6 +54,7 @@ export const ChatPage: React.FC<ChatPageProps> = ({
   orders,
   isLocalCameraMuted,
   isLocalMicrophoneMuted,
+  isAdmin,
   onStartCall,
   onReturnToQueue,
   onVideoRefsReady,
@@ -88,6 +90,7 @@ export const ChatPage: React.FC<ChatPageProps> = ({
         userName={userName}
         avatar={avatar}
         onSignOut={onSignOut}
+        isAdmin={isAdmin}
       />
 
       <Box
