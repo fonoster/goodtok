@@ -35,6 +35,7 @@ type AppBarProps = {
   userName: string;
   avatar: string;
   isAuthenticated: boolean;
+  isAdmin: boolean;
   onSignOut: () => void;
 };
 
@@ -43,6 +44,7 @@ export const AppBar: React.FC<AppBarProps> = ({
   userName,
   avatar,
   isAuthenticated = false,
+  isAdmin = false,
   onSignOut,
   ...props
 }) => {
@@ -125,9 +127,11 @@ export const AppBar: React.FC<AppBarProps> = ({
                   <StyledMenuItem onClick={handleOnWorkspaceSettingsSelect}>
                     Workspace Settings
                   </StyledMenuItem>
-                  <StyledMenuItem onClick={handleOnWorkspaceMembersSelect}>
-                    Workspace Members
-                  </StyledMenuItem>
+                  {isAdmin && (
+                    <StyledMenuItem onClick={handleOnWorkspaceMembersSelect}>
+                      Workspace Members
+                    </StyledMenuItem>
+                  )}
                   <StyledMenuItem onClick={handleOnDocumentationSelect}>
                     Documentation &nbsp; <ExternalLinkIcon />
                   </StyledMenuItem>

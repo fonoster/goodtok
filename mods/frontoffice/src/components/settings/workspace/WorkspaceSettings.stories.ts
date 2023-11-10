@@ -58,6 +58,13 @@ const meta = {
         type: "text"
       }
     },
+    isAdmin: {
+      name: "Is Admin",
+      description: "Whether the user is an admin or not",
+      control: {
+        type: "boolean"
+      }
+    },
     onSave: {
       name: "On Save",
       description:
@@ -88,6 +95,7 @@ export const WorkspaceSettingsExample: Story = {
       Friday: { from: "09:00", to: "17:00" },
       Saturday: { from: "", to: "" }, // Closed
       Sunday: { from: "", to: "" } // Closed
-    }
+    },
+    isAdmin: true
   }
 };

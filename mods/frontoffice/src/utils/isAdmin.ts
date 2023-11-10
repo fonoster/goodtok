@@ -16,30 +16,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { WeeklyHoursType } from "@goodtok/sdk";
+import { jwtDecode } from "jwt-decode";
+import { Role } from "../components/settings/members/types";
 
-export type WorkspaceSettingsType = {
-  name: string;
-  timezone: string;
-  shopifyStoreUrl: string;
-  shopifyStoreAPIkey?: string;
-  calendarUrl: string;
-  hoursOfOperation: WeeklyHoursType;
-};
-
-export type HoursOfOperationErrors = {
-  [day: string]: {
-    from: boolean;
-    to: boolean;
+export function isAdmin(token: string, workspaceId: string) {
+  const payload = jwtDecode(token) as {
+    workspaces: { id: string; role: Role }[];
   };
-};
 
-export type WorkspaceSettingsProps = {
-  initialName: string;
-  initialTimezone: string;
-  initialShopifyStoreUrl: string;
-  initialCalendarUrl: string;
-  initialHoursOfOperation: WeeklyHoursType;
-  isAdmin: boolean;
-  onSave?: (settings: WorkspaceSettingsType) => void;
-};
+  return payload.workspaces.some(
+    (w) =>
+      w.id === workspaceId && (w.role === Role.ADMIN || w.role === Role.OWNER)
+  );
+}

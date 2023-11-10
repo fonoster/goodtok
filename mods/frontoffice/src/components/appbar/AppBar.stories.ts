@@ -46,6 +46,12 @@ const meta = {
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
+    isAdmin: {
+      name: "Is Admin",
+      description: "Adds the members section to the AppBar's menu",
+      control: { type: "boolean" },
+      defaultValue: { summary: "false" }
+    },
     onSignOut: {
       name: "Sign Out",
       description: "Callback to be called when the user signs out",
@@ -66,18 +72,20 @@ export const BasicAppBar: Story = {
     workspaceId: "1",
     userName: "Jane",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
-    isAuthenticated: false
+    isAuthenticated: false,
+    isAdmin: false
   }
 };
 
 /**
- * AppBar example when the user is authenticated.
+ * AppBar example when the user is authenticated and is an admin.
  */
 export const AuthenticatedAppBar: Story = {
   args: {
     workspaceId: "1",
     userName: "Jane",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
-    isAuthenticated: true
+    isAuthenticated: true,
+    isAdmin: true
   }
 };

@@ -30,6 +30,7 @@ import React from "react";
 type HBarProps = {
   userName: string;
   currentSection: HBarSection;
+  isAdmin: boolean;
   onSignOut: () => void;
   onSectionChange: (section: HBarSection) => void;
 };
@@ -37,6 +38,7 @@ type HBarProps = {
 export const HBar: React.FC<HBarProps> = ({
   userName,
   currentSection,
+  isAdmin,
   onSignOut,
   onSectionChange
 }) => {
@@ -58,20 +60,23 @@ export const HBar: React.FC<HBarProps> = ({
           component="nav"
           aria-label="user and workspace settings"
         >
-          {Object.values(HBarSection).map((section) => (
-            <ListItem
-              key={section}
-              disablePadding
-              alignItems="center"
-              sx={{ justifyContent: "center" }}
-              selected={currentSection === section}
-              onClick={(event) => handleListItemClick(event, section)}
-            >
-              <ListItemButton sx={{ justifyContent: "center" }}>
-                <ListItemText primary={section} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {Object.values(HBarSection)
+            // Filter out Members section if user is not admin
+            .filter((section) => section !== HBarSection.MEMBERS || isAdmin)
+            .map((section) => (
+              <ListItem
+                key={section}
+                disablePadding
+                alignItems="center"
+                sx={{ justifyContent: "center" }}
+                selected={currentSection === section}
+                onClick={(event) => handleListItemClick(event, section)}
+              >
+                <ListItemButton sx={{ justifyContent: "center" }}>
+                  <ListItemText primary={section} />
+                </ListItemButton>
+              </ListItem>
+            ))}
         </List>
         <Box sx={{ p: 2, mb: 3 }}>
           <StyledLink onClick={() => onSignOut && onSignOut()}>

@@ -37,6 +37,14 @@ const meta = {
         type: "text"
       }
     },
+    isAdmin: {
+      name: "Is Admin",
+      description:
+        "Whether the user is an admin or not, which will show the members section",
+      control: {
+        type: "boolean"
+      }
+    },
     onSignOut: {
       name: "On Sign Out",
       description:
@@ -61,6 +69,7 @@ type Story = StoryObj<typeof meta>;
  */
 export const HBarExample: Story = {
   args: {
+    isAdmin: true,
     userName: "John"
   }
 };

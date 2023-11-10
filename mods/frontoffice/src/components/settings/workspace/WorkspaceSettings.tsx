@@ -68,6 +68,7 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   initialCalendarUrl,
   initialShopifyStoreUrl,
   initialHoursOfOperation,
+  isAdmin,
   onSave
 }) => {
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -232,25 +233,27 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
               <Button type="submit">Save changes</Button>
             </Box>
           </Box>
-          <Box sx={{ ml: 5 }}>
-            <SettingsTitle>Danger Zone</SettingsTitle>
-            <StyledDangerZone>
-              <Typography variant="body1">Delete Workspace</Typography>
-              <Typography variant="body2" sx={{ mt: 1 }}>
-                This will permanently delete your workspace and all of its data.
-                This action cannot be undone.
-              </Typography>
+          {isAdmin && (
+            <Box sx={{ ml: 5 }}>
+              <SettingsTitle>Danger Zone</SettingsTitle>
+              <StyledDangerZone>
+                <Typography variant="body1">Delete Workspace</Typography>
+                <Typography variant="body2" sx={{ mt: 1 }}>
+                  This will permanently delete your workspace and all of its
+                  data. This action cannot be undone.
+                </Typography>
 
-              <Button
-                variant="outlined"
-                color="secondary"
-                sx={{ mt: 2 }}
-                onClick={() => setConfirmDeleteOpen(true)}
-              >
-                Delete workspace
-              </Button>
-            </StyledDangerZone>
-          </Box>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  sx={{ mt: 2 }}
+                  onClick={() => setConfirmDeleteOpen(true)}
+                >
+                  Delete workspace
+                </Button>
+              </StyledDangerZone>
+            </Box>
+          )}
           <Modal
             BackdropProps={{
               style: {
