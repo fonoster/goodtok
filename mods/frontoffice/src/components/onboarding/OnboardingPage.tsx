@@ -167,7 +167,6 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                       data={timezones}
                       helperText={"Please select a timezone"}
                       onChange={(e) => setTimezone(e.target.value)}
-                      sx={{ mb: 4 }}
                       value={timezone}
                     />
                     <Box

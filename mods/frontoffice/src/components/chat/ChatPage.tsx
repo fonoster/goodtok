@@ -21,6 +21,7 @@ import { AppBar } from "../appbar/AppBar";
 import { StartCall } from "./start/StartCall";
 import { CustomerInfo } from "./customer/CustomerInfo";
 import { CustomerProfile, OrderItem } from "./customer/types";
+import { StyledTitle } from "./ChatPageStyles";
 import React, { useEffect, useRef } from "react";
 import Video from "./video/Video";
 
@@ -102,6 +103,8 @@ export const ChatPage: React.FC<ChatPageProps> = ({
           justifyContent: "center"
         }}
       >
+        <StyledTitle sx={{ mb: 2 }}>Live Session</StyledTitle>
+
         {!isActiveCall && (
           <StartCall
             onReturnToQueue={onReturnToQueue}
