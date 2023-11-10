@@ -178,7 +178,7 @@ export const Members: React.FC<MembersProps> = ({
         sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
         <ConfirmationForm
-          title="Remove Member"
+          title="Remove member"
           description="Are you sure you want to remove this member from your workspace? This action cannot be undone."
           confirmationText="DELETE"
           onCancel={() => setConfirmDeleteOpen(false)}

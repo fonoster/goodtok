@@ -65,7 +65,7 @@ export const Invite: React.FC<InviteProps> = ({ onInvite }) => {
       {({ errors, touched }) => (
         <Form>
           <StyledBox>
-            <StyledTitle>Invite new members to your workspace</StyledTitle>
+            <StyledTitle>Invite a new member to your workspace</StyledTitle>
             <Field
               as={TextField}
               label="Name"

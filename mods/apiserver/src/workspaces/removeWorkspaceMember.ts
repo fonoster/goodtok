@@ -21,13 +21,17 @@ import { Context } from "../context";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export function removeWorkspaceMember(
+export async function removeWorkspaceMember(
   ctx: Context,
   memberId: string
 ): Promise<void> {
   logger.verbose("removing workspace member", { memberId });
 
-  // TODO: Ensure the requester is the owner or admin of the workspace
+  await ctx.prisma.workspaceMember.delete({
+    where: {
+      id: memberId
+    }
+  });
 
-  return null;
+  return;
 }

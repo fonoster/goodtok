@@ -242,6 +242,26 @@ function SettingsContainer() {
       })
       .then(() => {
         showSnackbar("Invite sent");
+
+        // TODO: Fix duplicated code
+        workspaces
+          .getMembersByWorkspaceId(workspaceId)
+          .then((response) => {
+            const newMembers = response.members.map((member) => ({
+              id: member.id,
+              userId: member.userId,
+              name: member.name,
+              email: member.email,
+              role: member.role as unknown as Role,
+              status: member.status as unknown as Status,
+              createdAt: new Date(member.createdAt)
+            }));
+
+            setMembers((prevMembers) => [prevMembers[0], ...newMembers]);
+          })
+          .catch((err) => {
+            logger.error("error getting workspace members", err);
+          });
       })
       .catch((err) => {
         logger.error("error adding workspace member", err);
