@@ -34,7 +34,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       minHeight="100vh"
       sx={{ backgroundColor: "#FFFFFF" }}
     >
-      <AppBar 
+      <AppBar
         workspaceId=""
         userName=""
         avatar=""
