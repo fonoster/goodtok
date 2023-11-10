@@ -28,6 +28,7 @@ import {
   UserSettingsTitle
 } from "./UserSettingsStyles";
 import React from "react";
+import AvatarWithOverlayIcon from "./AvatarWithIcon";
 
 // Zod schema for validation
 const validationSchema = z.object({
@@ -92,11 +93,21 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
                 helperText={touched.password && errors.password}
               />
 
-              <StyledAvatar
-                alt={initialName || "Avatar"}
-                src={avatarUrl}
-                onClick={() => window.open("https://gravatar.com", "_blank")}
-              />
+              {/* If there is no avatarUrl, show the StyledAvatar component */}
+              {!avatarUrl && (
+                <StyledAvatar
+                  alt={initialName || "Avatar"}
+                  onClick={() => window.open("https://gravatar.com", "_blank")}
+                />
+              )}
+
+              {avatarUrl && (
+                <AvatarWithOverlayIcon
+                  alt={initialName || "Avatar"}
+                  src={avatarUrl as string}
+                  onClick={() => window.open("https://gravatar.com", "_blank")}
+                />
+              )}
             </StyledBox>
 
             <Box sx={{ width: 206, mt: 5 }}>
@@ -108,3 +119,9 @@ export const UserSettings: React.FC<UserSettingsProps> = ({
     </Formik>
   );
 };
+
+// <AvatarWithOverlayIcon
+// alt={initialName || "Avatar"}
+// src={avatarUrl as string}
+// onClick={() => window.open("https://gravatar.com", "_blank")}
+// />

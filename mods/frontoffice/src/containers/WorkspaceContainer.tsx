@@ -131,7 +131,11 @@ function WorkspaceContainer() {
   });
 
   const handleQueueEntrySelect = (id: string, aor: string) => {
-    window.location.href = `/workspace/${workspaceId}/s/${id}/aor/${aor}`;
+    window.open(
+      `/workspace/${workspaceId}/s/${id}/aor/${aor}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   const handleOnlineChange = (newOnlineStatus: boolean) => {
