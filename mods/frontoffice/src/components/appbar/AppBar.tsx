@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Avatar, IconButton } from "@mui/material";
+import { Avatar, IconButton, Toolbar } from "@mui/material";
 import { ExternalLinkIcon } from "../common/ExternalLinkIcon";
 import { GoodtokLogo } from "./GoodtokLogo";
 import {
@@ -79,71 +79,74 @@ export const AppBar: React.FC<AppBarProps> = ({
   };
 
   return (
-    <StyledAppBar
-      {...props}
-      isAuthenticated={isAuthenticated}
-      position="sticky"
-      sx={{
-        zIndex: (theme) => theme.zIndex.drawer + 1
-      }}
-    >
-      <StyledContainer maxWidth={false}>
-        <StyledToolbar isAuthenticated={isAuthenticated}>
-          <GoodtokLogo onClick={() => (window.location.href = "/")} />
-          {isAuthenticated && (
-            <>
-              <div style={{ flexGrow: 1 }} />
-              <div>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <Avatar alt={userName} src={avatar}>
-                    {userName[0]}
-                  </Avatar>
-                </IconButton>
-                <StyledMenu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                  }}
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <StyledMenuUser>Hi {userName}!</StyledMenuUser>
-                  <StyledMenuItem onClick={handleOnPersonalSettingsSelect}>
-                    Personal Settings
-                  </StyledMenuItem>
-                  <StyledMenuItem onClick={handleOnWorkspaceSettingsSelect}>
-                    Workspace Settings
-                  </StyledMenuItem>
-                  {isAdmin && (
-                    <StyledMenuItem onClick={handleOnWorkspaceMembersSelect}>
-                      Workspace Members
+    <>
+      <StyledAppBar
+        {...props}
+        isAuthenticated={isAuthenticated}
+        position="fixed"
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1
+        }}
+      >
+        <StyledContainer maxWidth={false}>
+          <StyledToolbar isAuthenticated={isAuthenticated}>
+            <GoodtokLogo onClick={() => (window.location.href = "/")} />
+            {isAuthenticated && (
+              <>
+                <div style={{ flexGrow: 1 }} />
+                <div>
+                  <IconButton
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                  >
+                    <Avatar alt={userName} src={avatar}>
+                      {userName[0]}
+                    </Avatar>
+                  </IconButton>
+                  <StyledMenu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right"
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <StyledMenuUser>Hi {userName}!</StyledMenuUser>
+                    <StyledMenuItem onClick={handleOnPersonalSettingsSelect}>
+                      Personal Settings
                     </StyledMenuItem>
-                  )}
-                  <StyledMenuItem onClick={handleOnDocumentationSelect}>
-                    Documentation &nbsp; <ExternalLinkIcon />
-                  </StyledMenuItem>
-                  <StyledMenuItemSignout onClick={handleOnSignOutSelect}>
-                    Sign Out
-                  </StyledMenuItemSignout>
-                </StyledMenu>
-              </div>
-            </>
-          )}
-        </StyledToolbar>
-      </StyledContainer>
-    </StyledAppBar>
+                    <StyledMenuItem onClick={handleOnWorkspaceSettingsSelect}>
+                      Workspace Settings
+                    </StyledMenuItem>
+                    {isAdmin && (
+                      <StyledMenuItem onClick={handleOnWorkspaceMembersSelect}>
+                        Workspace Members
+                      </StyledMenuItem>
+                    )}
+                    <StyledMenuItem onClick={handleOnDocumentationSelect}>
+                      Documentation &nbsp; <ExternalLinkIcon />
+                    </StyledMenuItem>
+                    <StyledMenuItemSignout onClick={handleOnSignOutSelect}>
+                      Sign Out
+                    </StyledMenuItemSignout>
+                  </StyledMenu>
+                </div>
+              </>
+            )}
+          </StyledToolbar>
+        </StyledContainer>
+      </StyledAppBar>
+      <Toolbar />
+    </>
   );
 };

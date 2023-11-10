@@ -108,6 +108,7 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
             display="flex"
             flexDirection="column"
             minHeight="100vh"
+            sx={{ backgroundColor: "#FFFFFF" }}
           >
             <AppBar
               workspaceId=""

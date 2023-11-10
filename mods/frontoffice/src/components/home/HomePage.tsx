@@ -67,7 +67,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       sx={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "#FFFFFF",
+        height: "100vh"
       }}
     >
       <AppBar

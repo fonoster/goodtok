@@ -24,22 +24,31 @@ import React from "react";
 type LoginPageProps = LoginFormProps;
 
 export const LoginPage: React.FC<LoginPageProps> = ({
-  signInWithEmailAndPassword,
+  onSignInSubmit,
   ...props
 }) => {
   return (
-    <Box display="flex" flexDirection="column" minHeight="100vh">
-      <AppBar />
+    <Box
+      display="flex"
+      flexDirection="column"
+      minHeight="100vh"
+      sx={{ backgroundColor: "#FFFFFF" }}
+    >
+      <AppBar 
+        workspaceId=""
+        userName=""
+        avatar=""
+        // This will hide the avatar and its menu
+        isAuthenticated={false}
+        onSignOut={{}}
+      />
       <Box
         flexGrow={1}
         display="flex"
         justifyContent="center"
         alignItems="center"
       >
-        <LoginForm
-          signInWithEmailAndPassword={signInWithEmailAndPassword}
-          {...props}
-        />
+        <LoginForm onSignInSubmit={onSignInSubmit} {...props} />
       </Box>
     </Box>
   );
