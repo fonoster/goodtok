@@ -79,7 +79,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await client.login(email, password);
 
     const defaultWorkspaceId = getDefaultWorkspaceId(client.getToken());
-    client.setDefaultWorkspaceId(defaultWorkspaceId);
+    if (defaultWorkspaceId) {
+      client.setDefaultWorkspaceId(defaultWorkspaceId);
+    }
 
     setClient(client);
     setIsLoggedIn(true);
@@ -98,9 +100,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (accessToken) {
       client.setToken(accessToken);
       await client.renewToken();
+
       // The client token has already been updated
       const defaultWorkspaceId = getDefaultWorkspaceId(client.getToken());
-      client.setDefaultWorkspaceId(defaultWorkspaceId);
+      if (defaultWorkspaceId) {
+        client.setDefaultWorkspaceId(defaultWorkspaceId);
+      }
 
       setClient(client);
       setIsLoggedIn(true);

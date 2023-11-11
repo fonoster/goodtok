@@ -37,6 +37,8 @@ export const NATS_URL = e.NATS_URL || "localhost:4222";
 export const APISERVER_BIND_PORT = e.APISERVER_BIND_PORT ?? "6789";
 
 // Security and Encryption
+export const ADMIN_EMAIL = e.ADMIN_EMAIL;
+export const ADMIN_PASSWORD = e.ADMIN_PASSWORD ?? "admin";
 export const CLOAK_ENCRYPTION_KEY = e.CLOAK_ENCRYPTION_KEY;
 export const JWT_SECURITY_SALT = e.JWT_SECURITY_SALT ?? CLOAK_ENCRYPTION_KEY;
 export const JWT_SIGN_OPTIONS = e.JWT_SIGN_OPTIONS

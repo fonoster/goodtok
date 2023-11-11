@@ -37,9 +37,6 @@
     "format": "prettier --write mods/**/src",
     "prepare": "husky install"
   },
-  "prisma": {
-    "seed": "ts-node ./.scripts/seed.ts"
-  },
   "dependencies": {
     "@fonoster/logger": "^0.3.6",
     "@prisma/client": "^5.4.1",

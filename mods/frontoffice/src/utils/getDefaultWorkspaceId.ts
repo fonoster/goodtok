@@ -24,5 +24,5 @@ type Payload = {
 
 export function getDefaultWorkspaceId(token: string) {
   const payload: Payload = jwtDecode(token);
-  return payload.workspaces[0].id;
+  return payload.workspaces.length > 0 ? payload.workspaces[0].id : null;
 }

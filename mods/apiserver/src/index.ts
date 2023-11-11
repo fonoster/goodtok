@@ -18,12 +18,13 @@
  * limitations under the License.
  */
 import * as trpcExpress from "@trpc/server/adapters/express";
+import { ADMIN_EMAIL, ADMIN_PASSWORD, APISERVER_BIND_PORT } from "./envs";
 import { appRouter } from "./router";
 import { createContext } from "./context";
-import { APISERVER_BIND_PORT } from "./envs";
 import { applyWSSHandler } from "@trpc/server/adapters/ws";
 import { WebSocketServer } from "ws";
 import { getLogger } from "@fonoster/logger";
+import { upsertDefaultUser } from "./users/upsertDefaultUser";
 import cors from "cors";
 import express from "express";
 
@@ -57,6 +58,16 @@ applyWSSHandler<AppRouter>({
 });
 
 logger.info("server started", { port: APISERVER_BIND_PORT });
+
+if (ADMIN_EMAIL) {
+  upsertDefaultUser({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD })
+    .then(() => {
+      logger.info("usperted default user");
+    })
+    .catch((err) => {
+      logger.error("could not create default user", { err });
+    });
+}
 
 export type AppRouter = typeof appRouter;
 
