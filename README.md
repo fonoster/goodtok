@@ -2,7 +2,7 @@
 
 <div align="center">
   <p align="center">
-    <a href="https://goodtok.com" target="_blank" rel="noopener">
+    <a href="https://goodtok.io" target="_blank" rel="noopener">
       <img src="https://github.com/fonoster/goodtok/blob/main/assets/repo-banner.png" />
     </a>
   </p>
