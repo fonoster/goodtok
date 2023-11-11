@@ -21,6 +21,6 @@ import { z } from "zod";
 export const dequeueSchema = z
   .object({
     workspaceId: z.string(),
-    queueEntryId: z.string().min(1)
+    customerId: z.string().min(1)
   })
   .required();

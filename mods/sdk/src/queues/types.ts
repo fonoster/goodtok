@@ -16,7 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { QueueEntry, GetQueueResponse } from "@goodtok/apiserver";
+import type {
+  QueueEntry,
+  GetQueueResponse,
+  DequeueRequest
+} from "@goodtok/apiserver";
 
 export type QueuesClient = {
   getDefaultWorkspaceQueue: () => Promise<GetQueueResponse>;
@@ -25,6 +29,7 @@ export type QueuesClient = {
     id: string,
     callback: (error: Error, data?: QueueEntry) => void
   ) => void;
+  dequeue: (request: DequeueRequest) => Promise<void>;
 };
 
 export { QueueEntry };

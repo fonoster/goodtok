@@ -25,7 +25,11 @@ import {
   splitLink,
   wsLink
 } from "@trpc/client";
-import type { AppRouter, GetQueueResponse } from "@goodtok/apiserver";
+import type {
+  AppRouter,
+  DequeueRequest,
+  GetQueueResponse
+} from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
 import { formatAndThrowError } from "../errors";
 import { GoodtokError } from "../errors/GoodtokError";
@@ -178,5 +182,31 @@ export default class Queues extends AbstractBaseClient implements QueuesClient {
         callback(new GoodtokError(err.data.code, err.data.message));
       }
     });
+  }
+
+  /**
+   * Removes entry from the queue.
+   *
+   * @param {DequeueRequest} request - The dequeue request
+   * @param {string} request.workspaceId - The workspace ID
+   * @param {string} request.customerId - The customer ID to dequeue
+   * @return {Promise<void>} A promise resolving to void
+   * @example
+   *
+   * const request = {
+   *  workspaceId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
+   *  customerId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d"
+   * };
+   *
+   * queues.dequeue(request)
+   *   .then(console.log)
+   *   .catch(console.error); // handle any errors
+   */
+  async dequeue(request: DequeueRequest): Promise<void> {
+    try {
+      await this.trpc.queues.dequeue.mutate(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
   }
 }

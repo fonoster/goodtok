@@ -41,7 +41,10 @@ export async function updateQueueEntry(
 
   const currentEntry = await ctx.prisma.queueEntry.findFirst({
     where: {
-      customerId: customerId
+      customerId: customerId,
+      status: {
+        not: QueueEntryStatus.DEQUEUED
+      }
     },
     orderBy: {
       createdAt: "desc"
