@@ -34,7 +34,7 @@ import React from "react";
 
 // Zod schema for validation
 const validationSchema = z.object({
-  email: z.string().min(1),
+  email: z.string().min(1).email(),
   password: z.string().min(1)
 });
 
