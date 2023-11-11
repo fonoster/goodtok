@@ -19,11 +19,65 @@
 import { getLogger } from "@fonoster/logger";
 import { Context } from "../context";
 import { DequeueRequest } from "./types";
+import { QueueEntryStatus } from "@prisma/client";
+import { natsObservers } from "../workspaces/observers";
+import { getCustomerById } from "../customers/getCustomerById";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export function dequeue(ctx: Context, request: DequeueRequest) {
-  const { workspaceId, queueEntryId } = request;
+export async function dequeue(ctx: Context, request: DequeueRequest) {
+  const { workspaceId, customerId } = request;
 
-  logger.verbose("remove customer from queue", { workspaceId, queueEntryId });
+  logger.verbose("dequeing session", { workspaceId, customerId });
+
+  // Find queue entry and update status
+  const queueEntry = await ctx.prisma.queueEntry.findFirst({
+    where: {
+      workspaceId,
+      customerId,
+      status: {
+        not: QueueEntryStatus.DEQUEUED
+      }
+    }
+  });
+
+  const queueEntryUpdated = await ctx.prisma.queueEntry.update({
+    where: {
+      id: queueEntry.id
+    },
+    data: {
+      status: QueueEntryStatus.DEQUEUED
+    }
+  });
+
+  const customer = await getCustomerById(ctx, {
+    workspaceId,
+    customerId
+  });
+
+  if (!customer) {
+    logger.warn("id not found, marking it as anonymous", {
+      customerId
+    });
+  }
+
+  const entryWithCustomer = {
+    ...queueEntryUpdated,
+    customer: customer
+      ? {
+          id: customerId,
+          name: customer.name,
+          avatar: customer.avatar,
+          note: customer.note
+        }
+      : {
+          id: customerId,
+          name: "Anonymous",
+          avatar: null,
+          note: null
+        }
+  };
+
+  // Notify all observers
+  natsObservers.forEach((emit) => emit(entryWithCustomer));
 }

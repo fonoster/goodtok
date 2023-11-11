@@ -79,8 +79,8 @@ function ChatContainer() {
   });
 
   useEffect(() => {
-    const session = new SDK.Customers(client);
-    session
+    const customers = new SDK.Customers(client);
+    customers
       .getCustomer({ workspaceId, customerId })
       .then((profile) => {
         setCustomerProfile(profile);
@@ -156,6 +156,9 @@ function ChatContainer() {
     if (simpleUser) {
       simpleUser.hangup();
     }
+
+    const queues = new SDK.Queues(client);
+    queues.dequeue({ workspaceId, customerId });
 
     showSnackbar("Customer removed from queue");
   };
