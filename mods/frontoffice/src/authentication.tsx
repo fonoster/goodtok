@@ -36,7 +36,7 @@ interface AuthProviderProps {
 interface AuthContextType {
   client: SDK.Client | null;
   isSignedIn: boolean;
-  signIn: (username: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   isAdmin: (workspaceId: string) => boolean;
   renewToken: () => Promise<void>;
@@ -71,12 +71,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return null;
   });
 
-  const signIn = async (username: string, password: string) => {
+  const signIn = async (email: string, password: string) => {
     const client = new SDK.Client({
       endpoint: API_ENDPOINT
     });
 
-    await client.login(username, password);
+    await client.login(email, password);
 
     const defaultWorkspaceId = getDefaultWorkspaceId(client.getToken());
     client.setDefaultWorkspaceId(defaultWorkspaceId);

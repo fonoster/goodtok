@@ -26,13 +26,13 @@ const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export async function login(
   ctx: Context,
-  input: { username: string; password: string }
+  input: { email: string; password: string }
 ): Promise<string> {
-  const { username, password } = input;
+  const { email, password } = input;
 
-  logger.verbose("new user login", { username });
+  logger.verbose("new user login", { email });
 
-  const { user, workspaces } = await getMemberships(ctx, { username });
+  const { user, workspaces } = await getMemberships(ctx, { email });
 
   if (!user) throw new TRPCError({ code: "UNAUTHORIZED" });
 

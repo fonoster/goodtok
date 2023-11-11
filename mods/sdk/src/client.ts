@@ -36,14 +36,14 @@ export default class Client {
     }
   }
 
-  async login(username: string, password: string) {
+  async login(email: string, password: string) {
     const trpc = createTRPCProxyClient<AppRouter>({
       links: [
         httpBatchLink({
           url: this.options.endpoint,
           headers: {
             authorization: `Basic ${Buffer.from(
-              `${username}:${password}`
+              `${email}:${password}`
             ).toString("base64")}`
           }
         })
@@ -51,7 +51,7 @@ export default class Client {
       transformer: undefined
     });
 
-    this.token = await trpc.users.login.mutate({ username, password });
+    this.token = await trpc.users.login.mutate({ email, password });
 
     const userInfo = jwtDecode(this.token) as {
       [key: string]: string;

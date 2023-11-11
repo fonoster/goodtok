@@ -30,15 +30,15 @@ type GetMembershipsResponse = {
 
 export async function getMemberships(
   ctx: Context,
-  input: { username: string }
+  input: { email: string }
 ): Promise<GetMembershipsResponse> {
-  const { username } = input;
+  const { email } = input;
 
-  logger.verbose("get memberships for user", { username });
+  logger.verbose("get memberships for user", { email });
 
   const user = await ctx.prisma.user.findUnique({
     where: {
-      username
+      email
     },
     include: {
       ownedWorkspaces: true

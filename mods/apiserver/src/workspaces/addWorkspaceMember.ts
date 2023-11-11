@@ -74,7 +74,6 @@ export async function addWorkspaceMember(
 
     user = await ctx.prisma.user.create({
       data: {
-        username: email,
         email,
         name,
         password: oneTimePassword

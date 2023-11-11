@@ -26,10 +26,10 @@ import { renewToken } from "./renewToken";
 
 export const usersRouter = router({
   login: publicProcedure
-    .input(z.object({ username: z.string(), password: z.string() }))
+    .input(z.object({ email: z.string(), password: z.string() }))
     .mutation(({ ctx, input }) =>
       login(ctx, {
-        username: input.username,
+        email: input.email,
         password: input.password
       })
     ),

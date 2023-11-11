@@ -29,9 +29,9 @@ export async function renewToken(
   input: { token: string }
 ): Promise<string> {
   const { token } = input;
-  const { username, sub: userId } = jwtDecode(token) as {
+  const { email, sub: userId } = jwtDecode(token) as {
     sub: string;
-    username: string;
+    email: string;
   };
 
   logger.verbose("renew user token", { userId });
@@ -42,7 +42,7 @@ export async function renewToken(
     jwtSignOptions: ctx.config.jwtSignOptions
   });
 
-  const { user, workspaces } = await getMemberships(ctx, { username });
+  const { user, workspaces } = await getMemberships(ctx, { email });
 
   return generateToken({
     user,

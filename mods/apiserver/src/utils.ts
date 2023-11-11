@@ -44,7 +44,7 @@ export function generateToken(request: {
 
   const claims = {
     sub: user.id,
-    username: user.username,
+    email: user.email,
     workspaces
   };
 

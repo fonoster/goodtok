@@ -30,10 +30,9 @@ const sandbox = sinon.createSandbox();
 describe("@apiserver[users]", () => {
   const testUser = {
     id: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
-    username: "johndoe",
+    email: "john@example.com",
     password: "123456",
     name: "Jhon Doe",
-    email: "john@example.com",
     avatar: "https://example.com/avatar.png",
     createdAt: new Date(),
     updatedAt: new Date()
@@ -59,7 +58,6 @@ describe("@apiserver[users]", () => {
     // Assert
     chai.expect(user).to.be.an("object");
     chai.expect(user.id).to.be.equal(testUser.id);
-    chai.expect(user.username).to.be.equal(testUser.username);
     chai.expect(user.name).to.be.equal(testUser.name);
     chai.expect(user.email).to.be.equal(testUser.email);
     chai.expect(user.avatar).to.be.equal(testUser.avatar);
@@ -103,7 +101,7 @@ describe("@apiserver[users]", () => {
     } as unknown as Context;
 
     const input = {
-      username: testUser.username,
+      email: testUser.email,
       password: "123456"
     };
 
@@ -130,7 +128,7 @@ describe("@apiserver[users]", () => {
     } as unknown as Context;
 
     const input = {
-      username: testUser.username,
+      email: testUser.email,
       password: "123456", // Password is valid but user is not found
       salt: "abcdefg"
     };
@@ -158,7 +156,7 @@ describe("@apiserver[users]", () => {
     } as unknown as Context;
 
     const input = {
-      username: testUser.username,
+      email: testUser.email,
       password: "1234567", // Password is invalid
       salt: "abcdefg"
     };
@@ -198,7 +196,6 @@ describe("@apiserver[users]", () => {
     // Assert
     chai.expect(user).to.be.an("object");
     chai.expect(user.id).to.be.equal(testUser.id);
-    chai.expect(user.username).to.be.equal(testUser.username);
     chai.expect(user.name).to.be.equal("John Doe x"); // Name was updated
     chai.expect(user.email).to.be.equal(testUser.email);
     chai.expect(user.avatar).to.be.equal(testUser.avatar);
@@ -229,7 +226,7 @@ describe("@apiserver[users]", () => {
 
     // Act
     const memberships = await getMemberships(ctx, {
-      username: testUser.username
+      email: testUser.email
     });
 
     // Assert

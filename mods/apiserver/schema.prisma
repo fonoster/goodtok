@@ -40,9 +40,8 @@ enum QueueEntryStatus {
 
 model User {
   id        String   @id @default(uuid())
-  username  String   @unique @db.VarChar(60)
-  password  String   @map("password_hash") /// @encrypted
   email     String   @unique @db.VarChar(255)
+  password  String   @map("password_hash") /// @encrypted
   name      String   @db.VarChar(60)
   avatar    String?  @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
@@ -53,7 +52,7 @@ model User {
   memberships     WorkspaceMember[] // Workspaces the user is a member of
 
   // Indexes and maps
-  @@index([username], type: Hash)
+  @@index([email], type: Hash)
   @@map("users")
 }
 
