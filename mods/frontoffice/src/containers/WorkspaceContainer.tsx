@@ -104,18 +104,30 @@ function WorkspaceContainer() {
         logger.error("err getting queue", err);
       });
 
-    queues.watchQueue(workspaceId, (err, person) => {
+    queues.watchQueue(workspaceId, (err, queueEntry) => {
       if (err) {
         logger.error("failed to watch queue:", err);
         return;
       }
 
-      setPeopleList((peopleList) => {
-        const newPeopleList = peopleList.filter(
-          (p) => p.id !== person?.customerId
-        );
-        return [...newPeopleList, mapQueueEntry(person as SDK.QueueEntry)];
-      });
+      // TODO: Fix hard coded status
+      if (queueEntry?.status === "DEQUEUED") {
+        setPeopleList((peopleList) => {
+          // Filter out the person with the ID that matches the customerId of the dequeued entry
+          return peopleList.filter((p) => p.id !== queueEntry.customerId);
+        });
+      } else {
+        // If the status is not 'DEQUEUED', map the queueEntry to the peopleList as before
+        setPeopleList((peopleList) => {
+          const newPeopleList = peopleList.filter(
+            (p) => p.id !== queueEntry?.customerId
+          );
+          return [
+            ...newPeopleList,
+            mapQueueEntry(queueEntry as SDK.QueueEntry)
+          ];
+        });
+      }
     });
   }, [client, workspaceId]);
 
