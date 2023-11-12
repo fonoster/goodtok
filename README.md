@@ -56,18 +56,30 @@ openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
 Then, create a `.env` file with the following content:
 
 ```bash
-# General config
-DOCKER_HOST_ADDRESS=${YOUR DOCKER HOST IP}
-SIP_DOMAIN=sip.local
-SIP_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
-DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
+# Initial store owner credentials
+#   The server will create a new owner if the email does not exist
+#   If the email exists, the server will update the password
+OWNER_EMAIL=admin@localhost.local
+OWNER_PASSWORD=changeme
 
 # SMTP config
 SMTP_HOST=smtp.example.com
-SMTP_AUTH_USER=postmaster@example
+SMTP_PORT=587
+SMTP_SECURE=true
+SMTP_AUTH_USER=postmaster@example.com
 SMTP_AUTH_PASS=secret
+SMPT_SENDER=Goodtok <info@example.com>
+
+# SIP signaling config
+DOCKER_HOST_ADDRESS=/* Set the public IP address of your Docker host */
+SIP_DOMAIN=sip.goodtok.io
+SIP_SIGNALING_SERVER=ws://sip.goodtok.io:5062
+
+# Database and encryption config
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
+CLOAK_ENCRYPTION_KEY=/* Generate a new key with cloack cli or https://cloak.47ng.com/ */
 ```
 
 Next, run the following command to start the application:

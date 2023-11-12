@@ -123,7 +123,7 @@ export async function addWorkspaceMember(
   sendInvite({
     recipient: email,
     oneTimePassword,
-    inviteUrl: `https://api.goodtok.io/acceptInvite?workspaceId=${workspaceId}&token=placeholder`
+    workspaceId
   }).catch((err) => {
     logger.error(err);
   });

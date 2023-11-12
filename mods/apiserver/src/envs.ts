@@ -37,8 +37,8 @@ export const NATS_URL = e.NATS_URL || "localhost:4222";
 export const APISERVER_BIND_PORT = e.APISERVER_BIND_PORT ?? "6789";
 
 // Security and Encryption
-export const ADMIN_EMAIL = e.ADMIN_EMAIL;
-export const ADMIN_PASSWORD = e.ADMIN_PASSWORD ?? "admin";
+export const OWNER_EMAIL = e.OWNER_EMAIL;
+export const OWNER_PASSWORD = e.OWNER_PASSWORD ?? "admin";
 export const CLOAK_ENCRYPTION_KEY = e.CLOAK_ENCRYPTION_KEY;
 export const JWT_SECURITY_SALT = e.JWT_SECURITY_SALT ?? CLOAK_ENCRYPTION_KEY;
 export const JWT_SIGN_OPTIONS = e.JWT_SIGN_OPTIONS
@@ -63,3 +63,4 @@ export const SMTP_PORT = e.SMTP_PORT ? parseInt(e.SMTP_PORT) : 587;
 export const SMTP_SECURE = e.SMTP_SECURE ?? true;
 export const SMTP_AUTH_USER = e.SMTP_AUTH_USER;
 export const SMTP_AUTH_PASS = e.SMTP_AUTH_PASS;
+export const SMTP_SENDER = e.SMTP_SENDER;

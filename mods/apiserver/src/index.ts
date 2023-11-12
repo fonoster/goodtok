@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 import * as trpcExpress from "@trpc/server/adapters/express";
-import { ADMIN_EMAIL, ADMIN_PASSWORD, APISERVER_BIND_PORT } from "./envs";
+import { OWNER_EMAIL, OWNER_PASSWORD, APISERVER_BIND_PORT } from "./envs";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { applyWSSHandler } from "@trpc/server/adapters/ws";
@@ -59,8 +59,8 @@ applyWSSHandler<AppRouter>({
 
 logger.info("server started", { port: APISERVER_BIND_PORT });
 
-if (ADMIN_EMAIL) {
-  upsertDefaultUser({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD })
+if (OWNER_EMAIL) {
+  upsertDefaultUser({ email: OWNER_EMAIL, password: OWNER_PASSWORD })
     .then(() => {
       logger.info("usperted default user");
     })
