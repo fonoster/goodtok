@@ -16,27 +16,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Transporter } from "nodemailer";
-import { getLogger } from "@fonoster/logger";
+import { ADMIN_EMAIL } from "../envs";
+import { sendEmail } from "./sender";
+import { createInviteBody } from "./createInviteBody";
 
-const logger = getLogger({ service: "apiserver", filePath: __filename });
-
-export type EmailOptions = {
-  to: string;
-  from: string;
-  subject: string;
-  html: string;
+type SendInviteInput = {
+  recipient: string;
+  oneTimePassword: string;
+  inviteUrl: string;
 };
 
-export function createEmailSender(transporter: Transporter) {
-  return async function sendEmail(options: EmailOptions): Promise<void> {
-    const info = await transporter.sendMail({
-      from: options.from,
-      to: options.to,
-      subject: options.subject,
-      html: options.html
-    });
+export async function sendInvite(request: SendInviteInput) {
+  const { recipient, oneTimePassword, inviteUrl } = request;
 
-    logger.verbose("message sent: %s", info.messageId);
-  };
+  await sendEmail({
+    from: ADMIN_EMAIL,
+    to: recipient,
+    subject: "Invite to join a Goodtok workspace",
+    html: createInviteBody({
+      oneTimePassword,
+      inviteUrl
+    })
+  });
 }

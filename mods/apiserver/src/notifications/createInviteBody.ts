@@ -16,27 +16,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Transporter } from "nodemailer";
-import { getLogger } from "@fonoster/logger";
+import handlebars from "handlebars";
+import fs from "fs";
+import path from "path";
 
-const logger = getLogger({ service: "apiserver", filePath: __filename });
+const TEMPLATE_DIR = path.join(__dirname, "templates");
+enum TemplateName {
+  INVITE = "inviteTemplate"
+}
 
-export type EmailOptions = {
-  to: string;
-  from: string;
-  subject: string;
-  html: string;
+const compileTemplate = (
+  templateName: string,
+  data: Record<string, string>
+) => {
+  const filePath = path.join(TEMPLATE_DIR, `${templateName}.hbs`);
+  const source = fs.readFileSync(filePath, "utf-8").toString();
+  const template = handlebars.compile(source);
+  return template(data);
 };
 
-export function createEmailSender(transporter: Transporter) {
-  return async function sendEmail(options: EmailOptions): Promise<void> {
-    const info = await transporter.sendMail({
-      from: options.from,
-      to: options.to,
-      subject: options.subject,
-      html: options.html
-    });
-
-    logger.verbose("message sent: %s", info.messageId);
-  };
+export function createInviteBody(data: Record<string, string>) {
+  return compileTemplate(TemplateName.INVITE, data);
 }
