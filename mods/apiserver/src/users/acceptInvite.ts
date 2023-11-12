@@ -16,34 +16,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getLogger } from "@fonoster/logger";
+import { WorkspaceMemberStatus } from "@prisma/client";
 import { Context } from "../context";
-import { sendInvite } from "../notifications/sendInvite";
+import { verifyToken } from "../utils";
 
-const logger = getLogger({ service: "apiserver", filePath: __filename });
+export async function acceptInvite(ctx: Context, request: { token: string }) {
+  const { token } = request;
 
-export async function resendWorkspaceMemberInvite(
-  ctx: Context,
-  memberId: string
-): Promise<void> {
-  logger.verbose("resend workspace member invite", { memberId });
+  const { email, workspaceId } = verifyToken({
+    token,
+    jwtSecuritySalt: ctx.config.jwtSecuritySalt,
+    jwtSignOptions: ctx.config.jwtSignOptions
+  }) as { email: string; workspaceId: string };
 
-  const member = await ctx.prisma.workspaceMember.findUnique({
+  const user = await ctx.prisma.user.findUnique({
     where: {
-      id: memberId
-    },
-    include: {
-      user: true
+      email
     }
   });
 
-  sendInvite({
-    recipient: member.user.email,
-    oneTimePassword: member.user.password,
-    workspaceId: member.workspaceId
-  }).catch((err) => {
-    logger.error(err);
-  });
-
-  return;
+  if (user) {
+    await ctx.prisma.workspaceMember.updateMany({
+      where: {
+        userId: user.id,
+        workspaceId
+      },
+      data: {
+        status: WorkspaceMemberStatus.ACTIVE
+      }
+    });
+  }
 }

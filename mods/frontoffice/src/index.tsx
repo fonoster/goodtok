@@ -20,14 +20,15 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "~authentication";
 import { SnackbarProvider } from "~snackbar";
+import { LoggerProvider } from "~logger";
 import LoginContainer from "~containers/LoginContainer";
 import HomeContainer from "~containers/HomeContainer";
 import OnboardingContainer from "~containers/OnboardingContainer";
 import WorkspaceContainer from "~containers/WorkspaceContainer";
 import ChatContainer from "~containers/ChatContainer";
 import SettingsContainer from "~containers/SettingsContainer";
+import AcceptInviteContainer from "~containers/AccepInvteContainer";
 import React from "react";
-import { LoggerProvider } from "~logger";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: "/workspace/:id/settings/:section",
     element: <SettingsContainer />
+  },
+  {
+    path: "/accept-invite",
+    element: <AcceptInviteContainer />
   }
 ]);
 

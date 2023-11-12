@@ -30,11 +30,14 @@ assertEnvsAreSet(["SIP_SIGNALING_SERVER", "CLOAK_ENCRYPTION_KEY"]);
 const e = process.env;
 const defaultSignOptions = { expiresIn: "24h", algorithm: "RS256" };
 
-// NATS configurations
-export const NATS_URL = e.NATS_URL || "localhost:4222";
-
 // API server configurations
 export const APISERVER_BIND_PORT = e.APISERVER_BIND_PORT ?? "6789";
+
+// Front Office configurations
+export const APP_URL = e.APP_URL ?? "http://localhost:8080";
+
+// NATS configurations
+export const NATS_URL = e.NATS_URL || "localhost:4222";
 
 // Security and Encryption
 export const OWNER_EMAIL = e.OWNER_EMAIL;

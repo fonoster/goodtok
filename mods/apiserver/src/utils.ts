@@ -57,11 +57,14 @@ export function verifyToken(request: {
   token: string;
   jwtSecuritySalt: string;
   jwtSignOptions: jwt.SignOptions;
-}) {
+}): Record<string, string> {
   const { token, jwtSecuritySalt, jwtSignOptions } = request;
 
   try {
-    jwt.verify(token, jwtSecuritySalt, jwtSignOptions);
+    return jwt.verify(token, jwtSecuritySalt, jwtSignOptions) as Record<
+      string,
+      string
+    >;
   } catch (e) {
     throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid token" });
   }

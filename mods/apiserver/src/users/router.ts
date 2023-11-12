@@ -23,6 +23,7 @@ import { getUserById } from "./getUserById";
 import { updateUser } from "./updateUser";
 import { updateUserSchema } from "./types";
 import { renewToken } from "./renewToken";
+import { acceptInvite } from "./acceptInvite";
 
 export const usersRouter = router({
   login: publicProcedure
@@ -44,5 +45,9 @@ export const usersRouter = router({
 
   updateUser: protectedProcedure
     .input(updateUserSchema)
-    .mutation(({ ctx, input }) => updateUser(ctx, input))
+    .mutation(({ ctx, input }) => updateUser(ctx, input)),
+
+  acceptInvite: publicProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => acceptInvite(ctx, { token: input }))
 });

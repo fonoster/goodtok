@@ -5,7 +5,7 @@ CREATE TYPE "workspace_status" AS ENUM ('ONLINE', 'OFFLINE');
 CREATE TYPE "workspace_member_status" AS ENUM ('PENDING', 'ACTIVE');
 
 -- CreateEnum
-CREATE TYPE "workspace_member_role" AS ENUM ('OWNER', 'MEMBER');
+CREATE TYPE "workspace_member_role" AS ENUM ('OWNER', 'ADMIN', 'MEMBER');
 
 -- CreateEnum
 CREATE TYPE "queue_entry_status" AS ENUM ('ONLINE', 'OFFLINE', 'DEQUEUED', 'IN_PROGRESS');
@@ -13,11 +13,10 @@ CREATE TYPE "queue_entry_status" AS ENUM ('ONLINE', 'OFFLINE', 'DEQUEUED', 'IN_P
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
-    "username" TEXT NOT NULL,
+    "email" VARCHAR(255) NOT NULL,
     "password_hash" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "avatar" TEXT,
+    "name" VARCHAR(60) NOT NULL,
+    "avatar" VARCHAR(255),
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -27,10 +26,10 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "workspaces" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" VARCHAR(60) NOT NULL,
     "hours_of_operation" JSONB NOT NULL,
     "status" "workspace_status" NOT NULL DEFAULT 'OFFLINE',
-    "calendar_url" TEXT NOT NULL,
+    "calendar_url" VARCHAR(255) NOT NULL,
     "timezone" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -60,7 +59,7 @@ CREATE TABLE "queue_entries" (
     "updated_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "registered_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" "queue_entry_status" NOT NULL,
-    "aor" TEXT NOT NULL,
+    "aor" VARCHAR(323) NOT NULL,
     "workspaceId" TEXT NOT NULL,
 
     CONSTRAINT "queue_entries_pkey" PRIMARY KEY ("id")
@@ -69,8 +68,8 @@ CREATE TABLE "queue_entries" (
 -- CreateTable
 CREATE TABLE "shopify_accounts" (
     "id" TEXT NOT NULL,
-    "access_token" TEXT NOT NULL,
-    "store_domain" TEXT NOT NULL,
+    "access_token" VARCHAR(255) NOT NULL,
+    "store_domain" VARCHAR(255) NOT NULL,
     "workspaceId" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -79,13 +78,10 @@ CREATE TABLE "shopify_accounts" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
-
--- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE INDEX "users_username_idx" ON "users" USING HASH ("username");
+CREATE INDEX "users_email_idx" ON "users" USING HASH ("email");
 
 -- CreateIndex
 CREATE INDEX "workspaces_name_idx" ON "workspaces" USING HASH ("name");

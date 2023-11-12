@@ -16,9 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SMTP_SENDER } from "../envs";
+import { APP_URL, SMTP_SENDER } from "../envs";
 import { sendEmail } from "./sender";
 import { createInviteBody } from "./createInviteBody";
+import { createInviteToken } from "./createInviteToken";
 
 type SendInviteInput = {
   recipient: string;
@@ -29,12 +30,10 @@ type SendInviteInput = {
 export async function sendInvite(request: SendInviteInput) {
   const { recipient, oneTimePassword, workspaceId } = request;
 
-  // TODO:
-  //   Get the base URL of the app and construct the invite URL
-  //   Create a JWT that last 24 hours and send it to the user
-  //   The claim should contain the workspaceId and the email
-
-  const inviteUrl = `https://goodtok.io/invite?workspaceId=${workspaceId}&oneTimePassword=${oneTimePassword}`;
+  const token = await createInviteToken({
+    workspaceId,
+    email: recipient
+  });
 
   await sendEmail({
     from: SMTP_SENDER,
@@ -42,7 +41,7 @@ export async function sendInvite(request: SendInviteInput) {
     subject: "Invite to join a Goodtok workspace",
     html: createInviteBody({
       oneTimePassword,
-      inviteUrl
+      inviteUrl: `${APP_URL}/accept-invite?token=${token}`
     })
   });
 }

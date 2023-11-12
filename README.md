@@ -56,22 +56,23 @@ openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
 Then, create a `.env` file with the following content:
 
 ```bash
+# General config
+APP_URL=http://localhost:8080
+
 # Initial store owner credentials
 #   The server will create a new owner if the email does not exist
-#   If the email exists, the server will update the password
+#   The password will be updated if the email exists
 OWNER_EMAIL=admin@localhost.local
 OWNER_PASSWORD=changeme
 
 # SMTP config
 SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_SECURE=true
 SMTP_AUTH_USER=postmaster@example.com
 SMTP_AUTH_PASS=secret
 SMPT_SENDER=Goodtok <info@example.com>
 
 # SIP signaling config
-DOCKER_HOST_ADDRESS=/* Set the public IP address of your Docker host */
+DOCKER_HOST_ADDRESS=/* The public IP address of your Docker host */
 SIP_DOMAIN=sip.goodtok.io
 SIP_SIGNALING_SERVER=ws://sip.goodtok.io:5062
 

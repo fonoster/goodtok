@@ -37,6 +37,6 @@ export function createEmailSender(transporter: Transporter) {
       html: options.html
     });
 
-    logger.verbose("message sent: %s", info.messageId);
+    logger.verbose(`message sent: ${info.messageId}`);
   };
 }

@@ -76,6 +76,18 @@ export default class Client {
     this.token = await trpc.users.renewToken.mutate(this.token);
   }
 
+  async acceptInvite(token: string) {
+    const trpc = createTRPCProxyClient<AppRouter>({
+      links: [
+        httpBatchLink({
+          url: this.options.endpoint
+        })
+      ],
+      transformer: undefined
+    });
+    await trpc.users.acceptInvite.mutate(token);
+  }
+
   setToken(token: string) {
     this.token = token;
     const userInfo = jwtDecode(token) as {

@@ -17,33 +17,20 @@
  * limitations under the License.
  */
 import { getLogger } from "@fonoster/logger";
-import { Context } from "../context";
-import { sendInvite } from "../notifications/sendInvite";
+import { JWT_SECURITY_SALT } from "../envs";
+import jwt from "jsonwebtoken";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export async function resendWorkspaceMemberInvite(
-  ctx: Context,
-  memberId: string
-): Promise<void> {
-  logger.verbose("resend workspace member invite", { memberId });
+type InviteTokenClaims = {
+  workspaceId: string;
+  email: string;
+};
 
-  const member = await ctx.prisma.workspaceMember.findUnique({
-    where: {
-      id: memberId
-    },
-    include: {
-      user: true
-    }
+export async function createInviteToken(claims: InviteTokenClaims) {
+  logger.verbose("create invite token", { claims });
+
+  return jwt.sign(claims, JWT_SECURITY_SALT, {
+    expiresIn: "1d"
   });
-
-  sendInvite({
-    recipient: member.user.email,
-    oneTimePassword: member.user.password,
-    workspaceId: member.workspaceId
-  }).catch((err) => {
-    logger.error(err);
-  });
-
-  return;
 }

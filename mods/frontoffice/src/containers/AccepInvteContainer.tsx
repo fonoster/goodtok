@@ -16,14 +16,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { resolve } from "path";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "~authentication";
+import { useLogger } from "~logger";
+import React, { useEffect } from "react";
 
-export default defineConfig({
-  envDir: resolve(__dirname, "..", ".."),
-  server: {
-    port: 8080
-  },
-  plugins: [tsconfigPaths()]
-});
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
+function AcceptInviteContainer() {
+  const { client } = useAuth();
+  const logger = useLogger();
+  const query = useQuery();
+  const token = query.get("token") as string;
+
+  useEffect(() => {
+    client
+      ?.acceptInvite(token)
+      .then(() => {
+        window.location.href = "/login";
+      })
+      .catch((err) => {
+        logger.error(err);
+      });
+  });
+
+  return <></>;
+}
+
+export default AcceptInviteContainer;
