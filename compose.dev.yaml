@@ -18,6 +18,7 @@ services:
       context: .
       dockerfile: ./mods/apiserver/Dockerfile
     environment:
+      CLOAK_ENCRYPTION_KEY: ${CLOAK_ENCRYPTION_KEY}
       DATABASE_URL: ${DATABASE_URL}
       SIP_SIGNALING_SERVER: ${SIP_SIGNALING_SERVER}
       SIP_DOMAIN: ${SIP_DOMAIN}
