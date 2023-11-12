@@ -12,9 +12,10 @@ services:
   apiserver:
     image: fonoster/goodtok-apiserver:latest
     environment:
+      CLOAK_ENCRYPTION_KEY: ${CLOAK_ENCRYPTION_KEY}
+      DATABASE_URL: ${DATABASE_URL}
       SIP_SIGNALING_SERVER: ${SIP_SIGNALING_SERVER}
       SIP_DOMAIN: ${SIP_DOMAIN}
-      DATABASE_URL: ${DATABASE_URL}
       NATS_URL: nats:4222
       LOGS_LEVEL: ${LOGS_LEVEL}
     ports:

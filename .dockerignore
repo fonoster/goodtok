@@ -1,0 +1,8 @@
+*
+!./mods/apiserver/migrations
+!./mods/apiserver/dist
+!./mods/apiserver/schema.prisma
+!./mods/apiserver/tsconfig.json
+!./mods/apiserver/tsconfig.tsbuildinfo
+!./mods/apiserver/package.json
+!./mods/apiserver/package-lock.json
