@@ -56,3 +56,10 @@ export const SIP_DOMAIN_REF = e.SIP_DOMAIN_REF ?? "default";
 export const SIP_SIGNALING_SERVER =
   e.SIP_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";
 export const SIP_USER_AGENT_PRIVACY = e.SIP_USER_AGENT_PRIVACY ?? "PRIVATE";
+
+// SMTP configurations
+export const SMTP_HOST = e.SMTP_HOST;
+export const SMTP_PORT = e.SMTP_PORT ? parseInt(e.SMTP_PORT) : 587;
+export const SMTP_SECURE = e.SMTP_SECURE ?? true;
+export const SMTP_AUTH_USER = e.SMTP_AUTH_USER;
+export const SMTP_AUTH_PASS = e.SMTP_AUTH_PASS;

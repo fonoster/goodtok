@@ -56,12 +56,18 @@ openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
 Then, create a `.env` file with the following content:
 
 ```bash
+# General config
 DOCKER_HOST_ADDRESS=${YOUR DOCKER HOST IP}
 SIP_DOMAIN=sip.local
 SIP_SIGNALING_SERVER=ws://${YOUR DOCKER HOST IP}:5062
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
+
+# SMTP config
+SMTP_HOST=smtp.example.com
+SMTP_AUTH_USER=postmaster@example
+SMTP_AUTH_PASS=secret
 ```
 
 Next, run the following command to start the application:

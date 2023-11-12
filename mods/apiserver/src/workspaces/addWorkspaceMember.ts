@@ -27,6 +27,7 @@ import { getLogger } from "@fonoster/logger";
 import { WorkspaceMemberStatus as PrismaWorkspaceMemberStatus } from "@prisma/client";
 import { WorkspaceMemberRole as PrismaWorkspaceMemberRole } from "@prisma/client";
 import { customAlphabet } from "nanoid";
+import { sendEmail } from "../notifications/sender";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -117,6 +118,15 @@ export async function addWorkspaceMember(
       role: role as WorkspaceMemberRole,
       status: WorkspaceMemberStatus.PENDING
     }
+  });
+
+  sendEmail({
+    from: "psanders@fonoster.com",
+    to: email,
+    subject: "Welcome to Goodtok",
+    body: `Your one time password is ${oneTimePassword}`
+  }).catch((err) => {
+    logger.error(err);
   });
 
   return toMember(user.id, input, newMember);
