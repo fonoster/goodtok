@@ -16,4 +16,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
+export const API_ENDPOINT =
+  window.env?.API_ENDPOINT || "https://api.goodtok.io/v1";

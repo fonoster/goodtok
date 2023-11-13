@@ -58,6 +58,7 @@ Then, create a `.env` file with the following content:
 ```bash
 # General config
 APP_URL=http://localhost:8080
+LOG_LEVEL=info
 
 # Initial store owner credentials
 #   The server will create a new owner if the email does not exist

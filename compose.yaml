@@ -5,6 +5,8 @@ services:
   frontoffice:
     image: fonoster/goodtok-frontoffice:latest
     environment:
+      # Must be accessible from the browser
+      API_ENDPOINT: http://localhost:6789/v1    
       LOGS_LEVEL: ${LOGS_LEVEL}
     ports:
       - 8080:8080
