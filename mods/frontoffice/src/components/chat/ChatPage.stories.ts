@@ -129,21 +129,21 @@ export const ChatPageWithActiveCall: Story = {
         id: "1001",
         name: "First item in the order",
         total: 100,
-        photo: "https://picsum.photos/200",
+        imageUrl: "https://picsum.photos/200",
         createdAt: "2021-10-01T00:00:00.000Z"
       },
       {
         id: "1001",
         name: "Second item in the order",
         total: 200,
-        photo: "https://picsum.photos/200",
+        imageUrl: "https://picsum.photos/200",
         createdAt: "2021-10-01T00:00:00.000Z"
       },
       {
         id: "2001",
         name: "And item on anther order",
         total: 300,
-        photo: "https://picsum.photos/200",
+        imageUrl: "https://picsum.photos/200",
         createdAt: "2021-10-01T00:00:00.000Z"
       }
     ],

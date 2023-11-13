@@ -106,7 +106,7 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
                 <TableCell>Item ID</TableCell>
                 <TableCell>Item Name</TableCell>
                 <TableCell>Price</TableCell>
-                <TableCell align="right">Photo of Item</TableCell>
+                <TableCell align="center">Photo of Item</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -121,8 +121,10 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.name}</TableCell>
                   <TableCell>${row.total}</TableCell>
-                  <TableCell align="right">
-                    {row.photo && <img src={row.photo} style={{ width: 40 }} />}
+                  <TableCell align="center">
+                    {row.imageUrl && (
+                      <img src={row.imageUrl} style={{ width: 40 }} />
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

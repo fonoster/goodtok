@@ -105,7 +105,7 @@ export type Order = {
   id: string;
   name: string;
   total: number;
-  photo: string;
+  imageUrl: string;
   createdAt: string;
 };
 
@@ -119,4 +119,12 @@ export type ShopifyOrder = {
     quantity: number;
     vendor: string;
   }[];
+};
+
+export type ShopifyProduct = {
+  id: number;
+  title: string;
+  image: {
+    src: string;
+  };
 };

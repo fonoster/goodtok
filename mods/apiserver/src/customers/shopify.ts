@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Order, ShopifyCustomer, ShopifyOrder } from "./types";
+import { Order, ShopifyCustomer, ShopifyOrder, ShopifyProduct } from "./types";
 import { TRPCError } from "@trpc/server";
 import logger from "@fonoster/logger";
 import axios from "axios";
@@ -78,17 +78,28 @@ export default class ShopifyAPI {
       )) as { data: { orders: ShopifyOrder[] } };
 
       if (response.data?.orders) {
-        const orders: Order[] = response.data.orders.map((order) => {
+        const orderPromises = response.data.orders.map(async (order) => {
+          // TODO: We will want to cache this data in the future
+          const response = (await axios.get(
+            `${this.baseUrl}/products/${order.line_items[0].product_id}.json`,
+            {
+              headers: this.defaultHeaders
+            }
+          )) as { data: { product: ShopifyProduct } };
+
+          const imageUrl = response.data.product?.image?.src;
+
+          // Return the complete order object
           return {
             id: order.order_number.toString(),
             createdAt: order.created_at,
             name: order.line_items[0].name,
-            photo: "",
+            imageUrl,
             total: order.line_items[0].price
           };
         });
 
-        return orders;
+        return await Promise.all(orderPromises);
       }
       return [];
     } catch (error) {

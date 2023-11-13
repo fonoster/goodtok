@@ -25,8 +25,8 @@ import { CustomerProfile } from "~components/chat/customer/types";
 import { jwtDecode } from "jwt-decode";
 import { Web } from "sip.js";
 import { useLogger } from "~logger";
-import React, { useEffect, useRef, useState } from "react";
 import { useSnackbar } from "~snackbar";
+import React, { useEffect, useRef, useState } from "react";
 
 type VideoRefs = {
   remoteVideo: HTMLVideoElement;
@@ -45,6 +45,7 @@ function ChatContainer() {
   const [customerProfile, setCustomerProfile] =
     React.useState<CustomerProfile>();
   const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
+  const [orders, setOrders] = useState<any[]>([]);
 
   const { client, signOut, isAdmin } = useAuth();
   const { showSnackbar } = useSnackbar();
@@ -81,9 +82,22 @@ function ChatContainer() {
   useEffect(() => {
     const customers = new SDK.Customers(client);
     customers
-      .getCustomer({ workspaceId, customerId })
+      .getCustomerById({ workspaceId, customerId })
       .then((profile) => {
         setCustomerProfile(profile);
+      })
+      .catch((err) => {
+        logger.error("Error getting current user", err);
+      });
+  }, [workspaceId, customerId, client]);
+
+  useEffect(() => {
+    const customers = new SDK.Customers(client);
+    customers
+      .getOrdersByCustomerId({ workspaceId, customerId })
+      .then((orders) => {
+        console.log(orders);
+        setOrders(orders);
       })
       .catch((err) => {
         logger.error("Error getting current user", err);
@@ -191,7 +205,7 @@ function ChatContainer() {
       avatar={avatar}
       customerProfile={customerProfile!}
       isAuthenticated={true}
-      orders={[]}
+      orders={orders}
       isActiveCall={isActiveCall}
       isLocalCameraMuted={isLocalCameraMuted}
       isLocalMicrophoneMuted={isLocalMicrophoneMuted}

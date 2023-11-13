@@ -28,6 +28,6 @@ export type OrderItem = {
   id: string;
   name: string;
   total: number;
-  photo: string;
+  imageUrl: string;
   createdAt: string;
 };
