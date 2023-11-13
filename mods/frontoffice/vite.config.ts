@@ -22,8 +22,14 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   envDir: resolve(__dirname, "..", ".."),
+  base: "/",
   server: {
-    port: 8080
+    watch: {
+      usePolling: true
+    },
+    port: 8080,
+    host: true,
+    strictPort: true
   },
   plugins: [tsconfigPaths()]
 });
