@@ -16,16 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { Customer } from "@goodtok/apiserver";
+import type {
+  Customer,
+  GetCustomerByIdRequest,
+  GetOrdersByCustomerIdRequest,
+  Order
+} from "@goodtok/apiserver";
 
 export type CustomersClient = {
-  getCustomer: (request: GetCustomerRequest) => Promise<Customer>;
+  getCustomerById: (request: GetCustomerByIdRequest) => Promise<Customer>;
+  getOrdersByCustomerId: (
+    request: GetOrdersByCustomerIdRequest
+  ) => Promise<Order[]>;
   getCustomerInDefaultWorkspace: (id: string) => Promise<Customer>;
-};
-
-export type GetCustomerRequest = {
-  workspaceId: string;
-  customerId: string;
 };
 
 export { Customer };

@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ShopifyCustomer } from "./types";
+import { Order, ShopifyCustomer, ShopifyOrder } from "./types";
 import { TRPCError } from "@trpc/server";
 import logger from "@fonoster/logger";
 import axios from "axios";
@@ -31,7 +31,7 @@ export default class ShopifyAPI {
     const { shop, accessToken } = opts;
     this.shop = shop;
     this.accessToken = accessToken;
-    this.baseUrl = `https://${this.shop}/admin/api/2023-10`;
+    this.baseUrl = `${this.shop}/admin/api/2023-10`;
     this.defaultHeaders = {
       "X-Shopify-Access-Token": this.accessToken,
       "Content-Type": "application/json"
@@ -61,6 +61,47 @@ export default class ShopifyAPI {
         defaultHeaders: this.defaultHeaders
       });
       throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: error });
+    }
+  }
+
+  async getOrdersHistoryByCustomerId(request: {
+    customerId: string;
+    limit?: number;
+  }): Promise<Order[]> {
+    const { customerId, limit = 10 } = request;
+    try {
+      const response = (await axios.get(
+        `${this.baseUrl}/orders.json?customer_id=${customerId}&limit=${limit}&status=any`,
+        {
+          headers: this.defaultHeaders
+        }
+      )) as { data: { orders: ShopifyOrder[] } };
+
+      if (response.data?.orders) {
+        const orders: Order[] = response.data.orders.map((order) => {
+          return {
+            id: order.order_number.toString(),
+            createdAt: order.created_at,
+            name: order.line_items[0].name,
+            photo: "",
+            total: order.line_items[0].price
+          };
+        });
+
+        return orders;
+      }
+      return [];
+    } catch (error) {
+      logger.error("an error occurred while getting orders history", {
+        error,
+        shop: this.shop,
+        baseUrl: this.baseUrl,
+        defaultHeaders: this.defaultHeaders
+      });
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: error.message
+      });
     }
   }
 }

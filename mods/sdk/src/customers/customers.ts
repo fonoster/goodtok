@@ -17,8 +17,13 @@
  * limitations under the License.
  */
 import { createTRPCProxyClient } from "@trpc/client";
-import { AppRouter } from "@goodtok/apiserver";
-import { Customer, CustomersClient, GetCustomerRequest } from "./types";
+import {
+  AppRouter,
+  GetCustomerByIdRequest,
+  GetOrdersByCustomerIdRequest,
+  Order
+} from "@goodtok/apiserver";
+import { Customer, CustomersClient } from "./types";
 import { AbstractBaseClient } from "../base";
 import { formatAndThrowError } from "../errors";
 import Client from "../client";
@@ -81,9 +86,37 @@ export default class Customers
    *   .then(console.log)
    *   .catch(console.error); // handle any errors
    */
-  async getCustomer(request: GetCustomerRequest): Promise<Customer> {
+  async getCustomerById(request: GetCustomerByIdRequest): Promise<Customer> {
     try {
       return await this.trpc.customers.getCustomerById.query(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
+  }
+
+  /**
+   * Retrieves a list of orders for a customer by customer ID.
+   *
+   * @param {GetOrdersByCustomerIdRequest} request - Request object containing the customer ID and workspace ID
+   * @param {string} request.workspaceId - The workspace ID
+   * @param {string} request.customerId - The customer ID
+   * @return {Promise<Order[]>} A promise resolving to the list of orders
+   * @example
+   *
+   * const request = {
+   *   workspaceId: "452b1b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b",
+   *   customerId: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d"
+   * };
+   *
+   * customers.getOrdersByCustomerId(request)
+   *  .then(console.log)
+   *  .catch(console.error); // handle any errors
+   */
+  async getOrdersByCustomerId(
+    request: GetOrdersByCustomerIdRequest
+  ): Promise<Order[]> {
+    try {
+      return await this.trpc.customers.getOrdersByCustomerId.query(request);
     } catch (err) {
       formatAndThrowError(err);
     }
@@ -104,7 +137,7 @@ export default class Customers
    */
   async getCustomerInDefaultWorkspace(id: string): Promise<Customer> {
     try {
-      return await this.getCustomer({
+      return await this.getCustomerById({
         workspaceId: this.client.getDefaultWorkspaceId(),
         customerId: id
       });

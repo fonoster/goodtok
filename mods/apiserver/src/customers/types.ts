@@ -24,8 +24,17 @@ export const getCustomerByIdRequestSchema = z.object({
   customerId: z.string().min(1)
 });
 
+export const getOrdersByCustomerIdRequestSchema = z.object({
+  workspaceId: z.string().min(1),
+  customerId: z.string().min(1)
+});
+
 export type GetCustomerByIdRequest = z.infer<
   typeof getCustomerByIdRequestSchema
+>;
+
+export type GetOrdersByCustomerIdRequest = z.infer<
+  typeof getOrdersByCustomerIdRequestSchema
 >;
 
 export type Customer = {
@@ -90,4 +99,24 @@ export type ShopifyCustomerAddress = {
   country_code?: string;
   country_name?: string;
   default?: boolean;
+};
+
+export type Order = {
+  id: string;
+  name: string;
+  total: number;
+  photo: string;
+  createdAt: string;
+};
+
+export type ShopifyOrder = {
+  order_number: number;
+  created_at: string;
+  line_items: {
+    product_id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    vendor: string;
+  }[];
 };

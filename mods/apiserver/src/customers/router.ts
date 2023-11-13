@@ -18,10 +18,18 @@
  */
 import { router, protectedProcedure } from "../trpc";
 import { getCustomerById } from "./getCustomerById";
-import { getCustomerByIdRequestSchema } from "./types";
+import { getOrdersByCustomerId } from "./getOrdersByCustomerId";
+import {
+  getCustomerByIdRequestSchema,
+  getOrdersByCustomerIdRequestSchema
+} from "./types";
 
 export const customerRouter = router({
   getCustomerById: protectedProcedure
     .input(getCustomerByIdRequestSchema)
-    .query(({ ctx, input }) => getCustomerById(ctx, input))
+    .query(({ ctx, input }) => getCustomerById(ctx, input)),
+
+  getOrdersByCustomerId: protectedProcedure
+    .input(getOrdersByCustomerIdRequestSchema)
+    .query(({ ctx, input }) => getOrdersByCustomerId(ctx, input))
 });
