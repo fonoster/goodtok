@@ -109,10 +109,14 @@ export type OrderItem = {
  */
 export const ChatPageWithActiveCall: Story = {
   args: {
+    workspaceId: "1",
     userName: "Jane Doe",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
     isAuthenticated: true,
     isActiveCall: true,
+    isLocalCameraMuted: false,
+    isLocalMicrophoneMuted: false,
+    isAdmin: true,
     customerProfile: {
       name: "Peters Doe",
       email: "peters@example.com",
@@ -122,20 +126,23 @@ export const ChatPageWithActiveCall: Story = {
     },
     orders: [
       {
-        id: "1",
-        name: "Order 1",
+        id: "1001",
+        name: "First item in the order",
+        total: 100,
         photo: "https://picsum.photos/200",
         createdAt: "2021-10-01T00:00:00.000Z"
       },
       {
-        id: "2",
-        name: "Order 2",
+        id: "1001",
+        name: "Second item in the order",
+        total: 200,
         photo: "https://picsum.photos/200",
         createdAt: "2021-10-01T00:00:00.000Z"
       },
       {
-        id: "3",
-        name: "Order 3",
+        id: "2001",
+        name: "And item on anther order",
+        total: 300,
         photo: "https://picsum.photos/200",
         createdAt: "2021-10-01T00:00:00.000Z"
       }

@@ -35,10 +35,9 @@ const meta = {
       description: "Callback when the user clicks on the start call button",
       action: "clicked"
     },
-    onReturnToQueue: {
-      name: "On Return to Queue",
-      description:
-        "Callback when the user clicks on the return to queue button",
+    onCustomerDequeue: {
+      name: "On Customer Dequeue",
+      description: "Callback when the customer is dequeued",
       action: "clicked"
     }
   }

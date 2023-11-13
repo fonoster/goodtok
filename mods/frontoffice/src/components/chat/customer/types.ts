@@ -27,6 +27,7 @@ export type CustomerProfile = {
 export type OrderItem = {
   id: string;
   name: string;
+  total: number;
   photo: string;
   createdAt: string;
 };

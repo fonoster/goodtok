@@ -29,6 +29,7 @@ import {
 import { CustomerProfile, OrderItem } from "./types";
 import { StyledTab, StyledTabs } from "./CustomerStyles";
 import React from "react";
+import moment from "moment";
 
 type CustomerInfoProps = {
   profile: CustomerProfile;
@@ -102,9 +103,10 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
             <TableHead>
               <TableRow>
                 <TableCell>Date Purchased</TableCell>
-                <TableCell>Item Name</TableCell>
                 <TableCell>Item ID</TableCell>
-                <TableCell>Photo of Item</TableCell>
+                <TableCell>Item Name</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell align="right">Photo of Item</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -114,11 +116,12 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row.createdAt}
+                    {moment(row.createdAt).format("MM/YYYY")}
                   </TableCell>
-                  <TableCell>{row.name}</TableCell>
                   <TableCell>{row.id}</TableCell>
-                  <TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>${row.total}</TableCell>
+                  <TableCell align="right">
                     {row.photo && <img src={row.photo} style={{ width: 40 }} />}
                   </TableCell>
                 </TableRow>
