@@ -52,9 +52,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: UTC
       PGTZ: UTC
-    # TODO: Remove port mapping once we have a better way to initialize the DB
-    ports:
-      - 5432:5432
     expose:
       - 5432
     volumes:
