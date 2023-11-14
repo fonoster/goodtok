@@ -32,8 +32,9 @@ jobs:
         cd ..
         
         # Build static storybook
-        npx storybook build
-        cp -a storybook-static/* out/storybook
+        npm install
+        npm run build:storybook
+        cp -a storybook-static out/storybook
 
         # Copy site assets
         cp -a site/assets/* out/site-assets
