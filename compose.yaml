@@ -14,6 +14,8 @@ services:
   apiserver:
     image: fonoster/goodtok-apiserver:latest
     environment:
+      OWNER_EMAIL: ${OWNER_EMAIL}
+      OWNER_PASSWORD: ${OWNER_PASSWORD}
       CLOAK_ENCRYPTION_KEY: ${CLOAK_ENCRYPTION_KEY}
       DATABASE_URL: ${DATABASE_URL}
       SIP_SIGNALING_SERVER: ${SIP_SIGNALING_SERVER}

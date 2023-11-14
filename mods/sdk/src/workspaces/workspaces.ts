@@ -87,6 +87,7 @@ export default class Workspaces
   }
 
   // TODO: Use dependency injection to avoid exposing this method to users
+  // TODO: Consider the edge case where the word "http" is part of the endpoint
   createTRPCProxy() {
     const wsClient = createWSClient({
       url:
