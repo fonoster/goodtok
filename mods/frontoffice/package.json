@@ -1,6 +1,6 @@
 {
   "name": "@goodtok/frontoffice",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "",
   "scripts": {
     "start": "vite",
@@ -15,8 +15,8 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/open-sans": "^5.0.17",
     "@fontsource/poppins": "^5.0.8",
-    "@goodtok/common": "^0.0.13",
-    "@goodtok/sdk": "^0.0.13",
+    "@goodtok/common": "^0.0.14",
+    "@goodtok/sdk": "^0.0.14",
     "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.15",
     "formik": "^2.4.5",
