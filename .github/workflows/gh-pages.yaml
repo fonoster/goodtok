@@ -39,7 +39,7 @@ jobs:
         # Copy site assets
         cp -a site/assets/* out/site-assets
         cp site/index.html out/index.html
-        cp .nojekyll out/.nojekyll
+        echo > out/.nojekyll
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
