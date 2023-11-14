@@ -22,7 +22,7 @@ jobs:
     - name: Populate out directory
       run: |
         # Create out directory
-        mkdir -p out/docs
+        mkdir -p out/docs out/site-assets
 
         # Build and copy docs
         cd docs
