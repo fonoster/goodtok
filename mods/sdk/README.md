@@ -37,7 +37,9 @@ Ensure the Goodtok API Server is running for the Customers API to function.
 
 * [Customers](#Customers) ⇐ <code>AbstractBaseClient</code>
     * [new Customers(client)](#new_Customers_new)
-    * [.getCustomerById(id)](#Customers+getCustomerById) ⇒ <code>Promise.&lt;Customer&gt;</code>
+    * [.getCustomerById(request)](#Customers+getCustomerById) ⇒ <code>Promise.&lt;Customer&gt;</code>
+    * [.getOrdersByCustomerId(request)](#Customers+getOrdersByCustomerId) ⇒ <code>Promise.&lt;Array.&lt;Order&gt;&gt;</code>
+    * [.getCustomerInDefaultWorkspace(id)](#Customers+getCustomerInDefaultWorkspace) ⇒ <code>Promise.&lt;Customer&gt;</code>
 
 <a name="new_Customers_new"></a>
 
@@ -68,8 +70,62 @@ getCustomer().catch(console.error);
 ```
 <a name="Customers+getCustomerById"></a>
 
-### customers.getCustomerById(id) ⇒ <code>Promise.&lt;Customer&gt;</code>
-Retrieves a customer by its ID.
+### customers.getCustomerById(request) ⇒ <code>Promise.&lt;Customer&gt;</code>
+Retrieves a customer for a workspace by customer ID.
+
+**Kind**: instance method of [<code>Customers</code>](#Customers)  
+**Returns**: <code>Promise.&lt;Customer&gt;</code> - A promise resolving to the customer  
+**Throws**:
+
+- Will throw an error if the customer is not found
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| request | <code>GetCustomerRequest</code> | Request object containing the customer ID and workspace ID |
+| request.workspaceId | <code>string</code> | The workspace ID |
+| request.customerId | <code>string</code> | The customer ID |
+
+**Example**  
+```js
+const request = {
+  workspaceId: "452b1b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b",
+  customerId: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d"
+};
+
+customers.getCustomer(request)
+  .then(console.log)
+  .catch(console.error); // handle any errors
+```
+<a name="Customers+getOrdersByCustomerId"></a>
+
+### customers.getOrdersByCustomerId(request) ⇒ <code>Promise.&lt;Array.&lt;Order&gt;&gt;</code>
+Retrieves a list of orders for a customer by customer ID.
+
+**Kind**: instance method of [<code>Customers</code>](#Customers)  
+**Returns**: <code>Promise.&lt;Array.&lt;Order&gt;&gt;</code> - A promise resolving to the list of orders  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| request | <code>GetOrdersByCustomerIdRequest</code> | Request object containing the customer ID and workspace ID |
+| request.workspaceId | <code>string</code> | The workspace ID |
+| request.customerId | <code>string</code> | The customer ID |
+
+**Example**  
+```js
+const request = {
+  workspaceId: "452b1b1b-1b1b-1b1b-1b1b-1b1b1b1b1b1b",
+  customerId: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d"
+};
+
+customers.getOrdersByCustomerId(request)
+ .then(console.log)
+ .catch(console.error); // handle any errors
+```
+<a name="Customers+getCustomerInDefaultWorkspace"></a>
+
+### customers.getCustomerInDefaultWorkspace(id) ⇒ <code>Promise.&lt;Customer&gt;</code>
+Retrieves a customer by ID in the default workspace.
 
 **Kind**: instance method of [<code>Customers</code>](#Customers)  
 **Returns**: <code>Promise.&lt;Customer&gt;</code> - A promise resolving to the customer  
@@ -85,7 +141,136 @@ Retrieves a customer by its ID.
 **Example**  
 ```js
 const id = "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d";
-customers.getCustomerById(id)
+customers.getCustomerInDefaultWorkspace(id)
+  .then(console.log)
+  .catch(console.error); // handle any errors
+```
+
+<a name="Queues"></a>
+
+## Queues ⇐ <code>AbstractBaseClient</code>
+Use the Goodtok Queues capability to retrieve and manage queues.
+Ensure the Goodtok API Server is running for the Queues API to function.
+
+**Kind**: global class  
+**Extends**: <code>AbstractBaseClient</code>  
+**See**: module:sdk:Client  
+
+* [Queues](#Queues) ⇐ <code>AbstractBaseClient</code>
+    * [new Queues(client)](#new_Queues_new)
+    * [.getDefaultWorkspaceQueue()](#Queues+getDefaultWorkspaceQueue) ⇒ <code>Promise.&lt;GetQueueResponse&gt;</code>
+    * [.getQueueByWorkspaceId(id)](#Queues+getQueueByWorkspaceId) ⇒ <code>Promise.&lt;Workspace&gt;</code>
+    * [.watchQueue(id, callback)](#Queues+watchQueue)
+    * [.dequeue(request)](#Queues+dequeue) ⇒ <code>Promise.&lt;void&gt;</code>
+
+<a name="new_Queues_new"></a>
+
+### new Queues(client)
+Constructs a new Queues API object.
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| client | <code>Client</code> | Object containing the client configuration |
+
+**Example**  
+```js
+const SDK = require("@goodtok/sdk");
+
+async function getWorkspace() {
+  const client = new SDK.Client({ workspace: "myworkspace" });
+  await client.login("goodtok", "mysecretpassword");
+
+  const workspaceId = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+
+  const queues = new SDK.Queues(client);
+  const queue = await workspaces.getQueueByWorkspaceId(workspaceId);
+
+  console.log(workspace);
+}
+
+getWorkspace().catch(console.error);
+```
+<a name="Queues+getDefaultWorkspaceQueue"></a>
+
+### queues.getDefaultWorkspaceQueue() ⇒ <code>Promise.&lt;GetQueueResponse&gt;</code>
+Retrieves the queue for the default workspace.
+
+**Kind**: instance method of [<code>Queues</code>](#Queues)  
+**Returns**: <code>Promise.&lt;GetQueueResponse&gt;</code> - A promise resolving to the queue  
+**Example**  
+```js
+workspaces.getDefaultWorkspaceQueue()
+  .then(console.log)
+  .catch(console.error); // handle any errors
+```
+<a name="Queues+getQueueByWorkspaceId"></a>
+
+### queues.getQueueByWorkspaceId(id) ⇒ <code>Promise.&lt;Workspace&gt;</code>
+Retrieves the queue for a workspace by its ID.
+
+**Kind**: instance method of [<code>Queues</code>](#Queues)  
+**Returns**: <code>Promise.&lt;Workspace&gt;</code> - A promise resolving to an object containing an array of queue entries  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | The workspace ID |
+
+**Example**  
+```js
+const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+
+queues.getQueueByWorkspaceId(id)
+  .then(console.log)
+  .catch(console.error); // handle any errors
+```
+<a name="Queues+watchQueue"></a>
+
+### queues.watchQueue(id, callback)
+Registers a callback for real-time updates on queue entries within a workspace.
+
+**Kind**: instance method of [<code>Queues</code>](#Queues)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | The ID of the workspace |
+| callback | <code>function</code> | The callback to be invoked when a queue entry updates |
+
+**Example**  
+```js
+const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+
+queues.watchQueue(id, (err, data) => {
+  if (err) {
+   console.error(err);
+   return;
+  }
+
+  console.log(data);
+});
+```
+<a name="Queues+dequeue"></a>
+
+### queues.dequeue(request) ⇒ <code>Promise.&lt;void&gt;</code>
+Removes entry from the queue.
+
+**Kind**: instance method of [<code>Queues</code>](#Queues)  
+**Returns**: <code>Promise.&lt;void&gt;</code> - A promise resolving to void  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| request | <code>DequeueRequest</code> | The dequeue request |
+| request.workspaceId | <code>string</code> | The workspace ID |
+| request.customerId | <code>string</code> | The customer ID to dequeue |
+
+**Example**  
+```js
+const request = {
+ workspaceId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
+ customerId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d"
+};
+
+queues.dequeue(request)
   .then(console.log)
   .catch(console.error); // handle any errors
 ```
@@ -102,8 +287,8 @@ Ensure the Goodtok API Server is running for the Tokens API to function.
 
 * [Tokens](#Tokens) ⇐ <code>AbstractBaseClient</code>
     * [new Tokens(client)](#new_Tokens_new)
-    * [.createAnonymousToken(request)](#Tokens+createAnonymousToken) ⇒ <code>Promise.&lt;CreateAnonymousTokenResponse&gt;</code>
-    * [.createToken(request)](#Tokens+createToken) ⇒ <code>Promise.&lt;CreateTokenResponse&gt;</code>
+    * [.createAnonymousToken(request)](#Tokens+createAnonymousToken) ⇒ <code>Promise.&lt;string&gt;</code>
+    * [.createToken(request)](#Tokens+createToken) ⇒ <code>Promise.&lt;string&gt;</code>
 
 <a name="new_Tokens_new"></a>
 
@@ -138,12 +323,12 @@ createAnonymousToken().catch(console.error);
 ```
 <a name="Tokens+createAnonymousToken"></a>
 
-### tokens.createAnonymousToken(request) ⇒ <code>Promise.&lt;CreateAnonymousTokenResponse&gt;</code>
+### tokens.createAnonymousToken(request) ⇒ <code>Promise.&lt;string&gt;</code>
 Creates a new anonymous token with `allowedMethods=[REGISTER]` permissions.
 Does not require authentication. The token will be issued only if the workspace has the `anonymous` feature enabled.
 
 **Kind**: instance method of [<code>Tokens</code>](#Tokens)  
-**Returns**: <code>Promise.&lt;CreateAnonymousTokenResponse&gt;</code> - A promise resolving to the connection object which contains the token  
+**Returns**: <code>Promise.&lt;string&gt;</code> - A promise resolving to the token  
 **Throws**:
 
 - Will throw an error if the workspace does not have the `anonymous` feature enabled
@@ -170,11 +355,11 @@ tokens.createAnonymousToken(request)
 ```
 <a name="Tokens+createToken"></a>
 
-### tokens.createToken(request) ⇒ <code>Promise.&lt;CreateTokenResponse&gt;</code>
+### tokens.createToken(request) ⇒ <code>Promise.&lt;string&gt;</code>
 Creates a new token with the specified permissions.
 
 **Kind**: instance method of [<code>Tokens</code>](#Tokens)  
-**Returns**: <code>Promise.&lt;CreateTokenResponse&gt;</code> - A promise resolving to the connection object containing the token  
+**Returns**: <code>Promise.&lt;string&gt;</code> - A promise resolving to the token  
 **Throws**:
 
 - Will throw an error if the user is not logged in
@@ -298,25 +483,20 @@ Updates a user's details. The calling user must have an admin role to update oth
 **Returns**: <code>Promise.&lt;UpdateUserResponse&gt;</code> - A promise resolving to the updated user's details  
 **Throws**:
 
-- Will throw an error if the user is not found
 - If the user is not an admin and the user ID does not match the logged-in user's ID
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | request | <code>UpdateUserRequest</code> | A request object containing the user ID and update data |
-| request.id | <code>string</code> | The user ID |
 | request.name | <code>string</code> | Optional parameter to update the user's name |
-| request.email | <code>string</code> | Optional parameter to update the user's email |
 | request.password | <code>string</code> | Optional parameter to update the user's password |
 | request.avatar | <code>string</code> | Optional parameter to update the user's avatar |
 
 **Example**  
 ```js
 const request = {
-  id: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d",
   name: "John Doe",
-  email: "john@example.com",
   password: "mysecretpassword",
   avatar: "https://example.com/avatar.png"
 };
@@ -338,16 +518,19 @@ Ensure the Goodtok API Server is running for the Workspaces API to function.
 
 * [Workspaces](#Workspaces) ⇐ <code>AbstractBaseClient</code>
     * [new Workspaces(client)](#new_Workspaces_new)
+    * [.createWorkspace(request)](#Workspaces+createWorkspace) ⇒ <code>Promise.&lt;Workspace&gt;</code>
     * [.getDefaultWorkspaceId()](#Workspaces+getDefaultWorkspaceId) ⇒ <code>string</code>
     * [.getDefaultWorkspace()](#Workspaces+getDefaultWorkspace) ⇒ <code>Promise.&lt;Workspace&gt;</code>
-    * [.getDefaultWorkspaceQueue()](#Workspaces+getDefaultWorkspaceQueue) ⇒ <code>Promise.&lt;GetQueueResponse&gt;</code>
-    * [.getDefaultWorkspaceMembers()](#Workspaces+getDefaultWorkspaceMembers) ⇒ <code>Promise.&lt;GetQueueResponse&gt;</code>
+    * [.getDefaultWorkspaceMembers()](#Workspaces+getDefaultWorkspaceMembers) ⇒ <code>Promise.&lt;GetMembersResponse&gt;</code>
     * [.getWorkspaceById(id)](#Workspaces+getWorkspaceById) ⇒ <code>Promise.&lt;Workspace&gt;</code>
     * [.getMembersByWorkspaceId(id)](#Workspaces+getMembersByWorkspaceId) ⇒ <code>Promise.&lt;Workspace&gt;</code>
-    * [.getQueueByWorkspaceId(id)](#Workspaces+getQueueByWorkspaceId) ⇒ <code>Promise.&lt;Workspace&gt;</code>
     * [.updateWorkspace(request)](#Workspaces+updateWorkspace) ⇒ <code>Promise.&lt;Workspace&gt;</code>
     * [.getWorkspaces()](#Workspaces+getWorkspaces) ⇒ <code>Promise.&lt;Array.&lt;Workspace&gt;&gt;</code>
-    * [.watchQueue(id, callback)](#Workspaces+watchQueue)
+    * [.addWorkspaceMember(request)](#Workspaces+addWorkspaceMember) ⇒ <code>Promise.&lt;Member&gt;</code>
+    * [.removeWorkspaceMember(id)](#Workspaces+removeWorkspaceMember) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.removeWorkspace(id)](#Workspaces+removeWorkspace) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.resendWorkspaceMemberInvite(id)](#Workspaces+resendWorkspaceMemberInvite) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.watchWorkspaceStatus(id, callback)](#Workspaces+watchWorkspaceStatus)
 
 <a name="new_Workspaces_new"></a>
 
@@ -375,6 +558,39 @@ async function getWorkspace() {
 
 getWorkspace().catch(console.error);
 ```
+<a name="Workspaces+createWorkspace"></a>
+
+### workspaces.createWorkspace(request) ⇒ <code>Promise.&lt;Workspace&gt;</code>
+Creates a new workspace.
+
+**Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
+**Returns**: <code>Promise.&lt;Workspace&gt;</code> - A promise resolving to the created workspace  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| request | <code>CreateWorkspaceRequest</code> | The request object containing the workspace name, timezone, and hours of operation |
+| request.name | <code>string</code> | The workspace name |
+| request.timezone | <code>string</code> | The workspace timezone |
+| request.hoursOfOperation | <code>object</code> | The workspace hours of operation |
+
+**Example**  
+```js
+const request = {
+  name: "My Workspace",
+  timezone: "America/New_York",
+  hoursOfOperation: {
+    Monday: {
+      hours: [{ start: "09:00", end: "17:00" }],
+      enabled: true
+    },
+    // ...
+  }
+};
+
+workspaces.createWorkspace(request)
+ .then(console.log)
+ .catch(console.error); // handle any errors
+```
 <a name="Workspaces+getDefaultWorkspaceId"></a>
 
 ### workspaces.getDefaultWorkspaceId() ⇒ <code>string</code>
@@ -399,26 +615,13 @@ workspaces.getDefaultWorkspace()
   .then(console.log)
   .catch(console.error); // handle any errors
 ```
-<a name="Workspaces+getDefaultWorkspaceQueue"></a>
-
-### workspaces.getDefaultWorkspaceQueue() ⇒ <code>Promise.&lt;GetQueueResponse&gt;</code>
-Retrieves the queue for the default workspace.
-
-**Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
-**Returns**: <code>Promise.&lt;GetQueueResponse&gt;</code> - A promise resolving to the queue  
-**Example**  
-```js
-workspaces.getDefaultWorkspaceQueue()
-  .then(console.log)
-  .catch(console.error); // handle any errors
-```
 <a name="Workspaces+getDefaultWorkspaceMembers"></a>
 
-### workspaces.getDefaultWorkspaceMembers() ⇒ <code>Promise.&lt;GetQueueResponse&gt;</code>
+### workspaces.getDefaultWorkspaceMembers() ⇒ <code>Promise.&lt;GetMembersResponse&gt;</code>
 Retrieves the members for the default workspace.
 
 **Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
-**Returns**: <code>Promise.&lt;GetQueueResponse&gt;</code> - A promise resolving to the queue  
+**Returns**: <code>Promise.&lt;GetMembersResponse&gt;</code> - A promise resolving to the members  
 **Example**  
 ```js
 workspaces.getDefaultWorkspaceMembers()
@@ -465,26 +668,6 @@ workspaces.getMembersByWorkspaceId(id)
   .then(console.log)
   .catch(console.error); // handle any errors
 ```
-<a name="Workspaces+getQueueByWorkspaceId"></a>
-
-### workspaces.getQueueByWorkspaceId(id) ⇒ <code>Promise.&lt;Workspace&gt;</code>
-Retrieves the queue for a workspace by its ID.
-
-**Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
-**Returns**: <code>Promise.&lt;Workspace&gt;</code> - A promise resolving to an object containing an array of queue entries  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>string</code> | The workspace ID |
-
-**Example**  
-```js
-const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
-
-workspaces.getQueueByWorkspaceId(id)
-  .then(console.log)
-  .catch(console.error); // handle any errors
-```
 <a name="Workspaces+updateWorkspace"></a>
 
 ### workspaces.updateWorkspace(request) ⇒ <code>Promise.&lt;Workspace&gt;</code>
@@ -508,12 +691,10 @@ const request = {
   name: "My Workspace",
   timezone: "America/New_York",
   hoursOfOperation: {
-    monday: [
-      {
-        start: "09:00",
-        end: "17:00"
-      }
-    ],
+    Monday: {
+      hours: [{ start: "09:00", end: "17:00" }],
+      enabled: true
+    },
     // ...
   }
 };
@@ -529,23 +710,118 @@ Retrieves all workspaces for the authenticated user.
 
 **Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
 **Returns**: <code>Promise.&lt;Array.&lt;Workspace&gt;&gt;</code> - A promise resolving to an array of workspaces  
-<a name="Workspaces+watchQueue"></a>
+**Example**  
+```js
+workspaces.getWorkspaces()
+ .then(console.log)
+ .catch(console.error); // handle any errors
+```
+<a name="Workspaces+addWorkspaceMember"></a>
 
-### workspaces.watchQueue(id, callback)
-Registers a callback for real-time updates on queue entries within a workspace.
+### workspaces.addWorkspaceMember(request) ⇒ <code>Promise.&lt;Member&gt;</code>
+Adds a member to a workspace.
+
+**Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
+**Returns**: <code>Promise.&lt;Member&gt;</code> - A promise resolving to the added member  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| request | <code>AddWorkspaceMemberRequest</code> | The request object containing the workspace ID and member details |
+| request.workspaceId | <code>string</code> | The workspace ID |
+| request.name | <code>string</code> | The member name |
+| request.email | <code>string</code> | The member email |
+| request.role | <code>string</code> | The member role |
+
+**Example**  
+```js
+const request = {
+  workspaceId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
+  name: "John Doe",
+  email: "jhon@example.com",
+  role: "MEMBER"
+};
+
+workspaces.addWorkspaceMember(request)
+  .then(console.log)
+  .catch(console.error); // handle any errors
+```
+<a name="Workspaces+removeWorkspaceMember"></a>
+
+### workspaces.removeWorkspaceMember(id) ⇒ <code>Promise.&lt;void&gt;</code>
+Removes a member from a workspace.
+
+**Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
+**Returns**: <code>Promise.&lt;void&gt;</code> - A promise resolving to void  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | The member ID |
+
+**Example**  
+```js
+const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+
+workspaces.removeWorkspaceMember(id)
+  .then(console.log)
+  .catch(console.error); // handle any errors
+```
+<a name="Workspaces+removeWorkspace"></a>
+
+### workspaces.removeWorkspace(id) ⇒ <code>Promise.&lt;void&gt;</code>
+Removes a workspace.
+
+**Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
+**Returns**: <code>Promise.&lt;void&gt;</code> - A promise resolving to void  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | The workspace ID |
+
+**Example**  
+```js
+const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+
+workspaces.removeWorkspace(id)
+  .then(console.log)
+  .catch(console.error); // handle any errors
+```
+<a name="Workspaces+resendWorkspaceMemberInvite"></a>
+
+### workspaces.resendWorkspaceMemberInvite(id) ⇒ <code>Promise.&lt;void&gt;</code>
+Resends a workspace member invite.
+
+**Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
+**Returns**: <code>Promise.&lt;void&gt;</code> - A promise resolving to void  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>string</code> | The member ID |
+
+**Example**  
+```js
+const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+
+workspaces.resendWorkspaceMemberInvite(id)
+  .then(console.log)
+  .catch(console.error); // handle any errors
+```
+<a name="Workspaces+watchWorkspaceStatus"></a>
+
+### workspaces.watchWorkspaceStatus(id, callback)
+Registers a callback for real-time updates on workspace status.
 
 **Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | id | <code>string</code> | The ID of the workspace |
-| callback | <code>function</code> | The callback to be invoked when a queue entry updates |
+| callback | <code>function</code> | The callback to be invoked when the workspace status updates |
 
 **Example**  
 ```js
 const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
 
-workspaces.watchQueue(id, (err, data) => {
+workspaces.watchWorkspaceStatus(id, (err, data) => {
   if (err) {
    console.error(err);
    return;

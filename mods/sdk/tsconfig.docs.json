@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "commonjs",
+  },
+  "references": [
+    {
+      "path": "../apiserver"
+    }
+  ],
+  "exclude": ["node_modules", "dist", "test"]
+}

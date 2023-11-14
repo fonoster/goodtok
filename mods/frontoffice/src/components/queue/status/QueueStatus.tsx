@@ -45,7 +45,7 @@ export const QueueStatus: React.FC<QueueStatusProps> = ({
     <Box {...props}>
       <StyledStatusTitle sx={{ mb: 2 }}>{workspaceName}</StyledStatusTitle>
       <StyledStatusBackedBy display="flex" alignItems="center">
-        Backed by <StyledShopifyLogo />
+        Powered by <StyledShopifyLogo />
       </StyledStatusBackedBy>
       <StyledStatusStoreURL sx={{ mt: 1 }}>{storeURL}</StyledStatusStoreURL>
       <Box sx={{ mt: 4 }} display="flex" alignItems="center">

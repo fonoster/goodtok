@@ -7,4 +7,4 @@ dist
 coverage
 .nyc_output
 .keys
-tsconfig.tsbuildinfo
+*.tsbuildinfo

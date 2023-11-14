@@ -4,4 +4,6 @@ test
 *.log
 README.md
 tsconfig.json
+tsconfig.docs.json
 *.ts
+*.tsbuildinfo
