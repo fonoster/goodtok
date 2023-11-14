@@ -22,7 +22,7 @@ jobs:
     - name: Populate out directory
       run: |
         # Create out directory
-        mkdir -p out/docs out/site-assets
+        mkdir -p out/docs out/site-assets out/storybook
 
         # Build and copy docs
         cd docs
@@ -31,9 +31,13 @@ jobs:
         cp -a build/* ../out/
         cd ..
         
+        # Build static storybook
+        npm run build:storybook
+        cp -a storybook-static/* out/storybook
+
         # Copy site assets
         cp -a site/assets/* out/site-assets
-        cp site/index.hmtl out/index.html
+        cp site/index.html out/index.html
         cp .nojekyll out/.nojekyll
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
