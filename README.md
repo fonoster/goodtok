@@ -20,9 +20,9 @@ Goodtok helps businesses enhance their customer service right from their website
 - [Architecture](#architecture)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Contact us](#contact-us)
 - [Bugs and Feature Requests](#bugs-and-feature-requests)
 - [Contributing](#contributing)
-- [Questions](#questions)
 - [Authors](#authors)
 - [License](#license)
 
@@ -70,7 +70,7 @@ OWNER_PASSWORD=changeme
 SMTP_HOST=smtp.example.com
 SMTP_AUTH_USER=postmaster@example.com
 SMTP_AUTH_PASS=secret
-SMPT_SENDER=Goodtok <info@example.com>
+SMTP_SENDER=Goodtok <info@example.com>
 
 # SIP signaling config
 DOCKER_HOST_ADDRESS=/* The public IP address of your Docker host */
@@ -145,6 +145,12 @@ A Goodtok token is a [JSON Web Token](https://jwt.io/). Here is an example of th
 
 > The Front Office application will look similar but has different allowed methods.
 
+## Contact us
+
+Meet our sales team for any commercial inquiries.
+
+<a href="https://cal.com/psanders"><img src="https://cal.com/book-with-cal-dark.svg" alt="Book us with Cal.com"></a>
+
 ## Bugs and Feature Requests
 
 For bugs or feature requests, please create an issue [here](https://github.com/fonoster/goodtok/issues). For questions, please see the [Discussions](https://github.com/fonoster/goodtok/discussions) section.
@@ -154,10 +160,6 @@ For bugs or feature requests, please create an issue [here](https://github.com/f
 If you want to contribute to this project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
 (I am still working on this section; please come soon.)
-
-## Questions
-
-If you have any questions about this project, please look at the [organization's profile](https://github.com/fonoster) to find the most up-to-date contact information for us.
 
 ## Known Issues
 
