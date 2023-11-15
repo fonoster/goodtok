@@ -35,7 +35,8 @@
     "publish:frompackages": "lerna publish from-package",
     "lint": "eslint mods --ext .ts --fix",
     "format": "prettier --write mods/**/src",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "bump:version": "rimraf mods/**/.lerna-changed-buster-* && lerna exec -- touch .lerna-changed-buster-$RANDOM"
   },
   "dependencies": {
     "@fonoster/logger": "^0.3.6",
