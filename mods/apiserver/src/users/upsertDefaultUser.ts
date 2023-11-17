@@ -61,7 +61,7 @@ async function upsertDefaultUser(request: { email: string; password: string }) {
       }
     });
 
-    logger.verbose("user upserted:", user);
+    logger.verbose("user upserted:", { id: user.id });
   } catch (e) {
     throw new Error(`error in upsertDefaultUser execution: ${e.message}`);
   } finally {
