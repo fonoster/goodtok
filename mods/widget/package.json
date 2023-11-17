@@ -50,5 +50,6 @@
   "unpkg": "dist/index.js",
   "bugs": {
     "url": "https://github.com/fonoster/goodtok/issues"
-  }
+  },
+  "gitHead": "e9f150ff058aad6a29c9fb38cf32c38aa7844c8c"
 }

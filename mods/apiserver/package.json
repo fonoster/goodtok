@@ -63,7 +63,7 @@
   "bugs": {
     "url": "https://github.com/fonoster/goodtok/issues"
   },
-  "gitHead": "ebd8920cde102ff806a6a2e50292e6e6eb2c042c",
+  "gitHead": "e9f150ff058aad6a29c9fb38cf32c38aa7844c8c",
   "devDependencies": {
     "@types/cors": "^2.8.14",
     "@types/jsonwebtoken": "^9.0.3",
