@@ -18,6 +18,7 @@
     "start:frontoffice": "NODE_ENV=dev cd mods/frontoffice && npm start",
     "start:widget": "NODE_ENV=dev cd mods/widget && npm start",
     "start:storybook": "storybook dev -p 6006 -c .storybook",
+    "start:docs": "cd docs && npm start",
     "build": "lerna run build",
     "build:storybook": "storybook build",
     "prebuild": "npx prisma generate --schema ./mods/apiserver/schema.prisma",
