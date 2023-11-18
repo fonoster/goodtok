@@ -23,6 +23,7 @@ import { QueuePage } from "~components/queue/QueuePage";
 import { useLogger } from "~logger";
 import React, { useEffect } from "react";
 import moment from "moment";
+import playAlert from "~utils/playAlert";
 
 const mapQueueEntry = (entry: {
   customerId: string;
@@ -52,6 +53,7 @@ function WorkspaceContainer() {
   const [avgWaitTime] = React.useState("");
   // Fix this any
   const [peopleList, setPeopleList] = React.useState<any[]>([]);
+  const [previousLength, setPreviousLength] = React.useState(0);
   const [isOnline, setIsOnline] = React.useState(false);
 
   const { id: workspaceId } = useParams() as { id: string };
@@ -62,6 +64,13 @@ function WorkspaceContainer() {
     signOut();
     return;
   }
+
+  useEffect(() => {
+    if (peopleList.length === 1 && previousLength === 0) {
+      playAlert("/bell-ringing.mp3");
+    }
+    setPreviousLength(peopleList.length);
+  }, [peopleList.length]);
 
   useEffect(() => {
     const users = new SDK.Users(client);
