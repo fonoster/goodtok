@@ -53,7 +53,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [isSignedIn, setIsLoggedIn] = useState(() => {
+  const [isSignedIn, setIsSignedIn] = useState(() => {
     return localStorage.getItem("isSignedIn") === "true"; // Initialize state from localStorage
   });
 
@@ -84,7 +84,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     setClient(client);
-    setIsLoggedIn(true);
+    setIsSignedIn(true);
 
     localStorage.setItem("isSignedIn", "true");
     localStorage.setItem("accessToken", client.getToken());
@@ -108,7 +108,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       setClient(client);
-      setIsLoggedIn(true);
+      setIsSignedIn(true);
 
       localStorage.setItem("isSignedIn", "true");
       localStorage.setItem("accessToken", client.getToken());
@@ -119,7 +119,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem("isSignedIn");
     // FIXME: Set client to null causes a crash
     // setClient(null);
-    setIsLoggedIn(false);
+    setIsSignedIn(false);
   };
 
   const isAdmin = (workspaceId: string) => {
@@ -134,7 +134,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("isSignedIn") !== "true") {
+    const tokenExpiration = jwtDecode(client?.getToken() as string) as {
+      exp: number;
+    };
+
+    if (
+      tokenExpiration.exp * 1000 < Date.now() ||
+      localStorage.getItem("isSignedIn") !== "true"
+    ) {
       signOut();
     }
   }, []);
