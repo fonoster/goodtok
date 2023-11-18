@@ -19,9 +19,9 @@
 import { observable } from "@trpc/server/observable";
 import { getLogger } from "@fonoster/logger";
 import { workspaceStatusObservers } from "./observers";
-import { WorkspaceStatus } from "./types";
+import { WeeklyHoursType, WorkspaceStatus } from "./types";
 import { prisma } from "../db";
-import { WorkspaceStatus as WorkspaceStatusFromPrisma } from "@prisma/client";
+import { isOpenNow } from "../utils";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -49,9 +49,14 @@ export function watchWorkspaceStatus(workspaceId: string) {
       .then((workspace) => {
         if (!workspace) return;
 
+        const timezone = workspace.timezone;
+        const hoursOfOperation = workspace.hoursOfOperation as WeeklyHoursType;
+        const isOpen = isOpenNow(timezone, hoursOfOperation);
+
         const initialMessage: WorkspaceStatus = {
           workspaceId,
-          online: workspace.status === WorkspaceStatusFromPrisma.ONLINE
+          isOpen,
+          isEnabled: workspace.enabled
         };
         emitStatusUpdate(initialMessage);
       });

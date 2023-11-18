@@ -206,7 +206,7 @@ const GoodtokUA = () => {
           console.error("failed to watch workspace status", error);
           return;
         }
-        setIsOnline(workspaceStatus.online);
+        setIsOnline(workspaceStatus.isOpen && workspaceStatus.isEnabled);
       }
     );
 

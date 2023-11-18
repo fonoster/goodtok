@@ -133,10 +133,8 @@ export default class Workspaces
    *   name: "My Workspace",
    *   timezone: "America/New_York",
    *   hoursOfOperation: {
-   *     Monday: {
-   *       hours: [{ start: "09:00", end: "17:00" }],
-   *       enabled: true
-   *     },
+   *     Monday: { from: "09:00", to: "17:00" },
+   *     Tuesday: { from: "09:00", to: "17:00" },
    *     // ...
    *   }
    * };
@@ -263,10 +261,8 @@ export default class Workspaces
    *   name: "My Workspace",
    *   timezone: "America/New_York",
    *   hoursOfOperation: {
-   *     Monday: {
-   *       hours: [{ start: "09:00", end: "17:00" }],
-   *       enabled: true
-   *     },
+   *     Monday: { from: "09:00", to: "17:00" },
+   *     Tuesday: { from: "09:00", to: "17:00" },
    *     // ...
    *   }
    * };

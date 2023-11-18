@@ -28,7 +28,7 @@ CREATE TABLE "workspaces" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(60) NOT NULL,
     "hours_of_operation" JSONB NOT NULL,
-    "status" "workspace_status" NOT NULL DEFAULT 'OFFLINE',
+    "enabled" BOOLEAN NOT NULL DEFAULT true,
     "calendar_url" VARCHAR(255) NOT NULL,
     "timezone" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

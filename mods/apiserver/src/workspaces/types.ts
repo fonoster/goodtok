@@ -52,6 +52,7 @@ export type Workspace = {
   id: string;
   name: string;
   hoursOfOperation: WeeklyHoursType;
+  enabled: boolean;
   timezone: string;
   calendarUrl: string;
   createdAt: Date;
@@ -63,7 +64,8 @@ export type Workspace = {
 
 export type WorkspaceStatus = {
   workspaceId: string;
-  online: boolean;
+  isOpen: boolean;
+  isEnabled: boolean;
 };
 
 export type Member = {

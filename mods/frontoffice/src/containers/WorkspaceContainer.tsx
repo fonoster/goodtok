@@ -54,7 +54,7 @@ function WorkspaceContainer() {
   // Fix this any
   const [peopleList, setPeopleList] = React.useState<any[]>([]);
   const [previousLength, setPreviousLength] = React.useState(0);
-  const [isOnline, setIsOnline] = React.useState(false);
+  const [isEnabled, setIsEnabled] = React.useState(false);
 
   const { id: workspaceId } = useParams() as { id: string };
   const { client, signOut, isSignedIn, isAdmin } = useAuth();
@@ -151,7 +151,7 @@ function WorkspaceContainer() {
           return;
         }
 
-        setIsOnline(status!.online);
+        setIsEnabled(status!.isEnabled);
       }
     );
 
@@ -168,11 +168,10 @@ function WorkspaceContainer() {
     );
   };
 
-  const handleOnlineChange = (newOnlineStatus: boolean) => {
+  const handleEnabledChange = (newIsEnabled: boolean) => {
     const workspaces = new SDK.Workspaces(client);
-    const status = newOnlineStatus ? "ONLINE" : "OFFLINE";
-    workspaces.updateWorkspace({ id: workspaceId, status });
-    setIsOnline(newOnlineStatus);
+    workspaces.updateWorkspace({ id: workspaceId, enabled: newIsEnabled });
+    setIsEnabled(newIsEnabled);
   };
 
   return (
@@ -185,10 +184,10 @@ function WorkspaceContainer() {
       avgWaitTime={avgWaitTime}
       data={peopleList}
       isAuthenticated={true}
-      isOnline={isOnline}
+      isEnabled={isEnabled}
       isAdmin={isAdmin(workspaceId)}
       onQueueEntrySelect={handleQueueEntrySelect}
-      onOnlineStatusChange={handleOnlineChange}
+      onEnabledStatusChange={handleEnabledChange}
       onSignOut={signOut}
     />
   );

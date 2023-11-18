@@ -20,7 +20,7 @@ import { getLogger } from "@fonoster/logger";
 import { UpdateWorkspaceRequest, WeeklyHoursType, Workspace } from "./types";
 import { Context } from "../context";
 import { workspaceStatusObservers } from "./observers";
-import { WorkspaceStatus } from "@prisma/client";
+import { isOpenNow } from "../utils";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -35,7 +35,7 @@ export async function updateWorkspace(
     name: request.name,
     timezone: request.timezone,
     calendarUrl: request.calendarUrl,
-    status: request.status,
+    enabled: request.enabled,
     hoursOfOperation: request.hoursOfOperation,
     shopifyAccount: {}
   };
@@ -79,11 +79,17 @@ export async function updateWorkspace(
     data: updateData
   });
 
+  const isOpen = isOpenNow(
+    workspace.timezone,
+    workspace.hoursOfOperation as WeeklyHoursType
+  );
+
   // WARNING: We will need to optimize this later
   workspaceStatusObservers.forEach((emit) =>
     emit({
       workspaceId: workspace.id,
-      online: workspace.status === WorkspaceStatus.ONLINE
+      isOpen,
+      isEnabled: workspace.enabled
     })
   );
 
@@ -93,6 +99,7 @@ export async function updateWorkspace(
     timezone: workspace.timezone,
     calendarUrl: workspace.calendarUrl,
     createdAt: workspace.createdAt,
+    enabled: workspace.enabled,
     shopifyAccount: existingShopifyAccount ? existingShopifyAccount : undefined,
     hoursOfOperation: workspace.hoursOfOperation as WeeklyHoursType
   };

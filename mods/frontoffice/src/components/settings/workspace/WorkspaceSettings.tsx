@@ -128,7 +128,7 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
           onSave &&
             onSave({
               ...values,
-              hoursOfOperation: hoursOfOperationRef.current
+              hoursOfOperation
             });
           setSubmitting(false);
         }

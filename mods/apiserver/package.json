@@ -31,6 +31,8 @@
     "handlebars": "^4.7.8",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "nanoid": "^3.3.6",
     "nats": "^2.17.0",
     "nodemailer": "^6.9.7",

@@ -30,15 +30,15 @@ import React from "react";
 type QueueStatusProps = {
   workspaceName: string;
   storeURL: string;
-  online: boolean;
-  onChange: (status: boolean) => void;
+  enabled: boolean;
+  onChange: (enabled: boolean) => void;
 };
 
 export const QueueStatus: React.FC<QueueStatusProps> = ({
   onChange,
   workspaceName,
   storeURL,
-  online,
+  enabled,
   ...props
 }) => {
   return (
@@ -51,13 +51,13 @@ export const QueueStatus: React.FC<QueueStatusProps> = ({
       <Box sx={{ mt: 4 }} display="flex" alignItems="center">
         <SyledSwitch
           inputProps={{ "aria-label": "controlled" }}
-          checked={online}
+          checked={enabled}
           onChange={(e) => {
             onChange(e.target.checked);
           }}
         />
         <StyledQueueStatusText>
-          Queue {online ? "Enabled" : "Disabled"}
+          Queue {enabled ? "Enabled" : "Disabled"}
         </StyledQueueStatusText>
       </Box>
     </Box>

@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 import { z } from "zod";
-import { WorkspaceStatus } from "@prisma/client";
 import { MAX_LENGTH_FOR_ANY_INPUT, MAX_LENGTH_FOR_NAME } from "../../constants";
 
 export const updateWorkspaceSchema = z.object({
@@ -33,7 +32,7 @@ export const updateWorkspaceSchema = z.object({
     .min(1)
     .max(MAX_LENGTH_FOR_ANY_INPUT, "Calendar URL is too long")
     .optional(),
-  status: z.enum([WorkspaceStatus.ONLINE, WorkspaceStatus.OFFLINE]).optional(),
+  enabled: z.boolean().optional(),
   shopifyAccount: z
     .object({
       storeDomain: z

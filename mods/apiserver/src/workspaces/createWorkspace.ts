@@ -34,7 +34,7 @@ export async function createWorkspace(
     id: `g-${customAlphabet("1234567890abcdef", 10)()}`,
     name: request.name,
     timezone: request.timezone,
-    status: request.status,
+    enabled: request.enabled,
     calendarUrl: request.calendarUrl,
     hoursOfOperation: request?.hoursOfOperation || {
       Monday: { from: "09:00", to: "17:00" },
@@ -69,6 +69,7 @@ export async function createWorkspace(
     name: workspace.name,
     timezone: workspace.timezone,
     calendarUrl: workspace.calendarUrl,
+    enabled: workspace.enabled,
     createdAt: workspace.createdAt,
     shopifyAccount: workspace.shopifyAccount,
     hoursOfOperation: workspace.hoursOfOperation as WeeklyHoursType

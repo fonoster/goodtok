@@ -19,7 +19,8 @@
 import { getLogger } from "@fonoster/logger";
 import { ContextOptionsWithUrl, UserWithWorkspaces } from "./types";
 import { TRPCError } from "@trpc/server";
-import { WorkspaceMemberRole } from "./workspaces/types";
+import { Day, WeeklyHoursType, WorkspaceMemberRole } from "./workspaces/types";
+import moment from "moment-timezone";
 import jwt from "jsonwebtoken";
 
 const logger = getLogger({ service: "common", filePath: __filename });
@@ -112,4 +113,23 @@ export function assertEnvsAreSet(variables: string[]) {
       process.exit(1);
     }
   });
+}
+
+export function isOpenNow(
+  timezone: string,
+  hoursOfOperations: WeeklyHoursType
+): boolean {
+  const now = moment().tz(timezone);
+  const currentDay: Day = now.format("dddd") as Day;
+  const hoursToday = hoursOfOperations[currentDay];
+
+  if (!hoursToday || !hoursToday.from || !hoursToday.to) {
+    return false;
+  }
+
+  const format = "HH:mm";
+  const fromMoment = moment.tz(hoursToday.from, format, timezone);
+  const toMoment = moment.tz(hoursToday.to, format, timezone);
+
+  return now.isBetween(fromMoment, toMoment);
 }

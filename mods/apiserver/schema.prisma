@@ -68,7 +68,7 @@ model Workspace {
   id               String          @id @default(uuid())
   name             String          @db.VarChar(60)
   hoursOfOperation Json            @map("hours_of_operation")
-  status           WorkspaceStatus @default(OFFLINE)
+  enabled          Boolean         @default(true)
   calendarUrl      String          @map("calendar_url") @db.VarChar(255)
   timezone         String
 

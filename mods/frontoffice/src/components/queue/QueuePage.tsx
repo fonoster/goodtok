@@ -30,11 +30,11 @@ type QueuePageProps = {
   data: CustomerData[];
   storeURL: string;
   avgWaitTime: string;
-  isOnline: boolean;
+  isEnabled: boolean;
   isAuthenticated: boolean;
   isAdmin: boolean;
   onQueueEntrySelect: (id: string, aor: string) => void;
-  onOnlineStatusChange: (isOnline: boolean) => void;
+  onEnabledStatusChange: (isEnabled: boolean) => void;
   onSignOut: () => void;
 };
 
@@ -46,16 +46,16 @@ export const QueuePage: React.FC<QueuePageProps> = ({
   data,
   storeURL,
   avgWaitTime,
-  isOnline,
+  isEnabled,
   isAuthenticated,
   isAdmin,
   onQueueEntrySelect,
-  onOnlineStatusChange,
+  onEnabledStatusChange,
   onSignOut,
   ...props
 }) => {
-  const handleOnlineChange = (newOnlineStatus: boolean) => {
-    onOnlineStatusChange(newOnlineStatus); // Notify the parent component
+  const handleEnabledChange = (newEnabledStatus: boolean) => {
+    onEnabledStatusChange(newEnabledStatus); // Notify the parent component
   };
 
   return (
@@ -73,10 +73,10 @@ export const QueuePage: React.FC<QueuePageProps> = ({
       />
       <Box sx={{ p: 5 }} display="flex" flexDirection="row" gap={20}>
         <QueueStatus
-          online={isOnline}
+          enabled={isEnabled}
           workspaceName={workspaceName}
           storeURL={storeURL}
-          onChange={handleOnlineChange}
+          onChange={handleEnabledChange}
         />
         <QueueList
           avgWaitTime={avgWaitTime}
