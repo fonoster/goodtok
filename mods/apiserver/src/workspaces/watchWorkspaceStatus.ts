@@ -26,13 +26,20 @@ import { WorkspaceStatus as WorkspaceStatusFromPrisma } from "@prisma/client";
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 export function watchWorkspaceStatus(workspaceId: string) {
-  logger.verbose("new observer added to watchWorkspaceStatus", { workspaceId });
+  logger.verbose("new observer added to watchWorkspaceStatus", {
+    workspaceId,
+    totalObservers: workspaceStatusObservers.length
+  });
 
   return observable<WorkspaceStatus>((emit) => {
-    // Add the observer's next method to the list when a client subscribes
-    workspaceStatusObservers.push(emit.next.bind(emit));
+    const emitStatusUpdate = (status: WorkspaceStatus) => {
+      if (status.workspaceId !== workspaceId) return;
+      emit.next(status);
+    };
 
-    // TODO: Update this to use ctx.prisma
+    workspaceStatusObservers.push(emitStatusUpdate);
+
+    // Emit the initial status immediately upon subscription
     prisma.workspace
       .findUnique({
         where: {
@@ -43,14 +50,15 @@ export function watchWorkspaceStatus(workspaceId: string) {
         if (!workspace) return;
 
         const initialMessage: WorkspaceStatus = {
+          workspaceId,
           online: workspace.status === WorkspaceStatusFromPrisma.ONLINE
         };
-        emit.next(initialMessage);
+        emitStatusUpdate(initialMessage);
       });
 
-    // Remove the observer's next method when the client unsubscribes
+    // Remove the observer's emit function when the client unsubscribes
     return () => {
-      const index = workspaceStatusObservers.indexOf(emit.next.bind(emit));
+      const index = workspaceStatusObservers.indexOf(emitStatusUpdate);
       if (index !== -1) {
         workspaceStatusObservers.splice(index, 1);
       }

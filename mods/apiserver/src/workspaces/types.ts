@@ -62,6 +62,7 @@ export type Workspace = {
 };
 
 export type WorkspaceStatus = {
+  workspaceId: string;
   online: boolean;
 };
 

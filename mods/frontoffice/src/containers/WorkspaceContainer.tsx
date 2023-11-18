@@ -142,15 +142,23 @@ function WorkspaceContainer() {
 
   useEffect(() => {
     const workspaces = new SDK.Workspaces(client);
-    workspaces.watchWorkspaceStatus(workspaceId, (err, status) => {
-      if (err) {
-        logger.error("failed to watch workspace status:", err);
-        return;
-      }
+    const subscription = workspaces.watchWorkspaceStatus(
+      workspaceId,
+      (err, status) => {
+        if (err) {
+          logger.error("failed to watch workspace status:", err);
 
-      setIsOnline(status?.online as boolean);
-    });
-  });
+          return;
+        }
+
+        setIsOnline(status!.online);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const handleQueueEntrySelect = (id: string, aor: string) => {
     window.open(

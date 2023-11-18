@@ -82,6 +82,7 @@ export async function updateWorkspace(
   // WARNING: We will need to optimize this later
   workspaceStatusObservers.forEach((emit) =>
     emit({
+      workspaceId: workspace.id,
       online: workspace.status === WorkspaceStatus.ONLINE
     })
   );

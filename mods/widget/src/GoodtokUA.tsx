@@ -198,14 +198,22 @@ const GoodtokUA = () => {
     });
 
     const workspaces = new SDK.Workspaces(client);
-    workspaces.watchWorkspaceStatus(workspaceId, (error, workspaceStatus) => {
-      if (error) {
-        console.error("Failed to watch workspace status", error);
-        return;
+
+    const subscription = workspaces.watchWorkspaceStatus(
+      workspaceId,
+      (error, workspaceStatus) => {
+        if (error) {
+          console.error("failed to watch workspace status", error);
+          return;
+        }
+        setIsOnline(workspaceStatus.online);
       }
-      setIsOnline(workspaceStatus.online);
-    });
-  });
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <GoodtokWidget
