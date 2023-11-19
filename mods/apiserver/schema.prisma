@@ -7,13 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum WorkspaceStatus {
-  ONLINE
-  OFFLINE
-
-  @@map("workspace_status")
-}
-
 enum WorkspaceMemberStatus {
   PENDING
   ACTIVE
