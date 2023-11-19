@@ -60,6 +60,12 @@ const meta = {
       name: "onEvent",
       description: "Callback for events",
       action: "clicked"
+    },
+    hasError: {
+      name: "Error Indicator",
+      description: "Indicates if the widget is in an error state",
+      control: { type: "boolean" },
+      defaultValue: { summary: "false" }
     }
   }
 } satisfies Meta<typeof GoodtokWidget>;
@@ -76,6 +82,7 @@ export const GoodtokWidgetExample: Story = {
     online: false,
     menuOpen: false,
     notificationOpen: false,
+    hasError: false,
     videoOpen: false,
     onVideoRefsReady: () => {
       // Noop

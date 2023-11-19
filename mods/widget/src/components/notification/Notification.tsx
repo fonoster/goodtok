@@ -33,6 +33,7 @@ import {
 type MenuContainerProps = {
   online?: boolean;
   isOpen: boolean;
+  isError?: boolean;
   onClose: () => void;
 };
 
@@ -40,6 +41,7 @@ export const Notification: React.FC<MenuContainerProps> = ({
   online = false,
   onClose,
   isOpen,
+  isError = false,
   ...props
 }) => {
   return (
@@ -50,16 +52,31 @@ export const Notification: React.FC<MenuContainerProps> = ({
         </NotificationHeader>
         <NotificationBody>
           <InnerContainer>
-            <WaitingIndicator>
-              <Rotate>
-                <LoadingIcon />
-              </Rotate>
-              <StyledSpan>Hang tight!</StyledSpan>
-            </WaitingIndicator>
-            <StyledP>
-              Please keep this tab open while we connect you with one of our
-              representatives.
-            </StyledP>
+            {isError && (
+              <>
+                <WaitingIndicator>
+                  <StyledSpan>Something went wrong!</StyledSpan>
+                </WaitingIndicator>
+                <StyledP>
+                  An error occurred while trying to connect you with one of our
+                  representatives. Please try again later.
+                </StyledP>
+              </>
+            )}
+            {!isError && (
+              <>
+                <WaitingIndicator>
+                  <Rotate>
+                    <LoadingIcon />
+                  </Rotate>
+                  <StyledSpan>Hang tight!</StyledSpan>
+                </WaitingIndicator>
+                <StyledP>
+                  Please keep this tab open while we connect you with one of our
+                  representatives.
+                </StyledP>
+              </>
+            )}
           </InnerContainer>
         </NotificationBody>
       </div>

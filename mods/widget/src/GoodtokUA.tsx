@@ -32,6 +32,7 @@ const GoodtokUA = () => {
   const [videoOpen, setVideoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [customerToken, setCustomerToken] = useState(null);
   const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
   const [connectionObj, setConnectionObj] = useState<ConnectionObject | null>(
@@ -50,8 +51,10 @@ const GoodtokUA = () => {
 
     if (!simpleUser) {
       console.error(
-        "Unable to process event: simpleUser is not initialized yet."
+        "unable to process event: simpleUser is not initialized yet."
       );
+      setHasError(true);
+      setNotificationOpen(true);
       return;
     }
 
@@ -74,7 +77,9 @@ const GoodtokUA = () => {
             setNotificationOpen(true);
           })
           .catch((e) => {
-            console.error("Failed to connect to server");
+            console.error("failed to connect to server");
+            setHasError(true);
+            setNotificationOpen(true);
           });
         break;
 
@@ -204,6 +209,8 @@ const GoodtokUA = () => {
       (error, workspaceStatus) => {
         if (error) {
           console.error("failed to watch workspace status", error);
+          setHasError(true);
+          setNotificationOpen(true);
           return;
         }
         setIsOnline(workspaceStatus.isOpen && workspaceStatus.isEnabled);
@@ -220,10 +227,14 @@ const GoodtokUA = () => {
       online={isOnline}
       onEvent={handleWidgetEvents}
       onVideoRefsReady={handleVideoRefsReady}
-      onNotificationClose={() => setNotificationOpen(false)}
+      onNotificationClose={() => {
+        setNotificationOpen(false);
+        setHasError(false);
+      }}
       videoOpen={videoOpen}
       menuOpen={menuOpen}
       notificationOpen={notificationOpen}
+      hasError={hasError}
     />
   );
 };

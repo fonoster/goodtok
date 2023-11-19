@@ -29,6 +29,7 @@ export type GoodtokWidgetProps = {
   online: boolean;
   menuOpen: boolean;
   notificationOpen: boolean;
+  hasError: boolean;
   videoOpen: boolean;
   onEvent: (eventName: GoodtokWidgetEvents) => void;
   onNotificationClose: () => void;
@@ -62,6 +63,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
   online = false,
   menuOpen = false,
   notificationOpen = false,
+  hasError = false,
   videoOpen = false,
   onEvent,
   onNotificationClose,
@@ -98,6 +100,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
       <Notification
         online={online}
         isOpen={activeComponent === ActiveComponent.Notification}
+        isError={hasError}
         onClose={() => {
           onNotificationClose();
           setActiveComponent(ActiveComponent.None);

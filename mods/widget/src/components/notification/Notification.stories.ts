@@ -50,6 +50,12 @@ const meta = {
         type: "function"
       },
       action: "clicked"
+    },
+    isError: {
+      name: "Error Indicator",
+      description: "Indicates if the notification is an error",
+      control: { type: "boolean" },
+      defaultValue: { summary: "false" }
     }
   }
 } satisfies Meta<typeof Notification>;
@@ -64,6 +70,18 @@ type Story = StoryObj<typeof meta>;
 export const NotificationExample: Story = {
   args: {
     online: true,
-    isOpen: true
+    isOpen: true,
+    isError: false
+  }
+};
+
+/**
+ * Example of an error notification.
+ */
+export const NotificationErrorExample: Story = {
+  args: {
+    online: true,
+    isOpen: true,
+    isError: true
   }
 };
