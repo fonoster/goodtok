@@ -22,8 +22,6 @@ import React, {
   forwardRef,
   useImperativeHandle
 } from "react";
-import { CloseIcon } from "../icons/CloseIcon";
-import { CameraIcon } from "../icons/CameraIcon";
 import { MutedCameraIcon } from "../icons/MutedCameraIcon";
 import { CircleMicrophoneIcon } from "../icons/CircleMicrophoneIcon";
 import { CirclePiPIcon } from "../icons/CirclePiPIcon";
@@ -36,15 +34,11 @@ import {
   Controls,
   CustomerVideo,
   CustomerVideoContainer,
-  VideoContainer,
-  Header,
-  HeaderContainer,
+  MobileVideoContainer,
   MutedOverlay,
   StaffVideo,
   StaffVideoContainer
-} from "./VideoStyles";
-import { formatTime } from "@goodtok/common";
-import { handlePiP } from "./handlePiP";
+} from "./MobileVideoStyles";
 
 type VideoProps = {
   isCustomerCameraMuted?: boolean;
@@ -55,11 +49,10 @@ type VideoProps = {
   onMicrophoneMuted?: (muted: boolean) => void;
 };
 
-export const Video = forwardRef((props: VideoProps, ref) => {
+export const MobileVideo = forwardRef((props: VideoProps, ref) => {
   const [isCustomerCameraMuted, setIsCustomeCameraMuted] = useState(false);
   const [isCustomerMicrophoneMuted, setIsCustomerMicrophoneMuted] =
     useState(false);
-  const [secondsElapsed, setSecondsElapsed] = useState(0);
   const staffVideoRef = React.createRef<HTMLVideoElement>();
   const staffAudio = React.createRef<HTMLAudioElement>();
   const customerVideoRef = React.createRef<HTMLVideoElement>();
@@ -93,17 +86,6 @@ export const Video = forwardRef((props: VideoProps, ref) => {
   }));
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setSecondsElapsed((prev) => prev + 1);
-    }, 1000);
-
-    // Clear interval on component unmount
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  useEffect(() => {
     if (props.isOpen) {
       if (staffVideoRef.current) staffVideoRef.current.style.opacity = "1";
       if (customerVideoRef.current)
@@ -116,16 +98,7 @@ export const Video = forwardRef((props: VideoProps, ref) => {
   }, [props.isOpen]);
 
   return (
-    <VideoContainer style={{ display: props.isOpen ? "block" : "none" }}>
-      <Header>
-        <HeaderContainer>
-          {isCustomerCameraMuted ? <MutedCameraIcon /> : <CameraIcon />}
-          <p>{formatTime(secondsElapsed)}</p>
-          <div onClick={props.onClose}>
-            <CloseIcon />
-          </div>
-        </HeaderContainer>
-      </Header>
+    <MobileVideoContainer style={{ display: props.isOpen ? "block" : "none" }}>
       <StaffVideoContainer>
         <audio style={{ display: "none" }} id="goodtok-audio" controls>
           <p>Your browser doesn't support HTML5 audio.</p>
@@ -167,16 +140,13 @@ export const Video = forwardRef((props: VideoProps, ref) => {
               <CircleCameraIcon />
             )}
           </ButtonCircleWrapper>
-          <ButtonCircleWrapper onClick={() => handlePiP(staffVideoRef)}>
-            <CirclePiPIcon />
-          </ButtonCircleWrapper>
           <ButtonCircleWrapper onClick={props.onHangup}>
             <CircleHangupIcon />
           </ButtonCircleWrapper>
         </Controls>
       </StaffVideoContainer>
-    </VideoContainer>
+    </MobileVideoContainer>
   );
 });
 
-export default Video;
+export default MobileVideo;

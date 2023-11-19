@@ -24,6 +24,9 @@ import { ActiveComponent, GoodtokWidgetEvents } from "./types";
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Video from "../video/Video";
+import MobileVideo from "../video/MobileVideo";
+
+const MOBILE_BREAKPOINT = 630;
 
 export type GoodtokWidgetProps = {
   online: boolean;
@@ -74,6 +77,20 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
     ActiveComponent.None
   );
 
+  const [isMobile, setIsMobile] = useState(
+    window.innerWidth < MOBILE_BREAKPOINT
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     if (menuOpen) setActiveComponent(ActiveComponent.Menu);
     else if (notificationOpen) setActiveComponent(ActiveComponent.Notification);
@@ -87,8 +104,15 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
     }
   }, [onVideoRefsReady]);
 
+  const mobileAndVideoOpen = isMobile && videoOpen;
+
   return (
-    <MenuButtonContainer>
+    <MenuButtonContainer
+      style={{
+        bottom: mobileAndVideoOpen ? 0 : "20px",
+        right: mobileAndVideoOpen ? 0 : "20px"
+      }}
+    >
       <Menu
         online={online}
         isOpen={activeComponent === ActiveComponent.Menu}
@@ -107,43 +131,70 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
           onEvent(GoodtokWidgetEvents.CLOSE);
         }}
       />
-      <Video
-        ref={videoRefs}
-        isOpen={activeComponent === ActiveComponent.Video}
-        onCameraMuted={(muted) => {
-          if (muted) {
-            onEvent(GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST);
-          } else {
-            onEvent(GoodtokWidgetEvents.VIDEO_MUTE_REQUEST);
-          }
-        }}
-        onMicrophoneMuted={(muted) => {
-          if (muted) {
-            onEvent(GoodtokWidgetEvents.AUDIO_UNMUTE_REQUEST);
-          } else {
-            onEvent(GoodtokWidgetEvents.AUDIO_MUTE_REQUEST);
-          }
-        }}
-        onHangup={() => {
-          setActiveComponent(ActiveComponent.None);
-          onEvent(GoodtokWidgetEvents.HANGUP_REQUEST);
-        }}
-        onClose={() => {
-          setActiveComponent(ActiveComponent.None);
-          onEvent(GoodtokWidgetEvents.CLOSE);
-        }}
-      />
-      <GoodtokButton
-        online={online}
-        onClick={() => {
-          if (activeComponent !== ActiveComponent.Menu) {
-            setActiveComponent(ActiveComponent.Menu);
-          } else {
+      {isMobile ? (
+        <MobileVideo
+          ref={videoRefs}
+          isOpen={activeComponent === ActiveComponent.Video}
+          onCameraMuted={(muted) => {
+            if (muted) {
+              onEvent(GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST);
+            } else {
+              onEvent(GoodtokWidgetEvents.VIDEO_MUTE_REQUEST);
+            }
+          }}
+          onMicrophoneMuted={(muted) => {
+            if (muted) {
+              onEvent(GoodtokWidgetEvents.AUDIO_UNMUTE_REQUEST);
+            } else {
+              onEvent(GoodtokWidgetEvents.AUDIO_MUTE_REQUEST);
+            }
+          }}
+          onHangup={() => {
+            setActiveComponent(ActiveComponent.None);
+            onEvent(GoodtokWidgetEvents.HANGUP_REQUEST);
+          }}
+        />
+      ) : (
+        <Video
+          ref={videoRefs}
+          isOpen={activeComponent === ActiveComponent.Video}
+          onCameraMuted={(muted) => {
+            if (muted) {
+              onEvent(GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST);
+            } else {
+              onEvent(GoodtokWidgetEvents.VIDEO_MUTE_REQUEST);
+            }
+          }}
+          onMicrophoneMuted={(muted) => {
+            if (muted) {
+              onEvent(GoodtokWidgetEvents.AUDIO_UNMUTE_REQUEST);
+            } else {
+              onEvent(GoodtokWidgetEvents.AUDIO_MUTE_REQUEST);
+            }
+          }}
+          onHangup={() => {
+            setActiveComponent(ActiveComponent.None);
+            onEvent(GoodtokWidgetEvents.HANGUP_REQUEST);
+          }}
+          onClose={() => {
             setActiveComponent(ActiveComponent.None);
             onEvent(GoodtokWidgetEvents.CLOSE);
-          }
-        }}
-      />
+          }}
+        />
+      )}
+      {((isMobile && !videoOpen) || !isMobile) && (
+        <GoodtokButton
+          online={online}
+          onClick={() => {
+            if (activeComponent !== ActiveComponent.Menu) {
+              setActiveComponent(ActiveComponent.Menu);
+            } else {
+              setActiveComponent(ActiveComponent.None);
+              onEvent(GoodtokWidgetEvents.CLOSE);
+            }
+          }}
+        />
+      )}
     </MenuButtonContainer>
   );
 };

@@ -18,7 +18,7 @@
  */
 import styled from "styled-components";
 
-export const GoodtokWidget = styled.div`
+export const VideoContainer = styled.div`
   background-color: #fff;
   border-radius: 30px 30px 12px 12px;
   width: 584px;
