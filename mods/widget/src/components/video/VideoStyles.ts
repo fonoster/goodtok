@@ -51,7 +51,7 @@ export const HeaderContainer = styled.div`
   }
 `;
 
-export const StaffVideoContainer = styled.div`
+export const RemoteVideoContainer = styled.div`
   position: relative;
   contain: content;
   height: 327px;
@@ -59,7 +59,7 @@ export const StaffVideoContainer = styled.div`
   border-radius: 0px 0px 12px 12px;
 `;
 
-export const CustomerVideoContainer = styled.div`
+export const LocalVideoContainer = styled.div`
   position: relative;
   contain: content;
   height: 90px;
@@ -71,7 +71,7 @@ export const CustomerVideoContainer = styled.div`
   top: 24px;
 `;
 
-export const CustomerVideo = styled.video`
+export const LocalVideo = styled.video`
   background-color: #000;
   position: relative;
   height: auto;
@@ -81,7 +81,7 @@ export const CustomerVideo = styled.video`
   transition: opacity 0.5s ease-in-out;
 `;
 
-export const StaffVideo = styled.video`
+export const RemoteVideo = styled.video`
   background-color: #000;
   position: relative;
   top: -55px;

@@ -34,14 +34,14 @@ import { CircleCameraMutedIcon } from "../icons/CircleCameraMutedIcon";
 import {
   ButtonCircleWrapper,
   Controls,
-  CustomerVideo,
-  CustomerVideoContainer,
+  LocalVideo,
+  LocalVideoContainer,
   VideoContainer,
   Header,
   HeaderContainer,
   MutedOverlay,
-  StaffVideo,
-  StaffVideoContainer
+  RemoteVideo,
+  RemoteVideoContainer
 } from "./VideoStyles";
 import { formatTime } from "@goodtok/common";
 import { handlePiP } from "./handlePiP";
@@ -60,36 +60,36 @@ export const Video = forwardRef((props: VideoProps, ref) => {
   const [isCustomerMicrophoneMuted, setIsCustomerMicrophoneMuted] =
     useState(false);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
-  const staffVideoRef = React.createRef<HTMLVideoElement>();
-  const staffAudio = React.createRef<HTMLAudioElement>();
-  const customerVideoRef = React.createRef<HTMLVideoElement>();
+  const remoteVideoRef = React.createRef<HTMLVideoElement>();
+  const remoteAudio = React.createRef<HTMLAudioElement>();
+  const localVideoRef = React.createRef<HTMLVideoElement>();
 
   useEffect(() => {
-    if (!staffVideoRef.current || !customerVideoRef.current) return;
-    staffVideoRef.current.addEventListener(
+    if (!remoteVideoRef.current || !localVideoRef.current) return;
+    remoteVideoRef.current.addEventListener(
       "enterpictureinpicture",
       function () {
-        if (!staffVideoRef.current || !customerVideoRef.current) return;
-        customerVideoRef.current.style.display = "none";
-        staffVideoRef.current.style.top = "0";
+        if (!remoteVideoRef.current || !localVideoRef.current) return;
+        localVideoRef.current.style.display = "none";
+        remoteVideoRef.current.style.top = "0";
       }
     );
 
-    staffVideoRef.current.addEventListener(
+    remoteVideoRef.current.addEventListener(
       "leavepictureinpicture",
       function () {
-        if (!staffVideoRef.current || !customerVideoRef.current) return;
-        customerVideoRef.current.style.display = "block";
-        staffVideoRef.current.style.top = "-55px";
+        if (!remoteVideoRef.current || !localVideoRef.current) return;
+        localVideoRef.current.style.display = "block";
+        remoteVideoRef.current.style.top = "-55px";
       }
     );
   });
 
   // Expose refs to parent
   useImperativeHandle(ref, () => ({
-    staffVideo: staffVideoRef.current,
-    staffAudio: staffAudio.current,
-    customerVideo: customerVideoRef.current
+    remoteVideo: remoteVideoRef.current,
+    remoteAudio: remoteAudio.current,
+    localVideo: localVideoRef.current
   }));
 
   useEffect(() => {
@@ -105,13 +105,11 @@ export const Video = forwardRef((props: VideoProps, ref) => {
 
   useEffect(() => {
     if (props.isOpen) {
-      if (staffVideoRef.current) staffVideoRef.current.style.opacity = "1";
-      if (customerVideoRef.current)
-        customerVideoRef.current.style.opacity = "1";
+      if (remoteVideoRef.current) remoteVideoRef.current.style.opacity = "1";
+      if (localVideoRef.current) localVideoRef.current.style.opacity = "1";
     } else {
-      if (staffVideoRef.current) staffVideoRef.current.style.opacity = "0";
-      if (customerVideoRef.current)
-        customerVideoRef.current.style.opacity = "0";
+      if (remoteVideoRef.current) remoteVideoRef.current.style.opacity = "0";
+      if (localVideoRef.current) localVideoRef.current.style.opacity = "0";
     }
   }, [props.isOpen]);
 
@@ -126,22 +124,19 @@ export const Video = forwardRef((props: VideoProps, ref) => {
           </div>
         </HeaderContainer>
       </Header>
-      <StaffVideoContainer>
+      <RemoteVideoContainer>
         <audio style={{ display: "none" }} id="goodtok-audio" controls>
           <p>Your browser doesn't support HTML5 audio.</p>
         </audio>
-        <StaffVideo ref={staffVideoRef} className="goodtok-video__staff" />
+        <RemoteVideo ref={remoteVideoRef} className="goodtok-video__remote" />
         {isCustomerCameraMuted && (
           <MutedOverlay>
             <MutedCameraIcon />
           </MutedOverlay>
         )}
-        <CustomerVideoContainer>
-          <CustomerVideo
-            ref={customerVideoRef}
-            className="goodtok-video__customer"
-          />
-        </CustomerVideoContainer>
+        <LocalVideoContainer>
+          <LocalVideo ref={localVideoRef} className="goodtok-video__local" />
+        </LocalVideoContainer>
         <Controls>
           <ButtonCircleWrapper
             onClick={() => {
@@ -167,14 +162,14 @@ export const Video = forwardRef((props: VideoProps, ref) => {
               <CircleCameraIcon />
             )}
           </ButtonCircleWrapper>
-          <ButtonCircleWrapper onClick={() => handlePiP(staffVideoRef)}>
+          <ButtonCircleWrapper onClick={() => handlePiP(remoteVideoRef)}>
             <CirclePiPIcon />
           </ButtonCircleWrapper>
           <ButtonCircleWrapper onClick={props.onHangup}>
             <CircleHangupIcon />
           </ButtonCircleWrapper>
         </Controls>
-      </StaffVideoContainer>
+      </RemoteVideoContainer>
     </VideoContainer>
   );
 });

@@ -90,18 +90,18 @@ export const VideoExample: Story = {
     isCustomerCameraMuted: false
   },
   play: () => {
-    const staffVideo = document.querySelector(
-      ".goodtok-video__staff"
+    const remoteVideo = document.querySelector(
+      ".goodtok-video__remote"
     ) as HTMLVideoElement;
-    staffVideo.src =
-      "https://storage.googleapis.com/fn01/videos/demo_call_staff.mp4";
-    staffVideo.loop = true;
-    staffVideo.muted = true;
+    remoteVideo.src =
+      "https://storage.googleapis.com/fn01/videos/demo_call_remote.mp4";
+    remoteVideo.loop = true;
+    remoteVideo.muted = true;
     // eslint-disable-next-line storybook/context-in-play-function
-    staffVideo.play();
+    remoteVideo.play();
 
     const videoCustomer = document.querySelector(
-      ".goodtok-video__customer"
+      ".goodtok-video__local"
     ) as HTMLVideoElement;
     videoCustomer.src =
       "https://storage.googleapis.com/fn01/videos/demo_call_customer.mp4";
@@ -112,10 +112,10 @@ export const VideoExample: Story = {
     videoCustomer.play();
 
     // Changed position to fit the storybook
-    staffVideo.style.backgroundColor = "#000";
+    remoteVideo.style.backgroundColor = "#000";
     videoCustomer.style.top = "0";
-    staffVideo.style.top = "0px";
-    staffVideo.style.left = "-15px";
-    staffVideo.style.width = "620px";
+    remoteVideo.style.top = "0px";
+    remoteVideo.style.left = "-15px";
+    remoteVideo.style.width = "620px";
   }
 };

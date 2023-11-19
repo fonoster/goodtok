@@ -23,13 +23,13 @@ export const MobileVideoContainer = styled.div`
   width: 100vw;
 `;
 
-export const StaffVideoContainer = styled.div`
+export const RemoteVideoContainer = styled.div`
   height: 100vh;
   width: auto;
   contain: content;
 `;
 
-export const StaffVideo = styled.video`
+export const RemoteVideo = styled.video`
   position: relative;
   height: 100%;
   width: auto;
@@ -40,7 +40,7 @@ export const StaffVideo = styled.video`
   transition: opacity 0.5s ease-in-out;
 `;
 
-export const CustomerVideoContainer = styled.div`
+export const LocalVideoContainer = styled.div`
   position: absolute;
   contain: content;
   height: 90px;
@@ -50,7 +50,7 @@ export const CustomerVideoContainer = styled.div`
   top: 0;
 `;
 
-export const CustomerVideo = styled.video`
+export const LocalVideo = styled.video`
   background-color: #000;
   position: relative;
   height: auto;

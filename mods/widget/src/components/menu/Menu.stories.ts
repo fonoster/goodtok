@@ -24,7 +24,7 @@ import { CalendarIcon } from "../icons/CalendarIcon";
 
 /**
  * Final implementation of the Menu component, which simply requires a JSON object with the menu items,
- * and provides a callback for when an item is clicked and the online status of the staff.
+ * and provides a callback for when an item is clicked and the online status of the remote.
  */
 const meta = {
   title: "Widget/Menu",
@@ -36,7 +36,7 @@ const meta = {
   argTypes: {
     online: {
       name: "Status Indicator",
-      description: "Indicates if the staff is accepting calls",
+      description: "Indicates if the remote is accepting calls",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },

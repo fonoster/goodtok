@@ -40,7 +40,7 @@ const meta = {
   argTypes: {
     online: {
       name: "Status Indicator",
-      description: "Indicates if the staff is accepting calls",
+      description: "Indicates if the remote is accepting calls",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },

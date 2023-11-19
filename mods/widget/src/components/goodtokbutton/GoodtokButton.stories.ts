@@ -35,7 +35,7 @@ const meta = {
   argTypes: {
     online: {
       name: "Goodtok Menu Trigger",
-      description: "Indicates if the staff is accepting calls",
+      description: "Indicates if the remote is accepting calls",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
@@ -52,7 +52,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Indicates that the staff is not accepting calls
+ * Indicates that the remote is not accepting calls
  */
 export const ButtonExample: Story = {
   args: {

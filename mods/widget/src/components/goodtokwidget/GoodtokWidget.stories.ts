@@ -33,7 +33,7 @@ const meta = {
   argTypes: {
     online: {
       name: "Online indicator",
-      description: "Indicates if the staff is accepting calls",
+      description: "Indicates if the remote is accepting calls",
       control: { type: "boolean" },
       defaultValue: { summary: "false" }
     },
@@ -92,17 +92,17 @@ export const GoodtokWidgetExample: Story = {
     // Function to execute when the video elements are found
     const executeWhenReady = () => {
       const video = document.querySelector(
-        ".goodtok-video__staff"
+        ".goodtok-video__remote"
       ) as HTMLVideoElement;
       video.src =
-        "https://storage.googleapis.com/fn01/videos/demo_call_staff.mp4";
+        "https://storage.googleapis.com/fn01/videos/demo_call_remote.mp4";
       video.loop = true;
       video.muted = true;
       // eslint-disable-next-line storybook/context-in-play-function
       video.play();
 
       const videoCustomer = document.querySelector(
-        ".goodtok-video__customer"
+        ".goodtok-video__local"
       ) as HTMLVideoElement;
       videoCustomer.src =
         "https://storage.googleapis.com/fn01/videos/demo_call_customer.mp4";
@@ -113,12 +113,12 @@ export const GoodtokWidgetExample: Story = {
     };
 
     // Check if the video elements are already in the DOM
-    if (document.querySelector(".goodtok-video__staff")) {
+    if (document.querySelector(".goodtok-video__remote")) {
       executeWhenReady();
     } else {
       // If not, set up a MutationObserver to watch for when they're added
       const observer = new MutationObserver((mutations, observerInstance) => {
-        if (document.querySelector(".goodtok-video__staff")) {
+        if (document.querySelector(".goodtok-video__remote")) {
           executeWhenReady();
           // Once we've found the elements and executed our function, we don't need the observer anymore
           observerInstance.disconnect();

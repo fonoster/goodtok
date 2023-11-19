@@ -162,19 +162,19 @@ const GoodtokUA = () => {
 
   useEffect(() => {
     if (connectionObj) {
-      const customerVideo = videoRefs.current.customerVideo;
-      const staffAudio = videoRefs.current.staffAudio;
-      const staffVideo = videoRefs.current.staffVideo;
+      const localVideo = videoRefs.current.localVideo;
+      const remoteAudio = videoRefs.current.remoteAudio;
+      const remoteVideo = videoRefs.current.remoteVideo;
       const options = {
         aor: connectionObj.aor,
         media: {
           constraints: { audio: true, video: true },
           remote: {
-            audio: staffAudio, // You might need to ensure that these refs are available at this point
-            video: staffVideo
+            audio: remoteAudio, // You might need to ensure that these refs are available at this point
+            video: remoteVideo
           },
           local: {
-            video: customerVideo
+            video: localVideo
           }
         }
       };
