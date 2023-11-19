@@ -87,12 +87,10 @@ export const MobileVideo = forwardRef((props: VideoProps, ref) => {
   useEffect(() => {
     if (props.isOpen) {
       if (remoteVideoRef.current) remoteVideoRef.current.style.opacity = "1";
-      if (localVideoRef.current)
-        localVideoRef.current.style.opacity = "1";
+      if (localVideoRef.current) localVideoRef.current.style.opacity = "1";
     } else {
       if (remoteVideoRef.current) remoteVideoRef.current.style.opacity = "0";
-      if (localVideoRef.current)
-        localVideoRef.current.style.opacity = "0";
+      if (localVideoRef.current) localVideoRef.current.style.opacity = "0";
     }
   }, [props.isOpen]);
 
