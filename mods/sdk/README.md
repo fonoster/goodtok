@@ -530,7 +530,7 @@ Ensure the Goodtok API Server is running for the Workspaces API to function.
     * [.removeWorkspaceMember(id)](#Workspaces+removeWorkspaceMember) ⇒ <code>Promise.&lt;void&gt;</code>
     * [.removeWorkspace(id)](#Workspaces+removeWorkspace) ⇒ <code>Promise.&lt;void&gt;</code>
     * [.resendWorkspaceMemberInvite(id)](#Workspaces+resendWorkspaceMemberInvite) ⇒ <code>Promise.&lt;void&gt;</code>
-    * [.watchWorkspaceStatus(id, callback)](#Workspaces+watchWorkspaceStatus)
+    * [.watchWorkspaceStatus(id, callback)](#Workspaces+watchWorkspaceStatus) ⇒ <code>Unsubscribable</code>
 
 <a name="new_Workspaces_new"></a>
 
@@ -579,10 +579,8 @@ const request = {
   name: "My Workspace",
   timezone: "America/New_York",
   hoursOfOperation: {
-    Monday: {
-      hours: [{ start: "09:00", end: "17:00" }],
-      enabled: true
-    },
+    Monday: { from: "09:00", to: "17:00" },
+    Tuesday: { from: "09:00", to: "17:00" },
     // ...
   }
 };
@@ -691,10 +689,8 @@ const request = {
   name: "My Workspace",
   timezone: "America/New_York",
   hoursOfOperation: {
-    Monday: {
-      hours: [{ start: "09:00", end: "17:00" }],
-      enabled: true
-    },
+    Monday: { from: "09:00", to: "17:00" },
+    Tuesday: { from: "09:00", to: "17:00" },
     // ...
   }
 };
@@ -807,10 +803,11 @@ workspaces.resendWorkspaceMemberInvite(id)
 ```
 <a name="Workspaces+watchWorkspaceStatus"></a>
 
-### workspaces.watchWorkspaceStatus(id, callback)
+### workspaces.watchWorkspaceStatus(id, callback) ⇒ <code>Unsubscribable</code>
 Registers a callback for real-time updates on workspace status.
 
 **Kind**: instance method of [<code>Workspaces</code>](#Workspaces)  
+**Returns**: <code>Unsubscribable</code> - An object containing the unsubscribe method  
 
 | Param | Type | Description |
 | --- | --- | --- |
