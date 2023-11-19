@@ -35,7 +35,7 @@ import { sortHours } from "./sortedHours";
 import { isValidTimeRange } from "./isValidTimeRange";
 import { hasScheduleErrors } from "./hasScheduleErrors";
 import { ConfirmationForm } from "../../../components/confirmation/ConfirmationForm";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 // Zod schema for validation
 const validationSchema = z.object({
@@ -73,7 +73,6 @@ export const WorkspaceSettings: React.FC<WorkspaceSettingsProps> = ({
   onWorkspaceDelete
 }) => {
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
-  const hoursOfOperationRef = useRef(initialHoursOfOperation);
   const [hoursOfOperation, setHoursOfOperation] = useState(
     initialHoursOfOperation
   );

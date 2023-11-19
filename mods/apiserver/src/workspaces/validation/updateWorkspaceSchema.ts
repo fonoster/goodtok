@@ -50,44 +50,44 @@ export const updateWorkspaceSchema = z.object({
     .object({
       Monday: z
         .object({
-          from: z.string().min(1).max(5).optional(),
-          to: z.string().min(1).max(5).optional()
+          from: z.string().max(5).optional(),
+          to: z.string().max(5).optional()
         })
         .optional(),
       Tuesday: z
         .object({
-          from: z.string().min(1).max(5).optional(),
-          to: z.string().min(1).max(5).optional()
+          from: z.string().max(5).optional(),
+          to: z.string().max(5).optional()
         })
         .optional(),
       Wednesday: z
         .object({
-          from: z.string().min(1).max(5).optional(),
-          to: z.string().min(1).max(5).optional()
+          from: z.string().max(5).optional(),
+          to: z.string().max(5).optional()
         })
         .optional(),
       Thursday: z
         .object({
-          from: z.string().min(1).max(5).optional(),
-          to: z.string().min(1).max(5).optional()
+          from: z.string().max(5).optional(),
+          to: z.string().max(5).optional()
         })
         .optional(),
       Friday: z
         .object({
-          from: z.string().min(1).max(5).optional(),
-          to: z.string().min(1).max(5).optional()
+          from: z.string().max(5).optional(),
+          to: z.string().max(5).optional()
         })
         .optional(),
       Saturday: z
         .object({
-          from: z.string().min(1).max(5).optional(),
-          to: z.string().min(1).max(5).optional()
+          from: z.string().max(5).optional(),
+          to: z.string().max(5).optional()
         })
         .optional(),
       Sunday: z
         .object({
-          from: z.string().min(1).max(5).optional(),
-          to: z.string().min(1).max(5).optional()
+          from: z.string().max(5).optional(),
+          to: z.string().max(5).optional()
         })
         .optional()
     })
