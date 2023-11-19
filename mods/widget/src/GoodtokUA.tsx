@@ -101,12 +101,12 @@ const GoodtokUA = () => {
 
       case GoodtokWidgetEvents.HANGUP_REQUEST:
       case GoodtokWidgetEvents.CLOSE:
+        setVideoOpen(false);
         if (simpleUser.isConnected()) {
+          await simpleUser.hangup();
           await simpleUser.unregister();
           await simpleUser.disconnect();
-          await simpleUser.hangup();
         }
-        setVideoOpen(false);
         break;
 
       default:
