@@ -21,14 +21,23 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "~authentication";
 import { SnackbarProvider } from "~snackbar";
 import { LoggerProvider } from "~logger";
-import LoginContainer from "~containers/LoginContainer";
-import HomeContainer from "~containers/HomeContainer";
-import OnboardingContainer from "~containers/OnboardingContainer";
-import WorkspaceContainer from "~containers/WorkspaceContainer";
-import ChatContainer from "~containers/ChatContainer";
-import SettingsContainer from "~containers/SettingsContainer";
-import AcceptInviteContainer from "~containers/AccepInvteContainer";
-import React from "react";
+import React, { Suspense } from "react";
+
+const HomeContainer = React.lazy(() => import("~containers/HomeContainer"));
+const LoginContainer = React.lazy(() => import("~containers/LoginContainer"));
+const OnboardingContainer = React.lazy(
+  () => import("~containers/OnboardingContainer")
+);
+const WorkspaceContainer = React.lazy(
+  () => import("~containers/WorkspaceContainer")
+);
+const ChatContainer = React.lazy(() => import("~containers/ChatContainer"));
+const SettingsContainer = React.lazy(
+  () => import("~containers/SettingsContainer")
+);
+const AcceptInviteContainer = React.lazy(
+  () => import("~containers/AccepInvteContainer")
+);
 
 const router = createBrowserRouter([
   {
@@ -68,11 +77,14 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
     <React.StrictMode>
-      <SnackbarProvider>
-        <LoggerProvider>
-          <RouterProvider router={router} />
-        </LoggerProvider>
-      </SnackbarProvider>
+      {/* TODO: Add a loading component here */}
+      <Suspense fallback={<></>}>
+        <SnackbarProvider>
+          <LoggerProvider>
+            <RouterProvider router={router} />
+          </LoggerProvider>
+        </SnackbarProvider>
+      </Suspense>
     </React.StrictMode>
   </AuthProvider>
 );

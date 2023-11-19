@@ -16,4 +16,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { default } from "./users";
+
+/**
+ * Find key in search params and return it.
+ *
+ * @param {URLSearchParams} searchParams - The document object
+ * @param {string} key - The key to get from the search params
+ * @return {URLSearchParams} object
+ * @example
+ *
+ * const searchParams = getScriptParams(document);
+ * const token = getKeyFromSearchParam(searchParams, "token");
+ * console.log(token);
+ */
+export function getKeyFromSearchParam(
+  searchParams: URLSearchParams,
+  key: string
+) {
+  const searchParamsValue = searchParams.get("key");
+  if (!searchParamsValue) {
+    return null;
+  }
+
+  const decodedKey = atob(searchParamsValue);
+  const obj = JSON.parse(decodedKey);
+
+  return obj[key];
+}

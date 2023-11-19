@@ -23,11 +23,11 @@
  * @param {number} seconds - Time in seconds
  * @return {string} Time in HH:MM:SS
  */
-export const formatTime = (seconds: number) => {
+export function formatTime(seconds: number) {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const secondsLeft = seconds % 60;
   return `${hours.toString().padStart(2, "0")}:${minutes
     .toString()
     .padStart(2, "0")}:${secondsLeft.toString().padStart(2, "0")}`;
-};
+}

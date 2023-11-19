@@ -16,18 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const getKeyFromSearchParam = (searchParams: URLSearchParams, key: string) => {
-  const searchParamsValue = searchParams.get("key");
-  if (!searchParamsValue) {
-    return null;
-  }
 
-  const decodedKey = atob(searchParamsValue);
-  const obj = JSON.parse(decodedKey);
-
-  return obj[key];
-};
-
+/**
+ * Get the URLSearchParams object from the script tag that loaded this script
+ *
+ * @param {Document} document - The document object
+ * @return {URLSearchParams} object
+ * @example
+ *
+ * const searchParams = getScriptParams(document);
+ * const token = searchParams.get("token");
+ * console.log(token);
+ */
 export function getScriptParams(document: Document): URLSearchParams {
   const scriptTag = document.querySelector(
     "script[src*='unpkg.com/@goodtok/widget'], script[src*='./src/index.jsx']"
@@ -36,12 +36,10 @@ export function getScriptParams(document: Document): URLSearchParams {
   if (scriptTag) {
     const srcValue = scriptTag.getAttribute("src");
 
-    // Check if srcValue is a fully qualified URL or a relative path
     let fullUrl;
     if (srcValue.startsWith("http://") || srcValue.startsWith("https://")) {
       fullUrl = new URL(srcValue);
     } else {
-      // Construct a full URL using window.location as the base for relative paths
       fullUrl = new URL(srcValue, window.location.href);
     }
 
@@ -49,18 +47,4 @@ export function getScriptParams(document: Document): URLSearchParams {
   }
 
   return null;
-}
-
-export function getCustomerToken(document: Document): string {
-  return getScriptParams(document)?.get("token");
-}
-
-export function getAPIServer(document: Document): string {
-  const searchParams = getScriptParams(document);
-  return getKeyFromSearchParam(searchParams, "server");
-}
-
-export function getWorkspaceId(document: Document): string {
-  const searchParams = getScriptParams(document);
-  return getKeyFromSearchParam(searchParams, "gtid");
 }

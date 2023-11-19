@@ -20,7 +20,7 @@ import * as SDK from "@goodtok/sdk";
 import { GoodtokWidget } from "./components/goodtokwidget/GoodtokWidget";
 import { GoodtokWidgetEvents } from "./components/goodtokwidget/types";
 import { ConnectionObject, mediaToggle } from "@goodtok/common";
-import { getAPIServer, getCustomerToken, getWorkspaceId } from "./utils";
+import { getAPIServer, getCustomerToken, getWorkspaceId } from "./utils/utils";
 import { Web } from "sip.js";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useRef, useState } from "react";
