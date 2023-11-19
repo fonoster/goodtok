@@ -12,7 +12,8 @@
     </style>
     <script>
       window.env = {
-        API_ENDPOINT: "https://api.goodtok.io/v1"
+        // API_ENDPOINT defaults to the production API endpoint so we need to override it here.
+        API_ENDPOINT: "http://localhost:6789/v1"
       };
     </script>
   </head>
