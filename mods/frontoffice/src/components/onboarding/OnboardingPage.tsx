@@ -249,8 +249,9 @@ export const OnboardingPage: React.FC<OnboardingPageProps> = ({
                       Set your calendar URL.
                     </OnboardingTitle>
                     <OnboardingBody sx={{ mt: 2, textAlign: "left" }}>
-                      By clicking on the button below you agree to our privacy
-                      policy.
+                      Add a calendar URL to allow your customer to schedule a
+                      call in the future. If you store is offline this will be
+                      the only way your customers can schedule a call.
                     </OnboardingBody>
 
                     <Field
