@@ -8,4 +8,4 @@ ENV API_ENDPOINT=https://api.goodtok.io/v1
 
 RUN npm install -g serve
 
-CMD sed -i 's|https://api.goodtok.io/v1|'"$API_ENDPOINT"'|g' ./index.html && serve -s . -l tcp://0.0.0.0:8080
+CMD sed -i 's|http://localhost:6789/v1|'"${API_ENDPOINT}"'|g' /service/index.html && serve -s . -l tcp://0.0.0.0:8080
