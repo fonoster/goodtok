@@ -69,7 +69,7 @@ services:
     environment:
       ADMINER_DEFAULT_SERVER: postgres
     ports:
-      - 8080:8080
+      - 8181:8080
 
 volumes:
   db:

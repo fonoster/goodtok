@@ -46,22 +46,68 @@ async function upsertDefaultUser(request: { email: string; password: string }) {
     const { email, password } = request;
     await connectWithRetries();
 
+    const today = new Date();
+
     const user = await prisma.user.upsert({
       where: {
         email
       },
       update: {
-        password
+        password,
+        updatedAt: today
       },
       create: {
         name: "Admin",
         email,
         password,
-        updatedAt: new Date()
+        createdAt: today,
+        updatedAt: today
       }
     });
 
-    logger.verbose("user upserted:", { id: user.id });
+    if (user.updatedAt.getMilliseconds() === user.createdAt.getMilliseconds()) {
+      logger.verbose("it is a new user so creating a default workspace");
+
+      const createData = {
+        ownerId: user.id,
+        id: "g-7b7c46fb05",
+        name: "Default Workspace",
+        timezone: "America/New_York",
+        enabled: true,
+        calendarUrl: "https://cal.com/placeholder",
+        hoursOfOperation: {
+          Monday: { from: "09:00", to: "17:00" },
+          Tuesday: { from: "09:00", to: "17:00" },
+          Wednesday: { from: "09:00", to: "17:00" },
+          Thursday: { from: "09:00", to: "17:00" },
+          Friday: { from: "09:00", to: "17:00" },
+          Saturday: {},
+          Sunday: {}
+        },
+        shopifyAccount: {
+          create: {
+            accessToken: "",
+            storeDomain: "https://placeholder.myshopify.com"
+          }
+        }
+      };
+
+      const workspace = await prisma.workspace.create({
+        data: createData,
+        include: {
+          shopifyAccount: true
+        }
+      });
+
+      logger.verbose("default workspace created:", {
+        id: workspace.id,
+        ownerId: user.id
+      });
+    }
+
+    logger.verbose("user upserted:", {
+      id: user.id
+    });
   } catch (e) {
     throw new Error(`error in upsertDefaultUser execution: ${e.message}`);
   } finally {

@@ -127,9 +127,17 @@ export function isOpenNow(
     return false;
   }
 
-  const format = "HH:mm";
-  const fromMoment = moment.tz(hoursToday.from, format, timezone);
-  const toMoment = moment.tz(hoursToday.to, format, timezone);
+  // Make sure the hours are in the same day
+  const fromMoment = moment.tz(
+    `${now.format("YYYY-MM-DD")} ${hoursToday.from}`,
+    "YYYY-MM-DD HH:mm",
+    timezone
+  );
+  const toMoment = moment.tz(
+    `${now.format("YYYY-MM-DD")} ${hoursToday.to}`,
+    "YYYY-MM-DD HH:mm",
+    timezone
+  );
 
   return now.isBetween(fromMoment, toMoment);
 }
