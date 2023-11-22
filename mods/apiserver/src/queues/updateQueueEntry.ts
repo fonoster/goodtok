@@ -33,11 +33,17 @@ export async function updateQueueEntry(
     customerId: string;
     aor: string;
     workspaceId: string;
+    expires: number;
   }
 ) {
-  const { customerId, aor, workspaceId } = request;
+  const { customerId, aor, workspaceId, expires } = request;
 
-  logger.verbose("update queue entry", { customerId, aor, workspaceId });
+  logger.verbose("update queue entry", {
+    customerId,
+    aor,
+    workspaceId,
+    expires
+  });
 
   const currentEntry = await ctx.prisma.queueEntry.findFirst({
     where: {
@@ -61,7 +67,8 @@ export async function updateQueueEntry(
     return ctx.prisma.queueEntry.create({
       data: {
         customerId: customerId,
-        status: QueueEntryStatus.ONLINE,
+        status:
+          expires > 0 ? QueueEntryStatus.ONLINE : QueueEntryStatus.OFFLINE,
         aor,
         workspaceId: workspaceId
       }
@@ -70,7 +77,9 @@ export async function updateQueueEntry(
     const status =
       currentEntry.status === QueueEntryStatus.IN_PROGRESS
         ? QueueEntryStatus.IN_PROGRESS
-        : QueueEntryStatus.ONLINE;
+        : expires > 0
+        ? QueueEntryStatus.ONLINE
+        : QueueEntryStatus.OFFLINE;
     return ctx.prisma.queueEntry.update({
       where: {
         id: currentEntry.id

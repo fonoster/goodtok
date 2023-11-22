@@ -58,6 +58,16 @@ const GoodtokUA = () => {
       return;
     }
 
+    const unregisterOptions = {
+      requestOptions: {
+        extraHeaders: [
+          `X-Connect-Token: ${customerToken}`,
+          `X-Customer-Id: ${connectionObj.customerId}`,
+          `X-Workspace-Id: ${connectionObj.workspaceId}`
+        ]
+      }
+    };
+
     switch (event) {
       case GoodtokWidgetEvents.VIDEO_SESSION_REQUEST:
         simpleUser
@@ -103,9 +113,13 @@ const GoodtokUA = () => {
       case GoodtokWidgetEvents.CLOSE:
         setVideoOpen(false);
         if (simpleUser.isConnected()) {
-          await simpleUser.hangup();
-          await simpleUser.unregister();
+          await simpleUser.unregister(unregisterOptions);
           await simpleUser.disconnect();
+          try {
+            await simpleUser.hangup();
+          } catch (e) {
+            // Best effort
+          }
         }
         break;
 
@@ -113,6 +127,16 @@ const GoodtokUA = () => {
         // TODO: You can handle other unanticipated events here
         break;
     }
+
+    return async () => {
+      await simpleUser.unregister(unregisterOptions);
+      await simpleUser.disconnect();
+      try {
+        await simpleUser.hangup();
+      } catch (e) {
+        // Best effort
+      }
+    };
   };
 
   useEffect(() => {

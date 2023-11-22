@@ -45,6 +45,17 @@ const mapQueueEntry = (entry: {
   };
 };
 
+// Time after which a queue entry is considered idle
+const ABANDONED_REQUEST_THRESHOLD = 5;
+
+const filterAbandonedRequest = (queueEntries: SDK.QueueEntry[]) => {
+  return queueEntries?.filter(
+    (entry) =>
+      moment(entry.registered).diff(moment(), "minutes") <
+      ABANDONED_REQUEST_THRESHOLD
+  );
+};
+
 function WorkspaceContainer() {
   const [name, setName] = React.useState("");
   const [avatar, setAvatar] = React.useState("");
@@ -52,7 +63,7 @@ function WorkspaceContainer() {
   const [workspaceName, setWorkspaceName] = React.useState("");
   const [avgWaitTime] = React.useState("");
   // Fix this any
-  const [peopleList, setPeopleList] = React.useState<any[]>([]);
+  const [peopleList, setPeopleList] = React.useState<SDK.QueueEntry[]>([]);
   const [previousLength, setPreviousLength] = React.useState(0);
   const [isEnabled, setIsEnabled] = React.useState(false);
 
@@ -107,7 +118,11 @@ function WorkspaceContainer() {
     queues
       .getQueueByWorkspaceId(workspaceId)
       .then((response: { queue: SDK.QueueEntry[] }) => {
-        setPeopleList(response.queue.map((entry) => mapQueueEntry(entry)));
+        setPeopleList(
+          response.queue
+            .filter(filterAbandonedRequest)
+            .map((entry) => mapQueueEntry(entry))
+        );
       })
       .catch((err) => {
         logger.error("err getting queue", err);

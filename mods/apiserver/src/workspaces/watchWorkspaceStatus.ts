@@ -25,6 +25,23 @@ import { isOpenNow } from "../utils";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
+/**
+ * Use this function to watch the status of a workspace (queue).
+ * The function returns an observable that emits a WorkspaceStatus object every time the
+ * status of the workspace changes. The WorkspaceStatus object contains the following
+ * properties:
+ *
+ * - workspaceId: The id of the workspace
+ * - isOpen: A boolean indicating if the workspace is open or closed
+ * - isEnabled: A boolean indicating if the workspace is enabled or disabled
+ *
+ * The function also registers the observable in the workspaceStatusObservers array.
+ * This array is used by the workspaceStatusObserver function to emit the status
+ * changes to all the observers.
+ *
+ * @param {string} workspaceId
+ * @return {Observable<WorkspaceStatus>}
+ */
 export function watchWorkspaceStatus(workspaceId: string) {
   logger.verbose("new observer added to watchWorkspaceStatus", {
     workspaceId,

@@ -27,15 +27,24 @@ import { NATS_URL } from "../envs";
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
 watchNats(NATS_URL, async (event) => {
-  const { aor, extraHeaders } = event;
+  const { aor, expires, extraHeaders } = event;
   const ctx = { prisma, getCustomerById };
 
   const customerId = extraHeaders["X-Customer-Id"];
   const workspaceId = extraHeaders["X-Workspace-Id"];
 
-  logger.verbose("customerId and workspaceId", { customerId, workspaceId });
+  logger.verbose("customerId and workspaceId", {
+    customerId,
+    workspaceId,
+    expires
+  });
 
-  const entry = await updateQueueEntry(ctx, { customerId, aor, workspaceId });
+  const entry = await updateQueueEntry(ctx, {
+    customerId,
+    aor,
+    workspaceId,
+    expires
+  });
 
   logger.verbose("entry updated", { entry });
 
