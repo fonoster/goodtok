@@ -204,7 +204,23 @@ const GoodtokUA = () => {
       };
       const user = new Web.SimpleUser(connectionObj.signalingServer, options);
 
-      const delegate = {
+      const unregisterOptions = {
+        requestOptions: {
+          extraHeaders: [
+            `X-Connect-Token: ${customerToken}`,
+            `X-Customer-Id: ${connectionObj.customerId}`,
+            `X-Workspace-Id: ${connectionObj.workspaceId}`
+          ]
+        }
+      };
+
+      const delegate: Web.SimpleUserDelegate = {
+        onCallHangup: () => {
+          setVideoOpen(false);
+          setMenuOpen(false);
+          setNotificationOpen(false);
+          simpleUser.unregister(unregisterOptions);
+        },
         onCallReceived: () => {
           user.answer();
           setVideoOpen(true);

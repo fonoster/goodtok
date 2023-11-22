@@ -25,14 +25,14 @@ import {
   StyledCustomerName,
   StyledCustomerNote
 } from "./QueueItemStyles";
-import { OnlineIndicatorIcon } from "./OnlineIndicatorIcon";
+import { StatusIndicatorIcon } from "./StatusIndicatorIcon";
 import React from "react";
 
 type QueueItemProps = {
   id: string;
   name: string;
   note: string;
-  isOnline: boolean;
+  status: "ONLINE" | "IN_PROGRESS" | "OFFLINE";
   time: string;
   isOdd: boolean;
   aor: string;
@@ -43,7 +43,7 @@ export const QueueItem: React.FC<QueueItemProps> = ({
   id,
   name,
   note,
-  isOnline = false,
+  status,
   time,
   isOdd = false,
   aor,
@@ -54,8 +54,7 @@ export const QueueItem: React.FC<QueueItemProps> = ({
     <StyledQueueItem {...props} isOdd={isOdd} onClick={() => onClick(id, aor)}>
       <StyledQueueItemContainer>
         <StyledOnlineTitle>
-          <OnlineIndicatorIcon online={isOnline} />{" "}
-          {isOnline ? "Online" : "Offline"}
+          <StatusIndicatorIcon status={status} />{" "}
         </StyledOnlineTitle>
         <FlexBox>
           <StyledCustomerName>{name}</StyledCustomerName>

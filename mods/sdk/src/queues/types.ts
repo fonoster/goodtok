@@ -19,7 +19,7 @@
 import type {
   QueueEntry,
   GetQueueResponse,
-  DequeueRequest
+  UpdateQueueEntryStatusRequest
 } from "@goodtok/apiserver";
 
 export type QueuesClient = {
@@ -29,7 +29,9 @@ export type QueuesClient = {
     id: string,
     callback: (error: Error, data?: QueueEntry) => void
   ) => void;
-  dequeue: (request: DequeueRequest) => Promise<void>;
+  updateQueueEntryStatus: (
+    request: UpdateQueueEntryStatusRequest
+  ) => Promise<void>;
 };
 
 export { QueueEntry };

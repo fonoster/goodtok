@@ -20,6 +20,7 @@ import { TRPCError } from "@trpc/server";
 import { GetQueueResponse } from "./types";
 import { Context } from "../context";
 import { getLogger } from "@fonoster/logger";
+import { QueueEntryStatus } from "@prisma/client";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -37,7 +38,11 @@ export async function getQueueByWorkspaceId(
       queue: {
         where: {
           status: {
-            in: ["ONLINE", "OFFLINE"]
+            in: [
+              QueueEntryStatus.ONLINE,
+              QueueEntryStatus.OFFLINE,
+              QueueEntryStatus.IN_PROGRESS
+            ]
           }
         },
         orderBy: {

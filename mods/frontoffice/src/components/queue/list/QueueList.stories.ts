@@ -84,7 +84,7 @@ export const QueueListExampleWithItems: Story = {
         aor: "sip:1@sip.goodtok.io",
         time: "10m",
         note: "Prefers monthly newsletter",
-        isOnline: true
+        status: "ONLINE"
       },
       {
         id: "2",
@@ -92,7 +92,15 @@ export const QueueListExampleWithItems: Story = {
         aor: "sip:2@sip.goodtok.io",
         note: "A super long example of customer note treatment showing that we truncate after a certain point",
         time: "2m",
-        isOnline: false
+        status: "OFFLINE"
+      },
+      {
+        id: "3",
+        name: "John Smith",
+        aor: "sip:3@sip.goodtok.io",
+        note: "Loves new promotions.",
+        time: "15m",
+        status: "IN_PROGRESS"
       }
     ]
   }
@@ -113,7 +121,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:1@sip.goodtok.io",
         note: "Loves new promotions.",
         time: "15m",
-        isOnline: true
+        status: "ONLINE"
       },
       {
         id: "2",
@@ -121,7 +129,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:2@sip.goodtok.io",
         note: "Needs a callback regarding her last purchase.",
         time: "3m",
-        isOnline: false
+        status: "OFFLINE"
       },
       {
         id: "3",
@@ -129,7 +137,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:2@sip.goodtok.io",
         note: "Requested details about upcoming products.",
         time: "9m",
-        isOnline: true
+        status: "ONLINE"
       },
       {
         id: "4",
@@ -137,7 +145,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:4@sip.goodtok.io",
         note: "Has issues with the mobile application.",
         time: "4m",
-        isOnline: false
+        status: "OFFLINE"
       },
       {
         id: "5",
@@ -145,7 +153,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:5@sip.goodtok.io",
         note: "Enquired about bulk orders.",
         time: "12m",
-        isOnline: true
+        status: "ONLINE"
       },
       {
         id: "6",
@@ -153,7 +161,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:6@sip.goodtok.io",
         note: "Seeking a refund on a damaged item.",
         time: "1m",
-        isOnline: false
+        status: "OFFLINE"
       },
       {
         id: "7",
@@ -161,7 +169,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:7@sip.goodtok.io",
         note: "Asked for a product demo.",
         time: "17m",
-        isOnline: true
+        status: "ONLINE"
       },
       {
         id: "8",
@@ -169,7 +177,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:7@sip.goodtok.io",
         note: "Needs assistance with setting up her account.",
         time: "5m",
-        isOnline: false
+        status: "OFFLINE"
       },
       {
         id: "9",
@@ -177,7 +185,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:9@sip.goodtok.io",
         note: "Wants to collaborate for a blog post.",
         time: "14m",
-        isOnline: true
+        status: "ONLINE"
       },
       {
         id: "10",
@@ -185,7 +193,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:10@sip.goodtok.io",
         note: "Facing issues with payment gateway.",
         time: "2m",
-        isOnline: false
+        status: "ONLINE"
       },
       {
         id: "11",
@@ -193,7 +201,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:11@sip.goodtok.io",
         note: "Wants to upgrade his subscription plan.",
         time: "19m",
-        isOnline: true
+        status: "ONLINE"
       },
       {
         id: "12",
@@ -201,7 +209,7 @@ export const QueueListExampleWithTwelveItems: Story = {
         aor: "sip:12@sip.goodtok.io",
         note: "Has suggestions for the new UI design.",
         time: "6m",
-        isOnline: false
+        status: "ONLINE"
       }
     ]
   }

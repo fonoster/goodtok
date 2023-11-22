@@ -46,10 +46,12 @@ const meta = {
       description: "The customer name of the queue item",
       control: "text"
     },
-    isOnline: {
-      name: "Is Online",
-      description: "Whether the queue item is online",
-      control: "boolean"
+    status: {
+      name: "Status",
+      description: "The status of the queue item",
+      control: { type: "select" },
+      options: ["ONLINE", "OFFLINE", "IN_PROGRESS"],
+      defaultValue: "ONLINE"
     },
     note: {
       name: "Note",
@@ -64,7 +66,8 @@ const meta = {
     isOdd: {
       name: "Is Odd",
       description: "Whether the queue item is odd for styling purposes",
-      control: "boolean"
+      control: "boolean",
+      defaultValue: true
     },
     onClick: {
       name: "On Click",
@@ -87,7 +90,7 @@ export const QueueItemExampleOdd: Story = {
     name: "John Doe",
     aor: "sip:1@sip.goodtok.io",
     note: "Prefers monthly newsletters",
-    isOnline: true,
+    status: "ONLINE",
     time: "10m",
     isOdd: false
   }
@@ -102,7 +105,7 @@ export const QueueItemExampleEven: Story = {
     name: "John Doe",
     aor: "sip:1@sip.goodtok.io",
     note: "A super long example of customer note treatment showing that we truncate after a certain point",
-    isOnline: false,
+    status: "OFFLINE",
     time: "2m",
     isOdd: true
   }

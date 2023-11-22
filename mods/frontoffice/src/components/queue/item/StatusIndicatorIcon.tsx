@@ -18,23 +18,35 @@
  */
 import React from "react";
 
-type OnlineIndicatorIconProps = {
-  online: boolean;
+type StatusIndicatorIconProps = {
+  status: "ONLINE" | "IN_PROGRESS" | "OFFLINE";
 };
 
-export function OnlineIndicatorIcon({
-  online = true,
+export function StatusIndicatorIcon({
+  status,
   ...props
-}: OnlineIndicatorIconProps) {
+}: StatusIndicatorIconProps) {
   return (
     <svg
+      {...props}
       width="8"
       height="8"
       viewBox="0 0 8 8"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="4" cy="4" r="4" fill={online ? "#39E19E" : "#C2C2C2"} />
+      <circle cx="4" cy="4" r="4" fill={statusColor(status)} />
     </svg>
   );
+}
+
+function statusColor(status: "ONLINE" | "IN_PROGRESS" | "OFFLINE") {
+  switch (status) {
+    case "ONLINE":
+      return "#39E19E";
+    case "IN_PROGRESS":
+      return "#FFC700";
+    case "OFFLINE":
+      return "#C2C2C2";
+  }
 }

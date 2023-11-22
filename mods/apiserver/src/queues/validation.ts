@@ -16,11 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { QueueEntryStatus } from "@prisma/client";
 import { z } from "zod";
 
-export const dequeueSchema = z
+export const updateQueueEntryStatusSchema = z
   .object({
     workspaceId: z.string(),
-    customerId: z.string().min(1)
+    customerId: z.string(),
+    // SDK only is only allowed to update status to DEQUEUED or IN_PROGRESS
+    status: z.enum([QueueEntryStatus.DEQUEUED, QueueEntryStatus.IN_PROGRESS])
   })
   .required();

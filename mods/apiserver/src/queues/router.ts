@@ -20,8 +20,8 @@ import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
 import { watchQueue } from "../queues/watchQueue";
-import { dequeue } from "./dequeue";
-import { dequeueSchema } from "./validation";
+import { updateQueueEntryStatus } from "./updateQueueEntryStatus";
+import { updateQueueEntryStatusSchema } from "./validation";
 
 export const queuesRouter = router({
   getQueueByWorkspaceId: protectedProcedure
@@ -32,7 +32,7 @@ export const queuesRouter = router({
     .input(z.string())
     .subscription((req) => watchQueue(req.input)),
 
-  dequeue: protectedProcedure
-    .input(dequeueSchema)
-    .mutation(({ ctx, input }) => dequeue(ctx, input))
+  updateQueueEntryStatus: protectedProcedure
+    .input(updateQueueEntryStatusSchema)
+    .mutation(({ ctx, input }) => updateQueueEntryStatus(ctx, input))
 });

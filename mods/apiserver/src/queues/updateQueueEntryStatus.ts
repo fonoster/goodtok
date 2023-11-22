@@ -18,17 +18,20 @@
  */
 import { getLogger } from "@fonoster/logger";
 import { Context } from "../context";
-import { DequeueRequest } from "./types";
+import { UpdateQueueEntryStatusRequest } from "./types";
 import { QueueEntryStatus } from "@prisma/client";
 import { natsObservers } from "../workspaces/observers";
 import { getCustomerById } from "../customers/getCustomerById";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export async function dequeue(ctx: Context, request: DequeueRequest) {
-  const { workspaceId, customerId } = request;
+export async function updateQueueEntryStatus(
+  ctx: Context,
+  request: UpdateQueueEntryStatusRequest
+) {
+  const { workspaceId, customerId, status } = request;
 
-  logger.verbose("dequeing session", { workspaceId, customerId });
+  logger.verbose("dequeing session", { workspaceId, customerId, status });
 
   // Find queue entry and update status
   const queueEntry = await ctx.prisma.queueEntry.findFirst({
@@ -46,7 +49,7 @@ export async function dequeue(ctx: Context, request: DequeueRequest) {
       id: queueEntry.id
     },
     data: {
-      status: QueueEntryStatus.DEQUEUED
+      status
     }
   });
 

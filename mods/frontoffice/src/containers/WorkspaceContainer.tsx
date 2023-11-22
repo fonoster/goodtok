@@ -40,21 +40,17 @@ const mapQueueEntry = (entry: {
     name: entry.customer.name,
     note: entry.customer.note,
     time: moment(entry.createdAt).fromNow(),
-    isOnline: entry.status === "ONLINE",
+    status: entry.status,
     aor: entry.aor
   };
 };
 
 // Time after which a queue entry is considered idle
-const ABANDONED_REQUEST_THRESHOLD = 5;
+const ABANDONED_REQUEST_THRESHOLD = 2;
 
-const filterAbandonedRequest = (queueEntries: SDK.QueueEntry[]) => {
-  return queueEntries?.filter(
-    (entry) =>
-      moment(entry.registered).diff(moment(), "minutes") <
-      ABANDONED_REQUEST_THRESHOLD
-  );
-};
+const filterAbandonedRequest = (entry: SDK.QueueEntry) =>
+  moment(entry.registeredAt).diff(moment(), "minutes") >
+  ABANDONED_REQUEST_THRESHOLD;
 
 function WorkspaceContainer() {
   const [name, setName] = React.useState("");

@@ -164,6 +164,14 @@ function ChatContainer() {
     await simpleUser.call(connectionObject.aorLink, {
       extraHeaders: [`X-Connect-Token: ${inviterToken}`]
     });
+
+    const queues = new SDK.Queues(client);
+
+    queues.updateQueueEntryStatus({
+      workspaceId,
+      customerId,
+      status: "IN_PROGRESS"
+    });
   };
 
   const onCustomerDequeue = async () => {
@@ -172,7 +180,11 @@ function ChatContainer() {
     }
 
     const queues = new SDK.Queues(client);
-    queues.dequeue({ workspaceId, customerId });
+    queues.updateQueueEntryStatus({
+      workspaceId,
+      customerId,
+      status: "DEQUEUED"
+    });
 
     showSnackbar("Customer removed from queue");
   };

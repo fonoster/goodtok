@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { QueueEntryStatus } from "@prisma/client";
-import { dequeueSchema } from "./validation";
+import { updateQueueEntryStatusSchema } from "./validation";
 import { z } from "zod";
 
 export type QueueEntry = {
@@ -39,4 +39,6 @@ export type GetQueueResponse = {
   queue: QueueEntry[];
 };
 
-export type DequeueRequest = z.infer<typeof dequeueSchema>;
+export type UpdateQueueEntryStatusRequest = z.infer<
+  typeof updateQueueEntryStatusSchema
+>;

@@ -89,13 +89,15 @@ type Story = StoryObj<typeof meta>;
  */
 export const QueuePageExampleWithEmptyQueue: Story = {
   args: {
+    workspaceId: "1",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
     avgWaitTime: "",
     userName: "Jane Doe",
     storeURL: "quickstart-43c62e3b.myshopify.com",
     workspaceName: "Demo Workspace",
     isAuthenticated: true,
-    isOnline: true,
+    isEnabled: true,
+    isAdmin: true,
     data: []
   }
 };
@@ -105,13 +107,15 @@ export const QueuePageExampleWithEmptyQueue: Story = {
  */
 export const QueuePageExampleWithQueueData: Story = {
   args: {
+    workspaceId: "1",
     userName: "Jane Doe",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
     storeURL: "quickstart-43c62e3b.myshopify.com",
     workspaceName: "Demo Workspace",
     isAuthenticated: true,
     avgWaitTime: "5m",
-    isOnline: true,
+    isEnabled: true,
+    isAdmin: true,
     data: [
       {
         id: "1",
@@ -119,7 +123,7 @@ export const QueuePageExampleWithQueueData: Story = {
         aor: "sip:1@sip.goodtok.io",
         note: "Prefers monthly newsletter",
         time: "10m",
-        isOnline: true
+        status: "OFFLINE"
       },
       {
         id: "2",
@@ -127,7 +131,7 @@ export const QueuePageExampleWithQueueData: Story = {
         aor: "sip:2@sip.goodtok.io",
         note: "A super long example of customer note treatment showing that we truncate after a certain point",
         time: "2m",
-        isOnline: false
+        status: "ONLINE"
       }
     ]
   }

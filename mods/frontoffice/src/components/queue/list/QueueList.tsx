@@ -34,7 +34,7 @@ import React from "react";
 export type CustomerData = {
   id: string;
   name: string;
-  isOnline: boolean;
+  status: "ONLINE" | "IN_PROGRESS" | "OFFLINE";
   note: string;
   time: string;
   aor: string;
@@ -63,7 +63,15 @@ export const QueueList: React.FC<QueueListProps> = ({
       case "by-name-desc":
         return b.name.localeCompare(a.name);
       case "status":
-        return (b.isOnline ? 1 : 0) - (a.isOnline ? 1 : 0);
+        // The priority is ONLINE > IN_PROGRESS > OFFLINE
+        if (a.status === b.status) {
+          return 0;
+        } else if (a.status === "ONLINE") {
+          return -1;
+        } else if (a.status === "IN_PROGRESS") {
+          return b.status === "ONLINE" ? 1 : -1;
+        }
+        return 1;
       default:
         return 0;
     }
@@ -111,7 +119,7 @@ export const QueueList: React.FC<QueueListProps> = ({
                 key={index}
                 id={customer.id}
                 isOdd={index % 2 === 0}
-                isOnline={customer.isOnline}
+                status={customer.status}
                 name={customer.name}
                 time={customer.time}
                 note={customer.note}

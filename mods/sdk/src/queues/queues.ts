@@ -27,8 +27,8 @@ import {
 } from "@trpc/client";
 import type {
   AppRouter,
-  DequeueRequest,
-  GetQueueResponse
+  GetQueueResponse,
+  UpdateQueueEntryStatusRequest
 } from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
 import { formatAndThrowError } from "../errors";
@@ -55,7 +55,7 @@ if (typeof window !== "undefined") {
  *   const client = new SDK.Client({ workspace: "myworkspace" });
  *   await client.login("goodtok", "mysecretpassword");
  *
- *   const workspaceId = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+ *   const workspaceId = "g-7b7c46fb05";
  *
  *   const queues = new SDK.Queues(client);
  *   const queue = await workspaces.getQueueByWorkspaceId(workspaceId);
@@ -138,7 +138,7 @@ export default class Queues extends AbstractBaseClient implements QueuesClient {
    * @return {Promise<Workspace>} A promise resolving to an object containing an array of queue entries
    * @example
    *
-   * const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+   * const id = "g-7b7c46fb05";
    *
    * queues.getQueueByWorkspaceId(id)
    *   .then(console.log)
@@ -185,26 +185,30 @@ export default class Queues extends AbstractBaseClient implements QueuesClient {
   }
 
   /**
-   * Removes entry from the queue.
+   * Updates the status of a queue entry.
    *
-   * @param {DequeueRequest} request - The dequeue request
+   * @param {UpdateQueueEntryStatusRequest} request - The request object
    * @param {string} request.workspaceId - The workspace ID
-   * @param {string} request.customerId - The customer ID to dequeue
+   * @param {string} request.customerId - The customer ID to update the queue entry for
+   * @param {string} request.status - The status to update the queue entry to
    * @return {Promise<void>} A promise resolving to void
    * @example
    *
    * const request = {
-   *  workspaceId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
-   *  customerId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d"
+   *  workspaceId: "g-7b7c46fb05",
+   *  customerId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
+   *  status: "DEQUEUED"
    * };
    *
-   * queues.dequeue(request)
+   * queues.updateQueueEntryStatus(request)
    *   .then(console.log)
    *   .catch(console.error); // handle any errors
    */
-  async dequeue(request: DequeueRequest): Promise<void> {
+  async updateQueueEntryStatus(
+    request: UpdateQueueEntryStatusRequest
+  ): Promise<void> {
     try {
-      await this.trpc.queues.dequeue.mutate(request);
+      await this.trpc.queues.updateQueueEntryStatus.mutate(request);
     } catch (err) {
       formatAndThrowError(err);
     }
