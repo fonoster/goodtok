@@ -20,7 +20,7 @@ import { MenuContainer } from "./container/MenuContainer";
 import { MenuItem } from "./item/MenuItem";
 import React from "react";
 
-type Item = {
+export type Item = {
   Icon: React.ComponentType;
   label: string;
   name: string;

@@ -17,3 +17,4 @@
  * limitations under the License.
  */
 export { getCustomerToken, getAPIServer, getWorkspaceId } from "./utils";
+export { canInitiateAudioCall, canInitiateVideoCall } from "./capabilities";

@@ -19,8 +19,8 @@
 import { GoodtokButton as OriginalGoodtokButton } from "../goodtokbutton/GoodtokButton";
 import { Notification } from "../notification/Notification";
 import { Menu as OriginalMenu } from "../menu/Menu";
-import { menuData } from "./data";
 import { ActiveComponent, GoodtokWidgetEvents } from "./types";
+import { Item } from "../menu/Menu";
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Video from "../video/Video";
@@ -30,10 +30,11 @@ const MOBILE_BREAKPOINT = 630;
 
 export type GoodtokWidgetProps = {
   online: boolean;
-  menuOpen: boolean;
   notificationOpen: boolean;
   hasError: boolean;
   videoOpen: boolean;
+  menuOpen: boolean;
+  menuData: Item[];
   onEvent: (eventName: GoodtokWidgetEvents) => void;
   onNotificationClose: () => void;
   onVideoRefsReady: (refs: any) => void;
@@ -64,10 +65,11 @@ const GoodtokButton = styled(OriginalGoodtokButton)`
 
 export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
   online = false,
-  menuOpen = false,
   notificationOpen = false,
   hasError = false,
   videoOpen = false,
+  menuOpen = false,
+  menuData = [],
   onEvent,
   onNotificationClose,
   onVideoRefsReady
@@ -128,7 +130,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
         onClose={() => {
           onNotificationClose();
           setActiveComponent(ActiveComponent.None);
-          onEvent(GoodtokWidgetEvents.CLOSE);
+          onEvent(GoodtokWidgetEvents.CLOSE_MENU_EVENT);
         }}
       />
       {isMobile ? (
@@ -178,7 +180,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
           }}
           onClose={() => {
             setActiveComponent(ActiveComponent.None);
-            onEvent(GoodtokWidgetEvents.CLOSE);
+            onEvent(GoodtokWidgetEvents.CLOSE_MENU_EVENT);
           }}
         />
       )}
@@ -188,9 +190,10 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
           onClick={() => {
             if (activeComponent !== ActiveComponent.Menu) {
               setActiveComponent(ActiveComponent.Menu);
+              onEvent(GoodtokWidgetEvents.OPEN_MENU_EVENT);
             } else {
               setActiveComponent(ActiveComponent.None);
-              onEvent(GoodtokWidgetEvents.CLOSE);
+              onEvent(GoodtokWidgetEvents.CLOSE_MENU_EVENT);
             }
           }}
         />

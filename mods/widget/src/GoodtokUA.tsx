@@ -23,6 +23,7 @@ import { ConnectionObject, mediaToggle } from "@goodtok/common";
 import { getAPIServer, getCustomerToken, getWorkspaceId } from "./utils/utils";
 import { Web } from "sip.js";
 import { jwtDecode } from "jwt-decode";
+import { menuData } from "./components/goodtokwidget/data";
 import React, { useEffect, useRef, useState } from "react";
 
 const GoodtokUA = () => {
@@ -110,7 +111,7 @@ const GoodtokUA = () => {
         break;
 
       case GoodtokWidgetEvents.HANGUP_REQUEST:
-      case GoodtokWidgetEvents.CLOSE:
+      case GoodtokWidgetEvents.CLOSE_MENU_EVENT:
         setVideoOpen(false);
         if (simpleUser.isConnected()) {
           await simpleUser.unregister(unregisterOptions);
@@ -123,6 +124,9 @@ const GoodtokUA = () => {
         }
         break;
 
+      case GoodtokWidgetEvents.OPEN_MENU_EVENT:
+        // noop
+        break;
       default:
         // TODO: You can handle other unanticipated events here
         break;
@@ -273,6 +277,7 @@ const GoodtokUA = () => {
       }}
       videoOpen={videoOpen}
       menuOpen={menuOpen}
+      menuData={menuData}
       notificationOpen={notificationOpen}
       hasError={hasError}
     />

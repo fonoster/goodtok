@@ -18,6 +18,7 @@
  */
 import type { Meta, StoryObj } from "@storybook/react";
 import { GoodtokWidget } from "./GoodtokWidget";
+import { menuData } from "./data";
 
 /**
  * The GoodtokWidget component is composite component that renders the Goodtok widget. The Goodtok widget is a floating
@@ -80,10 +81,11 @@ type Story = StoryObj<typeof meta>;
 export const GoodtokWidgetExample: Story = {
   args: {
     online: false,
-    menuOpen: false,
     notificationOpen: false,
     hasError: false,
     videoOpen: false,
+    menuOpen: false,
+    menuData: menuData,
     onVideoRefsReady: () => {
       // Noop
     }
