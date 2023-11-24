@@ -12,7 +12,7 @@
     "public"
   ],
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "preview": "vite preview",
     "prebuild": "rimraf ./dist tsconfig.tsbuildinfo",
     "clean": "rimraf ./dist node_modules tsconfig.tsbuildinfo",

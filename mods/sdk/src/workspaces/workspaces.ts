@@ -40,7 +40,6 @@ import { formatAndThrowError } from "../errors";
 import { GoodtokError } from "../errors/GoodtokError";
 import Client from "../client";
 import isomorphicWS from "isomorphic-ws";
-import { Unsubscribable } from "@trpc/server/observable";
 
 if (typeof window !== "undefined") {
   window.WebSocket = isomorphicWS as unknown as typeof WebSocket;

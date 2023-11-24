@@ -23,7 +23,12 @@ import { ConnectionObject, mediaToggle } from "@goodtok/common";
 import { getAPIServer, getCustomerToken, getWorkspaceId } from "./utils/utils";
 import { Web } from "sip.js";
 import { jwtDecode } from "jwt-decode";
-import { menuData } from "./components/goodtokwidget/data";
+import { menuData as menuDataOptions } from "./components/goodtokwidget/data";
+import { Item } from "./components/menu/Menu";
+import {
+  canInitiateAudioCall,
+  canInitiateVideoCall
+} from "./utils/capabilities";
 import React, { useEffect, useRef, useState } from "react";
 
 const GoodtokUA = () => {
@@ -36,6 +41,7 @@ const GoodtokUA = () => {
   const [hasError, setHasError] = useState(false);
   const [customerToken, setCustomerToken] = useState(null);
   const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
+  const [menuData, setMenuData] = useState<Item[]>([]);
   const [connectionObj, setConnectionObj] = useState<ConnectionObject | null>(
     null
   );
@@ -264,6 +270,37 @@ const GoodtokUA = () => {
     return () => {
       subscription.unsubscribe();
     };
+  }, []);
+
+  useEffect(() => {
+    const canInitiateAudio = canInitiateAudioCall();
+    const canInitiateVideo = canInitiateVideoCall();
+
+    const videoCallOption = menuDataOptions.find(
+      (option) => option.name === GoodtokWidgetEvents.VIDEO_SESSION_REQUEST
+    );
+
+    const audioCallOption = menuDataOptions.find(
+      (option) => option.name === GoodtokWidgetEvents.AUDIO_SESSION_REQUEST
+    );
+
+    const scheduleMeetingOption = menuDataOptions.find(
+      (option) => option.name === GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST
+    );
+
+    const availableOptions = [
+      ...(canInitiateVideo ? [videoCallOption] : []),
+      ...(canInitiateAudio ? [audioCallOption] : []),
+      scheduleMeetingOption
+    ].filter(Boolean);
+
+    if (!canInitiateVideo && !canInitiateAudio) {
+      setHasError(true);
+      setNotificationOpen(true);
+      return;
+    }
+
+    setMenuData(availableOptions);
   }, []);
 
   return (

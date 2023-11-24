@@ -22,24 +22,12 @@
  *
  * @return {boolean} True if audio call is supported, false otherwise.
  */
-export async function canInitiateAudioCall() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    return false;
-  }
-
-  return navigator.mediaDevices
-    .getUserMedia({ audio: true })
-    .then((stream) => {
-      stream.getTracks().forEach((track) => track.stop());
-      return true;
-    })
-    .catch((err) => {
-      if (err.name === "NotAllowedError" || err.name === "NotFoundError") {
-        return false;
-      }
-      console.error("error occurred:", err);
-      return false;
-    });
+export async function canInitiateAudioCall(): Promise<boolean> {
+  return navigator.mediaDevices.enumerateDevices().then((devices) => {
+    const audioInput = devices.find((device) => device.kind === "audioinput");
+    const audioOutput = devices.find((device) => device.kind === "audiooutput");
+    return !!audioInput && !!audioOutput;
+  });
 }
 
 /**
@@ -47,22 +35,20 @@ export async function canInitiateAudioCall() {
  *
  * @return {boolean} True if video call is supported, false otherwise.
  */
-export async function canInitiateVideoCall() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    return false;
-  }
+export async function canInitiateVideoCall(): Promise<boolean> {
+  return navigator.mediaDevices.enumerateDevices().then((devices) => {
+    const audioInput = devices.find((device) => device.kind === "audioinput");
+    const audioOutput = devices.find((device) => device.kind === "audiooutput");
+    const videoInput = devices.find((device) => device.kind === "videoinput");
+    return !!audioInput && !!audioOutput && !!videoInput;
+  });
+}
 
-  return navigator.mediaDevices
-    .getUserMedia({ audio: true, video: true })
-    .then((stream) => {
-      stream.getTracks().forEach((track) => track.stop());
-      return true;
-    })
-    .catch((err) => {
-      if (err.name === "NotAllowedError" || err.name === "NotFoundError") {
-        return false;
-      }
-      console.error("error occurred:", err);
-      return false;
-    });
+/**
+ * Utility method to check for screen sharing capabilities.
+ *
+ * @return {boolean} True if screen sharing is supported, false otherwise.
+ */
+export function canShareScreen(): boolean {
+  return navigator.mediaDevices?.getDisplayMedia !== undefined;
 }
