@@ -96,7 +96,6 @@ function ChatContainer() {
     customers
       .getOrdersByCustomerId({ workspaceId, customerId })
       .then((orders) => {
-        console.log(orders);
         setOrders(orders);
       })
       .catch((err) => {
@@ -149,7 +148,7 @@ function ChatContainer() {
       options
     );
 
-    const delegate = {
+    const delegate: Web.SimpleUserDelegate = {
       onCallHangup: () => {
         setIsActiveCall(false);
         if (simpleUser) {
