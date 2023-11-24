@@ -161,7 +161,7 @@ Ensure the Goodtok API Server is running for the Queues API to function.
     * [.getDefaultWorkspaceQueue()](#Queues+getDefaultWorkspaceQueue) ⇒ <code>Promise.&lt;GetQueueResponse&gt;</code>
     * [.getQueueByWorkspaceId(id)](#Queues+getQueueByWorkspaceId) ⇒ <code>Promise.&lt;Workspace&gt;</code>
     * [.watchQueue(id, callback)](#Queues+watchQueue)
-    * [.dequeue(request)](#Queues+dequeue) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.updateQueueEntryStatus(request)](#Queues+updateQueueEntryStatus) ⇒ <code>Promise.&lt;void&gt;</code>
 
 <a name="new_Queues_new"></a>
 
@@ -181,7 +181,7 @@ async function getWorkspace() {
   const client = new SDK.Client({ workspace: "myworkspace" });
   await client.login("goodtok", "mysecretpassword");
 
-  const workspaceId = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+  const workspaceId = "g-7b7c46fb05";
 
   const queues = new SDK.Queues(client);
   const queue = await workspaces.getQueueByWorkspaceId(workspaceId);
@@ -218,7 +218,7 @@ Retrieves the queue for a workspace by its ID.
 
 **Example**  
 ```js
-const id = "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d";
+const id = "g-7b7c46fb05";
 
 queues.getQueueByWorkspaceId(id)
   .then(console.log)
@@ -249,28 +249,30 @@ queues.watchQueue(id, (err, data) => {
   console.log(data);
 });
 ```
-<a name="Queues+dequeue"></a>
+<a name="Queues+updateQueueEntryStatus"></a>
 
-### queues.dequeue(request) ⇒ <code>Promise.&lt;void&gt;</code>
-Removes entry from the queue.
+### queues.updateQueueEntryStatus(request) ⇒ <code>Promise.&lt;void&gt;</code>
+Updates the status of a queue entry.
 
 **Kind**: instance method of [<code>Queues</code>](#Queues)  
 **Returns**: <code>Promise.&lt;void&gt;</code> - A promise resolving to void  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| request | <code>DequeueRequest</code> | The dequeue request |
+| request | <code>UpdateQueueEntryStatusRequest</code> | The request object |
 | request.workspaceId | <code>string</code> | The workspace ID |
-| request.customerId | <code>string</code> | The customer ID to dequeue |
+| request.customerId | <code>string</code> | The customer ID to update the queue entry for |
+| request.status | <code>string</code> | The status to update the queue entry to |
 
 **Example**  
 ```js
 const request = {
- workspaceId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
- customerId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d"
+ workspaceId: "g-7b7c46fb05",
+ customerId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d",
+ status: "DEQUEUED"
 };
 
-queues.dequeue(request)
+queues.updateQueueEntryStatus(request)
   .then(console.log)
   .catch(console.error); // handle any errors
 ```
