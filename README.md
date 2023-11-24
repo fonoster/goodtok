@@ -45,7 +45,7 @@ mkdir goodtok
 cd goodtok
 ```
 
-Run the following command inside the directory to generate a set of security keys. These keys will be used to sign and verify the JWT tokens.
+Next, run the following command inside the directory to generate a set of security keys. These keys will be used to sign and verify the JWT tokens.
 
 ```bash
 mkdir -p .keys
@@ -84,22 +84,14 @@ DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
 CLOAK_ENCRYPTION_KEY=/* Generate a new key with cloack cli or https://cloak.47ng.com/ */
 ```
 
-Next, run the following command to start the application:
+Finally, run the following command to start the application:
 
 ```bash
 curl -o ./compose.yaml https://raw.githubusercontent.com/fonoster/goodtok/main/compose.yaml
 docker compose up -d
 ```
 
-Finally, prepare the database with the following command:
-
-```bash
-curl -o ./schema.prisma https://raw.githubusercontent.com/fonoster/goodtok/main/mods/apiserver/schema.prisma
-npx prisma migrate deploy --schema=./schema.prisma
-rm ./schema.prisma
-```
-
-The previous command will start all the services, including the front office. You can then access the application at [http://localhost:8080](http://localhost:8080) and access the dashboard.
+The previous command will start all the services, including the Front Office. You can then open the application at [http://localhost:8080](http://localhost:8080) and access the dashboard.
 
 ## Usage
 
