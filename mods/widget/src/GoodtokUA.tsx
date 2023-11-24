@@ -249,6 +249,13 @@ const GoodtokUA = () => {
                 setNotificationType(NotificationType.PERMISSIONS_ERROR);
                 setNotificationOpen(true);
                 return;
+              } else if (
+                e instanceof DOMException &&
+                e.message?.toLocaleLowerCase() === "requested device not found"
+              ) {
+                setNotificationType(NotificationType.DEVICE_UNAVAILABLE_ERROR);
+                setNotificationOpen(true);
+                return;
               }
 
               setNotificationType(NotificationType.UNKNOWN_ERROR);
