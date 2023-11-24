@@ -47,8 +47,8 @@ import { formatTime } from "@goodtok/common";
 import { handlePiP } from "./handlePiP";
 
 type VideoProps = {
-  isCustomerCameraMuted?: boolean;
   isOpen?: boolean;
+  initialCameraMutedState: boolean;
   onClose?: () => void;
   onHangup?: () => void;
   onCameraMuted?: (muted: boolean) => void;
@@ -63,6 +63,10 @@ export const Video = forwardRef((props: VideoProps, ref) => {
   const remoteVideoRef = React.createRef<HTMLVideoElement>();
   const remoteAudio = React.createRef<HTMLAudioElement>();
   const localVideoRef = React.createRef<HTMLVideoElement>();
+
+  useEffect(() => {
+    setIsCustomeCameraMuted(props.initialCameraMutedState || false);
+  }, [props.initialCameraMutedState]);
 
   useEffect(() => {
     if (!remoteVideoRef.current || !localVideoRef.current) return;

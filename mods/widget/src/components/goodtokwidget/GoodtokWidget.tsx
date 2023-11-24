@@ -33,6 +33,7 @@ export type GoodtokWidgetProps = {
   notificationOpen: boolean;
   notificationType: NotificationType;
   videoOpen: boolean;
+  initialCameraMutedState: boolean;
   menuOpen: boolean;
   menuData: Item[];
   onEvent: (eventName: GoodtokWidgetEvents) => void;
@@ -68,6 +69,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
   notificationOpen = false,
   notificationType,
   videoOpen = false,
+  initialCameraMutedState = false,
   menuOpen = false,
   menuData = [],
   onEvent,
@@ -137,6 +139,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
         <MobileVideo
           ref={videoRefs}
           isOpen={activeComponent === ActiveComponent.Video}
+          initialCameraMutedState={initialCameraMutedState}
           onCameraMuted={(muted) => {
             if (muted) {
               onEvent(GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST);
@@ -160,6 +163,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
         <Video
           ref={videoRefs}
           isOpen={activeComponent === ActiveComponent.Video}
+          initialCameraMutedState={initialCameraMutedState}
           onCameraMuted={(muted) => {
             if (muted) {
               onEvent(GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST);

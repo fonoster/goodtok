@@ -21,22 +21,23 @@ import { GoodtokWidget } from "./components/goodtokwidget/GoodtokWidget";
 import { GoodtokWidgetEvents } from "./components/goodtokwidget/types";
 import { ConnectionObject, mediaToggle } from "@goodtok/common";
 import { getAPIServer, getCustomerToken, getWorkspaceId } from "./utils/utils";
-import { Web } from "sip.js";
+import { RegistererRegisterOptions, Web } from "sip.js";
 import { jwtDecode } from "jwt-decode";
 import { menuData as menuDataOptions } from "./components/goodtokwidget/data";
 import { Item } from "./components/menu/Menu";
+import { NotificationType } from "./components/notification/Notification";
 import {
   canInitiateAudioCall,
   canInitiateVideoCall
 } from "./utils/capabilities";
 import React, { useEffect, useRef, useState } from "react";
-import { NotificationType } from "./components/notification/Notification";
 
 const GoodtokUA = () => {
   const videoRefs = useRef(null);
   const [calendarUrl, setCalendarUrl] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [videoMuted, setVideoMuted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationType, setNotificationType] = useState<NotificationType>();
@@ -51,22 +52,119 @@ const GoodtokUA = () => {
     videoRefs.current = refs;
   };
 
+  const initSimpleUser = async (includeVideo: boolean) => {
+    if (connectionObj) {
+      const localVideo = videoRefs.current.localVideo;
+      const remoteAudio = videoRefs.current.remoteAudio;
+      const remoteVideo = videoRefs.current.remoteVideo;
+      const options = {
+        aor: connectionObj.aor,
+        media: {
+          constraints: { audio: true, video: includeVideo },
+          remote: {
+            audio: remoteAudio,
+            video: remoteVideo
+          },
+          local: {
+            video: localVideo
+          }
+        }
+      };
+      const user = new Web.SimpleUser(connectionObj.signalingServer, options);
+
+      const unregisterOptions = {
+        requestOptions: {
+          extraHeaders: [
+            `X-Connect-Token: ${customerToken}`,
+            `X-Customer-Id: ${connectionObj.customerId}`,
+            `X-Workspace-Id: ${connectionObj.workspaceId}`
+          ]
+        }
+      };
+
+      const delegate: Web.SimpleUserDelegate = {
+        onCallHangup: () => {
+          setVideoOpen(false);
+          setMenuOpen(false);
+          setNotificationOpen(false);
+          user.unregister(unregisterOptions);
+        },
+        onCallReceived: () => {
+          user
+            .answer()
+            .then(() => {
+              setNotificationOpen(false);
+              setMenuOpen(false);
+              setVideoOpen(true);
+            })
+            .catch((e) => {
+              if (
+                e instanceof DOMException &&
+                e.message?.toLocaleLowerCase() === "permission denied"
+              ) {
+                setNotificationType(NotificationType.PERMISSIONS_ERROR);
+                setNotificationOpen(true);
+                return;
+              } else if (
+                e instanceof DOMException &&
+                e.message?.toLocaleLowerCase() === "requested device not found"
+              ) {
+                setNotificationType(NotificationType.DEVICE_UNAVAILABLE_ERROR);
+                setNotificationOpen(true);
+                return;
+              }
+
+              setNotificationType(NotificationType.UNKNOWN_ERROR);
+              setNotificationOpen(true);
+            });
+        }
+      };
+      user.delegate = delegate;
+      return user;
+    }
+  };
+
+  const register = async (
+    simpleUser: Web.SimpleUser,
+    registererRegisterOptions: RegistererRegisterOptions
+  ) => {
+    try {
+      await simpleUser.connect();
+      simpleUser.register(registererRegisterOptions);
+      setNotificationType(NotificationType.WAITING_FOR_AGENT);
+      setNotificationOpen(true);
+    } catch (e) {
+      console.error("failed to connect to server");
+      setNotificationType(NotificationType.UNKNOWN_ERROR);
+      setNotificationOpen(true);
+    }
+  };
+
+  const sendSessionRequest = async (
+    event: GoodtokWidgetEvents,
+    registerOptions: RegistererRegisterOptions
+  ) => {
+    try {
+      const simpleUser = await initSimpleUser(
+        event === GoodtokWidgetEvents.VIDEO_SESSION_REQUEST
+      );
+      setVideoMuted(event === GoodtokWidgetEvents.AUDIO_SESSION_REQUEST);
+      register(simpleUser, registerOptions);
+      setSimpleUser(simpleUser);
+    } catch (e) {
+      console.error("failed to initialize simple user", e);
+      setNotificationType(NotificationType.UNKNOWN_ERROR);
+      setNotificationOpen(true);
+    }
+  };
+
   const handleWidgetEvents = async (event: GoodtokWidgetEvents) => {
     if (event === GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST) {
       window.open(calendarUrl, "_blank");
       return;
     }
 
-    if (!simpleUser) {
-      console.error(
-        "unable to process event: simpleUser is not initialized yet."
-      );
-      setNotificationType(NotificationType.UNKNOWN_ERROR);
-      setNotificationOpen(true);
-      return;
-    }
-
-    const unregisterOptions = {
+    const registerOptions = {
       requestOptions: {
         extraHeaders: [
           `X-Connect-Token: ${customerToken}`,
@@ -78,28 +176,11 @@ const GoodtokUA = () => {
 
     switch (event) {
       case GoodtokWidgetEvents.VIDEO_SESSION_REQUEST:
-        simpleUser
-          .connect()
-          .then(() => {
-            simpleUser.register({
-              requestOptions: {
-                extraHeaders: [
-                  `X-Connect-Token: ${customerToken}`,
-                  `X-Customer-Id: ${connectionObj.customerId}`,
-                  `X-Workspace-Id: ${connectionObj.workspaceId}`,
-                  "Expires: 60"
-                ]
-              }
-            });
+        sendSessionRequest(event, registerOptions);
+        break;
 
-            setNotificationType(NotificationType.WAITING_FOR_AGENT);
-            setNotificationOpen(true);
-          })
-          .catch((e) => {
-            console.error("failed to connect to server");
-            setNotificationType(NotificationType.UNKNOWN_ERROR);
-            setNotificationOpen(true);
-          });
+      case GoodtokWidgetEvents.AUDIO_SESSION_REQUEST:
+        sendSessionRequest(event, registerOptions);
         break;
 
       case GoodtokWidgetEvents.AUDIO_MUTE_REQUEST:
@@ -135,12 +216,22 @@ const GoodtokUA = () => {
       case GoodtokWidgetEvents.OPEN_MENU_EVENT:
         // noop
         break;
+
       default:
         // TODO: You can handle other unanticipated events here
         break;
     }
 
     return async () => {
+      const unregisterOptions = {
+        requestOptions: {
+          extraHeaders: [
+            `X-Connect-Token: ${customerToken}`,
+            `X-Customer-Id: ${connectionObj.customerId}`,
+            `X-Workspace-Id: ${connectionObj.workspaceId}`
+          ]
+        }
+      };
       await simpleUser.unregister(unregisterOptions);
       await simpleUser.disconnect();
       try {
@@ -195,78 +286,6 @@ const GoodtokUA = () => {
         setCalendarUrl(connectionObj.calendarUrl);
       });
   }, [customerToken]);
-
-  useEffect(() => {
-    if (connectionObj) {
-      const localVideo = videoRefs.current.localVideo;
-      const remoteAudio = videoRefs.current.remoteAudio;
-      const remoteVideo = videoRefs.current.remoteVideo;
-      const options = {
-        aor: connectionObj.aor,
-        media: {
-          constraints: { audio: true, video: true },
-          remote: {
-            audio: remoteAudio, // You might need to ensure that these refs are available at this point
-            video: remoteVideo
-          },
-          local: {
-            video: localVideo
-          }
-        }
-      };
-      const user = new Web.SimpleUser(connectionObj.signalingServer, options);
-
-      const unregisterOptions = {
-        requestOptions: {
-          extraHeaders: [
-            `X-Connect-Token: ${customerToken}`,
-            `X-Customer-Id: ${connectionObj.customerId}`,
-            `X-Workspace-Id: ${connectionObj.workspaceId}`
-          ]
-        }
-      };
-
-      const delegate: Web.SimpleUserDelegate = {
-        onCallHangup: () => {
-          setVideoOpen(false);
-          setMenuOpen(false);
-          setNotificationOpen(false);
-          simpleUser.unregister(unregisterOptions);
-        },
-        onCallReceived: () => {
-          user
-            .answer()
-            .then(() => {
-              setNotificationOpen(false);
-              setMenuOpen(false);
-              setVideoOpen(true);
-            })
-            .catch((e) => {
-              if (
-                e instanceof DOMException &&
-                e.message?.toLocaleLowerCase() === "permission denied"
-              ) {
-                setNotificationType(NotificationType.PERMISSIONS_ERROR);
-                setNotificationOpen(true);
-                return;
-              } else if (
-                e instanceof DOMException &&
-                e.message?.toLocaleLowerCase() === "requested device not found"
-              ) {
-                setNotificationType(NotificationType.DEVICE_UNAVAILABLE_ERROR);
-                setNotificationOpen(true);
-                return;
-              }
-
-              setNotificationType(NotificationType.UNKNOWN_ERROR);
-              setNotificationOpen(true);
-            });
-        }
-      };
-      user.delegate = delegate;
-      setSimpleUser(user);
-    }
-  }, [videoRefs, connectionObj]);
 
   useEffect(() => {
     const workspaceId = getWorkspaceId(document);
@@ -337,6 +356,7 @@ const GoodtokUA = () => {
         setNotificationOpen(false);
       }}
       videoOpen={videoOpen}
+      initialCameraMutedState={videoMuted}
       menuOpen={menuOpen}
       menuData={menuData}
       notificationOpen={notificationOpen}

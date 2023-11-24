@@ -41,12 +41,6 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    isCustomerCameraMuted: {
-      name: "Customer Camera Muted",
-      description: "Mute or unmute the video",
-      control: { type: "boolean" },
-      defaultValue: { summary: "false" }
-    },
     isOpen: {
       name: "Open/Close toggle",
       description: "Close or open the menu",
@@ -84,6 +78,14 @@ const meta = {
         type: "function"
       },
       action: "clicked"
+    },
+    initialCameraMutedState: {
+      name: "Initial Camera Muted State",
+      description: "Initial state of the camera",
+      control: {
+        type: "boolean"
+      },
+      defaultValue: { summary: "false" }
     }
   }
 } satisfies Meta<typeof MobileVideo>;
@@ -98,7 +100,7 @@ type Story = StoryObj<typeof meta>;
 export const VideoExample: Story = {
   args: {
     isOpen: true,
-    isCustomerCameraMuted: false
+    initialCameraMutedState: false
   },
   play: () => {
     const remoteVideo = document.querySelector(

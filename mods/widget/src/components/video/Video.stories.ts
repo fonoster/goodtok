@@ -30,12 +30,6 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    isCustomerCameraMuted: {
-      name: "Customer Camera Muted",
-      description: "Mute or unmute the video",
-      control: { type: "boolean" },
-      defaultValue: { summary: "false" }
-    },
     isOpen: {
       name: "Open/Close toggle",
       description: "Close or open the menu",
@@ -73,6 +67,14 @@ const meta = {
         type: "function"
       },
       action: "clicked"
+    },
+    initialCameraMutedState: {
+      name: "Initial Camera Muted State",
+      description: "Initial state of the camera",
+      control: {
+        type: "boolean"
+      },
+      defaultValue: { summary: "false" }
     }
   }
 } satisfies Meta<typeof Video>;
@@ -87,14 +89,14 @@ type Story = StoryObj<typeof meta>;
 export const VideoExample: Story = {
   args: {
     isOpen: true,
-    isCustomerCameraMuted: false
+    initialCameraMutedState: true
   },
   play: () => {
     const remoteVideo = document.querySelector(
       ".goodtok-video__remote"
     ) as HTMLVideoElement;
     remoteVideo.src =
-      "https://storage.googleapis.com/fn01/videos/demo_call_remote.mp4";
+      "https://storage.googleapis.com/fn01/videos/demo_call_staff.mp4";
     remoteVideo.loop = true;
     remoteVideo.muted = true;
     // eslint-disable-next-line storybook/context-in-play-function
