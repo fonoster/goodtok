@@ -76,20 +76,26 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
         {!showOrders ? (
           <>
             <CardContent>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                Birthday {profile.birthday}
-              </Typography>
+              {profile.birthday && (
+                <Typography
+                  sx={{ fontSize: 14 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Birthday {profile.birthday}
+                </Typography>
+              )}
               <Typography variant="h5" component="div">
                 {profile.name}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 {profile.email}
-                <br />
-                {profile.phone}
+                {profile.phone && (
+                  <>
+                    <br />
+                    {profile.phone}
+                  </>
+                )}
               </Typography>
               <Typography variant="body2">
                 {profile.note}
