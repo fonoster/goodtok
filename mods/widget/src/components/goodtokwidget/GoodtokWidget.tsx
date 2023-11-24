@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { GoodtokButton as OriginalGoodtokButton } from "../goodtokbutton/GoodtokButton";
-import { Notification } from "../notification/Notification";
+import { Notification, NotificationType } from "../notification/Notification";
 import { Menu as OriginalMenu } from "../menu/Menu";
 import { ActiveComponent, GoodtokWidgetEvents } from "./types";
 import { Item } from "../menu/Menu";
@@ -31,7 +31,7 @@ const MOBILE_BREAKPOINT = 630;
 export type GoodtokWidgetProps = {
   online: boolean;
   notificationOpen: boolean;
-  hasError: boolean;
+  notificationType: NotificationType;
   videoOpen: boolean;
   menuOpen: boolean;
   menuData: Item[];
@@ -66,7 +66,7 @@ const GoodtokButton = styled(OriginalGoodtokButton)`
 export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
   online = false,
   notificationOpen = false,
-  hasError = false,
+  notificationType,
   videoOpen = false,
   menuOpen = false,
   menuData = [],
@@ -126,7 +126,7 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
       <Notification
         online={online}
         isOpen={activeComponent === ActiveComponent.Notification}
-        isError={hasError}
+        type={notificationType}
         onClose={() => {
           onNotificationClose();
           setActiveComponent(ActiveComponent.None);

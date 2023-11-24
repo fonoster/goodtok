@@ -30,6 +30,7 @@ import {
   canInitiateVideoCall
 } from "./utils/capabilities";
 import React, { useEffect, useRef, useState } from "react";
+import { NotificationType } from "./components/notification/Notification";
 
 const GoodtokUA = () => {
   const videoRefs = useRef(null);
@@ -38,7 +39,7 @@ const GoodtokUA = () => {
   const [videoOpen, setVideoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [notificationType, setNotificationType] = useState<NotificationType>();
   const [customerToken, setCustomerToken] = useState(null);
   const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
   const [menuData, setMenuData] = useState<Item[]>([]);
@@ -60,7 +61,7 @@ const GoodtokUA = () => {
       console.error(
         "unable to process event: simpleUser is not initialized yet."
       );
-      setHasError(true);
+      setNotificationType(NotificationType.UNKNOWN_ERROR);
       setNotificationOpen(true);
       return;
     }
@@ -91,11 +92,12 @@ const GoodtokUA = () => {
               }
             });
 
+            setNotificationType(NotificationType.WAITING_FOR_AGENT);
             setNotificationOpen(true);
           })
           .catch((e) => {
             console.error("failed to connect to server");
-            setHasError(true);
+            setNotificationType(NotificationType.UNKNOWN_ERROR);
             setNotificationOpen(true);
           });
         break;
@@ -232,10 +234,26 @@ const GoodtokUA = () => {
           simpleUser.unregister(unregisterOptions);
         },
         onCallReceived: () => {
-          user.answer();
-          setVideoOpen(true);
-          setMenuOpen(false);
-          setNotificationOpen(false);
+          user
+            .answer()
+            .then(() => {
+              setNotificationOpen(false);
+              setMenuOpen(false);
+              setVideoOpen(true);
+            })
+            .catch((e) => {
+              if (
+                e instanceof DOMException &&
+                e.message?.toLocaleLowerCase() === "permission denied"
+              ) {
+                setNotificationType(NotificationType.PERMISSIONS_ERROR);
+                setNotificationOpen(true);
+                return;
+              }
+
+              setNotificationType(NotificationType.UNKNOWN_ERROR);
+              setNotificationOpen(true);
+            });
         }
       };
       user.delegate = delegate;
@@ -259,7 +277,7 @@ const GoodtokUA = () => {
       (error, workspaceStatus) => {
         if (error) {
           console.error("failed to watch workspace status", error);
-          setHasError(true);
+          setNotificationType(NotificationType.UNKNOWN_ERROR);
           setNotificationOpen(true);
           return;
         }
@@ -295,7 +313,7 @@ const GoodtokUA = () => {
     ].filter(Boolean);
 
     if (!canInitiateVideo && !canInitiateAudio) {
-      setHasError(true);
+      setNotificationType(NotificationType.DEVICE_UNAVAILABLE_ERROR);
       setNotificationOpen(true);
       return;
     }
@@ -310,13 +328,12 @@ const GoodtokUA = () => {
       onVideoRefsReady={handleVideoRefsReady}
       onNotificationClose={() => {
         setNotificationOpen(false);
-        setHasError(false);
       }}
       videoOpen={videoOpen}
       menuOpen={menuOpen}
       menuData={menuData}
       notificationOpen={notificationOpen}
-      hasError={hasError}
+      notificationType={notificationType}
     />
   );
 };

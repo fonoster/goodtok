@@ -28,12 +28,41 @@ import {
   Rotate,
   StyledSpan,
   StyledP
-} from "./styles";
+} from "./NotificationStyles";
+
+export enum NotificationType {
+  WAITING_FOR_AGENT = "WAITING_FOR_AGENT",
+  UNKNOWN_ERROR = "UNKNOWN_ERROR",
+  PERMISSIONS_ERROR = "PERMISSIONS_ERROR",
+  DEVICE_UNAVAILABLE_ERROR = "DEVICE_UNAVAILABLE_ERROR"
+}
+
+export const NOTIFICATION_MESSAGES = {
+  [NotificationType.WAITING_FOR_AGENT]: {
+    title: "Hang tight!",
+    description:
+      "Please keep this tab open while we connect you with one of our representatives."
+  },
+  [NotificationType.UNKNOWN_ERROR]: {
+    title: "Unexpected Error!",
+    description:
+      "Oops! Something unexpected happened and we couldn't process your request. Please try again later or contact support."
+  },
+  [NotificationType.PERMISSIONS_ERROR]: {
+    title: "Permissions Needed!",
+    description:
+      "We don't have permission to access your camera or microphone. Please check your browser settings."
+  },
+  [NotificationType.DEVICE_UNAVAILABLE_ERROR]: {
+    title: "Device Not Found!",
+    description: "The requested media is not available."
+  }
+};
 
 type MenuContainerProps = {
   online?: boolean;
   isOpen: boolean;
-  isError?: boolean;
+  type: NotificationType;
   onClose: () => void;
 };
 
@@ -41,9 +70,11 @@ export const Notification: React.FC<MenuContainerProps> = ({
   online = false,
   onClose,
   isOpen,
-  isError = false,
+  type,
   ...props
 }) => {
+  const { title, description } = NOTIFICATION_MESSAGES[type] || {};
+
   return (
     <MenuContainer {...props} isOpen={isOpen} online={online}>
       <div className="notification-container">
@@ -52,29 +83,23 @@ export const Notification: React.FC<MenuContainerProps> = ({
         </NotificationHeader>
         <NotificationBody>
           <InnerContainer>
-            {isError && (
-              <>
-                <WaitingIndicator>
-                  <StyledSpan>Something went wrong!</StyledSpan>
-                </WaitingIndicator>
-                <StyledP>
-                  An error occurred while trying to connect you with one of our
-                  representatives. Please try again later.
-                </StyledP>
-              </>
-            )}
-            {!isError && (
+            {type === NotificationType.WAITING_FOR_AGENT && (
               <>
                 <WaitingIndicator>
                   <Rotate>
                     <LoadingIcon />
                   </Rotate>
-                  <StyledSpan>Hang tight!</StyledSpan>
+                  <StyledSpan>{title}</StyledSpan>
                 </WaitingIndicator>
-                <StyledP>
-                  Please keep this tab open while we connect you with one of our
-                  representatives.
-                </StyledP>
+                <StyledP>{description}</StyledP>
+              </>
+            )}
+            {type !== NotificationType.WAITING_FOR_AGENT && (
+              <>
+                <WaitingIndicator>
+                  <StyledSpan>{title}</StyledSpan>
+                </WaitingIndicator>
+                <StyledP>{description}</StyledP>
               </>
             )}
           </InnerContainer>

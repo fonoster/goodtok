@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import type { Meta, StoryObj } from "@storybook/react";
-import { Notification } from "./Notification";
+import { Notification, NotificationType } from "./Notification";
 
 /**
  * Final implementation of the Menu component, which simply requires a JSON object with the menu items,
@@ -51,11 +51,19 @@ const meta = {
       },
       action: "clicked"
     },
-    isError: {
-      name: "Error Indicator",
-      description: "Indicates if the notification is an error",
-      control: { type: "boolean" },
-      defaultValue: { summary: "false" }
+    type: {
+      name: "Type",
+      description: "The type of notification",
+      control: {
+        type: "select",
+        options: [
+          NotificationType.WAITING_FOR_AGENT,
+          NotificationType.DEVICE_UNAVAILABLE_ERROR,
+          NotificationType.PERMISSIONS_ERROR,
+          NotificationType.UNKNOWN_ERROR
+        ]
+      },
+      defaultValue: { summary: NotificationType.WAITING_FOR_AGENT }
     }
   }
 } satisfies Meta<typeof Notification>;
@@ -65,13 +73,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /*
- * Example of a MenuContainer component with MenuItems as children.
+ * Example of a notification that is waiting for an agent.
  */
 export const NotificationExample: Story = {
   args: {
     online: true,
     isOpen: true,
-    isError: false
+    type: NotificationType.WAITING_FOR_AGENT
   }
 };
 
@@ -82,6 +90,6 @@ export const NotificationErrorExample: Story = {
   args: {
     online: true,
     isOpen: true,
-    isError: true
+    type: NotificationType.UNKNOWN_ERROR
   }
 };
