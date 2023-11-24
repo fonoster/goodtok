@@ -78,22 +78,48 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Example of chat page with no active call and no orders.
+ * Example of chat page with no active call and with orders.
  */
 export const ChatPageExample: Story = {
   args: {
+    workspaceId: "1",
     userName: "Jane Doe",
     avatar: "https://mui.com/static/images/avatar/3.jpg",
     isAuthenticated: true,
     isActiveCall: false,
+    isAdmin: true,
+    isLocalCameraMuted: false,
+    isLocalMicrophoneMuted: false,
     customerProfile: {
       name: "Peters Doe",
       email: "peters@example.com",
       phone: "(785)317-9945",
       birthday: "1980-01-01",
-      note: "This is a note"
+      note: "Here goes a short note about that the user can use to build rapport with the customer"
     },
-    orders: []
+    orders: [
+      {
+        id: "1001",
+        name: "First item in the order",
+        total: 100,
+        imageUrl: "https://picsum.photos/200",
+        createdAt: "2021-10-01T00:00:00.000Z"
+      },
+      {
+        id: "1001",
+        name: "Second item in the order",
+        total: 200,
+        imageUrl: "https://picsum.photos/200",
+        createdAt: "2021-10-01T00:00:00.000Z"
+      },
+      {
+        id: "2001",
+        name: "And item on anther order",
+        total: 300,
+        imageUrl: "https://picsum.photos/200",
+        createdAt: "2021-10-01T00:00:00.000Z"
+      }
+    ]
   }
 };
 

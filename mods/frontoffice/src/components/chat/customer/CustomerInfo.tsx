@@ -16,24 +16,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow
-} from "@mui/material";
+import { Box, CardActions, CardContent, Typography } from "@mui/material";
+import { Button } from "../../button/Button";
 import { CustomerProfile, OrderItem } from "./types";
-import { StyledTab, StyledTabs } from "./CustomerStyles";
+import { StyledTitle } from "../ChatPageStyles";
+import { StyledLink } from "./CustomerStyles";
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
 import React from "react";
-import moment from "moment";
 
 type CustomerInfoProps = {
   profile: CustomerProfile;
   orders: OrderItem[];
+};
+
+type OrderHistoryProps = {
+  orders: OrderItem[];
+};
+
+const OrderHistory: React.FC<OrderHistoryProps> = ({ orders }) => {
+  return (
+    <Timeline position="alternate">
+      {orders.map((order) => (
+        <TimelineItem>
+          <TimelineSeparator>
+            <TimelineDot />
+            <TimelineConnector />
+          </TimelineSeparator>
+          <TimelineContent>
+            <Typography variant="body2" color="text.secondary">
+              {order.name} - ${order.total}
+            </Typography>
+            <img src={order.imageUrl} alt={order.title} width={50} />
+          </TimelineContent>
+        </TimelineItem>
+      ))}
+    </Timeline>
+  );
 };
 
 export const CustomerInfo: React.FC<CustomerInfoProps> = ({
@@ -41,97 +64,64 @@ export const CustomerInfo: React.FC<CustomerInfoProps> = ({
   orders,
   ...props
 }) => {
-  const [value, setValue] = React.useState(0);
+  const [showOrders, setShowOrders] = React.useState(false);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const handleToggle = () => {
+    setShowOrders(!showOrders);
   };
 
   return (
     <Box {...props}>
-      <StyledTabs
-        sx={{ mt: 3 }}
-        onChange={handleChange}
-        value={value}
-        aria-label="basic tabs example"
-      >
-        <StyledTab label="Customer Info" />
-        <StyledTab label="Order History" />
-      </StyledTabs>
-      {value === 0 && (
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Fullname</TableCell>
-                <TableCell>Email Address</TableCell>
-                <TableCell>Phone Number</TableCell>
-                {/* <TableCell>Birthday</TableCell> */}
-                <TableCell>Note</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow
-                key={profile?.email}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+      <Box sx={{ backgroundColor: "white", width: 300, ml: 2, p: 1 }}>
+        {!showOrders ? (
+          <>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
               >
-                <TableCell
-                  component="th"
-                  scope="row"
-                  sx={{ verticalAlign: "top" }}
-                >
-                  {profile?.name}
-                </TableCell>
-                <TableCell sx={{ verticalAlign: "top" }}>
-                  {profile?.email}
-                </TableCell>
-                <TableCell sx={{ verticalAlign: "top" }}>
-                  {profile?.phone}
-                </TableCell>
-                {/* <TableCell>{profile?.birthday}</TableCell> */}
-                <TableCell sx={{ verticalAlign: "top" }}>
-                  <Box sx={{ maxWidth: 400 }}>{profile?.note}</Box>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
-      {value === 1 && (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Date Purchased</TableCell>
-                <TableCell>Item ID</TableCell>
-                <TableCell>Item Name</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell align="center">Photo of Item</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {orders.map((row) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {moment(row.createdAt).format("MM/YYYY")}
-                  </TableCell>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>${row.total}</TableCell>
-                  <TableCell align="center">
-                    {row.imageUrl && (
-                      <img src={row.imageUrl} style={{ width: 40 }} />
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+                Birthday {profile.birthday}
+              </Typography>
+              <Typography variant="h5" component="div">
+                {profile.name}
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                {profile.email}
+                <br />
+                {profile.phone}
+              </Typography>
+              <Typography variant="body2">
+                {profile.note}
+                <br />
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+                color="secondary"
+                variant="outlined"
+                onClick={handleToggle}
+              >
+                Order history
+              </Button>
+            </CardActions>
+          </>
+        ) : (
+          <Box sx={{ height: 538 }}>
+            <StyledLink href="#" onClick={handleToggle}>
+              Back
+            </StyledLink>
+            <StyledTitle>Order history</StyledTitle>
+            {orders.length === 0 && (
+              <Typography variant="body2">
+                No orders yet
+                <br />
+              </Typography>
+            )}
+            {orders.length > 0 && <OrderHistory orders={orders} />}
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };

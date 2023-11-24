@@ -46,6 +46,6 @@ export async function getOrdersByCustomerId(
     });
   } catch (err) {
     logger.warn("error getting customer by id", { err });
-    return null;
+    return [];
   }
 }

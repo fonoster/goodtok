@@ -18,6 +18,7 @@
     "@goodtok/common": "^0.1.2",
     "@goodtok/sdk": "^0.1.4",
     "@mui/icons-material": "^5.14.15",
+    "@mui/lab": "^5.0.0-alpha.153",
     "@mui/material": "^5.14.15",
     "formik": "^2.4.5",
     "jwt-decode": "^4.0.0",

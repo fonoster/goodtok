@@ -25,7 +25,9 @@ type ButtonProps = {
   variant?: "contained" | "outlined";
   color?: "primary" | "secondary";
   type?: "button" | "submit";
-  onClick?: () => void;
+  onClick?: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | undefined
+  ) => void;
   disabled?: boolean;
   sx?: any;
 };

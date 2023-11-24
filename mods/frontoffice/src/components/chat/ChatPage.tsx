@@ -106,25 +106,33 @@ export const ChatPage: React.FC<ChatPageProps> = ({
         <StyledTitle sx={{ mb: 2 }}>Live Session</StyledTitle>
 
         {!isActiveCall && (
-          <StartCall
-            onCustomerDequeue={onCustomerDequeue}
-            onStartCall={onStartCall}
-          />
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <StartCall
+              onCustomerDequeue={onCustomerDequeue}
+              onStartCall={onStartCall}
+            />
+            <Box>
+              <CustomerInfo profile={customerProfile} orders={orders} />
+            </Box>
+          </Box>
         )}
 
         {isActiveCall && (
-          <Video
-            isLocalCameraMuted={isLocalCameraMuted}
-            isLocalMicrophoneMuted={isLocalMicrophoneMuted}
-            onHangup={onHangup}
-            onMuteCamera={onMuteCamera}
-            onMuteMicrophone={onMuteMicrophone}
-            ref={videoRefs}
-            isOpen={true}
-          />
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Video
+              isLocalCameraMuted={isLocalCameraMuted}
+              isLocalMicrophoneMuted={isLocalMicrophoneMuted}
+              onHangup={onHangup}
+              onMuteCamera={onMuteCamera}
+              onMuteMicrophone={onMuteMicrophone}
+              ref={videoRefs}
+              isOpen={true}
+            />
+            <Box>
+              <CustomerInfo profile={customerProfile} orders={orders} />
+            </Box>
+          </Box>
         )}
-
-        <CustomerInfo profile={customerProfile} orders={orders} />
       </Box>
     </Box>
   );
