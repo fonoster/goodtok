@@ -29,6 +29,7 @@ export type QueueEntry = {
   workspaceId: string;
   customer: {
     name: string;
+    email: string;
     avatar: string;
     note: string;
   };

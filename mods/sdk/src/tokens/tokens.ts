@@ -73,16 +73,18 @@ export default class Tokens extends AbstractBaseClient implements TokensClient {
    *
    * @param {CreateAnonymousTokenInput} request - A request with claims required to create a token
    * @param {string} request.ref - A reference for the anonymous user
-   * @param {string} request.aor - The address of record (AOR) for the user
-   * @param {string} request.aorLink - The address of record (AOR) for the user
+   * @param {string} request.workspaceId - The workspace ID
+   * @param {string} request.metadata - Custom metadata to be included in the token
    * @return {Promise<string>} A promise resolving to the token
    * @throws Will throw an error if the workspace does not have the `anonymous` feature enabled
    * @example
    *
    * const request = {
    *   ref: "myref",
-   *   aor: "anonymous@sip.goodtok.io",
-   *   aorLink: "anonymous@sip.goodtok.io"
+   *   workspaceId: "g-1234567890",
+   *   metadata: {
+   *    customField: "customValue"
+   *   }
    * }
    *
    * tokens.createAnonymousToken(request)

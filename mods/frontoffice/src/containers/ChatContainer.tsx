@@ -38,14 +38,15 @@ function ChatContainer() {
   const videoRefs = useRef<VideoRefs>();
   const [isActiveCall, setIsActiveCall] = React.useState(false);
   const [isLocalCameraMuted, setIsLocalCameraMuted] = React.useState(false);
-  const [isLocalMicrophoneMuted, setIsLocalMicrophoneMuted] =
-    React.useState(false);
-  const [name, setName] = React.useState("");
-  const [avatar, setAvatar] = React.useState("");
-  const [customerProfile, setCustomerProfile] =
-    React.useState<CustomerProfile>();
   const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
   const [orders, setOrders] = useState<any[]>([]);
+  const [name, setName] = React.useState("");
+  const [avatar, setAvatar] = React.useState("");
+  const [isLocalMicrophoneMuted, setIsLocalMicrophoneMuted] =
+    React.useState(false);
+  const [customerProfile, setCustomerProfile] = React.useState<CustomerProfile>(
+    {} as CustomerProfile
+  );
 
   const { client, signOut, isAdmin } = useAuth();
   const { showSnackbar } = useSnackbar();
@@ -84,6 +85,7 @@ function ChatContainer() {
     customers
       .getCustomerById({ workspaceId, customerId })
       .then((profile) => {
+        console.log("profile", profile);
         setCustomerProfile(profile);
       })
       .catch((err) => {

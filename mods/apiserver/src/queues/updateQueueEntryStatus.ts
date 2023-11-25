@@ -70,12 +70,14 @@ export async function updateQueueEntryStatus(
       ? {
           id: customerId,
           name: customer.name,
+          email: customer.email,
           avatar: customer.avatar,
           note: customer.note
         }
       : {
           id: customerId,
           name: "Anonymous",
+          email: null,
           avatar: null,
           note: null
         }

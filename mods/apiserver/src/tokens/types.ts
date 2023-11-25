@@ -25,7 +25,8 @@ export enum Method {
 
 export const createAnonymousTokenSchema = z.object({
   ref: z.string().min(1),
-  workspaceId: z.string().min(1)
+  workspaceId: z.string().min(1),
+  metadata: z.record(z.string())
 });
 
 export type CreateAnonymousTokenInput = z.infer<

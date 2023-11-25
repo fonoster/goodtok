@@ -28,7 +28,7 @@ export async function createAnonymousToken(
   ctx: Context,
   request: CreateAnonymousTokenInput
 ): Promise<string> {
-  const { ref, workspaceId } = request;
+  const { ref, workspaceId, metadata } = request;
   logger.verbose("create token for anonymous user", { ref });
 
   const aor = `sip:${ref}@${ctx.config.sipDomain}`;
@@ -51,7 +51,8 @@ export async function createAnonymousToken(
     domain: ctx.config.sipDomain,
     privacy: ctx.config.sipUserAgentPrivacy,
     allowedMethods: [Method.REGISTER],
-    signalingServer: ctx.config.sipSignalingServer
+    signalingServer: ctx.config.sipSignalingServer,
+    metadata
   };
 
   return jwt.sign(

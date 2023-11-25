@@ -23,6 +23,7 @@ import { getCustomerById } from "../customers/getCustomerById";
 import { prisma } from "../db";
 import { natsObservers } from "../workspaces/observers";
 import { NATS_URL } from "../envs";
+import jwt from "jsonwebtoken";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -32,6 +33,7 @@ watchNats(NATS_URL, async (event) => {
 
   const customerId = extraHeaders["X-Customer-Id"];
   const workspaceId = extraHeaders["X-Workspace-Id"];
+  const token = extraHeaders["X-Connect-Token"];
 
   logger.verbose("customerId and workspaceId", {
     customerId,
@@ -48,27 +50,30 @@ watchNats(NATS_URL, async (event) => {
 
   logger.verbose("entry updated", { entry });
 
-  const customer = await getCustomerById(ctx, { workspaceId, customerId });
+  let customer = await getCustomerById(ctx, { workspaceId, customerId });
 
   if (!customer) {
-    logger.warn("id not found, marking it as anonymous", { customerId });
+    const payload = jwt.decode(token) as {
+      metadata: { name: string; email: string; message: string };
+    };
+
+    customer = {
+      ...customer,
+      name: payload.metadata.name,
+      email: payload.metadata.email,
+      note: payload.metadata.message
+    };
   }
 
   const entryWithCustomer = {
     ...entry,
-    customer: customer
-      ? {
-          id: customerId,
-          name: customer.name,
-          avatar: customer.avatar,
-          note: customer.note
-        }
-      : {
-          id: customerId,
-          name: "Anonymous",
-          avatar: null,
-          note: null
-        }
+    customer: {
+      id: customerId,
+      name: customer.name,
+      email: customer.email,
+      avatar: customer.avatar,
+      note: customer.note
+    }
   };
 
   // Notify all observers

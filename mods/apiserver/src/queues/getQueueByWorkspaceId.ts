@@ -73,12 +73,14 @@ export async function getQueueByWorkspaceId(
           ? {
               id: customer.id,
               name: customer.name,
+              email: customer.email,
               avatar: customer.avatar,
               note: customer.note
             }
           : {
               id: queueEntry.customerId,
               name: "Anonymous",
+              email: null,
               avatar: null,
               note: null
             }

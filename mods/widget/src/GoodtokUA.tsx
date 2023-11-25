@@ -39,6 +39,7 @@ const GoodtokUA = () => {
   const [videoOpen, setVideoOpen] = useState(false);
   const [videoMuted, setVideoMuted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [contactFormOpen, setContactFormOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationType, setNotificationType] = useState<NotificationType>();
   const [customerToken, setCustomerToken] = useState(null);
@@ -72,15 +73,7 @@ const GoodtokUA = () => {
       };
       const user = new Web.SimpleUser(connectionObj.signalingServer, options);
 
-      const unregisterOptions = {
-        requestOptions: {
-          extraHeaders: [
-            `X-Connect-Token: ${customerToken}`,
-            `X-Customer-Id: ${connectionObj.customerId}`,
-            `X-Workspace-Id: ${connectionObj.workspaceId}`
-          ]
-        }
-      };
+      const unregisterOptions = getRegisterOptions(0);
 
       const delegate: Web.SimpleUserDelegate = {
         onCallHangup: () => {
@@ -158,29 +151,76 @@ const GoodtokUA = () => {
     }
   };
 
-  const handleWidgetEvents = async (event: GoodtokWidgetEvents) => {
-    if (event === GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST) {
-      window.open(calendarUrl, "_blank");
-      return;
-    }
-
-    const registerOptions = {
+  const getRegisterOptions = (expires = 60) => {
+    return {
       requestOptions: {
         extraHeaders: [
           `X-Connect-Token: ${customerToken}`,
           `X-Customer-Id: ${connectionObj.customerId}`,
-          `X-Workspace-Id: ${connectionObj.workspaceId}`
+          `X-Workspace-Id: ${connectionObj.workspaceId}`,
+          `Expires: ${expires}`
         ]
       }
     };
+  };
 
+  const handleScheduleMeetingRequest = () => {
+    window.open(calendarUrl, "_blank");
+  };
+
+  const handleSubmitContactForm = async (values: Record<string, string>) => {
+    const workspaceId = getWorkspaceId(document);
+    const server = getAPIServer(document);
+    let customerRef = sessionStorage.getItem("customerRef");
+
+    if (!customerRef) {
+      customerRef = Math.random().toString(36).substring(7);
+      sessionStorage.setItem("customerRef", customerRef);
+    }
+
+    const client = new SDK.Client({
+      endpoint: server,
+      workspace: workspaceId
+    });
+
+    const tokens = new SDK.Tokens(client);
+
+    const token = await tokens.createAnonymousToken({
+      ref: customerRef,
+      workspaceId,
+      metadata: values
+    });
+
+    const connectionObj = jwtDecode(token) as ConnectionObject;
+
+    setCustomerToken(token);
+    setCustomerToken(token);
+    setConnectionObj(connectionObj);
+    setCalendarUrl(connectionObj.calendarUrl);
+    sessionStorage.setItem("customerToken", token);
+  };
+
+  const handleWidgetEvents = async (
+    event: GoodtokWidgetEvents,
+    data: Record<string, string>
+  ) => {
     switch (event) {
-      case GoodtokWidgetEvents.VIDEO_SESSION_REQUEST:
-        sendSessionRequest(event, registerOptions);
+      case GoodtokWidgetEvents.SUBMIT_CONTACT_FORM_REQUEST:
+        await handleSubmitContactForm(data);
+        setContactFormOpen(false);
+        setMenuOpen(true);
         break;
 
+      case GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST:
+        handleScheduleMeetingRequest();
+        break;
+
+      case GoodtokWidgetEvents.VIDEO_SESSION_REQUEST:
       case GoodtokWidgetEvents.AUDIO_SESSION_REQUEST:
-        sendSessionRequest(event, registerOptions);
+        sendSessionRequest(event, getRegisterOptions());
+        setNotificationType(NotificationType.WAITING_FOR_AGENT);
+        setMenuOpen(false);
+        setNotificationOpen(true);
         break;
 
       case GoodtokWidgetEvents.AUDIO_MUTE_REQUEST:
@@ -201,9 +241,11 @@ const GoodtokUA = () => {
 
       case GoodtokWidgetEvents.HANGUP_REQUEST:
       case GoodtokWidgetEvents.CLOSE_MENU_EVENT:
+        setMenuOpen(false);
+        setNotificationOpen(false);
         setVideoOpen(false);
-        if (simpleUser.isConnected()) {
-          await simpleUser.unregister(registerOptions);
+        if (simpleUser?.isConnected()) {
+          await simpleUser.unregister(getRegisterOptions(0));
           await simpleUser.disconnect();
           try {
             await simpleUser.hangup();
@@ -213,17 +255,21 @@ const GoodtokUA = () => {
         }
         break;
 
-      case GoodtokWidgetEvents.OPEN_MENU_EVENT:
-        // noop
+      case GoodtokWidgetEvents.OPEN_MENU_EVENT: {
+        if (customerToken) {
+          setMenuOpen(true);
+        } else {
+          setContactFormOpen(true);
+        }
         break;
-
+      }
       default:
         // TODO: You can handle other unanticipated events here
         break;
     }
 
     return async () => {
-      await simpleUser.unregister(registerOptions);
+      await simpleUser.unregister(getRegisterOptions(0));
       await simpleUser.disconnect();
       try {
         await simpleUser.hangup();
@@ -234,12 +280,11 @@ const GoodtokUA = () => {
   };
 
   useEffect(() => {
-    const token = getCustomerToken(document);
-    setCustomerToken(token);
-  }, []);
+    let token = getCustomerToken(document);
 
-  useEffect(() => {
-    const token = getCustomerToken(document);
+    if (!token) {
+      token = sessionStorage.getItem("customerToken");
+    }
 
     if (token) {
       const connectionObj = jwtDecode(token) as ConnectionObject;
@@ -248,35 +293,7 @@ const GoodtokUA = () => {
       setCalendarUrl(connectionObj.calendarUrl);
       return;
     }
-
-    const workspaceId = getWorkspaceId(document);
-    const server = getAPIServer(document);
-    let customerRef = localStorage.getItem("customerRef");
-
-    if (!customerRef) {
-      customerRef = Math.random().toString(36).substring(7);
-      localStorage.setItem("customerRef", customerRef);
-    }
-
-    const client = new SDK.Client({
-      endpoint: server,
-      workspace: workspaceId
-    });
-
-    const tokens = new SDK.Tokens(client);
-
-    tokens
-      .createAnonymousToken({
-        ref: customerRef,
-        workspaceId
-      })
-      .then((token) => {
-        const connectionObj = jwtDecode(token) as ConnectionObject;
-        setCustomerToken(token);
-        setConnectionObj(connectionObj);
-        setCalendarUrl(connectionObj.calendarUrl);
-      });
-  }, [customerToken]);
+  }, []);
 
   useEffect(() => {
     const workspaceId = getWorkspaceId(document);
@@ -350,7 +367,7 @@ const GoodtokUA = () => {
       initialCameraMutedState={videoMuted}
       menuOpen={menuOpen}
       menuData={menuData}
-      contactFormOpen={true}
+      contactFormOpen={contactFormOpen}
       notificationOpen={notificationOpen}
       notificationType={notificationType}
     />
