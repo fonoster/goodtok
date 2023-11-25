@@ -123,6 +123,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const isAdmin = (workspaceId: string) => {
+    if (!client) {
+      return;
+    }
+
     const payload = jwtDecode(client?.getToken() as string) as {
       workspaces: { id: string; role: Role }[];
     };
@@ -134,6 +138,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
+    if (!client) {
+      return;
+    }
+
     const tokenExpiration = jwtDecode(client?.getToken() as string) as {
       exp: number;
     };
