@@ -21,8 +21,10 @@ import fs from "fs";
 import path from "path";
 
 const TEMPLATE_DIR = path.join(__dirname, "templates");
+
 enum TemplateName {
-  INVITE = "inviteTemplate"
+  INVITE_NEW_USER = "inviteNewUserTemplate",
+  INVITE_EXISTING_USER = "inviteExistingUserTemplate"
 }
 
 const compileTemplate = (
@@ -36,5 +38,9 @@ const compileTemplate = (
 };
 
 export function createInviteBody(data: Record<string, string>) {
-  return compileTemplate(TemplateName.INVITE, data);
+  if (data.oneTimePassword) {
+    return compileTemplate(TemplateName.INVITE_NEW_USER, data);
+  } else {
+    return compileTemplate(TemplateName.INVITE_EXISTING_USER, data);
+  }
 }

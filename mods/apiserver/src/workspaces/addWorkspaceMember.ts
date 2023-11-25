@@ -65,9 +65,10 @@ export async function addWorkspaceMember(
     }
   });
 
-  const oneTimePassword = customAlphabet("1234567890abcdef", 10)();
+  let oneTimePassword;
 
   if (!user) {
+    oneTimePassword = customAlphabet("1234567890abcdef", 10)();
     // Let's create a new user with a one time password
     logger.verbose("user does not exists, creating a new one", {
       email

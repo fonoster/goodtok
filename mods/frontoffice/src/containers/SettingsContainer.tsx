@@ -234,7 +234,7 @@ function SettingsContainer() {
         workspaces
           .getMembersByWorkspaceId(workspaceId)
           .then((response) => {
-            const newMembers = response.members.map((member) => ({
+            const members = response.members.map((member) => ({
               id: member.id,
               userId: member.userId,
               name: member.name,
@@ -244,7 +244,7 @@ function SettingsContainer() {
               createdAt: new Date(member.createdAt)
             }));
 
-            setMembers((prevMembers) => [prevMembers[0], ...newMembers]);
+            setMembers(members);
           })
           .catch((err) => {
             logger.error("error getting workspace members", err);
