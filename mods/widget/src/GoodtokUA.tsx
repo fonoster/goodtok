@@ -258,7 +258,7 @@ const GoodtokUA = () => {
         break;
 
       case GoodtokWidgetEvents.OPEN_MENU_EVENT: {
-        if (customerToken) {
+        if (customerToken || !isOnline) {
           setMenuOpen(true);
         } else {
           setContactFormOpen(true);
