@@ -1,6 +1,6 @@
 {
   "name": "@goodtok/apiserver",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "APIServer for Goodtok",
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "homepage": "https://github.com/fonoster/goodtok#readme",
