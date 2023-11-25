@@ -59,14 +59,14 @@ export const NOTIFICATION_MESSAGES = {
   }
 };
 
-type MenuContainerProps = {
+type NotificationsProps = {
   online?: boolean;
   isOpen: boolean;
   type: NotificationType;
   onClose: () => void;
 };
 
-export const Notification: React.FC<MenuContainerProps> = ({
+export const Notification: React.FC<NotificationsProps> = ({
   online = false,
   onClose,
   isOpen,
