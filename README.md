@@ -68,9 +68,9 @@ OWNER_PASSWORD=changeme
 
 # SMTP config
 SMTP_HOST=smtp.example.com
-SMTP_AUTH_USER=postmaster@example.com
+SMTP_AUTH_USER=postmaster@mail.example.com
 SMTP_AUTH_PASS=secret
-SMTP_SENDER=Goodtok <info@example.com>
+SMTP_SENDER=Goodtok Info <info@mail.example.com>
 
 # SIP signaling config
 DOCKER_HOST_ADDRESS=/* The public IP address of your Docker host */
