@@ -241,9 +241,11 @@ const GoodtokUA = () => {
 
       case GoodtokWidgetEvents.HANGUP_REQUEST:
       case GoodtokWidgetEvents.CLOSE_MENU_EVENT:
+        // Reset widget state
         setMenuOpen(false);
-        setNotificationOpen(false);
         setVideoOpen(false);
+        setNotificationOpen(false);
+        setContactFormOpen(false);
         if (simpleUser?.isConnected()) {
           await simpleUser.unregister(getRegisterOptions(0));
           await simpleUser.disconnect();

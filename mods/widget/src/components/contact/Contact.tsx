@@ -112,7 +112,6 @@ export const Contact: React.FC<ContactProps> = ({
                 as={TextAreaStyled}
                 name="message"
                 placeholder="Enter your message"
-                multiline
                 rows={4}
                 error={touched.message && !!errors.message}
                 style={{

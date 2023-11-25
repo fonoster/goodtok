@@ -192,10 +192,11 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
         <GoodtokButton
           online={online}
           onClick={() => {
-            if (activeComponent !== ActiveComponent.MENU) {
-              onEvent(GoodtokWidgetEvents.OPEN_MENU_EVENT);
-            } else {
+            if (activeComponent !== ActiveComponent.NONE) {
               onEvent(GoodtokWidgetEvents.CLOSE_MENU_EVENT);
+              setActiveComponent(ActiveComponent.NONE);
+            } else {
+              onEvent(GoodtokWidgetEvents.OPEN_MENU_EVENT);
             }
           }}
         />

@@ -144,7 +144,8 @@ describe("@apiserver[queues]", () => {
       customerId: testWorkspace.queue[0].customerId,
       aor: testWorkspace.queue[0].aor,
       workspaceId: testWorkspace.queue[0].workspaceId,
-      expires: 300
+      expires: 300,
+      metadata: {}
     };
 
     const { updateQueueEntry } = await import("../src/queues/updateQueueEntry");
