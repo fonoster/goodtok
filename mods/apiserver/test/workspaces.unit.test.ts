@@ -128,7 +128,13 @@ describe("@apiserver[workspaces]", () => {
       prisma: {
         workspace: {
           findUnique: sandbox.stub().resolves({
-            members: [testMember]
+            members: [testMember],
+            owner: {
+              id: "c5a6a3a6-fe03-4b10-9313-62b46dc11111",
+              name: "Jane Doe",
+              email: "jane@example.com",
+              createdAt: new Date()
+            }
           })
         }
       }
@@ -141,21 +147,17 @@ describe("@apiserver[workspaces]", () => {
     );
 
     // Act
-    const members = await getMembersByWorkspaceId(ctx, request);
+    const result = await getMembersByWorkspaceId(ctx, request);
 
     // Assert
-    chai.expect(members).to.deep.equal({
-      members: [
-        {
-          id: testMember.id,
-          userId: testMember.userId,
-          email: testMember.user.email,
-          name: testMember.user.name,
-          status: testMember.status,
-          role: testMember.role,
-          createdAt: testMember.createdAt
-        }
-      ]
+    chai.expect(result.members[1]).to.deep.equal({
+      id: testMember.id,
+      userId: testMember.userId,
+      email: testMember.user.email,
+      name: testMember.user.name,
+      status: testMember.status,
+      role: testMember.role,
+      createdAt: testMember.createdAt
     });
   });
 

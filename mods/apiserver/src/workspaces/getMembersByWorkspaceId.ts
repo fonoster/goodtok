@@ -40,6 +40,7 @@ export async function getMembersByWorkspaceId(
       id: workspaceId
     },
     include: {
+      owner: true,
       members: {
         include: {
           user: true
@@ -60,6 +61,16 @@ export async function getMembersByWorkspaceId(
       role: member.role as unknown as WorkspaceMemberRole,
       createdAt: member.createdAt
     };
+  });
+
+  members.unshift({
+    id: workspace.owner.id,
+    userId: workspace.owner.id,
+    name: workspace.owner.name,
+    email: workspace.owner.email,
+    status: WorkspaceMemberStatus.ACTIVE,
+    role: WorkspaceMemberRole.OWNER,
+    createdAt: workspace.owner.createdAt
   });
 
   return {
