@@ -85,7 +85,6 @@ function ChatContainer() {
     customers
       .getCustomerById({ workspaceId, customerId })
       .then((profile) => {
-        console.log("profile", profile);
         setCustomerProfile(profile);
       })
       .catch((err) => {

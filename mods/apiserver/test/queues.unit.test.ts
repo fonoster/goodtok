@@ -97,6 +97,7 @@ describe("@apiserver[queues]", () => {
           aor: testWorkspace.queue[0].aor,
           customer: {
             id: testWorkspace.queue[0].customerId,
+            email: undefined,
             name: "John Doe",
             avatar: "https://example.com/avatar.png",
             note: "Some note"
