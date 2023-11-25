@@ -16,61 +16,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { GoodtokButton as OriginalGoodtokButton } from "../goodtokbutton/GoodtokButton";
 import { Notification, NotificationType } from "../notification/Notification";
-import { Menu as OriginalMenu } from "../menu/Menu";
 import { ActiveComponent, GoodtokWidgetEvents } from "./types";
 import { Item } from "../menu/Menu";
+import { Contact } from "../contact/Contact";
+import {
+  GoodtokButton,
+  Menu,
+  MenuButtonContainer
+} from "./GoodtokWidgetStyles";
 import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
 import Video from "../video/Video";
 import MobileVideo from "../video/MobileVideo";
-
-const MOBILE_BREAKPOINT = 630;
 
 export type GoodtokWidgetProps = {
   online: boolean;
   notificationOpen: boolean;
-  notificationType: NotificationType;
-  videoOpen: boolean;
-  initialCameraMutedState: boolean;
   menuOpen: boolean;
+  videoOpen: boolean;
+  contactFormOpen: boolean;
+  notificationType: NotificationType;
+  initialCameraMutedState: boolean;
   menuData: Item[];
-  onEvent: (eventName: GoodtokWidgetEvents) => void;
+  onEvent: (eventName: GoodtokWidgetEvents, data?: object) => void;
   onNotificationClose: () => void;
   onVideoRefsReady: (refs: any) => void;
 };
 
-// Styled-components
-const MenuButtonContainer = styled.div`
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`;
-
-const Menu = styled(OriginalMenu)`
-  z-index: 999;
-`;
-
-const GoodtokButton = styled(OriginalGoodtokButton)`
-  z-index: 1000;
-
-  /* This targets the scenario where .menu is immediately preceding .goodtok-button */
-  ${Menu} + & {
-    margin-top: 20px;
-  }
-`;
-
 export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
   online = false,
   notificationOpen = false,
-  notificationType,
-  videoOpen = false,
-  initialCameraMutedState = false,
   menuOpen = false,
+  videoOpen = false,
+  contactFormOpen = false,
+  notificationType,
+  initialCameraMutedState = false,
   menuData = [],
   onEvent,
   onNotificationClose,
@@ -78,8 +58,10 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
 }) => {
   const videoRefs = useRef(null);
   const [activeComponent, setActiveComponent] = useState<ActiveComponent>(
-    ActiveComponent.None
+    ActiveComponent.NONE
   );
+
+  const MOBILE_BREAKPOINT = 630;
 
   const [isMobile, setIsMobile] = useState(
     window.innerWidth < MOBILE_BREAKPOINT
@@ -96,11 +78,12 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
   }, []);
 
   useEffect(() => {
-    if (menuOpen) setActiveComponent(ActiveComponent.Menu);
-    else if (notificationOpen) setActiveComponent(ActiveComponent.Notification);
-    else if (videoOpen) setActiveComponent(ActiveComponent.Video);
-    else setActiveComponent(ActiveComponent.None);
-  }, [menuOpen, notificationOpen, videoOpen]);
+    if (menuOpen) setActiveComponent(ActiveComponent.MENU);
+    else if (notificationOpen) setActiveComponent(ActiveComponent.NOTIFICATION);
+    else if (videoOpen) setActiveComponent(ActiveComponent.VIDEO);
+    else if (contactFormOpen) setActiveComponent(ActiveComponent.CONTACT_FORM);
+    else setActiveComponent(ActiveComponent.NONE);
+  }, [menuOpen, notificationOpen, videoOpen, contactFormOpen]);
 
   useEffect(() => {
     if (videoRefs.current) {
@@ -119,26 +102,41 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
     >
       <Menu
         online={online}
-        isOpen={activeComponent === ActiveComponent.Menu}
+        isOpen={activeComponent === ActiveComponent.MENU}
         data={menuData}
         onItemClicked={(name) => {
           onEvent(name as GoodtokWidgetEvents);
         }}
       />
-      <Notification
+
+      <Contact
         online={online}
-        isOpen={activeComponent === ActiveComponent.Notification}
-        type={notificationType}
+        isOpen={activeComponent === ActiveComponent.CONTACT_FORM}
+        onSubmit={(data) => {
+          setActiveComponent(ActiveComponent.NONE);
+          onEvent(GoodtokWidgetEvents.SUBMIT_CONTACT_FORM_REQUEST, data);
+        }}
         onClose={() => {
-          onNotificationClose();
-          setActiveComponent(ActiveComponent.None);
+          setActiveComponent(ActiveComponent.NONE);
           onEvent(GoodtokWidgetEvents.CLOSE_MENU_EVENT);
         }}
       />
+
+      <Notification
+        online={online}
+        isOpen={activeComponent === ActiveComponent.NOTIFICATION}
+        type={notificationType}
+        onClose={() => {
+          onNotificationClose();
+          setActiveComponent(ActiveComponent.NONE);
+          onEvent(GoodtokWidgetEvents.CLOSE_MENU_EVENT);
+        }}
+      />
+
       {isMobile ? (
         <MobileVideo
           ref={videoRefs}
-          isOpen={activeComponent === ActiveComponent.Video}
+          isOpen={activeComponent === ActiveComponent.VIDEO}
           initialCameraMutedState={initialCameraMutedState}
           onCameraMuted={(muted) => {
             if (muted) {
@@ -155,14 +153,14 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
             }
           }}
           onHangup={() => {
-            setActiveComponent(ActiveComponent.None);
+            setActiveComponent(ActiveComponent.NONE);
             onEvent(GoodtokWidgetEvents.HANGUP_REQUEST);
           }}
         />
       ) : (
         <Video
           ref={videoRefs}
-          isOpen={activeComponent === ActiveComponent.Video}
+          isOpen={activeComponent === ActiveComponent.VIDEO}
           initialCameraMutedState={initialCameraMutedState}
           onCameraMuted={(muted) => {
             if (muted) {
@@ -179,24 +177,26 @@ export const GoodtokWidget: React.FC<GoodtokWidgetProps> = ({
             }
           }}
           onHangup={() => {
-            setActiveComponent(ActiveComponent.None);
+            setActiveComponent(ActiveComponent.NONE);
             onEvent(GoodtokWidgetEvents.HANGUP_REQUEST);
           }}
           onClose={() => {
-            setActiveComponent(ActiveComponent.None);
+            setActiveComponent(ActiveComponent.NONE);
             onEvent(GoodtokWidgetEvents.CLOSE_MENU_EVENT);
           }}
         />
       )}
+
+      {/* We hide the GoodtokButton component when the video is open on mobile */}
       {((isMobile && !videoOpen) || !isMobile) && (
         <GoodtokButton
           online={online}
           onClick={() => {
-            if (activeComponent !== ActiveComponent.Menu) {
-              setActiveComponent(ActiveComponent.Menu);
+            if (activeComponent !== ActiveComponent.MENU) {
+              setActiveComponent(ActiveComponent.MENU);
               onEvent(GoodtokWidgetEvents.OPEN_MENU_EVENT);
             } else {
-              setActiveComponent(ActiveComponent.None);
+              setActiveComponent(ActiveComponent.NONE);
               onEvent(GoodtokWidgetEvents.CLOSE_MENU_EVENT);
             }
           }}

@@ -203,7 +203,7 @@ const GoodtokUA = () => {
       case GoodtokWidgetEvents.CLOSE_MENU_EVENT:
         setVideoOpen(false);
         if (simpleUser.isConnected()) {
-          await simpleUser.unregister(unregisterOptions);
+          await simpleUser.unregister(registerOptions);
           await simpleUser.disconnect();
           try {
             await simpleUser.hangup();
@@ -223,16 +223,7 @@ const GoodtokUA = () => {
     }
 
     return async () => {
-      const unregisterOptions = {
-        requestOptions: {
-          extraHeaders: [
-            `X-Connect-Token: ${customerToken}`,
-            `X-Customer-Id: ${connectionObj.customerId}`,
-            `X-Workspace-Id: ${connectionObj.workspaceId}`
-          ]
-        }
-      };
-      await simpleUser.unregister(unregisterOptions);
+      await simpleUser.unregister(registerOptions);
       await simpleUser.disconnect();
       try {
         await simpleUser.hangup();
@@ -359,6 +350,7 @@ const GoodtokUA = () => {
       initialCameraMutedState={videoMuted}
       menuOpen={menuOpen}
       menuData={menuData}
+      contactFormOpen={true}
       notificationOpen={notificationOpen}
       notificationType={notificationType}
     />

@@ -18,7 +18,7 @@
  */
 import React, { useState } from "react";
 import { GoodtokIcon, GoodtokHoverIcon } from "./GoodtokIcon";
-import { ButtonContainer } from "./styles";
+import { ButtonContainer } from "./GoodtokButtonStyles";
 
 interface GoodtokButtonProps {
   online?: boolean;

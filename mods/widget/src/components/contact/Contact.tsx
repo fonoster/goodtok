@@ -16,16 +16,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Field, Form, Formik } from "formik";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 import { CloseIcon } from "../icons/CloseIcon";
 import { MenuContainer } from "../menu/container/MenuContainer";
 import { NotificationHeader } from "../notification/NotificationStyles";
-import { StyledTitle } from "./ContactStyles";
+import {
+  StyledButton,
+  StyledTitle,
+  TextAreaStyled,
+  TextFieldStyled
+} from "./ContactStyles";
 import { Box } from "@mui/material";
-import { TextField } from "../textfield/TextField";
-import { Button } from "../button/Button";
 import { z } from "zod";
-import { Field, Form, Formik } from "formik";
-import { toFormikValidationSchema } from "zod-formik-adapter";
 import React from "react";
 
 type ContactProps = {
@@ -70,34 +73,48 @@ export const Contact: React.FC<ContactProps> = ({
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
-                maxWidth: "100%", // Maximum width the box can take
-                pl: 1,
-                pr: 1
+                maxWidth: "100%"
               }}
               {...props}
             >
-              <StyledTitle style={{ marginTop: "10px", marginBottom: "20px" }}>
+              <StyledTitle
+                style={{
+                  marginLeft: "10px",
+                  marginTop: "10px",
+                  marginBottom: "20px"
+                }}
+              >
                 Tell us a bit about you.
               </StyledTitle>
 
               <Field
-                as={TextField}
+                as={TextFieldStyled}
                 name="name"
                 placeholder="Enter your name"
                 error={touched.name && !!errors.name}
                 helperText={touched.name && errors.name ? errors.name : ""}
+                style={{
+                  marginBottom: "20px",
+                  width: "288px",
+                  marginLeft: "10px"
+                }}
               />
 
               <Field
-                as={TextField}
+                as={TextFieldStyled}
                 name="email"
                 placeholder="Enter your email"
                 error={touched.email && !!errors.email}
                 helperText={touched.email && errors.email ? errors.email : ""}
+                style={{
+                  marginBottom: "20px",
+                  width: "288px",
+                  marginLeft: "10px"
+                }}
               />
 
               <Field
-                as={TextField}
+                as={TextAreaStyled}
                 name="message"
                 placeholder="Enter your message"
                 multiline
@@ -106,11 +123,23 @@ export const Contact: React.FC<ContactProps> = ({
                 helperText={
                   touched.message && errors.message ? errors.message : ""
                 }
+                style={{
+                  marginBottom: "20px",
+                  width: "288px",
+                  marginLeft: "10px"
+                }}
               />
 
-              <Button type="submit" sx={{ mb: 3 }}>
+              <StyledButton
+                type="submit"
+                style={{
+                  marginBottom: "20px",
+                  width: "288px",
+                  marginLeft: "10px"
+                }}
+              >
                 Send
-              </Button>
+              </StyledButton>
             </Box>
           </Form>
         )}
