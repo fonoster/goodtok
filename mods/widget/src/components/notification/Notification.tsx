@@ -46,7 +46,7 @@ export const NOTIFICATION_MESSAGES = {
   [NotificationType.UNKNOWN_ERROR]: {
     title: "Unexpected Error!",
     description:
-      "Oops! Something unexpected happened and we couldn't process your request. Please try again later or contact support."
+      "Oops! Something unexpected happened and we couldn't process your request. Please try again later."
   },
   [NotificationType.PERMISSIONS_ERROR]: {
     title: "Permissions Needed!",

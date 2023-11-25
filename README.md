@@ -75,7 +75,7 @@ SMTP_SENDER=Goodtok <info@example.com>
 # SIP signaling config
 DOCKER_HOST_ADDRESS=/* The public IP address of your Docker host */
 SIP_DOMAIN=sip.goodtok.io
-SIP_SIGNALING_SERVER=ws://sip.goodtok.io:5062
+SIP_SIGNALING_SERVER=ws://localhost:5062
 
 # Database and encryption config
 POSTGRES_USER=postgres
@@ -100,7 +100,7 @@ In the website where you want to integrate Goodtok, you will need to add the fol
 ```html
 <!-- Goodtok video client -->
 <script
-  type="text/javascript"
+  type="module"
   src="https://unpkg.com/@goodtok/widget?key=eyJndGlkIjoiZy00ZjkwZDEzYTQyIiwic2VydmVyIjoiaHR0cHM6Ly9hcGkuZ29vZHRvay5pby92MSJ9&token=OPTIONAL_CUSTOMER_TOKEN"
 >
 </script>
@@ -111,10 +111,10 @@ The key is a base64 encoded value containing the account `gtid` and `server` of 
 
 ```bash
 # The gtid corresponds to the workspace id in the Goodtok dashboard
-echo -n '{"gtid":"g-4f90d13a42","server":"https://api.example.com/v1"}' | base64
+echo -n '{"gtid":"g-7b7c46fb05","server":"http://localhost:6789/v1"}' | base64
 ```
 
-If no server is specified, the client will use the default server at `api.goodtok.io`.
+If no server is specified, the client will default to `https://api.goodtok.io/v1`.
 
 The video widget will request an anonymous token from the server if none is provided. The server will generate a token only if the owner of the `gtid` has enabled anonymous access. The server will return an error if the owner has not allowed anonymous access.
 

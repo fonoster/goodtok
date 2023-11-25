@@ -26,7 +26,7 @@ import { getScriptParams } from "./getScriptParams";
  * @return {string} token
  */
 export function getCustomerToken(document: Document): string {
-  return getScriptParams(document).get("token");
+  return getScriptParams(document)?.get("token");
 }
 
 /**
@@ -37,7 +37,9 @@ export function getCustomerToken(document: Document): string {
  */
 export function getAPIServer(document: Document): string {
   const searchParams = getScriptParams(document);
-  return getKeyFromSearchParam(searchParams, "server");
+  return (
+    getKeyFromSearchParam(searchParams, "server") || "https://api.goodtok.io/v1"
+  );
 }
 
 /**

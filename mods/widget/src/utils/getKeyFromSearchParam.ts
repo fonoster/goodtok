@@ -33,7 +33,7 @@ export function getKeyFromSearchParam(
   searchParams: URLSearchParams,
   key: string
 ) {
-  const searchParamsValue = searchParams.get("key");
+  const searchParamsValue = searchParams?.get("key");
   if (!searchParamsValue) {
     return null;
   }
