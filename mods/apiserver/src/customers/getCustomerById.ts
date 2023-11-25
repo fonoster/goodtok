@@ -28,10 +28,12 @@ export async function getCustomerById(
   ctx: Context,
   request: GetCustomerByIdRequest
 ): Promise<Customer | null> {
-  logger.verbose("get customer by id", { request });
+  const { workspaceId, customerId } = request;
+
+  logger.verbose("get customer by id", { workspaceId, customerId });
 
   const workspace = await ctx.prisma.workspace.findUnique({
-    where: { id: request.workspaceId },
+    where: { id: workspaceId },
     include: { shopifyAccount: true }
   });
 
@@ -41,9 +43,7 @@ export async function getCustomerById(
   });
 
   try {
-    const shopifyCustomer = await shopifyClient.getCustomerById(
-      request.customerId
-    );
+    const shopifyCustomer = await shopifyClient.getCustomerById(customerId);
 
     return shopifyCustomer
       ? {
@@ -58,7 +58,24 @@ export async function getCustomerById(
         }
       : null;
   } catch (err) {
-    logger.warn("error getting customer by id", { err });
-    return null;
+    logger.verbose("no customer found in shopify and will fallback to queue", {
+      customerId,
+      workspaceId
+    });
+    const result = await ctx.prisma.queueEntry.findFirst({
+      where: {
+        customerId,
+        workspaceId
+      }
+    });
+
+    const metadata = result.metadata as Record<string, string>;
+
+    return {
+      id: customerId,
+      name: metadata.name,
+      email: metadata.email,
+      note: metadata.message
+    } as Customer;
   }
 }

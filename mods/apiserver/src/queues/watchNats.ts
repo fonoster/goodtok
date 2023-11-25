@@ -35,6 +35,10 @@ watchNats(NATS_URL, async (event) => {
   const workspaceId = extraHeaders["X-Workspace-Id"];
   const token = extraHeaders["X-Connect-Token"];
 
+  const claims = jwt.decode(token) as {
+    metadata: { name: string; email: string; message: string };
+  };
+
   logger.verbose("customerId and workspaceId", {
     customerId,
     workspaceId,
@@ -45,25 +49,13 @@ watchNats(NATS_URL, async (event) => {
     customerId,
     aor,
     workspaceId,
-    expires
+    expires,
+    metadata: claims.metadata
   });
 
   logger.verbose("entry updated", { entry });
 
-  let customer = await getCustomerById(ctx, { workspaceId, customerId });
-
-  if (!customer) {
-    const payload = jwt.decode(token) as {
-      metadata: { name: string; email: string; message: string };
-    };
-
-    customer = {
-      ...customer,
-      name: payload.metadata.name,
-      email: payload.metadata.email,
-      note: payload.metadata.message
-    };
-  }
+  const customer = await getCustomerById(ctx, { workspaceId, customerId });
 
   const entryWithCustomer = {
     ...entry,

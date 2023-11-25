@@ -1,7 +1,4 @@
 -- CreateEnum
-CREATE TYPE "workspace_status" AS ENUM ('ONLINE', 'OFFLINE');
-
--- CreateEnum
 CREATE TYPE "workspace_member_status" AS ENUM ('PENDING', 'ACTIVE');
 
 -- CreateEnum
@@ -27,7 +24,7 @@ CREATE TABLE "users" (
 CREATE TABLE "workspaces" (
     "id" TEXT NOT NULL,
     "name" VARCHAR(60) NOT NULL,
-    "hours_of_operation" JSONB NOT NULL,
+    "hours_of_operation" JSONB NOT NULL DEFAULT '{}',
     "enabled" BOOLEAN NOT NULL DEFAULT true,
     "calendar_url" VARCHAR(255) NOT NULL,
     "timezone" TEXT NOT NULL,
@@ -60,6 +57,7 @@ CREATE TABLE "queue_entries" (
     "registered_at" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "status" "queue_entry_status" NOT NULL,
     "aor" VARCHAR(323) NOT NULL,
+    "metadata" JSONB NOT NULL DEFAULT '{}',
     "workspaceId" TEXT NOT NULL,
 
     CONSTRAINT "queue_entries_pkey" PRIMARY KEY ("id")

@@ -58,29 +58,15 @@ export async function updateQueueEntryStatus(
     customerId
   });
 
-  if (!customer) {
-    logger.warn("id not found, marking it as anonymous", {
-      customerId
-    });
-  }
-
   const entryWithCustomer = {
     ...queueEntryUpdated,
-    customer: customer
-      ? {
-          id: customerId,
-          name: customer.name,
-          email: customer.email,
-          avatar: customer.avatar,
-          note: customer.note
-        }
-      : {
-          id: customerId,
-          name: "Anonymous",
-          email: null,
-          avatar: null,
-          note: null
-        }
+    customer: {
+      id: customerId,
+      name: customer.name,
+      email: customer.email,
+      avatar: customer.avatar,
+      note: customer.note
+    }
   };
 
   // Notify all observers

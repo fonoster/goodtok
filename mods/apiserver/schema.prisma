@@ -60,7 +60,7 @@ model User {
 model Workspace {
   id               String          @id @default(uuid())
   name             String          @db.VarChar(60)
-  hoursOfOperation Json            @map("hours_of_operation")
+  hoursOfOperation Json            @map("hours_of_operation") @default("{}")
   enabled          Boolean         @default(true)
   calendarUrl      String          @map("calendar_url") @db.VarChar(255)
   timezone         String
@@ -105,6 +105,7 @@ model QueueEntry {
   registeredAt DateTime         @default(now()) @map("registered_at") @db.Timestamptz(3)
   status       QueueEntryStatus
   aor          String           @db.VarChar(323) // Address of record
+  metadata     Json             @default("{}")
 
   // Relations
   workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)

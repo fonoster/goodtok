@@ -53,7 +53,7 @@ export default class ShopifyAPI {
 
       return null;
     } catch (error) {
-      logger.error("an error occurred while getting customer by id", {
+      logger.verbose("an error occurred while getting customer by id", {
         error,
         customerId,
         shop: this.shop,

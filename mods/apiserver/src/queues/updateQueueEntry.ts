@@ -34,6 +34,7 @@ export async function updateQueueEntry(
     aor: string;
     workspaceId: string;
     expires: number;
+    metadata: Record<string, string>;
   }
 ) {
   const { customerId, aor, workspaceId, expires } = request;
@@ -70,7 +71,8 @@ export async function updateQueueEntry(
         status:
           expires > 0 ? QueueEntryStatus.ONLINE : QueueEntryStatus.OFFLINE,
         aor,
-        workspaceId: workspaceId
+        workspaceId: workspaceId,
+        metadata: request.metadata
       }
     });
   } else {
@@ -86,7 +88,8 @@ export async function updateQueueEntry(
       },
       data: {
         status,
-        registeredAt: new Date()
+        registeredAt: new Date(),
+        metadata: request.metadata
       }
     });
   }
