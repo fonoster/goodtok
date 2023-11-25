@@ -340,15 +340,17 @@ Does not require authentication. The token will be issued only if the workspace 
 | --- | --- | --- |
 | request | <code>CreateAnonymousTokenInput</code> | A request with claims required to create a token |
 | request.ref | <code>string</code> | A reference for the anonymous user |
-| request.aor | <code>string</code> | The address of record (AOR) for the user |
-| request.aorLink | <code>string</code> | The address of record (AOR) for the user |
+| request.workspaceId | <code>string</code> | The workspace ID |
+| request.metadata | <code>string</code> | Custom metadata to be included in the token |
 
 **Example**  
 ```js
 const request = {
   ref: "myref",
-  aor: "anonymous@sip.goodtok.io",
-  aorLink: "anonymous@sip.goodtok.io"
+  workspaceId: "g-1234567890",
+  metadata: {
+   customField: "customValue"
+  }
 }
 
 tokens.createAnonymousToken(request)
