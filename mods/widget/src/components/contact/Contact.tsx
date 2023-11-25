@@ -27,7 +27,6 @@ import {
   TextAreaStyled,
   TextFieldStyled
 } from "./ContactStyles";
-import { Box } from "@mui/material";
 import { z } from "zod";
 import React from "react";
 
@@ -68,20 +67,19 @@ export const Contact: React.FC<ContactProps> = ({
       >
         {({ errors, touched }) => (
           <Form>
-            <Box
-              sx={{
+            <div
+              style={{
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
+                padding: "0 10px", // This sets the padding on the left and right
                 maxWidth: "100%"
               }}
               {...props}
             >
               <StyledTitle
                 style={{
-                  marginLeft: "10px",
-                  marginTop: "10px",
-                  marginBottom: "20px"
+                  marginTop: "0px"
                 }}
               >
                 Tell us a bit about you.
@@ -92,11 +90,8 @@ export const Contact: React.FC<ContactProps> = ({
                 name="name"
                 placeholder="Enter your name"
                 error={touched.name && !!errors.name}
-                helperText={touched.name && errors.name ? errors.name : ""}
                 style={{
-                  marginBottom: "20px",
-                  width: "288px",
-                  marginLeft: "10px"
+                  marginTop: "10px"
                 }}
               />
 
@@ -105,11 +100,8 @@ export const Contact: React.FC<ContactProps> = ({
                 name="email"
                 placeholder="Enter your email"
                 error={touched.email && !!errors.email}
-                helperText={touched.email && errors.email ? errors.email : ""}
                 style={{
-                  marginBottom: "20px",
-                  width: "288px",
-                  marginLeft: "10px"
+                  marginTop: "20px"
                 }}
               />
 
@@ -120,27 +112,21 @@ export const Contact: React.FC<ContactProps> = ({
                 multiline
                 rows={4}
                 error={touched.message && !!errors.message}
-                helperText={
-                  touched.message && errors.message ? errors.message : ""
-                }
                 style={{
-                  marginBottom: "20px",
-                  width: "288px",
-                  marginLeft: "10px"
+                  marginTop: "20px"
                 }}
               />
 
               <StyledButton
                 type="submit"
                 style={{
-                  marginBottom: "20px",
-                  width: "288px",
-                  marginLeft: "10px"
+                  marginTop: "20px",
+                  marginBottom: "20px"
                 }}
               >
                 Send
               </StyledButton>
-            </Box>
+            </div>
           </Form>
         )}
       </Formik>
