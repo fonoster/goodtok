@@ -55,14 +55,7 @@ export const StyledMenuItem = styled(MenuItem)({
   letterSpacing: "0.5px",
   color: "#333",
   "&.Mui-selected": {
-    fontFamily: "Poppins",
-    fontSize: "12px",
-    fontStyle: "normal",
-    fontWeight: 400,
-    lineHeight: "24px",
-    letterSpacing: "0.5px",
-    color: "#333",
-    backgroundColor: "#F1DED7"
+    backgroundColor: "#F1DED7 !important"
   },
   "&.Mui-selected:hover": {
     backgroundColor: "#F1DED7"
