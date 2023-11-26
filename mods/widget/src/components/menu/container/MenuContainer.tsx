@@ -26,7 +26,7 @@ import {
   MenuContainerStyled,
   StatusArea,
   StatusAreaLabel
-} from "./styles";
+} from "./MenuContainerStyles";
 
 type MenuContainerProps = {
   online?: boolean;
@@ -52,7 +52,10 @@ export const MenuContainer: React.FC<MenuContainerProps> = ({
       </ContentArea>
       <StatusArea>
         <FlexContainer className="status-area-container">
-          <FlexContainer className="powered-by">
+          <FlexContainer
+            className="powered-by"
+            onClick={() => window.open("https://goodtok.io", "_blank")}
+          >
             <StatusAreaLabel>Powered by</StatusAreaLabel>
             <GoodtokIcon />
           </FlexContainer>

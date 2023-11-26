@@ -45,7 +45,7 @@ export const StatusArea = styled.div`
   justify-content: space-between;
 `;
 
-export const StatusAreaLabel = styled.label`
+export const StatusAreaLabel = styled.span`
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 10px;
@@ -55,11 +55,10 @@ export const StatusAreaLabel = styled.label`
 export const FlexContainer = styled.div`
   display: flex;
   align-items: center;
-
   &.powered-by {
+    cursor: pointer;
     gap: 10px;
   }
-
   &.status-area-container {
     display: flex;
     justify-content: space-between;
