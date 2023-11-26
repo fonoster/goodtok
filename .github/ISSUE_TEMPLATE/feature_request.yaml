@@ -11,7 +11,7 @@ body:
     id: problem-related
     attributes:
       label: Is your feature request related to a problem?
-      description: Please describe the problem. For example: "I'm always frustrated when..."
+      description: "Please describe the problem. For example: I'm always frustrated when..."
       placeholder: Describe the problem here.
     validations:
       required: true
