@@ -40,9 +40,10 @@ const config = {
       ({
         docs: {
         lastVersion: 'current',
-          sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/fonoster/goodtok/edit/main/docs/',
+        sidebarPath: require.resolve('./sidebars.js'),
+        editUrl: ({ docPath }) => {
+          return `https://holocron.so/github/pr/fonoster/goodtok/main/editor/docs/docs/${docPath}`
+        },
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
