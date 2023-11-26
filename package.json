@@ -3,15 +3,11 @@
   "private": true,
   "author": "Pedro Sanders <psanders@fonoster.com>",
   "license": "MIT",
-  "description": "Goodtok CX",
+  "description": "A CX tool for better shopping experience 🤙",
   "main": "dist/index",
   "types": "dist/index",
   "workspaces": [
-    "mods/common",
-    "mods/sdk",
-    "mods/apiserver",
-    "mods/widget",
-    "mods/frontoffice"
+    "mods/*"
   ],
   "scripts": {
     "start:apiserver": "cross-env NATS_URL=localhost:4222 SECURITY_PATH_TO_KEYS=./.keys LOGS_LEVEL=verbose NODE_ENV=dev nodemon mods/apiserver/src/index.ts",
