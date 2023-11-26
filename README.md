@@ -131,7 +131,7 @@ A Goodtok token is a [JSON Web Token](https://jwt.io/). Here is an example of th
   "domain": "sip.goodtok.io",
   "privacy": "PRIVATE",
   "allowedMethods": ["REGISTER"],
-  "signalingServer": "wss://sip.goodtok.io:5062",
+  "signalingServer": "ws://localhost:5062",
 }
 ```
 
