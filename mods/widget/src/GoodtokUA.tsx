@@ -307,19 +307,28 @@ const GoodtokUA = () => {
     });
 
     const workspaces = new SDK.Workspaces(client);
+    const tokens = new SDK.Tokens(client);
 
     const subscription = workspaces.watchWorkspaceStatus(
       workspaceId,
       (error, workspaceStatus) => {
         if (error) {
-          console.error("failed to watch workspace status", error);
-          setNotificationType(NotificationType.UNKNOWN_ERROR);
-          setNotificationOpen(true);
+          // If an error occurs is better to show the widget as offline
+          setIsOnline(false);
           return;
         }
         setIsOnline(workspaceStatus.isOpen && workspaceStatus.isEnabled);
       }
     );
+
+    // We create a provisional token just to get the calendar url
+    // TODO: Consider a better error handling here
+    tokens
+      .createAnonymousToken({ ref: "placeholder", workspaceId, metadata: {} })
+      .then((token) => {
+        const connectionObj = jwtDecode(token) as ConnectionObject;
+        setCalendarUrl(connectionObj.calendarUrl);
+      });
 
     return () => {
       subscription.unsubscribe();
