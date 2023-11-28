@@ -3,65 +3,22 @@ version: "3"
 services:
 
   frontoffice:
-    image: fonoster/goodtok-frontoffice:latest
     build:
       context: .
       dockerfile: ./mods/frontoffice/Dockerfile
-    environment:
-      # Must be accessible from the browser
-      API_ENDPOINT: http://localhost:6789/v1
-      LOGS_LEVEL: ${LOGS_LEVEL}
-    ports:
-      - 8080:8080
 
   apiserver:
-    image: fonoster/goodtok-apiserver:latest
     build:
       context: .
       dockerfile: ./mods/apiserver/Dockerfile
-    environment:
-      CLOAK_ENCRYPTION_KEY: ${CLOAK_ENCRYPTION_KEY}
-      DATABASE_URL: ${DATABASE_URL}
-      SIP_SIGNALING_SERVER: ${SIP_SIGNALING_SERVER}
-      SIP_DOMAIN: ${SIP_DOMAIN}
-      NATS_URL: nats:4222
-      LOGS_LEVEL: ${LOGS_LEVEL}
-    ports:
-      - 6789:6789
-    volumes:
-      - ./.keys:/keys
-
-  routr:
-    image: fonoster/routr-one:latest
-    environment:
-      EXTERNAL_ADDRS: ${DOCKER_HOST_ADDRESS}
-      CONNECT_VERIFIER_PUBLIC_KEY_PATH: /keys/public.key
-      NATS_PUBLISHER_ENABLED: true
-      NATS_PUBLISHER_URL: nats:4222
-      LOGS_LEVEL: ${LOGS_LEVEL}
-    ports:
-      - 5062:5062
-      - 5063:5063
-    volumes:
-      - ./.keys/public.key:/keys/public.key
-
   nats:
     image: nats:latest
     ports:
       - 4222:4222
 
   postgres:
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      TZ: UTC
-      PGTZ: UTC
     ports:
       - 5432:5432
-    volumes:
-      - db:/var/lib/postgresql/data
 
   adminer:
     image: adminer
@@ -70,6 +27,3 @@ services:
       ADMINER_DEFAULT_SERVER: postgres
     ports:
       - 8181:8080
-
-volumes:
-  db:
