@@ -28,5 +28,13 @@ export default {
     cssCodeSplit: false,
     outDir: "dist",
     assetsDir: "assets"
+  },
+  server: {
+    watch: {
+      usePolling: true
+    },
+    port: 8181,
+    host: true,
+    strictPort: true
   }
 };
