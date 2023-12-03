@@ -18,7 +18,7 @@ tasks:
       npm install @47ng/cloak
       CLOAK_ENCRYPTION_KEY=$(node -e "const { generateKey } = require('@47ng/cloak'); console.log(generateKey());")
       APP_URL=$(gp url 8080)
-      SIP_SIGNALING_SERVER=$(gp url 5062 | sed 's/http/ws/g'):5062
+      SIP_SIGNALING_SERVER=$(gp url 5063 | sed 's/http/ws/g'):5063
       cp .env.example .env
       sed -i "s|APP_URL=.*|APP_URL=$APP_URL|g" .env
       sed -i "s|CLOAK_ENCRYPTION_KEY=.*|CLOAK_ENCRYPTION_KEY=$CLOAK_ENCRYPTION_KEY|g" .env
@@ -45,18 +45,34 @@ tasks:
   - name: Start Docker Containers
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
-    command: docker-compose -f compose.yaml -f compose.dev.yaml up nats routr postgres
+    command: |
+      docker-compose -f compose.yaml -f compose.dev.yaml up nats routr postgres -d
+      sleep 20
+      npm run db:migrate
+
+  - name: Open Front Office
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+    command: gp await-port 8080 && gp preview $(gp url 8080)/login
+
+  - name: Open Demo Widget
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+    command: gp await-port 5173 && gp preview $(gp url 5173)
 
 ports:
   - port: 8080
     visibility: public
-    onOpen: notify
-  - port: 5062
+    onOpen: ignore
+  - port: 5173
     visibility: public
-    onOpen: notify
+    onOpen: ignore
+  - port: 5063
+    visibility: public
+    onOpen: ignore
   - port: 6789
     visibility: public
-    onOpen: notify
+    onOpen: ignore
 
 # github:
 #   prebuilds:
