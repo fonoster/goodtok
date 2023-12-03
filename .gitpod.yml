@@ -27,13 +27,16 @@ tasks:
       npm uninstall @47ng/cloak
       npm install
       npm run build
-      touch /workspace/.init_done 
+      touch /workspace/.init_done
+      exit
     command: echo "Initial Setup Complete"
 
   - name: Start API Server
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
-    command: npm run start:apiserver
+    command: |
+      gp ports await 4222 # Wait for nats to be ready
+      npm run start:apiserver
 
   - name: Start Front Office
     before: |
@@ -47,7 +50,7 @@ tasks:
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
       API_ENDPOINT=$(gp url 6789)/v1
       KEY=$(echo -n "{\"gtid\":\"g-7b7c46fb05\",\"server\":\"$API_ENDPOINT\"}" | base64)
-      sed -i "s|key=['\"][^'\"]*['\"]|key='$KEY'|g" /workspace/goodtok/mods/widget/index.html
+      sed -i "s|key=[^&\"]*|key=$KEY|g" /workspace/goodtok/mods/widget/index.html
     command: npm run start:widget
 
   - name: Start Docker Containers
@@ -55,18 +58,25 @@ tasks:
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: |
       docker-compose -f compose.yaml -f compose.dev.yaml up nats routr postgres -d
-      gp await-port 5432
+      gp ports await 5432
       npm run db:migrate
+      exit
 
   - name: Open Front Office
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
-    command: gp await-port 8080 && gp openBrowser $(gp url 8080)/login
+    command: |
+      gp ports await 8080
+      gp preview $(gp url 8080)/login
+      exit
 
   - name: Open Demo Widget
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
-    command: gp await-port 5173 && gp openBrowser $(gp url 5173)
+    command: | 
+      gp ports await 5173
+      gp preview $(gp url 5173)
+      exit
 
 ports:
   - port: 8080
