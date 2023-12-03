@@ -42,23 +42,31 @@ tasks:
       sed -i "s|http://localhost:6789/v1|$API_ENDPOINT|g" /workspace/goodtok/mods/frontoffice/index.html
     command: npm run start:frontoffice
 
+  - name: Start Demo Widget
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+      API_ENDPOINT=$(gp url 6789)/v1
+      KEY=$(echo -n "{\"gtid\":\"g-7b7c46fb05\",\"server\":\"$API_ENDPOINT\"}" | base64)
+      sed -i "s|key=['\"][^'\"]*['\"]|key='$KEY'|g" /workspace/goodtok/mods/widget/index.html
+    command: npm run start:widget
+
   - name: Start Docker Containers
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: |
       docker-compose -f compose.yaml -f compose.dev.yaml up nats routr postgres -d
-      sleep 20
+      gp await-port 5432
       npm run db:migrate
 
   - name: Open Front Office
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
-    command: gp await-port 8080 && gp preview $(gp url 8080)/login
+    command: gp await-port 8080 && gp openBrowser $(gp url 8080)/login
 
   - name: Open Demo Widget
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
-    command: gp await-port 5173 && gp preview $(gp url 5173)
+    command: gp await-port 5173 && gp openBrowser $(gp url 5173)
 
 ports:
   - port: 8080
