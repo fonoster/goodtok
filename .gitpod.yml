@@ -11,14 +11,17 @@ tasks:
   - name: Initial Setup
     init: |
       npm install @47ng/cloak
-      CLOAK_ENCRYPTION_KEY=$(node -e "const { generateKey } = require('@47ng/cloak'); console.log(generateKey());"}
+      CLOAK_ENCRYPTION_KEY=$(node -e "const { generateKey } = require('@47ng/cloak'); console.log(generateKey());")
       APP_URL=$(gp url 8080)
+      SIP_SIGNALING_SERVER=$(gp url 5062 | sed 's/http/ws/g'):5062
       cp .env.example .env
       sed -i "s|APP_URL=.*|APP_URL=$APP_URL|g" .env
       sed -i "s|CLOAK_ENCRYPTION_KEY=.*|CLOAK_ENCRYPTION_KEY=$CLOAK_ENCRYPTION_KEY|g" .env
+      sed -i "s|SIP_SIGNALING_SERVER=.*|SIP_SIGNALING_SERVER=$SIP_SIGNALING_SERVER|g" .env
       mkdir -p .keys
       openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
       openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
+      npm uninstall @47ng/cloak
       npm install
       npm run build
     command: echo "Initial Setup Complete"
@@ -35,7 +38,7 @@ tasks:
     command: npm run start:frontoffice
 
   - name: Start Docker Containers
-    command: docker-compose -f compose.yaml -f compose.dev.yaml nats routr postgres up
+    command: docker-compose -f compose.yaml -f compose.dev.yaml up nats routr postgres
 
 ports:
   - port: 8080
