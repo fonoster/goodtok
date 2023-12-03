@@ -14,6 +14,7 @@ services:
   apiserver:
     image: fonoster/goodtok-apiserver:latest
     environment:
+      APP_URL: ${APP_URL}
       OWNER_EMAIL: ${OWNER_EMAIL}
       OWNER_PASSWORD: ${OWNER_PASSWORD}
       CLOAK_ENCRYPTION_KEY: ${CLOAK_ENCRYPTION_KEY}
@@ -22,6 +23,10 @@ services:
       SIP_DOMAIN: ${SIP_DOMAIN}
       NATS_URL: nats:4222
       LOGS_LEVEL: ${LOGS_LEVEL}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_AUTH_USER: ${SMTP_AUTH_USER}
+      SMTP_AUTH_PASS: ${SMTP_AUTH_PASS}
+      SMTP_SENDER: ${SMTP_SENDER}
     ports:
       - 6789:6789
     volumes:
