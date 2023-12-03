@@ -8,19 +8,45 @@
 ## or hacking on something new.
 ##
 tasks:
-  - name: Setup & start
-    init: npm install
-    command: npm start
+  - name: Initial Setup
+    init: |
+      cp .env.example .env
+      sed -i 's|APP_URL=.*|APP_URL=$(gp url 8080)|g' .env
+      mkdir -p .keys
+      openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
+      openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
+      npm install
+      npm run build
+    command: echo "Initial Setup Complete"
+
+  - name: Start API Server
+    before: sleep 60
+    command: npm run start:apiserver
+
+  - name: Start Front Office
+    before: |
+      sleep 60
+      sed -i 's|http://localhost:6789|$(gp url 6789)|g' /workspace/goodtok/mods/frontoffice/index.html
+    command: npm run start:frontoffice
+
+  - name: Start Docker Containers
+    command: docker-compose -f compose.yaml -f compose.dev.yaml up
 
 ports:
   - port: 8080
     visibility: public
     onOpen: notify
+  - port: 5062
+    visibility: public
+    onOpen: notify
+  - port: 6789
+    visibility: public
+    onOpen: notify
 
 github:
   prebuilds:
-    master: true
-    branches: true
+    branches:
+      fix/update-gitpod-workflow: true
     pullRequests: true
     pullRequestsFromForks: true
     addCheck: true
