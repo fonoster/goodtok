@@ -20,6 +20,7 @@ tasks:
       APP_URL=$(gp url 8080)
       SIP_SIGNALING_SERVER=$(gp url 5062 | sed 's/http/ws/g')
       cp .env.example .env
+      sed -i "s|LOGS_LEVEL=.*|LOGS_LEVEL=verbose|g" .env
       sed -i "s|APP_URL=.*|APP_URL=$APP_URL|g" .env
       sed -i "s|CLOAK_ENCRYPTION_KEY=.*|CLOAK_ENCRYPTION_KEY=$CLOAK_ENCRYPTION_KEY|g" .env
       sed -i "s|SIP_SIGNALING_SERVER=.*|SIP_SIGNALING_SERVER=$SIP_SIGNALING_SERVER|g" .env
@@ -93,13 +94,3 @@ ports:
   - port: 6789
     visibility: public
     onOpen: ignore
-
-# github:
-#   prebuilds:
-#     branches:
-#       fix/update-gitpod-workflow: true
-#     pullRequests: true
-#     pullRequestsFromForks: true
-#     addCheck: true
-#     addComment: false
-#     addBadge: true
