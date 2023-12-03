@@ -8,21 +8,89 @@
 ## or hacking on something new.
 ##
 tasks:
-  - name: Setup & start
-    init: npm install
-    command: npm start
+  - name: Initial Setup
+    before: |
+      mkdir -p .keys
+      sudo openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
+      sudo openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
+      sudo chmod 666 ./.keys/private.key ./.keys/public.key
+    init: |
+      npm install @47ng/cloak
+      CLOAK_ENCRYPTION_KEY=$(node -e "const { generateKey } = require('@47ng/cloak'); console.log(generateKey());")
+      APP_URL=$(gp url 8080)
+      SIP_SIGNALING_SERVER=$(gp url 5062 | sed 's/http/ws/g')
+      cp .env.example .env
+      sed -i "s|LOGS_LEVEL=.*|LOGS_LEVEL=verbose|g" .env
+      sed -i "s|APP_URL=.*|APP_URL=$APP_URL|g" .env
+      sed -i "s|CLOAK_ENCRYPTION_KEY=.*|CLOAK_ENCRYPTION_KEY=$CLOAK_ENCRYPTION_KEY|g" .env
+      sed -i "s|SIP_SIGNALING_SERVER=.*|SIP_SIGNALING_SERVER=$SIP_SIGNALING_SERVER|g" .env
+      sed -i "s|postgresql://postgres:postgres@postgres:5432/goodtok|postgresql://postgres:postgres@localhost:5432/goodtok|g" .env
+      sed -i "s|DOCKER_HOST_ADDRESS=.*|DOCKER_HOST_ADDRESS=$(gp url 5062 | sed 's|https://||')|g" .env
+      npm uninstall @47ng/cloak
+      npm install
+      npm run build
+      touch /workspace/.init_done
+      exit
+    command: echo "Initial Setup Complete"
+
+  - name: Start API Server
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+    command: |
+      gp ports await 4222 # Wait for nats to be ready
+      gp ports await 5432 # Wait for postgres to be ready
+      npm run start:apiserver
+
+  - name: Start Front Office
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+      API_ENDPOINT=$(gp url 6789)/v1
+      sed -i "s|http://localhost:6789/v1|$API_ENDPOINT|g" /workspace/goodtok/mods/frontoffice/index.html
+    command: npm run start:frontoffice
+
+  - name: Start Demo Widget
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+      API_ENDPOINT=$(gp url 6789)/v1
+      KEY=$(echo -n "{\"gtid\":\"g-7b7c46fb05\",\"server\":\"$API_ENDPOINT\"}" | base64 -w 0)
+      sed -i "s|key=[^&\"]*|key=$KEY|g" /workspace/goodtok/mods/widget/index.html
+    command: npm run start:widget
+
+  - name: Start Docker Containers
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+    command: |
+      docker-compose -f compose.yaml -f compose.dev.yaml up nats routr postgres -d
+      gp ports await 5432
+      npm run db:migrate
+      exit
+
+  - name: Open Front Office
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+    command: |
+      gp ports await 8080
+      gp preview $(gp url 8080)/login
+      exit
+
+  - name: Open Demo Widget
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+    command: | 
+      gp ports await 8181
+      gp preview $(gp url 8181)
+      exit
 
 ports:
   - port: 8080
     visibility: public
-    onOpen: notify
-
-github:
-  prebuilds:
-    master: true
-    branches: true
-    pullRequests: true
-    pullRequestsFromForks: true
-    addCheck: true
-    addComment: false
-    addBadge: true
+    onOpen: ignore
+  - port: 8181
+    visibility: public
+    onOpen: ignore
+  - port: 5062
+    visibility: public
+    onOpen: ignore
+  - port: 6789
+    visibility: public
+    onOpen: ignore

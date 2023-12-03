@@ -31,5 +31,9 @@ export default defineConfig({
     host: true,
     strictPort: true
   },
-  plugins: [tsconfigPaths()]
+  plugins: [
+    tsconfigPaths({
+      ignoreConfigErrors: true
+    })
+  ]
 });
