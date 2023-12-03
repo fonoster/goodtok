@@ -70,7 +70,7 @@ tasks:
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: |
       gp ports await 8080
-      gp preview $(gp url 8080)/login
+      gp preview $(gp url 8080)/login --external
       exit
 
   - name: Open Demo Widget
@@ -78,7 +78,7 @@ tasks:
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: | 
       gp ports await 8181
-      gp preview $(gp url 8181)
+      gp preview $(gp url 8181) --external
       exit
 
 ports:
