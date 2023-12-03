@@ -13,6 +13,7 @@ tasks:
       mkdir -p .keys
       sudo openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
       sudo openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
+      sudo chmod 600 ./.keys/private.key ./.keys/public.key
     init: |
       npm install @47ng/cloak
       CLOAK_ENCRYPTION_KEY=$(node -e "const { generateKey } = require('@47ng/cloak'); console.log(generateKey());")
@@ -26,20 +27,24 @@ tasks:
       npm uninstall @47ng/cloak
       npm install
       npm run build
+      touch /workspace/.init_done 
     command: echo "Initial Setup Complete"
 
   - name: Start API Server
-    before: sleep 120
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: npm run start:apiserver
 
   - name: Start Front Office
     before: |
-      sleep 120
-      API_ENDPOINT=$(gp url 8080)/v1
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
+      API_ENDPOINT=$(gp url 6789)/v1
       sed -i "s|http://localhost:6789/v1|$API_ENDPOINT|g" /workspace/goodtok/mods/frontoffice/index.html
     command: npm run start:frontoffice
 
   - name: Start Docker Containers
+    before: |
+      while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: docker-compose -f compose.yaml -f compose.dev.yaml up nats routr postgres
 
 ports:
