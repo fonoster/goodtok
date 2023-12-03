@@ -49,7 +49,7 @@ tasks:
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
       API_ENDPOINT=$(gp url 6789)/v1
-      KEY=$(echo -n "{\"gtid\":\"g-7b7c46fb05\",\"server\":\"$API_ENDPOINT\"}" | base64)
+      KEY=$(echo -n "{\"gtid\":\"g-7b7c46fb05\",\"server\":\"$API_ENDPOINT\"}" | base64 -w 0)
       sed -i "s|key=[^&\"]*|key=$KEY|g" /workspace/goodtok/mods/widget/index.html
     command: npm run start:widget
 
