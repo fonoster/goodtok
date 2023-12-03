@@ -43,12 +43,12 @@ ports:
     visibility: public
     onOpen: notify
 
-github:
-  prebuilds:
-    branches:
-      fix/update-gitpod-workflow: true
-    pullRequests: true
-    pullRequestsFromForks: true
-    addCheck: true
-    addComment: false
-    addBadge: true
+# github:
+#   prebuilds:
+#     branches:
+#       fix/update-gitpod-workflow: true
+#     pullRequests: true
+#     pullRequestsFromForks: true
+#     addCheck: true
+#     addComment: false
+#     addBadge: true
