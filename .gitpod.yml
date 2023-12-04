@@ -26,6 +26,12 @@ tasks:
       sed -i "s|SIP_SIGNALING_SERVER=.*|SIP_SIGNALING_SERVER=$SIP_SIGNALING_SERVER|g" .env
       sed -i "s|postgresql://postgres:postgres@postgres:5432/goodtok|postgresql://postgres:postgres@localhost:5432/goodtok|g" .env
       sed -i "s|DOCKER_HOST_ADDRESS=.*|DOCKER_HOST_ADDRESS=$(gp url 5062 | sed 's|https://||')|g" .env
+      sed -i "s|SMTP_HOST=.*|SMTP_HOST=localhost|g" .env
+      sed -i "s|SMTP_PORT=.*|SMTP_PORT=1025|g" .env
+      sed -i "s|SMTP_SECURE=.*|SMTP_SECURE=false|g" .env
+      sed -i "s|SMTP_AUTH_USER=.*|SMTP_AUTH_USER=postmaster@localhost.local|g" .env
+      sed -i "s|SMTP_AUTH_PASS=.*|SMTP_AUTH_PASS=secret|g" .env
+      sed -i "s|SMTP_SENDER=.*|SMTP_SENDER=Goodtok Info <info@localhost.local>|g" .env
       npm uninstall @47ng/cloak
       npm install
       npm run build
@@ -60,24 +66,20 @@ tasks:
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: |
-      docker-compose -f compose.yaml -f compose.dev.yaml up nats routr postgres -d
+      docker-compose -f compose.yaml -f compose.dev.yaml up mailhog nats routr postgres -d
       gp ports await 5432
       npm run db:migrate
       exit
 
-  - name: Open Front Office
+  - name: Open Preview Ports
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: |
       gp ports await 8080
-      gp preview $(gp url 8080)/login --external
-      exit
-
-  - name: Open Demo Widget
-    before: |
-      while [ ! -f /workspace/.init_done ]; do sleep 2; done
-    command: | 
       gp ports await 8181
+      gp ports await 8025
+      gp preview $(gp url 8025) --external
+      gp preview $(gp url 8080)/login --external
       gp preview $(gp url 8181) --external
       exit
 
@@ -86,6 +88,9 @@ ports:
     visibility: public
     onOpen: ignore
   - port: 8181
+    visibility: public
+    onOpen: ignore
+  - port: 8025
     visibility: public
     onOpen: ignore
   - port: 5062

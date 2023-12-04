@@ -21,6 +21,12 @@ services:
     ports:
       - 5432:5432
 
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
+      - 1025:1025
+
   adminer:
     image: adminer
     restart: always
