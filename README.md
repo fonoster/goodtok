@@ -118,7 +118,7 @@ echo -n '{"gtid":"g-7b7c46fb05","server":"http://localhost:6789/v1"}' | base64
 
 If no server is specified, the client will default to `https://api.goodtok.io/v1`.
 
-A Customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to authenticate the user and connect to the signaling server. Here is an example of the claims for a Customer token:
+A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to authenticate the user and connect to the signaling server. Here is an example of the claims for a customer token:
 
 ```json
 {
@@ -145,9 +145,9 @@ A Customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to 
 }
 ```
 
-When no Customer token is provided, the video widget will show a form, requesting the user to enter their name, email and a message. The video widget will then request an anonymous token from the server. When possible we recommend you to provide a Customer token to the video widget to avoid the form.
+When no customer token is provided, the video widget will show a form, requesting the user to enter their name, email and a message. The video widget will then request an anonymous token from the server. When possible we recommend you to provide a customer token to the video widget to avoid the form.
 
-To learn more about Customer tokens, see the [Customer tokens](http://localhost:3000/docs/video-widget/customer-tokens) section in the documentation.
+To learn more about customer tokens, see the [customer tokens](http://localhost:3000/docs/video-widget/customer-tokens) section in the documentation.
 
 ## Contact us
 
