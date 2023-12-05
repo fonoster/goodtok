@@ -24,19 +24,30 @@ const sidebars = {
     "welcome",
     {
       type: 'category',
+      label: 'Video Widget',
+      collapsible: true,
+      collapsed: false,
+      items: [
+        'video-widget/introduction',
+        'video-widget/installation',
+        'video-widget/customer-tokens'
+      ],
+    },
+    {
+      type: 'category',
       label: 'Contributing',
       collapsible: true,
-      collapsed: true,
+      collapsed: false,
       items: [
         'contributing/guide',
         'contributing/development-environment-setup'
-      ],
+      ]
     },
     {
       type: 'category',
       label: 'Self Hosting',
       collapsible: true,
-      collapsed: true,
+      collapsed: false,
       items: [
         'self-hosting/introduction',
         'self-hosting/deploy-with-docker'

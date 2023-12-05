@@ -118,26 +118,36 @@ echo -n '{"gtid":"g-7b7c46fb05","server":"http://localhost:6789/v1"}' | base64
 
 If no server is specified, the client will default to `https://api.goodtok.io/v1`.
 
-The video widget will request an anonymous token from the server if none is provided. The server will generate a token only if the owner of the `gtid` has enabled anonymous access. The server will return an error if the owner has not allowed anonymous access.
-
-> Remember that enabling anonymity will require you to implement security measures to prevent abuse ⚠️
-
-A Goodtok token is a [JSON Web Token](https://jwt.io/). Here is an example of the claims for a customer token:
+A Customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to authenticate the user and connect to the signaling server. Here is an example of the claims for a Customer token:
 
 ```json
 {
-  "ref": "customer-agent",
+  "ref": "iypok",
+  "customerId": "iypok",
+  "workspaceId": "g-7b7c46fb05",
+  "calendarUrl": "https://cal.com/psanders",
   "domainRef": "default",
-  "aor": "sip:anonymous@sip.goodtok.io",
-  "aorLink": "sip:anonymous@sip.goodtok.io",
+  "aor": "sip:iypok@sip.goodtok.io",
+  "aorLink": "sip:iypok@sip.goodtok.io",
   "domain": "sip.goodtok.io",
   "privacy": "PRIVATE",
-  "allowedMethods": ["REGISTER"],
-  "signalingServer": "ws://localhost:5062",
+  "allowedMethods": [
+    "REGISTER"
+  ],
+  "signalingServer": "wss://sip.goodtok.io:5063",
+  "metadata": {
+    "name": "Peter",
+    "email": "sanderspedro@gmail.com",
+    "message": "Testing"
+  },
+  "iat": 1701740245,
+  "exp": 1701826645
 }
 ```
 
-> The Front Office application will look similar but has different allowed methods.
+When no Customer token is provided, the video widget will show a form, requesting the user to enter their name, email and a message. The video widget will then request an anonymous token from the server. When possible we recommend you to provide a Customer token to the video widget to avoid the form.
+
+To learn more about Customer tokens, see the [Customer tokens](http://localhost:3000/docs/video-widget/customer-tokens) section in the documentation.
 
 ## Contact us
 
