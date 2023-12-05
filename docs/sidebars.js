@@ -32,6 +32,16 @@ const sidebars = {
         'contributing/development-environment-setup'
       ],
     },
+    {
+      type: 'category',
+      label: 'Self Hosting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        'self-hosting/introduction',
+        'self-hosting/deploy-with-docker'
+      ],
+    },
   ],
 };
 
