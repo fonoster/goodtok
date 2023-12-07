@@ -20,14 +20,14 @@ import { getLogger } from "@fonoster/logger";
 import { JWT_SECURITY_SALT } from "../envs";
 import jwt from "jsonwebtoken";
 
-const logger = getLogger({ service: "apiserver", filePath: __filename });
-
 type InviteTokenClaims = {
   workspaceId: string;
   email: string;
 };
 
 export async function createInviteToken(claims: InviteTokenClaims) {
+  const logger = getLogger({ service: "apiserver", filePath: __filename });
+
   logger.verbose("create invite token", { claims });
 
   return jwt.sign(claims, JWT_SECURITY_SALT, {

@@ -19,8 +19,6 @@
 import { Transporter } from "nodemailer";
 import { getLogger } from "@fonoster/logger";
 
-const logger = getLogger({ service: "apiserver", filePath: __filename });
-
 export type EmailOptions = {
   to: string;
   from: string;
@@ -36,6 +34,8 @@ export function createEmailSender(transporter: Transporter) {
       subject: options.subject,
       html: options.html
     });
+
+    const logger = getLogger({ service: "apiserver", filePath: __filename });
 
     logger.verbose(`message sent: ${info.messageId}`);
   };

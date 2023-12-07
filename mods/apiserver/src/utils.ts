@@ -23,8 +23,6 @@ import { Day, WeeklyHoursType, WorkspaceMemberRole } from "./workspaces/types";
 import moment from "moment-timezone";
 import jwt from "jsonwebtoken";
 
-const logger = getLogger({ service: "common", filePath: __filename });
-
 /**
  * Generates a JWT token with the necesary claims for the user to be authenticated. The claims include
  * the user id, username and a list of workspaces with their roles. The bearer of this token will be
@@ -107,6 +105,7 @@ export function getToken(request: ContextOptionsWithUrl): string | null {
 export function assertEnvsAreSet(variables: string[]) {
   variables.forEach((variable: string) => {
     if (!(variable in process.env)) {
+      const logger = getLogger({ service: "common", filePath: __filename });
       logger.error(
         `the environment variable ${variable} is required but was not found`
       );
