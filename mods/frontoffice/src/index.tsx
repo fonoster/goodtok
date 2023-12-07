@@ -21,6 +21,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "~authentication";
 import { SnackbarProvider } from "~snackbar";
 import { LoggerProvider } from "~logger";
+import { Backdrop, CircularProgress } from "@mui/material";
 import React, { Suspense } from "react";
 
 const HomeContainer = React.lazy(() => import("~containers/HomeContainer"));
@@ -77,8 +78,19 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")!).render(
   <AuthProvider>
     <React.StrictMode>
-      {/* TODO: Add a loading component here */}
-      <Suspense fallback={<></>}>
+      <Suspense
+        fallback={
+          <Backdrop
+            sx={{
+              backgroundColor: "#FFF",
+              zIndex: (theme) => theme.zIndex.drawer + 1
+            }}
+            open={true}
+          >
+            <CircularProgress style={{ color: "#FF9965" }} />
+          </Backdrop>
+        }
+      >
         <SnackbarProvider>
           <LoggerProvider>
             <RouterProvider router={router} />
