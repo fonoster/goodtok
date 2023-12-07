@@ -36,7 +36,7 @@ const SettingsContainer = React.lazy(
   () => import("~containers/SettingsContainer")
 );
 const AcceptInviteContainer = React.lazy(
-  () => import("~containers/AccepInvteContainer")
+  () => import("~containers/AccepInviteContainer")
 );
 
 const router = createBrowserRouter([
