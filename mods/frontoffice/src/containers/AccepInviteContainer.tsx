@@ -16,8 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import * as SDK from "@goodtok/sdk";
+import { API_ENDPOINT } from "~envs";
 import { useLocation } from "react-router-dom";
-import { useAuth } from "~authentication";
 import { useLogger } from "~logger";
 import React, { useEffect } from "react";
 
@@ -26,14 +27,16 @@ function useQuery() {
 }
 
 function AcceptInviteContainer() {
-  const { client } = useAuth();
   const logger = useLogger();
   const query = useQuery();
   const token = query.get("token") as string;
 
   useEffect(() => {
+    const client = new SDK.Client({
+      endpoint: API_ENDPOINT
+    });
     client
-      ?.acceptInvite(token)
+      .acceptInvite(token)
       .then(() => {
         window.location.href = "/login";
       })
