@@ -39,6 +39,7 @@ function HomeContainer() {
 
   if (!client) {
     signOut();
+    window.location.href = "/login";
     return;
   }
 
