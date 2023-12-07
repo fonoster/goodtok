@@ -168,6 +168,7 @@ If you want to contribute to this project, please read the [CONTRIBUTING.md](CON
 ## Known Issues
 
 - When running Goodtok without a TLS certificate, you must add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or equivalent for your browser, because the camera will not work on an insecure origin.
+- We have an important issue with the video component which is not turning off the camera indicator when the user stops the video. Please see [this issue](https://github.com/fonoster/goodtok/issues/17) for more details.
 
 ## Authors
 
