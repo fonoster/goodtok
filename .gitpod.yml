@@ -29,7 +29,7 @@ tasks:
       npm install
       npm run build
       touch /workspace/.init_done
-      # exit
+      exit
     command: echo "Initial Setup Complete"
 
   - name: Start API Server
@@ -61,8 +61,9 @@ tasks:
     command: |
       docker-compose -f compose.yaml -f compose.dev.yaml up mailhog nats routr postgres -d
       gp ports await 5432
+      sleep 10 # Check for the port only is flaky, so we wait a bit more
       npm run db:migrate
-      # exit
+      exit
 
   - name: Open Preview Ports
     before: |
@@ -74,7 +75,7 @@ tasks:
       gp preview $(gp url 8025) --external
       gp preview $(gp url 8080)/login --external
       gp preview $(gp url 8181) --external
-      # exit
+      exit
 
 ports:
   - port: 8080
