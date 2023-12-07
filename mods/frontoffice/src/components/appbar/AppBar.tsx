@@ -72,7 +72,7 @@ export const AppBar: React.FC<AppBarProps> = ({
   };
 
   const handleOnDocumentationSelect = () => {
-    window.open("https://docs.goodtok.io", "_blank");
+    window.open("https://goodtok.io/docs/welcome", "_blank");
   };
 
   const handleOnSignOutSelect = () => {

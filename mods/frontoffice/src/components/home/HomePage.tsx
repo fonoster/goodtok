@@ -95,7 +95,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <StyledLink
             rel="noopener noreferrer"
             target="_blank"
-            href="https://docs.goodtok.io"
+            href="https://goodtok.io/docs/welcome"
           >
             Learn more
           </StyledLink>{" "}
