@@ -4,13 +4,11 @@ Docker compose is the easiest way to deploy a self-hosted instance of Goodtok. T
 
 ## Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/)
-- [Git](https://git-scm.com/downloads)
+The only prerequisite for Goodtok is to have [Docker](https://docs.docker.com/get-docker/) installed on the host machine.
 
 ## Installation
 
 First, create a new directory in your preferred location and change to that directory. For this guide, we will use the directory `goodtok` in the home directory.
-
 
 ```bash
 mkdir goodtok
