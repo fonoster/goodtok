@@ -35,7 +35,6 @@
     "bump:version": "rimraf mods/**/.lerna-changed-buster-* && lerna exec -- touch .lerna-changed-buster-$RANDOM"
   },
   "dependencies": {
-    "@fonoster/logger": "^0.3.6",
     "@prisma/client": "^5.4.1",
     "express": "^4.18.1"
   },

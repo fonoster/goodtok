@@ -17,7 +17,7 @@
     "clean": "rimraf ./dist node_modules tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@fonoster/logger": "0.3.24",
+    "@fonoster/logger": "^0.4.9",
     "sip.js": "^0.21.2"
   },
   "keywords": [

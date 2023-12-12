@@ -21,7 +21,7 @@
     "goodtok": "./dist/index.js"
   },
   "dependencies": {
-    "@fonoster/logger": "0.3.24",
+    "@fonoster/logger": "^0.4.9",
     "@goodtok/common": "^0.1.2",
     "@trpc/client": "^10.38.5",
     "@trpc/server": "^10.38.5",
