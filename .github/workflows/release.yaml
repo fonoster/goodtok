@@ -74,6 +74,9 @@ jobs:
           body: ${{ steps.changelog.outputs.changelog }}
           draft: true
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2      
+
       - name: Publish API server to Docker Hub
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
