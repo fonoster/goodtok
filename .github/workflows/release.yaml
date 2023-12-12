@@ -85,7 +85,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           context: .
           dockerfile: mods/apiserver/Dockerfile
-          tags: "latest,${{ needs.get_version.outputs.VERSION }}"
+          tags: "latest,${{ env.LERNA_VERSION }}"
           platforms: linux/amd64,linux/arm64
 
       - name: Publish the Front Office to Docker Hub
@@ -96,5 +96,5 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           context: .
           dockerfile: mods/frontoffice/Dockerfile
-          tags: "latest,${{ needs.get_version.outputs.VERSION }}"
+          tags: "latest,${{ env.LERNA_VERSION }}"
           platforms: linux/amd64,linux/arm64
