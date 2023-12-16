@@ -17,18 +17,15 @@ Goodtok helps businesses enhance their customer service right from their website
 
 ## Table of Contents
 
-- [Architecture](#architecture)
 - [Installation](#installation)
+- [Give a star!](#give-a-star-)
 - [Usage](#usage)
+- [Architecture](#architecture)
 - [Contact us](#contact-us)
 - [Bugs and Feature Requests](#bugs-and-feature-requests)
 - [Contributing](#contributing)
 - [Authors](#authors)
 - [License](#license)
-
-## Architecture
-
-Coming soon.
 
 ## Give a star! ⭐
 
@@ -148,6 +145,26 @@ A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to 
 When no customer token is provided, the video widget will show a form, requesting the user to enter their name, email and a message. The video widget will then request an anonymous token from the server. When possible we recommend you to provide a customer token to the video widget to avoid the form.
 
 To learn more about customer tokens, see the [customer tokens](http://localhost:3000/docs/video-widget/customer-tokens) section in the documentation.
+
+## Architecture
+
+Goodtok uses a combination of open source tools to provide a video application that can be integrated into any website. If the tools exist and it is well maintained, we will use and support that tool. If the tool doesn't exist, we build and open source it ourselves.
+
+Goodtok is a [hosted platform](https://goodtok.io). You can sign up and start using Goodtok without installing anything. You can also self-host and develop locally.
+
+<div align="center">
+  <p align="center">
+    <img src="https://github.com/fonoster/goodtok/blob/main/assets/architecture.png" />
+  </p>
+</div>
+
+- [Postgres](https://www.postgresql.org/) is a popular open source database with a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness.
+- [Routr](https://routr.io) is a lightweight sip proxy, location server, and registrar that can be used as a SIP server, IP-PBX, SIP PBX, or SIP proxy/router for VoIP deployments. We use Routr to handle the signaling between the video widget and the agents.
+- [NATS](https://nats.io) is a simple, secure and performant communications system for digital systems, services and devices. NATS is part of the Cloud Native Computing Foundation (CNCF).
+- [tRPC](https://trpc.io) is a library for building end-to-end type-safe APIs with TypeScript and Node.js. We connect all the services using tRPC.
+- [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) is an Internet standard for email transmission. We use SMTP to send emails to customers and agents.
+
+is an object-relational database system with over 30 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
 
 ## Contact us
 
