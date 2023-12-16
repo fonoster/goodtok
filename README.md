@@ -164,8 +164,6 @@ Goodtok is a [hosted platform](https://goodtok.io). You can sign up and start us
 - [tRPC](https://trpc.io) is a library for building end-to-end type-safe APIs with TypeScript and Node.js. We connect all the services using tRPC.
 - [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) is an Internet standard for email transmission. We use SMTP to send emails to customers and agents.
 
-is an object-relational database system with over 30 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
-
 ## Contact us
 
 Meet our sales team for any commercial inquiries.
