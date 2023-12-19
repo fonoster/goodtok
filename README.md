@@ -63,6 +63,10 @@ LOGS_LEVEL=verbose
 OWNER_EMAIL=admin@goodtok.local
 OWNER_PASSWORD=changeme
 
+# PeerJs Server config
+SIGNALING_HOST=localhost
+SIGNALING_PORT=9000
+
 # SMTP config
 SMTP_HOST=localhost
 SMTP_PORT=1025
@@ -70,11 +74,6 @@ SMTP_SECURE=false
 SMTP_AUTH_USER=postmaster@goodtok.local
 SMTP_AUTH_PASS=secret
 SMTP_SENDER=Goodtok Info <info@goodtok.local>
-
-# SIP signaling config
-DOCKER_HOST_ADDRESS=/* The public IP address of your Docker host */
-SIP_SIGNALING_SERVER=ws:/* The public IP address of your Docker host */:5062
-SIP_DOMAIN=sip.goodtok.local
 
 # Database and encryption config
 POSTGRES_USER=postgres
@@ -123,19 +122,12 @@ A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to 
   "customerId": "iypok",
   "workspaceId": "g-7b7c46fb05",
   "calendarUrl": "https://cal.com/psanders",
-  "domainRef": "default",
-  "aor": "sip:iypok@sip.goodtok.io",
-  "aorLink": "sip:iypok@sip.goodtok.io",
-  "domain": "sip.goodtok.io",
-  "privacy": "PRIVATE",
-  "allowedMethods": [
-    "REGISTER"
-  ],
-  "signalingServer": "wss://sip.goodtok.io:5063",
+  "signalingHost": "peerjs.goodtok.io",
+  "signalingPort": 443,
   "metadata": {
     "name": "Peter",
-    "email": "sanderspedro@gmail.com",
-    "message": "Testing"
+    "email": "peter@example.com",
+    "message": "Test message"
   },
   "iat": 1701740245,
   "exp": 1701826645
@@ -159,10 +151,9 @@ Goodtok is a [hosted platform](https://goodtok.io). You can sign up and start us
 </div>
 
 - [Postgres](https://www.postgresql.org/) is a popular open source database with a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness.
-- [Routr](https://routr.io) is a lightweight sip proxy, location server, and registrar that can be used as a SIP server, IP-PBX, SIP PBX, or SIP proxy/router for VoIP deployments. We use Routr to handle the signaling between the video widget and the agents.
-- [NATS](https://nats.io) is a simple, secure and performant communications system for digital systems, services and devices. NATS is part of the Cloud Native Computing Foundation (CNCF).
 - [tRPC](https://trpc.io) is a library for building end-to-end type-safe APIs with TypeScript and Node.js. We connect all the services using tRPC.
 - [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) is an Internet standard for email transmission. We use SMTP to send emails to customers and agents.
+- [PeerJS](https://peerjs.com/) simplifies WebRTC peer-to-peer data, video, and audio calls. We use PeerJS to establish a WebRTC connection between the customer and the agent.
 
 ## Contact us
 

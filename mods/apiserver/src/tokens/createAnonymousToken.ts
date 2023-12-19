@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { Context } from "../context";
-import { CreateAnonymousTokenInput, Method } from "./types";
+import { CreateAnonymousTokenInput } from "./types";
 import { getLogger } from "@fonoster/logger";
 import jwt from "jsonwebtoken";
 
@@ -31,8 +31,6 @@ export async function createAnonymousToken(
   const { ref, workspaceId, metadata } = request;
   logger.verbose("create token for anonymous user", { ref });
 
-  const aor = `sip:${ref}@${ctx.config.sipDomain}`;
-
   const workspace = await ctx.prisma.workspace.findUnique({
     where: {
       id: workspaceId
@@ -41,17 +39,12 @@ export async function createAnonymousToken(
 
   const claims = {
     ref: ref,
+    signalingHost: ctx.config.signalingHost,
+    signalingPort: ctx.config.signalingPort,
     // Use the same ref as the customerId (only for annonymous users)
     customerId: ref,
     workspaceId,
     calendarUrl: workspace.calendarUrl,
-    domainRef: ctx.config.sipDomainRef,
-    aor: aor,
-    aorLink: aor,
-    domain: ctx.config.sipDomain,
-    privacy: ctx.config.sipUserAgentPrivacy,
-    allowedMethods: [Method.REGISTER],
-    signalingServer: ctx.config.sipSignalingServer,
     metadata
   };
 

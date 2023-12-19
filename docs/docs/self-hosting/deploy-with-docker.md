@@ -36,6 +36,10 @@ LOGS_LEVEL=verbose
 OWNER_EMAIL=admin@goodtok.local
 OWNER_PASSWORD=changeme
 
+# PeerJs Server config
+SIGNALING_HOST=localhost
+SIGNALING_PORT=9000
+
 # SMTP config
 SMTP_HOST=localhost
 SMTP_PORT=1025
@@ -43,11 +47,6 @@ SMTP_SECURE=false
 SMTP_AUTH_USER=postmaster@goodtok.local
 SMTP_AUTH_PASS=secret
 SMTP_SENDER=Goodtok Info <info@goodtok.local>
-
-# SIP signaling config
-DOCKER_HOST_ADDRESS=/* The public IP address of your Docker host */
-SIP_SIGNALING_SERVER=ws:/* The public IP address of your Docker host */:5062
-SIP_DOMAIN=sip.goodtok.local
 
 # Database and encryption config
 POSTGRES_USER=postgres
@@ -60,9 +59,6 @@ Few important things to note:
 
 - Please be sure to update all secrets with your own values
 - The `APP_URL` must be the URL where the application will be accessible. For example, if you are running the application locally, you can use `http://localhost:8080`. If you are running the application on a server, you can use, for example, `https://goodtok.example.com`
-- The `DOCKER_HOST_ADDRESS` must be the public IP address of your Docker host. If running locally, you can use your local IP address. If you are running the application on a server, you must use the public IP address of your server
-- The `SIP_SIGNALING_SERVER` must be the public IP address of your Docker host. If running locally, you can use your local IP address. If you are running the application on a server, you must use the public IP address of your server
-- The value of the `SIP_DOMAIN` can be any domain name since it is a synthetic domain. However, we recommend using a domain name that you own. For example, if you own the domain `example.com`, you can use `sip.example.com` as the value of the `SIP_DOMAIN` variable
 - You must point your SMTP variables to a valid SMTP server
 - Goodtok will use the `OWNER_EMAIL` and `OWNER_PASSWORD` variables to create the first user. The server will create a new owner if the email does not exist. Goodtok will update the password if the email exists. You can use any email address and password for this purpose.
 

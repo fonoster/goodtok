@@ -41,11 +41,14 @@ import Client from "../client";
  *   await client.login("goodtok", "mysecretpassword");
  *
  *   const tokens = new SDK.Tokens(client);
+ *
  *   const request = {
  *     ref: "myref",
- *     aor: "anonymous@sip.goodtok.io",
- *     aorLink: "anonymous@sip.goodtok.io",
- *   };
+ *     workspaceId: "g-1234567890",
+ *     metadata: {
+ *      customField: "customValue"
+ *     }
+ *   }
  *
  *   const connectionObject = await tokens.createAnonymousToken(request);
  *   console.log(connectionObject);
@@ -68,8 +71,7 @@ export default class Tokens extends AbstractBaseClient implements TokensClient {
   }
 
   /**
-   * Creates a new anonymous token with `allowedMethods=[REGISTER]` permissions.
-   * Does not require authentication. The token will be issued only if the workspace has the `anonymous` feature enabled.
+   * Creates a new anonymous token for the specified workspace, and does not require authentication.
    *
    * @param {CreateAnonymousTokenInput} request - A request with claims required to create a token
    * @param {string} request.ref - A reference for the anonymous user
@@ -104,18 +106,15 @@ export default class Tokens extends AbstractBaseClient implements TokensClient {
    *
    * @param {CreateTokenInput} request - A request with claims required to create the token
    * @param {string} request.ref - A reference for the user
-   * @param {string} request.aor - The address of record (AOR) for the user
-   * @param {string} request.aorLink - The address of record (AOR) for the user
-   * @param {string[]} request.allowedMethods - The list of methods the token is permitted to use (e.g. ["INVITE", "REGISTER"])
+   * @param {string} request.peerId - The peer ID for the user
    * @return {Promise<string>} A promise resolving to the token
    * @throws Will throw an error if the user is not logged in
    * @example
    *
    * const request = {
    *   ref: "myref",
-   *   aor: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d@sip.goodtok.io",
-   *   aorLink: "anonymous@sip.goodtok.io",
-   *   allowedMethods: ["INVITE"],
+   *   customerId: "121a4579",
+   *   workspaceId: "g-1234567890"
    * };
    *
    * tokens.createToken(request)

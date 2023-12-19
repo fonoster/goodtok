@@ -17,15 +17,9 @@
  * limitations under the License.
  */
 export type ConnectionObject = {
-  signalingServer: string;
-  aor: string;
-  aorLink: string;
+  signalingHost: string;
+  signalingPort: number;
   customerId: string;
   workspaceId: string;
   calendarUrl: string;
 };
-
-export enum Method {
-  INVITE = "INVITE",
-  REGISTER = "REGISTER"
-}

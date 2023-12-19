@@ -21,9 +21,6 @@ services:
       OWNER_PASSWORD: ${OWNER_PASSWORD}
       CLOAK_ENCRYPTION_KEY: ${CLOAK_ENCRYPTION_KEY}
       DATABASE_URL: ${DATABASE_URL}
-      SIP_SIGNALING_SERVER: ${SIP_SIGNALING_SERVER}
-      SIP_DOMAIN: ${SIP_DOMAIN}
-      NATS_URL: nats:4222
       LOGS_LEVEL: ${LOGS_LEVEL}
       SMTP_HOST: ${SMTP_HOST}
       SMTP_AUTH_USER: ${SMTP_AUTH_USER}
@@ -33,27 +30,6 @@ services:
       - 6789:6789
     volumes:
       - ./.keys:/keys
-
-  routr:
-    image: fonoster/routr-one:latest
-    restart: unless-stopped
-    environment:
-      EXTERNAL_ADDRS: ${DOCKER_HOST_ADDRESS}
-      CONNECT_VERIFIER_PUBLIC_KEY_PATH: /keys/public.key
-      NATS_PUBLISHER_ENABLED: true
-      NATS_PUBLISHER_URL: nats:4222
-      LOGS_LEVEL: ${LOGS_LEVEL}
-    ports:
-      - 5062:5062
-      - 5063:5063
-    volumes:
-      - ./.keys/public.key:/keys/public.key
-
-  nats:
-    image: nats:latest
-    restart: unless-stopped
-    expose:
-      - 4222
 
   postgres:
     image: postgres:14.1-alpine
@@ -67,6 +43,11 @@ services:
       - 5432
     volumes:
       - db:/var/lib/postgresql/data
+
+  peerjs:
+    image: peerjs/peerjs-server:1.0.2
+    ports:
+      - 9000:9000
 
 volumes:
   db:

@@ -12,11 +12,6 @@ services:
       context: .
       dockerfile: ./mods/apiserver/Dockerfile
 
-  nats:
-    image: nats:latest
-    ports:
-      - 4222:4222
-
   postgres:
     ports:
       - 5432:5432

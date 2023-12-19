@@ -19,9 +19,8 @@
 import * as SDK from "@goodtok/sdk";
 import { GoodtokWidget } from "./components/goodtokwidget/GoodtokWidget";
 import { GoodtokWidgetEvents } from "./components/goodtokwidget/types";
-import { ConnectionObject, mediaToggle } from "@goodtok/common";
+import { ConnectionObject } from "@goodtok/common";
 import { getAPIServer, getCustomerToken, getWorkspaceId } from "./utils/utils";
-import { RegistererRegisterOptions, Web } from "sip.js";
 import { jwtDecode } from "jwt-decode";
 import { menuData as menuDataOptions } from "./components/goodtokwidget/data";
 import { Item } from "./components/menu/Menu";
@@ -30,6 +29,7 @@ import {
   canInitiateAudioCall,
   canInitiateVideoCall
 } from "./utils/capabilities";
+import { MediaConnection, Peer } from "peerjs";
 import React, { useEffect, useRef, useState } from "react";
 
 const GoodtokUA = () => {
@@ -43,7 +43,14 @@ const GoodtokUA = () => {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [notificationType, setNotificationType] = useState<NotificationType>();
   const [customerToken, setCustomerToken] = useState(null);
-  const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
+  const [peer, setPeer] = useState(null);
+  const [remotePeerId, setRemotePeerId] = useState(null);
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [sessionType, setSessionType] = useState<
+    | GoodtokWidgetEvents.AUDIO_SESSION_REQUEST
+    | GoodtokWidgetEvents.VIDEO_SESSION_REQUEST
+    | null
+  >(null);
   const [menuData, setMenuData] = useState<Item[]>([]);
   const [connectionObj, setConnectionObj] = useState<ConnectionObject | null>(
     null
@@ -53,115 +60,58 @@ const GoodtokUA = () => {
     videoRefs.current = refs;
   };
 
-  const initSimpleUser = async (includeVideo: boolean) => {
-    if (connectionObj) {
-      const localVideo = videoRefs.current.localVideo;
-      const remoteAudio = videoRefs.current.remoteAudio;
-      const remoteVideo = videoRefs.current.remoteVideo;
-      const options = {
-        aor: connectionObj.aor,
-        media: {
-          constraints: { audio: true, video: includeVideo },
-          remote: {
-            audio: remoteAudio,
-            video: remoteVideo
-          },
-          local: {
-            video: localVideo
-          }
-        }
-      };
-      const user = new Web.SimpleUser(connectionObj.signalingServer, options);
-
-      const unregisterOptions = getRegisterOptions(0);
-
-      const delegate: Web.SimpleUserDelegate = {
-        onCallHangup: () => {
-          setVideoOpen(false);
-          setMenuOpen(false);
-          setNotificationOpen(false);
-          user.unregister(unregisterOptions);
-        },
-        onCallReceived: () => {
-          user
-            .answer()
-            .then(() => {
-              setNotificationOpen(false);
-              setMenuOpen(false);
-              setVideoOpen(true);
-            })
-            .catch((e) => {
-              if (
-                e instanceof DOMException &&
-                e.message?.toLocaleLowerCase() === "permission denied"
-              ) {
-                setNotificationType(NotificationType.PERMISSIONS_ERROR);
-                setNotificationOpen(true);
-                return;
-              } else if (
-                e instanceof DOMException &&
-                e.message?.toLocaleLowerCase() === "requested device not found"
-              ) {
-                setNotificationType(NotificationType.DEVICE_UNAVAILABLE_ERROR);
-                setNotificationOpen(true);
-                return;
-              }
-
-              setNotificationType(NotificationType.UNKNOWN_ERROR);
-              setNotificationOpen(true);
-            });
-        }
-      };
-      user.delegate = delegate;
-      return user;
-    }
-  };
-
-  const register = async (
-    simpleUser: Web.SimpleUser,
-    registererRegisterOptions: RegistererRegisterOptions
-  ) => {
-    try {
-      await simpleUser.connect();
-      simpleUser.register(registererRegisterOptions);
-      setNotificationType(NotificationType.WAITING_FOR_AGENT);
-      setNotificationOpen(true);
-    } catch (e) {
-      console.error("failed to connect to server");
-      setNotificationType(NotificationType.UNKNOWN_ERROR);
-      setNotificationOpen(true);
-    }
-  };
-
   const sendSessionRequest = async (
-    event: GoodtokWidgetEvents,
-    registerOptions: RegistererRegisterOptions
+    connectionObject: ConnectionObject,
+    event: GoodtokWidgetEvents
   ) => {
     try {
-      const simpleUser = await initSimpleUser(
-        event === GoodtokWidgetEvents.VIDEO_SESSION_REQUEST
-      );
+      const localVideo = videoRefs.current.localVideo;
+      // TODO: Remove remoteAudio from videoRefs as it seems to be unused
+      // const remoteAudio = videoRefs.current.remoteAudio;
+      const remoteVideo = videoRefs.current.remoteVideo;
+
+      const peer = new Peer(connectionObject.customerId, {
+        host: connectionObject.signalingHost,
+        port: connectionObject.signalingPort
+      });
+
+      setPeer(peer);
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: event === GoodtokWidgetEvents.VIDEO_SESSION_REQUEST,
+        audio: true
+      });
+
+      setLocalStream(stream);
+      localVideo.srcObject = stream;
+      localVideo.autoplay = true;
+
+      peer.on("error", (err) => {
+        console.error("PeerJS error:", err);
+        setNotificationType(NotificationType.UNKNOWN_ERROR);
+        setNotificationOpen(true);
+      });
+
+      peer.on("call", (mediaConnection: MediaConnection) => {
+        mediaConnection.answer(localStream);
+
+        mediaConnection.on("stream", (stream) => {
+          remoteVideo.srcObject = stream;
+          remoteVideo.autoplay = true;
+        });
+
+        setRemotePeerId(mediaConnection.peer);
+        setVideoOpen(true);
+        setNotificationOpen(false);
+        setMenuOpen(false);
+      });
+
       setVideoMuted(event === GoodtokWidgetEvents.AUDIO_SESSION_REQUEST);
-      register(simpleUser, registerOptions);
-      setSimpleUser(simpleUser);
     } catch (e) {
-      console.error("failed to initialize simple user", e);
+      console.error("failed to initialize peer", e);
       setNotificationType(NotificationType.UNKNOWN_ERROR);
       setNotificationOpen(true);
     }
-  };
-
-  const getRegisterOptions = (expires = 60) => {
-    return {
-      requestOptions: {
-        extraHeaders: [
-          `X-Connect-Token: ${customerToken}`,
-          `X-Customer-Id: ${connectionObj.customerId}`,
-          `X-Workspace-Id: ${connectionObj.workspaceId}`,
-          `Expires: ${expires}`
-        ]
-      }
-    };
   };
 
   const handleScheduleMeetingRequest = () => {
@@ -194,10 +144,10 @@ const GoodtokUA = () => {
     const connectionObj = jwtDecode(token) as ConnectionObject;
 
     setCustomerToken(token);
-    setCustomerToken(token);
     setConnectionObj(connectionObj);
     setCalendarUrl(connectionObj.calendarUrl);
     sessionStorage.setItem("customerToken", token);
+    return connectionObj;
   };
 
   const handleWidgetEvents = async (
@@ -205,81 +155,110 @@ const GoodtokUA = () => {
     data: Record<string, string>
   ) => {
     switch (event) {
-      case GoodtokWidgetEvents.SUBMIT_CONTACT_FORM_REQUEST:
-        await handleSubmitContactForm(data);
+      case GoodtokWidgetEvents.SUBMIT_CONTACT_FORM_REQUEST: {
         setContactFormOpen(false);
-        setMenuOpen(true);
+        setNotificationType(NotificationType.WAITING_FOR_AGENT);
+        setNotificationOpen(true);
+        const connectionObject = await handleSubmitContactForm(data);
+        await sendSessionRequest(connectionObject, sessionType);
         break;
+      }
 
       case GoodtokWidgetEvents.SCHEDULE_MEETING_REQUEST:
         handleScheduleMeetingRequest();
         break;
 
       case GoodtokWidgetEvents.VIDEO_SESSION_REQUEST:
-      case GoodtokWidgetEvents.AUDIO_SESSION_REQUEST:
-        sendSessionRequest(event, getRegisterOptions());
-        setNotificationType(NotificationType.WAITING_FOR_AGENT);
-        setMenuOpen(false);
-        setNotificationOpen(true);
+      case GoodtokWidgetEvents.AUDIO_SESSION_REQUEST: {
+        if (customerToken && isOnline) {
+          setNotificationType(NotificationType.WAITING_FOR_AGENT);
+          setMenuOpen(false);
+          setNotificationOpen(true);
+          await sendSessionRequest(connectionObj, event);
+        } else {
+          setMenuOpen(false);
+          setContactFormOpen(true);
+        }
+
+        setSessionType(event);
+
         break;
+      }
 
       case GoodtokWidgetEvents.AUDIO_MUTE_REQUEST:
-        mediaToggle(simpleUser, false, "audio");
+        localStream
+          .getAudioTracks()
+          .forEach((track) => (track.enabled = false));
         break;
 
       case GoodtokWidgetEvents.AUDIO_UNMUTE_REQUEST:
-        mediaToggle(simpleUser, true, "audio");
+        localStream.getAudioTracks().forEach((track) => {
+          track.enabled = true;
+        });
         break;
 
       case GoodtokWidgetEvents.VIDEO_MUTE_REQUEST:
-        mediaToggle(simpleUser, false, "video");
+        toggleVideo();
         break;
 
       case GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST:
-        mediaToggle(simpleUser, true, "video");
+        toggleVideo();
         break;
 
       case GoodtokWidgetEvents.HANGUP_REQUEST:
-      case GoodtokWidgetEvents.CLOSE_MENU_EVENT:
+      case GoodtokWidgetEvents.CLOSE_MENU_EVENT: {
         // Reset widget state
         setMenuOpen(false);
         setVideoOpen(false);
         setNotificationOpen(false);
         setContactFormOpen(false);
-        if (simpleUser?.isConnected()) {
-          await simpleUser.unregister(getRegisterOptions(0));
-          await simpleUser.disconnect();
-          try {
-            await simpleUser.hangup();
-          } catch (e) {
-            // Best effort
-          }
-        }
-        break;
 
-      case GoodtokWidgetEvents.OPEN_MENU_EVENT: {
-        if (customerToken || !isOnline) {
-          setMenuOpen(true);
-        } else {
-          setContactFormOpen(true);
+        // Release media resources
+        if (localStream) {
+          localStream.getTracks().forEach((track) => track.stop());
         }
+
+        // TODO: If is connected, unregister, disconnect and hangup
         break;
       }
+
+      case GoodtokWidgetEvents.OPEN_MENU_EVENT:
+        setMenuOpen(true);
+        break;
+
       default:
         // TODO: You can handle other unanticipated events here
         break;
     }
 
     return async () => {
-      await simpleUser.unregister(getRegisterOptions(0));
-      await simpleUser.disconnect();
-      try {
-        await simpleUser.hangup();
-      } catch (e) {
-        // Best effort
-      }
+      // TODO: Make sure to clean up and leave the queue
     };
   };
+
+  async function toggleVideo() {
+    const localVideo = videoRefs.current.localVideo;
+    const videoTrack = localStream.getVideoTracks()[0];
+
+    if (videoTrack?.readyState === "live" && videoTrack?.enabled) {
+      localStream.removeTrack(videoTrack);
+      videoTrack.enabled = false;
+      // INFO: This is a hack to ensure the remote side sees a black screen instead of the last frame
+      setTimeout(() => {
+        videoTrack.stop();
+        peer.call(remotePeerId, null);
+      }, 500);
+    } else {
+      const newStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      });
+      const newVideoTrack = newStream.getVideoTracks()[0];
+      localStream.addTrack(newVideoTrack);
+      localVideo.srcObject = localStream;
+      peer.call(remotePeerId, localStream);
+    }
+  }
 
   useEffect(() => {
     let token = getCustomerToken(document);

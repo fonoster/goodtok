@@ -20,11 +20,8 @@ import {
   CreateAnonymousTokenInput,
   CreateTokenInput
 } from "@goodtok/apiserver";
-import { Method } from "@goodtok/common";
 
 export type TokensClient = {
   createAnonymousToken: (request: CreateAnonymousTokenInput) => Promise<string>;
   createToken: (request: CreateTokenInput) => Promise<string>;
 };
-
-export { Method };

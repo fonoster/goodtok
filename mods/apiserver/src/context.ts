@@ -22,13 +22,11 @@ import { getCustomerById } from "./customers/getCustomerById";
 import { getToken } from "./utils";
 import { ContextOptions, ContextOptionsWithUrl } from "./types";
 import {
-  SIP_DOMAIN,
-  SIP_DOMAIN_REF,
-  SIP_USER_AGENT_PRIVACY,
-  SIP_SIGNALING_SERVER,
   SECURITY_PRIVATE_KEY,
   JWT_SIGN_OPTIONS,
-  JWT_SECURITY_SALT
+  JWT_SECURITY_SALT,
+  SIGNALING_HOST,
+  SIGNALING_PORT
 } from "./envs";
 import jwt from "jsonwebtoken";
 
@@ -56,10 +54,8 @@ export async function createContext(opts: ContextOptions) {
       jwtSecuritySalt: JWT_SECURITY_SALT,
       jwtSignOptions: JWT_SIGN_OPTIONS,
       securityPrivateKey: SECURITY_PRIVATE_KEY,
-      sipDomain: SIP_DOMAIN,
-      sipDomainRef: SIP_DOMAIN_REF,
-      sipUserAgentPrivacy: SIP_USER_AGENT_PRIVACY,
-      sipSignalingServer: SIP_SIGNALING_SERVER
+      signalingHost: SIGNALING_HOST,
+      signalingPort: SIGNALING_PORT
     }
   };
 }
@@ -73,9 +69,7 @@ export type Context = {
     jwtSecuritySalt: string;
     jwtSignOptions: jwt.SignOptions;
     securityPrivateKey: string;
-    sipDomain: string;
-    sipDomainRef: string;
-    sipUserAgentPrivacy: string;
-    sipSignalingServer: string;
+    signalingHost: string;
+    signalingPort: string;
   };
 };

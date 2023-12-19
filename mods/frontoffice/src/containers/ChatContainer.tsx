@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import * as SDK from "@goodtok/sdk";
-import { Method, ConnectionObject, mediaToggle } from "@goodtok/common";
+import { ConnectionObject, mediaToggle } from "@goodtok/common";
 import { ChatPage } from "~components/chat/ChatPage";
 import { useParams } from "react-router-dom";
 import { useAuth } from "~authentication";
@@ -114,9 +114,7 @@ function ChatContainer() {
     const inviterToken = await tokens.createToken({
       ref: customerId,
       workspaceId: workspaceId,
-      customerId: customerId,
-      aorLink: atob(encodedAor),
-      methods: [Method.INVITE]
+      customerId: customerId
     });
 
     const connectionObject = jwtDecode(
@@ -132,7 +130,7 @@ function ChatContainer() {
     const remoteAudio = videoRefs.current.remoteAudio;
     const remoteVideo = videoRefs.current.remoteVideo;
     const options = {
-      aor: connectionObject.aor,
+      // aor: connectionObject.aor,
       media: {
         constraints: { audio: true, video: true },
         remote: {
@@ -144,10 +142,10 @@ function ChatContainer() {
         }
       }
     };
-    const simpleUser = new Web.SimpleUser(
-      connectionObject.signalingServer,
-      options
-    );
+    // const simpleUser = new Web.SimpleUser(
+    //   connectionObject.signalingServer,
+    //   options
+    // );
 
     const delegate: Web.SimpleUserDelegate = {
       onCallHangup: () => {
@@ -157,13 +155,13 @@ function ChatContainer() {
         }
       }
     };
-    simpleUser.delegate = delegate;
-    setSimpleUser(simpleUser);
+    // simpleUser.delegate = delegate;
+    // setSimpleUser(simpleUser);
 
-    await simpleUser.connect();
-    await simpleUser.call(connectionObject.aorLink, {
-      extraHeaders: [`X-Connect-Token: ${inviterToken}`]
-    });
+    // await simpleUser.connect();
+    // // await simpleUser.call(connectionObject.aorLink, {
+    // //   extraHeaders: [`X-Connect-Token: ${inviterToken}`]
+    // // });
 
     const queues = new SDK.Queues(client);
 

@@ -59,7 +59,7 @@ tasks:
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: |
-      docker-compose -f compose.yaml -f compose.dev.yaml up mailhog nats routr postgres -d
+      npm run start:services
       gp ports await 5432
       sleep 10 # Check for the port only is flaky, so we wait a bit more
       npm run db:migrate

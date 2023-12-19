@@ -40,7 +40,7 @@ To run the project, you need to start the dependencies services, then the backen
 #### Starting the dependencies
 
 ```bash
-docker-compose -f compose.yaml -f compose.dev.yaml up mailhog nats routr postgres adminer -d
+docker-compose -f compose.yaml -f compose.dev.yaml up peerjs postgres mailhog adminer -d
 ```
 
 The previous command will start the services in the background. If you want to see the logs, you can remove the `-d` flag. 

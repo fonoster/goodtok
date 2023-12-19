@@ -30,9 +30,6 @@ import express from "express";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-// Start NATS watcher
-import("./queues/watchNats");
-
 // Setup express
 const app = express();
 

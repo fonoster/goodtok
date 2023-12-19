@@ -27,26 +27,18 @@ export async function createToken(
   ctx: Context,
   input: CreateTokenInput
 ): Promise<string> {
-  const { ref, aorLink, workspaceId } = input;
+  const { ref, workspaceId } = input;
 
   logger.verbose("create token for authenticated user", {
     ref,
-    workspaceId,
-    aorLink
+    workspaceId
   });
-
-  const aor = `sip:${ctx.userId}@${ctx.config.sipDomain}`;
 
   const claims = {
     ref: ref,
     customerId: input.customerId,
-    domainRef: ctx.config.sipDomainRef,
-    aor: aor,
-    aorLink: aorLink,
-    domain: ctx.config.sipDomain,
-    privacy: ctx.config.sipUserAgentPrivacy,
-    allowedMethods: input.methods,
-    signalingServer: ctx.config.sipSignalingServer
+    peerId: input.customerId,
+    workspaceId: workspaceId
   };
 
   return jwt.sign(

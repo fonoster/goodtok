@@ -25,7 +25,12 @@ if (process.env.NODE_ENV === "dev") {
   dotenv.config({ path: join(__dirname, "..", "..", "..", ".env") });
 }
 
-assertEnvsAreSet(["SIP_SIGNALING_SERVER", "CLOAK_ENCRYPTION_KEY"]);
+assertEnvsAreSet([
+  "APP_URL",
+  "SMTP_HOST",
+  "CLOAK_ENCRYPTION_KEY",
+  "SIGNALING_HOST"
+]);
 
 const e = process.env;
 const defaultSignOptions = { expiresIn: "24h", algorithm: "RS256" };
@@ -34,10 +39,7 @@ const defaultSignOptions = { expiresIn: "24h", algorithm: "RS256" };
 export const APISERVER_BIND_PORT = e.APISERVER_BIND_PORT ?? "6789";
 
 // Front Office configurations
-export const APP_URL = e.APP_URL ?? "http://localhost:8080";
-
-// NATS configurations
-export const NATS_URL = e.NATS_URL || "localhost:4222";
+export const APP_URL = e.APP_URL;
 
 // Security and Encryption
 export const OWNER_EMAIL = e.OWNER_EMAIL;
@@ -53,12 +55,9 @@ export const SECURITY_PRIVATE_KEY = fs.readFileSync(
   "utf8"
 );
 
-// SIP configurations
-export const SIP_DOMAIN = e.SIP_DOMAIN ?? "sip.goodtok.io";
-export const SIP_DOMAIN_REF = e.SIP_DOMAIN_REF ?? "default";
-export const SIP_SIGNALING_SERVER =
-  e.SIP_SIGNALING_SERVER ?? "wss://sip.goodtok.io:5063";
-export const SIP_USER_AGENT_PRIVACY = e.SIP_USER_AGENT_PRIVACY ?? "PRIVATE";
+// PeerJS server configurations
+export const SIGNALING_HOST = e.SIGNALING_HOST;
+export const SIGNALING_PORT = e.SIGNALING_PORT ?? "443";
 
 // SMTP configurations
 export const SMTP_HOST = e.SMTP_HOST;

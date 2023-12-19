@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { mediaToggle } from "./utils";
-import { ConnectionObject, Method } from "./types";
+import { ConnectionObject } from "./types";
 
-export { mediaToggle, ConnectionObject, Method };
+export { mediaToggle, ConnectionObject };
 export { formatTime } from "./formatTime";
