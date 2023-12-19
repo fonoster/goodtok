@@ -104,7 +104,6 @@ model QueueEntry {
   updatedAt    DateTime         @default(now()) @map("updated_at") @db.Timestamptz(3)
   registeredAt DateTime         @default(now()) @map("registered_at") @db.Timestamptz(3)
   status       QueueEntryStatus
-  aor          String           @db.VarChar(323) // Address of record
   metadata     Json             @default("{}")
 
   // Relations

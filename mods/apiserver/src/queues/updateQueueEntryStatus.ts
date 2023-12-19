@@ -20,7 +20,7 @@ import { getLogger } from "@fonoster/logger";
 import { Context } from "../context";
 import { UpdateQueueEntryStatusRequest } from "./types";
 import { QueueEntryStatus } from "@prisma/client";
-import { natsObservers } from "../workspaces/observers";
+import { queueObservers } from "../workspaces/observers";
 import { getCustomerById } from "../customers/getCustomerById";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
@@ -70,5 +70,5 @@ export async function updateQueueEntryStatus(
   };
 
   // Notify all observers
-  natsObservers.forEach((emit) => emit(entryWithCustomer));
+  queueObservers.forEach((emit) => emit(entryWithCustomer));
 }

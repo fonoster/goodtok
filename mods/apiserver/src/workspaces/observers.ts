@@ -20,7 +20,7 @@ import { QueueEntry } from "../queues/types";
 import { WorkspaceStatus } from "./types";
 
 // List to keep track of all active observers
-export const natsObservers: Array<(entry: QueueEntry) => void> = [];
+export const queueObservers: Array<(entry: QueueEntry) => void> = [];
 
 export const workspaceStatusObservers: Array<(entry: WorkspaceStatus) => void> =
   [];

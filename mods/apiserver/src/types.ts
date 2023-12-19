@@ -43,9 +43,6 @@ export type UserWithWorkspaces = Prisma.UserGetPayload<{
 
 // The register event is sent by Routr when a new endpoint is registered
 export type RegisterEvent = {
-  // The address of record (aor) is the unique identifier for the endpoint
-  // And it is formatted as `sip:username@domain`
-  aor: string;
   registeredAt: Date;
   expires: number;
   // During the registration process endpoints are required to send the

@@ -33,7 +33,6 @@ export type QueueEntry = {
     avatar: string;
     note: string;
   };
-  aor: string;
 };
 
 export type GetQueueResponse = {
@@ -43,3 +42,9 @@ export type GetQueueResponse = {
 export type UpdateQueueEntryStatusRequest = z.infer<
   typeof updateQueueEntryStatusSchema
 >;
+
+export type JoinQueueRequest = {
+  customerId: string;
+  workspaceId: string;
+  token: string;
+};

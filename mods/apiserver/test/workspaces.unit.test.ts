@@ -43,8 +43,7 @@ describe("@apiserver[workspaces]", () => {
         createdAt: new Date(),
         updatedAt: new Date(),
         status: "ONLINE",
-        workspaceId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
-        aor: "sip:"
+        workspaceId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1"
       }
     ],
     hoursOfOperation: {

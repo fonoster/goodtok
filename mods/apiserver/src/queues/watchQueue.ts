@@ -18,7 +18,7 @@
  */
 import { observable } from "@trpc/server/observable";
 import { getLogger } from "@fonoster/logger";
-import { natsObservers } from "../workspaces/observers";
+import { queueObservers } from "../workspaces/observers";
 import { QueueEntry } from "./types";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
@@ -28,18 +28,18 @@ export function watchQueue(workspaceId: string) {
 
   return observable<QueueEntry>((emit) => {
     // Add the observer's next method to the list when a client subscribes
-    natsObservers.push(emit.next.bind(emit));
+    queueObservers.push(emit.next.bind(emit));
 
     // Remove the observer's next method when the client unsubscribes
     return () => {
-      const index = natsObservers.indexOf(emit.next.bind(emit));
+      const index = queueObservers.indexOf(emit.next.bind(emit));
       if (index !== -1) {
-        natsObservers.splice(index, 1);
+        queueObservers.splice(index, 1);
       }
 
       logger.verbose("observer removed from watchQueue", {
         workspaceId,
-        totalObservers: natsObservers.length
+        totalObservers: queueObservers.length
       });
     };
   });

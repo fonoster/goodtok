@@ -31,17 +31,15 @@ export async function updateQueueEntry(
   ctx: Context,
   request: {
     customerId: string;
-    aor: string;
     workspaceId: string;
     expires: number;
     metadata: Record<string, string>;
   }
 ) {
-  const { customerId, aor, workspaceId, expires } = request;
+  const { customerId, workspaceId, expires } = request;
 
   logger.verbose("update queue entry", {
     customerId,
-    aor,
     workspaceId,
     expires
   });
@@ -70,7 +68,6 @@ export async function updateQueueEntry(
         customerId: customerId,
         status:
           expires > 0 ? QueueEntryStatus.ONLINE : QueueEntryStatus.OFFLINE,
-        aor,
         workspaceId: workspaceId,
         metadata: request.metadata
       }

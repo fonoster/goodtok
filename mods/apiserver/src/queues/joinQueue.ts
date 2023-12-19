@@ -16,40 +16,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { watchNats } from "../nats";
 import { getLogger } from "@fonoster/logger";
 import { updateQueueEntry } from "./updateQueueEntry";
 import { getCustomerById } from "../customers/getCustomerById";
 import { prisma } from "../db";
-import { natsObservers } from "../workspaces/observers";
-import { NATS_URL } from "../envs";
+import { queueObservers } from "../workspaces/observers";
+import { JoinQueueRequest } from "./types";
 import jwt from "jsonwebtoken";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-watchNats(NATS_URL, async (event) => {
-  const { aor, expires, extraHeaders } = event;
+export async function joinQueue(joinQueueRequest: JoinQueueRequest) {
   const ctx = { prisma, getCustomerById };
-
-  const customerId = extraHeaders["X-Customer-Id"];
-  const workspaceId = extraHeaders["X-Workspace-Id"];
-  const token = extraHeaders["X-Connect-Token"];
+  const { token, customerId, workspaceId } = joinQueueRequest;
 
   const claims = jwt.decode(token) as {
     metadata: { name: string; email: string; message: string };
   };
 
-  logger.verbose("customerId and workspaceId", {
-    customerId,
-    workspaceId,
-    expires
-  });
+  logger.verbose("customerId and workspaceId", { customerId, workspaceId });
 
   const entry = await updateQueueEntry(ctx, {
     customerId,
-    aor,
     workspaceId,
-    expires,
+    // FIXME: We are setting the expiration time to 24 hours for now
+    expires: 86400,
     metadata: claims.metadata
   });
 
@@ -69,5 +60,5 @@ watchNats(NATS_URL, async (event) => {
   };
 
   // Notify all observers
-  natsObservers.forEach((emit) => emit(entryWithCustomer));
-});
+  queueObservers.forEach((emit) => emit(entryWithCustomer));
+}

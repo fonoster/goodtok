@@ -42,8 +42,7 @@ describe("@apiserver[queues]", () => {
         createdAt: new Date(),
         updatedAt: new Date(),
         status: "ONLINE",
-        workspaceId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1",
-        aor: "sip:"
+        workspaceId: "c5a6a3a6-fe03-4b10-9313-62b46dc191bc1"
       }
     ],
     hoursOfOperation: {
@@ -94,7 +93,6 @@ describe("@apiserver[queues]", () => {
           registeredAt: testWorkspace.queue[0].registeredAt,
           status: testWorkspace.queue[0].status,
           workspaceId: testWorkspace.queue[0].workspaceId,
-          aor: testWorkspace.queue[0].aor,
           customer: {
             id: testWorkspace.queue[0].customerId,
             email: undefined,
@@ -142,7 +140,6 @@ describe("@apiserver[queues]", () => {
 
     const request = {
       customerId: testWorkspace.queue[0].customerId,
-      aor: testWorkspace.queue[0].aor,
       workspaceId: testWorkspace.queue[0].workspaceId,
       expires: 300,
       metadata: {}
