@@ -9,11 +9,6 @@
 ##
 tasks:
   - name: Initial Setup
-    before: |
-      mkdir -p .keys
-      sudo openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
-      sudo openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
-      sudo chmod 666 ./.keys/private.key ./.keys/public.key
     init: |
       npm install @47ng/cloak
       CLOAK_ENCRYPTION_KEY=$(node -e "const { generateKey } = require('@47ng/cloak'); console.log(generateKey());")

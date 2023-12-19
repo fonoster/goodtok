@@ -52,9 +52,8 @@ const GoodtokUA = () => {
     | null
   >(null);
   const [menuData, setMenuData] = useState<Item[]>([]);
-  const [connectionObj, setConnectionObj] = useState<ConnectionObject | null>(
-    null
-  );
+  const [connectionObject, setConnectionObject] =
+    useState<ConnectionObject | null>(null);
 
   const handleVideoRefsReady = (refs: unknown) => {
     videoRefs.current = refs;
@@ -62,6 +61,7 @@ const GoodtokUA = () => {
 
   const sendSessionRequest = async (
     connectionObject: ConnectionObject,
+    customerToken: string,
     event: GoodtokWidgetEvents
   ) => {
     try {
@@ -107,6 +107,23 @@ const GoodtokUA = () => {
       });
 
       setVideoMuted(event === GoodtokWidgetEvents.AUDIO_SESSION_REQUEST);
+
+      const workspaceId = getWorkspaceId(document);
+      const server = getAPIServer(document);
+
+      const client = new SDK.Client({
+        endpoint: server,
+        workspace: workspaceId
+      });
+
+      client.setToken(customerToken);
+
+      const queues = new SDK.Queues(client);
+
+      await queues.joinQueue({
+        customerId: connectionObject.customerId,
+        workspaceId: connectionObject.workspaceId
+      });
     } catch (e) {
       console.error("failed to initialize peer", e);
       setNotificationType(NotificationType.UNKNOWN_ERROR);
@@ -135,19 +152,19 @@ const GoodtokUA = () => {
 
     const tokens = new SDK.Tokens(client);
 
-    const token = await tokens.createAnonymousToken({
+    const customerToken = await tokens.createAnonymousToken({
       ref: customerRef,
       workspaceId,
       metadata: values
     });
 
-    const connectionObj = jwtDecode(token) as ConnectionObject;
+    const connectionObject = jwtDecode(customerToken) as ConnectionObject;
 
-    setCustomerToken(token);
-    setConnectionObj(connectionObj);
-    setCalendarUrl(connectionObj.calendarUrl);
-    sessionStorage.setItem("customerToken", token);
-    return connectionObj;
+    setCustomerToken(customerToken);
+    setConnectionObject(connectionObject);
+    setCalendarUrl(connectionObject.calendarUrl);
+    sessionStorage.setItem("customerToken", customerToken);
+    return { connectionObject, customerToken };
   };
 
   const handleWidgetEvents = async (
@@ -159,8 +176,9 @@ const GoodtokUA = () => {
         setContactFormOpen(false);
         setNotificationType(NotificationType.WAITING_FOR_AGENT);
         setNotificationOpen(true);
-        const connectionObject = await handleSubmitContactForm(data);
-        await sendSessionRequest(connectionObject, sessionType);
+        const { connectionObject, customerToken } =
+          await handleSubmitContactForm(data);
+        await sendSessionRequest(connectionObject, customerToken, sessionType);
         break;
       }
 
@@ -174,7 +192,7 @@ const GoodtokUA = () => {
           setNotificationType(NotificationType.WAITING_FOR_AGENT);
           setMenuOpen(false);
           setNotificationOpen(true);
-          await sendSessionRequest(connectionObj, event);
+          await sendSessionRequest(connectionObject, customerToken, event);
         } else {
           setMenuOpen(false);
           setContactFormOpen(true);
@@ -268,10 +286,10 @@ const GoodtokUA = () => {
     }
 
     if (token) {
-      const connectionObj = jwtDecode(token) as ConnectionObject;
+      const connectionObject = jwtDecode(token) as ConnectionObject;
       setCustomerToken(token);
-      setConnectionObj(connectionObj);
-      setCalendarUrl(connectionObj.calendarUrl);
+      setConnectionObject(connectionObject);
+      setCalendarUrl(connectionObject.calendarUrl);
       return;
     }
   }, []);

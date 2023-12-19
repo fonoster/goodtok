@@ -42,15 +42,7 @@ mkdir goodtok
 cd goodtok
 ```
 
-Next, run the following command inside the directory to generate a set of security keys. These keys will be used to sign and verify the JWT tokens.
-
-```bash
-mkdir -p .keys
-openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
-openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
-```
-
-Then, create a `.env` file with the following content:
+Next, create a `.env` file with the following content:
 
 ```bash
 # General config

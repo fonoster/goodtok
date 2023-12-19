@@ -43,7 +43,7 @@ export async function createToken(
 
   return jwt.sign(
     claims,
-    ctx.config.securityPrivateKey,
+    ctx.config.jwtSecuritySalt,
     ctx.config.jwtSignOptions
   );
 }

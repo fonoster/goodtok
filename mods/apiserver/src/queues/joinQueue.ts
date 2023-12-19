@@ -19,18 +19,20 @@
 import { getLogger } from "@fonoster/logger";
 import { updateQueueEntry } from "./updateQueueEntry";
 import { getCustomerById } from "../customers/getCustomerById";
-import { prisma } from "../db";
 import { queueObservers } from "../workspaces/observers";
 import { JoinQueueRequest } from "./types";
 import jwt from "jsonwebtoken";
+import { Context } from "../context";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
-export async function joinQueue(joinQueueRequest: JoinQueueRequest) {
-  const ctx = { prisma, getCustomerById };
-  const { token, customerId, workspaceId } = joinQueueRequest;
+export async function joinQueue(
+  ctx: Context,
+  joinQueueRequest: JoinQueueRequest
+) {
+  const { customerId, workspaceId } = joinQueueRequest;
 
-  const claims = jwt.decode(token) as {
+  const claims = jwt.decode(ctx.token) as {
     metadata: { name: string; email: string; message: string };
   };
 

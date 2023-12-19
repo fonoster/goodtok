@@ -27,3 +27,10 @@ export const updateQueueEntryStatusSchema = z
     status: z.enum([QueueEntryStatus.DEQUEUED, QueueEntryStatus.IN_PROGRESS])
   })
   .required();
+
+export const joinQueueSchema = z
+  .object({
+    customerId: z.string(),
+    workspaceId: z.string()
+  })
+  .required();

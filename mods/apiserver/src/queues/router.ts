@@ -21,7 +21,8 @@ import { router, protectedProcedure } from "../trpc";
 import { getQueueByWorkspaceId } from "./getQueueByWorkspaceId";
 import { watchQueue } from "../queues/watchQueue";
 import { updateQueueEntryStatus } from "./updateQueueEntryStatus";
-import { updateQueueEntryStatusSchema } from "./validation";
+import { joinQueueSchema, updateQueueEntryStatusSchema } from "./validation";
+import { joinQueue } from "./joinQueue";
 
 export const queuesRouter = router({
   getQueueByWorkspaceId: protectedProcedure
@@ -34,5 +35,9 @@ export const queuesRouter = router({
 
   updateQueueEntryStatus: protectedProcedure
     .input(updateQueueEntryStatusSchema)
-    .mutation(({ ctx, input }) => updateQueueEntryStatus(ctx, input))
+    .mutation(({ ctx, input }) => updateQueueEntryStatus(ctx, input)),
+
+  joinQueue: protectedProcedure
+    .input(joinQueueSchema)
+    .mutation(({ ctx, input }) => joinQueue(ctx, input))
 });

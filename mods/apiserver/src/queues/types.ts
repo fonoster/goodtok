@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 import { QueueEntryStatus } from "@prisma/client";
-import { updateQueueEntryStatusSchema } from "./validation";
+import { joinQueueSchema, updateQueueEntryStatusSchema } from "./validation";
 import { z } from "zod";
 
 export type QueueEntry = {
@@ -43,8 +43,4 @@ export type UpdateQueueEntryStatusRequest = z.infer<
   typeof updateQueueEntryStatusSchema
 >;
 
-export type JoinQueueRequest = {
-  customerId: string;
-  workspaceId: string;
-  token: string;
-};
+export type JoinQueueRequest = z.infer<typeof joinQueueSchema>;

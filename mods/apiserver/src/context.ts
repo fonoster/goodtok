@@ -22,7 +22,6 @@ import { getCustomerById } from "./customers/getCustomerById";
 import { getToken } from "./utils";
 import { ContextOptions, ContextOptionsWithUrl } from "./types";
 import {
-  SECURITY_PRIVATE_KEY,
   JWT_SIGN_OPTIONS,
   JWT_SECURITY_SALT,
   SIGNALING_HOST,
@@ -53,7 +52,6 @@ export async function createContext(opts: ContextOptions) {
     config: {
       jwtSecuritySalt: JWT_SECURITY_SALT,
       jwtSignOptions: JWT_SIGN_OPTIONS,
-      securityPrivateKey: SECURITY_PRIVATE_KEY,
       signalingHost: SIGNALING_HOST,
       signalingPort: SIGNALING_PORT
     }
@@ -68,7 +66,6 @@ export type Context = {
   config?: {
     jwtSecuritySalt: string;
     jwtSignOptions: jwt.SignOptions;
-    securityPrivateKey: string;
     signalingHost: string;
     signalingPort: string;
   };

@@ -28,6 +28,7 @@ import {
 import type {
   AppRouter,
   GetQueueResponse,
+  JoinQueueRequest,
   UpdateQueueEntryStatusRequest
 } from "@goodtok/apiserver";
 import { AbstractBaseClient } from "../base";
@@ -209,6 +210,33 @@ export default class Queues extends AbstractBaseClient implements QueuesClient {
   ): Promise<void> {
     try {
       await this.trpc.queues.updateQueueEntryStatus.mutate(request);
+    } catch (err) {
+      formatAndThrowError(err);
+    }
+  }
+
+  /**
+   * Adds a customer to a queue.
+   *
+   * @param {JoinQueueRequest} request - The request object
+   * @param {string} request.workspaceId - The workspace ID
+   * @param {string} request.customerId - The customer ID to add to the queue
+   * @return {Promise<void>} A promise resolving to void
+   *
+   * @example
+   *
+   * const request = {
+   *  workspaceId: "g-7b7c46fb05",
+   *  customerId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d"
+   * };
+   *
+   * queues.joinQueue(request)
+   *  .then(console.log)
+   *  .catch(console.error); // handle any errors
+   */
+  async joinQueue(request: JoinQueueRequest): Promise<void> {
+    try {
+      return await this.trpc.queues.joinQueue.mutate(request);
     } catch (err) {
       formatAndThrowError(err);
     }

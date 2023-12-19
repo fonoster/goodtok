@@ -18,7 +18,6 @@
  */
 import { assertEnvsAreSet } from "./utils";
 import { join } from "path";
-import fs from "fs";
 import dotenv from "dotenv";
 
 if (process.env.NODE_ENV === "dev") {
@@ -33,7 +32,6 @@ assertEnvsAreSet([
 ]);
 
 const e = process.env;
-const defaultSignOptions = { expiresIn: "24h", algorithm: "RS256" };
 
 // API server configurations
 export const APISERVER_BIND_PORT = e.APISERVER_BIND_PORT ?? "6789";
@@ -48,12 +46,7 @@ export const CLOAK_ENCRYPTION_KEY = e.CLOAK_ENCRYPTION_KEY;
 export const JWT_SECURITY_SALT = e.JWT_SECURITY_SALT ?? CLOAK_ENCRYPTION_KEY;
 export const JWT_SIGN_OPTIONS = e.JWT_SIGN_OPTIONS
   ? JSON.parse(e.JWT_SIGN_OPTIONS)
-  : defaultSignOptions;
-export const SECURITY_PATH_TO_KEYS = e.SECURITY_PATH_TO_KEYS ?? "/keys";
-export const SECURITY_PRIVATE_KEY = fs.readFileSync(
-  join(SECURITY_PATH_TO_KEYS, "private.key"),
-  "utf8"
-);
+  : { expiresIn: "24h" };
 
 // PeerJS server configurations
 export const SIGNALING_HOST = e.SIGNALING_HOST;
