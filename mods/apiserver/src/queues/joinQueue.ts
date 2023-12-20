@@ -41,8 +41,8 @@ export async function joinQueue(
   const entry = await updateQueueEntry(ctx, {
     customerId,
     workspaceId,
-    // FIXME: We are setting the expiration time to 24 hours for now
-    expires: 86400,
+    // FIXME: We are setting the expiration time to 1 hour for now
+    expires: 3600,
     metadata: claims.metadata
   });
 
