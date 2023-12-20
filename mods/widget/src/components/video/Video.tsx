@@ -61,7 +61,6 @@ export const Video = forwardRef((props: VideoProps, ref) => {
     useState(false);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const remoteVideoRef = React.createRef<HTMLVideoElement>();
-  const remoteAudio = React.createRef<HTMLAudioElement>();
   const localVideoRef = React.createRef<HTMLVideoElement>();
 
   useEffect(() => {
@@ -92,7 +91,6 @@ export const Video = forwardRef((props: VideoProps, ref) => {
   // Expose refs to parent
   useImperativeHandle(ref, () => ({
     remoteVideo: remoteVideoRef.current,
-    remoteAudio: remoteAudio.current,
     localVideo: localVideoRef.current
   }));
 

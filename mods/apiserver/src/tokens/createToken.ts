@@ -37,8 +37,9 @@ export async function createToken(
   const claims = {
     ref: ref,
     customerId: input.customerId,
-    peerId: input.customerId,
-    workspaceId: workspaceId
+    workspaceId: workspaceId,
+    signalingHost: ctx.config.signalingHost,
+    signalingPort: ctx.config.signalingPort
   };
 
   return jwt.sign(

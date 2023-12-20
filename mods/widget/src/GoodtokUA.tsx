@@ -66,8 +66,6 @@ const GoodtokUA = () => {
   ) => {
     try {
       const localVideo = videoRefs.current.localVideo;
-      // TODO: Remove remoteAudio from videoRefs as it seems to be unused
-      // const remoteAudio = videoRefs.current.remoteAudio;
       const remoteVideo = videoRefs.current.remoteVideo;
 
       const peer = new Peer(connectionObject.customerId, {
@@ -171,6 +169,15 @@ const GoodtokUA = () => {
     event: GoodtokWidgetEvents,
     data: Record<string, string>
   ) => {
+    const toggleVideoHere = async () => {
+      toggleVideo({
+        videoRefs,
+        localStream,
+        peer,
+        remotePeerId
+      });
+    };
+
     switch (event) {
       case GoodtokWidgetEvents.SUBMIT_CONTACT_FORM_REQUEST: {
         setContactFormOpen(false);
@@ -216,11 +223,11 @@ const GoodtokUA = () => {
         break;
 
       case GoodtokWidgetEvents.VIDEO_MUTE_REQUEST:
-        toggleVideo();
+        toggleVideoHere();
         break;
 
       case GoodtokWidgetEvents.VIDEO_UNMUTE_REQUEST:
-        toggleVideo();
+        toggleVideoHere();
         break;
 
       case GoodtokWidgetEvents.HANGUP_REQUEST:
@@ -253,30 +260,6 @@ const GoodtokUA = () => {
       // TODO: Make sure to clean up and leave the queue
     };
   };
-
-  async function toggleVideo() {
-    const localVideo = videoRefs.current.localVideo;
-    const videoTrack = localStream.getVideoTracks()[0];
-
-    if (videoTrack?.readyState === "live" && videoTrack?.enabled) {
-      localStream.removeTrack(videoTrack);
-      videoTrack.enabled = false;
-      // INFO: This is a hack to ensure the remote side sees a black screen instead of the last frame
-      setTimeout(() => {
-        videoTrack.stop();
-        peer.call(remotePeerId, null);
-      }, 500);
-    } else {
-      const newStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true
-      });
-      const newVideoTrack = newStream.getVideoTracks()[0];
-      localStream.addTrack(newVideoTrack);
-      localVideo.srcObject = localStream;
-      peer.call(remotePeerId, localStream);
-    }
-  }
 
   useEffect(() => {
     let token = getCustomerToken(document);
@@ -381,5 +364,38 @@ const GoodtokUA = () => {
     />
   );
 };
+
+async function toggleVideo(t: {
+  videoRefs: {
+    current: { localVideo: HTMLVideoElement; remoteVideo: HTMLVideoElement };
+  };
+  localStream: MediaStream;
+  peer: Peer;
+  remotePeerId: string;
+}) {
+  const { videoRefs, localStream, peer, remotePeerId } = t;
+
+  const localVideo = videoRefs.current.localVideo;
+  const videoTrack = localStream.getVideoTracks()[0];
+
+  if (videoTrack?.readyState === "live" && videoTrack?.enabled) {
+    localStream.removeTrack(videoTrack);
+    videoTrack.enabled = false;
+    // INFO: This is a hack to ensure the remote side sees a black screen instead of the last frame
+    setTimeout(() => {
+      videoTrack.stop();
+      peer.call(remotePeerId, null);
+    }, 500);
+  } else {
+    const newStream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true
+    });
+    const newVideoTrack = newStream.getVideoTracks()[0];
+    localStream.addTrack(newVideoTrack);
+    localVideo.srcObject = localStream;
+    peer.call(remotePeerId, localStream);
+  }
+}
 
 export default GoodtokUA;

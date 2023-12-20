@@ -55,13 +55,11 @@ type FOVideoProps = {
 export const FOVideo = forwardRef((props: FOVideoProps, ref) => {
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const remoteVideoRef = React.createRef<HTMLVideoElement>();
-  const remoteAudio = React.createRef<HTMLAudioElement>();
   const localVideoRef = React.createRef<HTMLVideoElement>();
 
   // Expose refs to parent
   useImperativeHandle(ref, () => ({
     remoteVideo: remoteVideoRef.current,
-    remoteAudio: remoteAudio.current,
     localVideo: localVideoRef.current
   }));
 

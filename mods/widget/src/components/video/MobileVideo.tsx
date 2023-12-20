@@ -53,7 +53,6 @@ export const MobileVideo = forwardRef((props: VideoProps, ref) => {
   const [isCustomerMicrophoneMuted, setIsCustomerMicrophoneMuted] =
     useState(false);
   const remoteVideoRef = React.createRef<HTMLVideoElement>();
-  const remoteAudio = React.createRef<HTMLAudioElement>();
   const localVideoRef = React.createRef<HTMLVideoElement>();
 
   useEffect(() => {
@@ -84,7 +83,6 @@ export const MobileVideo = forwardRef((props: VideoProps, ref) => {
   // Expose refs to parent
   useImperativeHandle(ref, () => ({
     remoteVideo: remoteVideoRef.current,
-    remoteAudio: remoteAudio.current,
     localVideo: localVideoRef.current
   }));
 
