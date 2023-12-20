@@ -41,7 +41,7 @@ export type UserWithWorkspaces = Prisma.UserGetPayload<{
   };
 }>;
 
-// The register event is sent by Routr when a new endpoint is registered
+// The register event is sent by clients to the server to register
 export type RegisterEvent = {
   registeredAt: Date;
   expires: number;

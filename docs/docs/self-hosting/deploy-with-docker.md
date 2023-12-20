@@ -15,15 +15,7 @@ mkdir goodtok
 cd goodtok
 ```
 
-Next, run the following command inside the directory to generate a set of security keys. These keys will be used to sign and verify the JWT tokens.
-
-```bash
-mkdir -p .keys
-openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
-openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
-```
-
-Then, create a `.env` file with the following content:
+Next, create a `.env` file with the following content:
 
 ```bash
 # General config
@@ -59,6 +51,8 @@ Few important things to note:
 
 - Please be sure to update all secrets with your own values
 - The `APP_URL` must be the URL where the application will be accessible. For example, if you are running the application locally, you can use `http://localhost:8080`. If you are running the application on a server, you can use, for example, `https://goodtok.example.com`
+- The `SIGNALING_HOST` must be the URL where the signaling server will be accessible. For example, if you are running the application locally, you can use `localhost`. If you are running the application on a server, you can use, for example, `goodtok.example.com`
+- The `SIGNALLING_PORT` must be the port where the signaling server will be accessible. For example, if you are running the application locally, you can use `9000`. If you are running the application on a server, you can use, for example, `443`
 - You must point your SMTP variables to a valid SMTP server
 - Goodtok will use the `OWNER_EMAIL` and `OWNER_PASSWORD` variables to create the first user. The server will create a new owner if the email does not exist. Goodtok will update the password if the email exists. You can use any email address and password for this purpose.
 

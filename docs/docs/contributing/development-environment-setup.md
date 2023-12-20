@@ -28,9 +28,6 @@ git clone https://github.com/fonoster/goodtok
 cd goodtok
 npm install
 npm run build
-mkdir -p .keys
-openssl genpkey -algorithm RSA -out ./.keys/private.key -pkeyopt rsa_keygen_bits:4096
-openssl rsa -in ./.keys/private.key -pubout -out ./.keys/public.key
 ```
 
 ### Running the project
@@ -65,7 +62,7 @@ npm run db:migrate
 
 Then, copy the `.env.example` file to `.env` and update the values accordingly. 
 
-You will need to update the `DOCKER_HOST_ADDRESS` and `SIP_SIGNALING_SERVER` variables with the IP address of your Docker host. Similarly, you will need to update the `CLOAK_ENCRYPTION_KEY` variable with a new key from [Cloak](https://cloak.47ng.com/).
+You will need to update the `CLOAK_ENCRYPTION_KEY` variable with a new key from [Cloak](https://cloak.47ng.com/).
 
 Finally, you can start the backend by running:
 

@@ -113,7 +113,7 @@ A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to 
   "ref": "iypok",
   "customerId": "iypok",
   "workspaceId": "g-7b7c46fb05",
-  "calendarUrl": "https://cal.com/psanders",
+  "calendarUrl": "https://cal.com/placeholder",
   "signalingHost": "peerjs.goodtok.io",
   "signalingPort": 443,
   "metadata": {
@@ -128,7 +128,7 @@ A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to 
 
 When no customer token is provided, the video widget will show a form, requesting the user to enter their name, email and a message. The video widget will then request an anonymous token from the server. When possible we recommend you to provide a customer token to the video widget to avoid the form.
 
-To learn more about customer tokens, see the [customer tokens](http://localhost:3000/docs/video-widget/customer-tokens) section in the documentation.
+To learn more about customer tokens, see the [customer tokens](https://goodtok.io/docs/video-widget/customer-tokens) section in the documentation.
 
 ## Architecture
 

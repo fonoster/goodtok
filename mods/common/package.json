@@ -27,8 +27,7 @@
     "SIP.js",
     "Web Phone",
     "Phone",
-    "Routr",
-    "SIP",
+    "PeerJS",
     "Contact Center"
   ],
   "files": [
