@@ -61,34 +61,24 @@ tasks:
       npm run db:migrate
       exit
 
-  - name: Open Preview Ports
-    before: |
-      while [ ! -f /workspace/.init_done ]; do sleep 2; done
-    command: |
-      gp ports await 8080
-      gp ports await 8181
-      gp ports await 8025
-      gp preview $(gp url 8025) --external
-      gp preview $(gp url 8080)/login --external
-      gp preview $(gp url 8181) --external
-      exit
-
 ports:
   - port: 8080
     visibility: public
-    onOpen: ignore
+    onOpen: open-browser
   - port: 8181
     visibility: public
-    onOpen: ignore
+    onOpen: open-browser
   - port: 8025
     visibility: public
-    onOpen: ignore
+    onOpen: open-browser
   - port: 6789
+    visibility: public
+    onOpen: ignore
+  - port: 9000
     visibility: public
     onOpen: ignore
   - port: 1025
     visibility: private
-    onOpen: ignore
     onOpen: ignore
   - port: 5432
     visibility: private
