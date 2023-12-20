@@ -54,9 +54,7 @@ describe("@sdk[tokens]", () => {
     // Arrange
     const tokens = new Tokens(mockClient);
     const request = {
-      ref: customerId,
-      aor: "sip:anonymous@sip.goodtok.io",
-      aorLink: "sip:anonymous@sip.goodtok.io"
+      ref: customerId
     };
 
     // Act
@@ -71,10 +69,7 @@ describe("@sdk[tokens]", () => {
     const tokens = new Tokens(mockClient);
     const request = {
       ref: customerId,
-      customerId: customerId,
-      aor: "sip:anonymous@sip.goodtok.io",
-      aorLink: "sip:anonymous@sip.goodtok.io",
-      allowedEvents: ["REGISTER", "INVITE"]
+      customerId: customerId
     };
 
     // Act

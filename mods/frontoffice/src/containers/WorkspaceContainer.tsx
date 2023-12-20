@@ -33,15 +33,13 @@ const mapQueueEntry = (entry: {
   };
   createdAt: Date;
   status: string;
-  aor: string;
 }) => {
   return {
     id: entry.customerId,
     name: entry.customer.name,
     note: entry.customer.note,
     time: moment(entry.createdAt).fromNow(),
-    status: entry.status,
-    aor: entry.aor
+    status: entry.status
   };
 };
 
@@ -172,9 +170,9 @@ function WorkspaceContainer() {
     };
   }, []);
 
-  const handleQueueEntrySelect = (id: string, aor: string) => {
+  const handleQueueEntrySelect = (id: string) => {
     window.open(
-      `/workspace/${workspaceId}/s/${id}/aor/${aor}`,
+      `/workspace/${workspaceId}/s/${id}`,
       "_blank",
       "noopener,noreferrer"
     );

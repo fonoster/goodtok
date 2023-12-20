@@ -120,7 +120,6 @@ export const QueuePageExampleWithQueueData: Story = {
       {
         id: "1",
         name: "John Doe",
-        aor: "sip:1@sip.goodtok.io",
         note: "Prefers monthly newsletter",
         time: "10m",
         status: "OFFLINE"
@@ -128,7 +127,6 @@ export const QueuePageExampleWithQueueData: Story = {
       {
         id: "2",
         name: "Peter Doe",
-        aor: "sip:2@sip.goodtok.io",
         note: "A super long example of customer note treatment showing that we truncate after a certain point",
         time: "2m",
         status: "ONLINE"

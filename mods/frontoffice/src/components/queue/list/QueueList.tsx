@@ -37,7 +37,6 @@ export type CustomerData = {
   status: "ONLINE" | "IN_PROGRESS" | "OFFLINE";
   note: string;
   time: string;
-  aor: string;
 };
 
 type QueueListProps = {
@@ -45,7 +44,7 @@ type QueueListProps = {
   maxItems?: number;
   data: CustomerData[];
   hideAvgWaitTime?: boolean;
-  onQueueEntrySelect: (id: string, aor: string) => void;
+  onQueueEntrySelect: (id: string) => void;
 };
 
 export const QueueList: React.FC<QueueListProps> = ({
@@ -123,12 +122,7 @@ export const QueueList: React.FC<QueueListProps> = ({
                 name={customer.name}
                 time={customer.time}
                 note={customer.note}
-                aor={customer.aor}
-                // onClick={() => onQueueEntrySelect(customer.id, customer.aor)}
-                // Base64 encode the aor to avoid issues with special characters
-                onClick={() =>
-                  onQueueEntrySelect(customer.id, btoa(customer.aor))
-                }
+                onClick={() => onQueueEntrySelect(customer.id)}
               />
             ))
             .slice(0, maxItems)}

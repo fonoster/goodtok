@@ -17,13 +17,12 @@
  * limitations under the License.
  */
 import * as SDK from "@goodtok/sdk";
-import { ConnectionObject, mediaToggle } from "@goodtok/common";
+import { ConnectionObject } from "@goodtok/common";
 import { ChatPage } from "~components/chat/ChatPage";
 import { useParams } from "react-router-dom";
 import { useAuth } from "~authentication";
 import { CustomerProfile } from "~components/chat/customer/types";
 import { jwtDecode } from "jwt-decode";
-import { Web } from "sip.js";
 import { useLogger } from "~logger";
 import { useSnackbar } from "~snackbar";
 import React, { useEffect, useRef, useState } from "react";
@@ -38,7 +37,6 @@ function ChatContainer() {
   const videoRefs = useRef<VideoRefs>();
   const [isActiveCall, setIsActiveCall] = React.useState(false);
   const [isLocalCameraMuted, setIsLocalCameraMuted] = React.useState(false);
-  const [simpleUser, setSimpleUser] = useState<Web.SimpleUser | null>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [name, setName] = React.useState("");
   const [avatar, setAvatar] = React.useState("");
@@ -51,16 +49,11 @@ function ChatContainer() {
   const { client, signOut, isAdmin } = useAuth();
   const { showSnackbar } = useSnackbar();
 
-  const {
-    id: workspaceId,
-    sessionId: customerId,
-    encodedAor
-  } = useParams() as {
+  const logger = useLogger();
+  const { id: workspaceId, sessionId: customerId } = useParams() as {
     id: string;
     sessionId: string;
-    encodedAor: string;
   };
-  const logger = useLogger();
 
   if (!client) {
     signOut();
@@ -110,6 +103,7 @@ function ChatContainer() {
 
   const handleStartCall = async () => {
     setIsActiveCall(true);
+
     const tokens = new SDK.Tokens(client);
     const inviterToken = await tokens.createToken({
       ref: customerId,
@@ -122,46 +116,15 @@ function ChatContainer() {
     ) as ConnectionObject;
 
     if (!connectionObject || !videoRefs.current) {
-      // TODO: Handle error
+      logger.error("error getting connection object");
       return;
     }
 
     const localVideo = videoRefs.current.localVideo;
     const remoteAudio = videoRefs.current.remoteAudio;
     const remoteVideo = videoRefs.current.remoteVideo;
-    const options = {
-      // aor: connectionObject.aor,
-      media: {
-        constraints: { audio: true, video: true },
-        remote: {
-          audio: remoteAudio,
-          video: remoteVideo
-        },
-        local: {
-          video: localVideo
-        }
-      }
-    };
-    // const simpleUser = new Web.SimpleUser(
-    //   connectionObject.signalingServer,
-    //   options
-    // );
 
-    const delegate: Web.SimpleUserDelegate = {
-      onCallHangup: () => {
-        setIsActiveCall(false);
-        if (simpleUser) {
-          simpleUser.disconnect();
-        }
-      }
-    };
-    // simpleUser.delegate = delegate;
-    // setSimpleUser(simpleUser);
-
-    // await simpleUser.connect();
-    // // await simpleUser.call(connectionObject.aorLink, {
-    // //   extraHeaders: [`X-Connect-Token: ${inviterToken}`]
-    // // });
+    // TODO: Inite peer connection and then call
 
     const queues = new SDK.Queues(client);
 
@@ -173,9 +136,7 @@ function ChatContainer() {
   };
 
   const onCustomerDequeue = async () => {
-    if (simpleUser) {
-      simpleUser.hangup();
-    }
+    // TODO: If peer exist and is connected, hangup
 
     const queues = new SDK.Queues(client);
     queues.updateQueueEntryStatus({
@@ -188,23 +149,23 @@ function ChatContainer() {
   };
 
   const handleHangup = async () => {
-    if (simpleUser) {
-      simpleUser.hangup();
-    }
+    // TODO: If peer exist and is connected, hangup
   };
 
   const handleMuteCamera = async () => {
-    if (simpleUser) {
-      setIsLocalCameraMuted(!isLocalCameraMuted);
-      mediaToggle(simpleUser, isLocalCameraMuted, "video");
-    }
+    // TODO: If peer exist and is connected, and mute camera
+    // if (peer) {
+    //   setIsLocalCameraMuted(!isLocalCameraMuted);
+    //   // TODO: Toggle camera
+    // }
   };
 
   const handleMuteMicrophone = async () => {
-    if (simpleUser) {
-      setIsLocalMicrophoneMuted(!isLocalMicrophoneMuted);
-      mediaToggle(simpleUser, isLocalMicrophoneMuted, "audio");
-    }
+    // TODO: If peer exist and is connected, and mute microphone
+    // if (peer) {
+    //   setIsLocalMicrophoneMuted(!isLocalMicrophoneMuted);
+    //   // TODO: Toggle microphone
+    // }
   };
 
   return (

@@ -162,6 +162,7 @@ Ensure the Goodtok API Server is running for the Queues API to function.
     * [.getQueueByWorkspaceId(id)](#Queues+getQueueByWorkspaceId) ⇒ <code>Promise.&lt;Workspace&gt;</code>
     * [.watchQueue(id, callback)](#Queues+watchQueue)
     * [.updateQueueEntryStatus(request)](#Queues+updateQueueEntryStatus) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.joinQueue(request)](#Queues+joinQueue) ⇒ <code>Promise.&lt;void&gt;</code>
 
 <a name="new_Queues_new"></a>
 
@@ -276,6 +277,31 @@ queues.updateQueueEntryStatus(request)
   .then(console.log)
   .catch(console.error); // handle any errors
 ```
+<a name="Queues+joinQueue"></a>
+
+### queues.joinQueue(request) ⇒ <code>Promise.&lt;void&gt;</code>
+Adds a customer to a queue.
+
+**Kind**: instance method of [<code>Queues</code>](#Queues)  
+**Returns**: <code>Promise.&lt;void&gt;</code> - A promise resolving to void  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| request | <code>JoinQueueRequest</code> | The request object |
+| request.workspaceId | <code>string</code> | The workspace ID |
+| request.customerId | <code>string</code> | The customer ID to add to the queue |
+
+**Example**  
+```js
+const request = {
+ workspaceId: "g-7b7c46fb05",
+ customerId: "4f9d5a3a-362b-7b7a-34gb-4e94969d7d2d"
+};
+
+queues.joinQueue(request)
+ .then(console.log)
+ .catch(console.error); // handle any errors
+```
 
 <a name="Tokens"></a>
 
@@ -311,11 +337,14 @@ async function createAnonymousToken() {
   await client.login("goodtok", "mysecretpassword");
 
   const tokens = new SDK.Tokens(client);
+
   const request = {
     ref: "myref",
-    aor: "anonymous@sip.goodtok.io",
-    aorLink: "anonymous@sip.goodtok.io",
-  };
+    workspaceId: "g-1234567890",
+    metadata: {
+     customField: "customValue"
+    }
+  }
 
   const connectionObject = await tokens.createAnonymousToken(request);
   console.log(connectionObject);
@@ -326,8 +355,7 @@ createAnonymousToken().catch(console.error);
 <a name="Tokens+createAnonymousToken"></a>
 
 ### tokens.createAnonymousToken(request) ⇒ <code>Promise.&lt;string&gt;</code>
-Creates a new anonymous token with `allowedMethods=[REGISTER]` permissions.
-Does not require authentication. The token will be issued only if the workspace has the `anonymous` feature enabled.
+Creates a new anonymous token for the specified workspace, and does not require authentication.
 
 **Kind**: instance method of [<code>Tokens</code>](#Tokens)  
 **Returns**: <code>Promise.&lt;string&gt;</code> - A promise resolving to the token  
@@ -373,17 +401,14 @@ Creates a new token with the specified permissions.
 | --- | --- | --- |
 | request | <code>CreateTokenInput</code> | A request with claims required to create the token |
 | request.ref | <code>string</code> | A reference for the user |
-| request.aor | <code>string</code> | The address of record (AOR) for the user |
-| request.aorLink | <code>string</code> | The address of record (AOR) for the user |
-| request.allowedMethods | <code>Array.&lt;string&gt;</code> | The list of methods the token is permitted to use (e.g. ["INVITE", "REGISTER"]) |
+| request.peerId | <code>string</code> | The peer ID for the user |
 
 **Example**  
 ```js
 const request = {
   ref: "myref",
-  aor: "5f9d7a3a-2b2b-4b7a-9b9b-8e9d9d9d9d9d@sip.goodtok.io",
-  aorLink: "anonymous@sip.goodtok.io",
-  allowedMethods: ["INVITE"],
+  customerId: "121a4579",
+  workspaceId: "g-1234567890"
 };
 
 tokens.createToken(request)

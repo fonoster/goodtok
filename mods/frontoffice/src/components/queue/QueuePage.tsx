@@ -33,7 +33,7 @@ type QueuePageProps = {
   isEnabled: boolean;
   isAuthenticated: boolean;
   isAdmin: boolean;
-  onQueueEntrySelect: (id: string, aor: string) => void;
+  onQueueEntrySelect: (id: string) => void;
   onEnabledStatusChange: (isEnabled: boolean) => void;
   onSignOut: () => void;
 };

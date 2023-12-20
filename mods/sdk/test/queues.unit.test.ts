@@ -90,7 +90,6 @@ describe("@sdk[queues]", () => {
 
     const testData = {
       customerId,
-      aor: "sip:anonymous@sip.goodtok.io",
       registeredAt: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),

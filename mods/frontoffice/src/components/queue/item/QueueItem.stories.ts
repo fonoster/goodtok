@@ -33,17 +33,12 @@ const meta = {
   argTypes: {
     id: {
       name: "ID",
-      description: "The ID of the queue item",
-      control: "text"
-    },
-    aor: {
-      name: "AOR",
-      description: "The Address Of Record(AOR) of the queue item",
+      description: "The ID of the queue entry",
       control: "text"
     },
     name: {
       name: "Name",
-      description: "The customer name of the queue item",
+      description: "The customer name of the queue entry",
       control: "text"
     },
     status: {
@@ -88,7 +83,6 @@ export const QueueItemExampleOdd: Story = {
   args: {
     id: "1",
     name: "John Doe",
-    aor: "sip:1@sip.goodtok.io",
     note: "Prefers monthly newsletters",
     status: "ONLINE",
     time: "10m",
@@ -103,7 +97,6 @@ export const QueueItemExampleEven: Story = {
   args: {
     id: "1",
     name: "John Doe",
-    aor: "sip:1@sip.goodtok.io",
     note: "A super long example of customer note treatment showing that we truncate after a certain point",
     status: "OFFLINE",
     time: "2m",

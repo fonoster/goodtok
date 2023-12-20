@@ -35,8 +35,7 @@ type QueueItemProps = {
   status: "ONLINE" | "IN_PROGRESS" | "OFFLINE";
   time: string;
   isOdd: boolean;
-  aor: string;
-  onClick: (id: string, aor: string) => void;
+  onClick: (id: string) => void;
 };
 
 export const QueueItem: React.FC<QueueItemProps> = ({
@@ -46,12 +45,11 @@ export const QueueItem: React.FC<QueueItemProps> = ({
   status,
   time,
   isOdd = false,
-  aor,
   onClick,
   ...props
 }) => {
   return (
-    <StyledQueueItem {...props} isOdd={isOdd} onClick={() => onClick(id, aor)}>
+    <StyledQueueItem {...props} isOdd={isOdd} onClick={() => onClick(id)}>
       <StyledQueueItemContainer>
         <StyledOnlineTitle>
           <StatusIndicatorIcon status={status} />{" "}

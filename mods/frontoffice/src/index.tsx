@@ -62,7 +62,7 @@ const router = createBrowserRouter([
     element: <WorkspaceContainer />
   },
   {
-    path: "/workspace/:id/s/:sessionId/aor/:encodedAor",
+    path: "/workspace/:id/s/:sessionId",
     element: <ChatContainer />
   },
   {
