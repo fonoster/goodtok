@@ -72,12 +72,12 @@ ports:
     port: 8181
     visibility: public
     onOpen: open-browser
-  - name: Mailhog (web)
+  - name: Mailhog Web UI
     description: Mailhog SMTP server for testing
     port: 8025
     visibility: public
     onOpen: open-browser
-  - name: Mailhog (smtp)
+  - name: Mailhog SMTP Server
     description: Mailhog SMTP server for testing
     port: 1025
     visibility: private
