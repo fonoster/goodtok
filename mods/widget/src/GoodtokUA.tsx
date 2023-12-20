@@ -44,6 +44,8 @@ const GoodtokUA = () => {
   const [notificationType, setNotificationType] = useState<NotificationType>();
   const [customerToken, setCustomerToken] = useState(null);
   const [peer, setPeer] = useState(null);
+  const [remoteMediaConnection, setRemoteMediaConnection] =
+    useState<MediaConnection | null>(null);
   const [remotePeerId, setRemotePeerId] = useState(null);
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [sessionType, setSessionType] = useState<
@@ -98,6 +100,7 @@ const GoodtokUA = () => {
           remoteVideo.autoplay = true;
         });
 
+        setRemoteMediaConnection(mediaConnection);
         setRemotePeerId(mediaConnection.peer);
         setVideoOpen(true);
         setNotificationOpen(false);
@@ -106,27 +109,57 @@ const GoodtokUA = () => {
 
       setVideoMuted(event === GoodtokWidgetEvents.AUDIO_SESSION_REQUEST);
 
-      const workspaceId = getWorkspaceId(document);
-      const server = getAPIServer(document);
-
-      const client = new SDK.Client({
-        endpoint: server,
-        workspace: workspaceId
-      });
-
-      client.setToken(customerToken);
-
-      const queues = new SDK.Queues(client);
-
-      await queues.joinQueue({
-        customerId: connectionObject.customerId,
-        workspaceId: connectionObject.workspaceId
-      });
+      await joinQueue(connectionObject, customerToken);
     } catch (e) {
       console.error("failed to initialize peer", e);
       setNotificationType(NotificationType.UNKNOWN_ERROR);
       setNotificationOpen(true);
     }
+  };
+
+  const joinQueue = async (
+    connectionObject: ConnectionObject,
+    customerToken: string
+  ) => {
+    const workspaceId = getWorkspaceId(document);
+    const server = getAPIServer(document);
+
+    const client = new SDK.Client({
+      endpoint: server,
+      workspace: workspaceId
+    });
+
+    client.setToken(customerToken);
+
+    const queues = new SDK.Queues(client);
+
+    await queues.joinQueue({
+      customerId: connectionObject.customerId,
+      workspaceId: connectionObject.workspaceId
+    });
+  };
+
+  const leaveQueue = async (
+    connectionObject: ConnectionObject,
+    customerToken: string
+  ) => {
+    const workspaceId = getWorkspaceId(document);
+    const server = getAPIServer(document);
+
+    const client = new SDK.Client({
+      endpoint: server,
+      workspace: workspaceId
+    });
+
+    client.setToken(customerToken);
+
+    const queues = new SDK.Queues(client);
+
+    await queues.updateQueueEntryStatus({
+      customerId: connectionObject.customerId,
+      workspaceId: connectionObject.workspaceId,
+      status: "DEQUEUED"
+    });
   };
 
   const handleScheduleMeetingRequest = () => {
@@ -238,14 +271,19 @@ const GoodtokUA = () => {
         setNotificationOpen(false);
         setContactFormOpen(false);
 
-        // Release media resources
+        // Release media resources and close peer connection
         if (localStream) {
           localStream.getTracks().forEach((track) => track.stop());
+          remoteMediaConnection?.close();
         }
 
-        // TODO: remotePeer.close();
+        if (peer) {
+          peer.destroy();
+        }
 
-        // TODO: If is connected, unregister, disconnect and hangup
+        if (connectionObject) {
+          await leaveQueue(connectionObject, customerToken);
+        }
         break;
       }
 
