@@ -13,11 +13,13 @@ tasks:
       npm install @47ng/cloak
       CLOAK_ENCRYPTION_KEY=$(node -e "const { generateKey } = require('@47ng/cloak'); console.log(generateKey());")
       APP_URL=$(gp url 8080)
-      SIP_SIGNALING_SERVER=$(gp url 5062 | sed 's/http/ws/g')
+      SIGNALING_HOST=$(gp url 9000 | sed 's/http:\/\///g')
+      SIGNALING_PORT=443
       cp .env.example .env
       sed -i "s|APP_URL=.*|APP_URL=$APP_URL|g" .env
       sed -i "s|CLOAK_ENCRYPTION_KEY=.*|CLOAK_ENCRYPTION_KEY=$CLOAK_ENCRYPTION_KEY|g" .env
-      sed -i "s|SIP_SIGNALING_SERVER=.*|SIP_SIGNALING_SERVER=$SIP_SIGNALING_SERVER|g" .env
+      sed -i "s|SIGNALING_HOST=.*|SIGNALING_HOST=$SIGNALING_HOST|g" .env
+      sed -i "s|SIGNALING_PORt=.*|SIGNALING_PORT=$SIGNALING_PORT|g" .env
       sed -i "s|postgresql://postgres:postgres@postgres:5432/goodtok|postgresql://postgres:postgres@localhost:5432/goodtok|g" .env
       sed -i "s|DOCKER_HOST_ADDRESS=.*|DOCKER_HOST_ADDRESS=$(gp url 5062 | sed 's|https://||')|g" .env
       npm uninstall @47ng/cloak
@@ -31,7 +33,6 @@ tasks:
     before: |
       while [ ! -f /workspace/.init_done ]; do sleep 2; done
     command: |
-      gp ports await 4222 # Wait for nats to be ready
       gp ports await 5432 # Wait for postgres to be ready
       npm run start:apiserver
 
@@ -82,20 +83,12 @@ ports:
   - port: 8025
     visibility: public
     onOpen: ignore
-  - port: 5062
-    visibility: public
-    onOpen: ignore
   - port: 6789
     visibility: public
     onOpen: ignore
   - port: 1025
     visibility: private
     onOpen: ignore
-  - port: 5063
-    visibility: private
-    onOpen: ignore
-  - port: 4222
-    visibility: private
     onOpen: ignore
   - port: 5432
     visibility: private
