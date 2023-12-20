@@ -94,9 +94,6 @@ export const FOVideo = forwardRef((props: FOVideoProps, ref) => {
         </HeaderContainer>
       </Header>
       <RemoteVideoContainer>
-        <audio style={{ display: "none" }} id="goodtok-audio" controls>
-          <p>Your browser doesn't support HTML5 audio.</p>
-        </audio>
         <RemoteVideo ref={remoteVideoRef} className="goodtok-video__remote" />
         {props.isLocalCameraMuted && (
           <MutedOverlay>
@@ -104,7 +101,11 @@ export const FOVideo = forwardRef((props: FOVideoProps, ref) => {
           </MutedOverlay>
         )}
         <LocalVideoContainer>
-          <LocalVideo ref={localVideoRef} className="goodtok-video__local" />
+          <LocalVideo
+            ref={localVideoRef}
+            className="goodtok-video__local"
+            muted
+          />
         </LocalVideoContainer>
         <Controls>
           <ButtonCircleWrapper onClick={() => props.onMuteMicrophone()}>

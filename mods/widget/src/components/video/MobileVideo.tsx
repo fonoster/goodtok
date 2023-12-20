@@ -99,9 +99,6 @@ export const MobileVideo = forwardRef((props: VideoProps, ref) => {
   return (
     <MobileVideoContainer style={{ display: props.isOpen ? "block" : "none" }}>
       <RemoteVideoContainer>
-        <audio style={{ display: "none" }} id="goodtok-audio" controls>
-          <p>Your browser doesn't support HTML5 audio.</p>
-        </audio>
         <RemoteVideo ref={remoteVideoRef} className="goodtok-video__remote" />
         {isCustomerCameraMuted && (
           <MutedOverlay>
@@ -109,7 +106,11 @@ export const MobileVideo = forwardRef((props: VideoProps, ref) => {
           </MutedOverlay>
         )}
         <LocalVideoContainer>
-          <LocalVideo ref={localVideoRef} className="goodtok-video__local" />
+          <LocalVideo
+            ref={localVideoRef}
+            className="goodtok-video__local"
+            muted
+          />
         </LocalVideoContainer>
         <Controls>
           <ButtonCircleWrapper

@@ -91,7 +91,7 @@ const GoodtokUA = () => {
       });
 
       peer.on("call", (mediaConnection: MediaConnection) => {
-        mediaConnection.answer(localStream);
+        mediaConnection.answer(stream);
 
         mediaConnection.on("stream", (stream) => {
           remoteVideo.srcObject = stream;
@@ -242,6 +242,8 @@ const GoodtokUA = () => {
         if (localStream) {
           localStream.getTracks().forEach((track) => track.stop());
         }
+
+        // TODO: remotePeer.close();
 
         // TODO: If is connected, unregister, disconnect and hangup
         break;

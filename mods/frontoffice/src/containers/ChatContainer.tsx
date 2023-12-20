@@ -187,8 +187,6 @@ function ChatContainer() {
   };
 
   const onCustomerDequeue = async () => {
-    // TODO: If peer exist and is connected, hangup
-
     const queues = new SDK.Queues(client);
     queues.updateQueueEntryStatus({
       workspaceId,
@@ -200,7 +198,12 @@ function ChatContainer() {
   };
 
   const handleHangup = async () => {
-    // TODO: If peer exist and is connected, hangup
+    // Release media resources
+    if (localStream) {
+      localStream.getTracks().forEach((track) => track.stop());
+    }
+
+    // TODO: remotePeer.close();
   };
 
   const handleMuteCamera = async () => {
@@ -219,7 +222,7 @@ function ChatContainer() {
     if (peer) {
       setIsLocalMicrophoneMuted(!isLocalMicrophoneMuted);
       localStream!.getAudioTracks().forEach((track) => {
-        track.enabled = true;
+        track.enabled = !track.enabled;
       });
     }
   };
