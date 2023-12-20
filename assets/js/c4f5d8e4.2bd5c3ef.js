@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgoodtok_docs=self.webpackChunkgoodtok_docs||[]).push([[195],{2841:(o,t,e)=>{e.r(t),e.d(t,{default:()=>u});var s=e(7294);function u(){return(0,s.useEffect)((()=>{window.location.href="https://goodtok.io"}),[]),null}}}]);
