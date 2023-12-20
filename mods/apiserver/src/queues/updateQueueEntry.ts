@@ -73,6 +73,7 @@ export async function updateQueueEntry(
       }
     });
   } else {
+    // An in progress entry should not be updated
     const status =
       currentEntry.status === QueueEntryStatus.IN_PROGRESS
         ? QueueEntryStatus.IN_PROGRESS

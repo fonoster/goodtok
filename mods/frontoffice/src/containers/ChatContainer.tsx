@@ -158,7 +158,9 @@ function ChatContainer() {
       localVideo.autoplay = true;
 
       peer.on("error", (err) => {
-        showSnackbar("Error on peer: " + err);
+        showSnackbar(
+          "Unable to reach customer. The customer may have left the queue."
+        );
         logger.error("Error on peer", err);
       });
 
@@ -181,8 +183,10 @@ function ChatContainer() {
 
       changeStatusToInProgress();
     } catch (err) {
-      logger.error("error on peer", err);
-      showSnackbar("Error on peer: " + err);
+      showSnackbar(
+        "Unable to reach customer. The customer may have left the queue."
+      );
+      logger.error("Error on peer", err);
     }
   };
 
@@ -203,7 +207,7 @@ function ChatContainer() {
       localStream.getTracks().forEach((track) => track.stop());
     }
 
-    // TODO: remotePeer.close();
+    setIsActiveCall(false);
   };
 
   const handleMuteCamera = async () => {

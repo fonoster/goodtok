@@ -43,8 +43,8 @@ const mapQueueEntry = (entry: {
   };
 };
 
-// Time after which a queue entry is considered idle
-const ABANDONED_REQUEST_THRESHOLD = 2;
+// Time after which a queue entry is considered abandoned
+const ABANDONED_REQUEST_THRESHOLD = 60;
 
 const filterAbandonedRequest = (entry: SDK.QueueEntry) => {
   const timeElapsed = -moment(entry.registeredAt).diff(moment(), "minutes");
