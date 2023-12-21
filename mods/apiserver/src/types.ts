@@ -40,15 +40,3 @@ export type UserWithWorkspaces = Prisma.UserGetPayload<{
     ownedWorkspaces: true;
   };
 }>;
-
-// The register event is sent by clients to the server to register
-export type RegisterEvent = {
-  registeredAt: Date;
-  expires: number;
-  // During the registration process endpoints are required to send the
-  // X-Customer-Id and X-Workspace-Id headers. These headers are
-  // used to associate an endpoint with a workspace.
-  extraHeaders: Record<string, string>;
-};
-
-export type RegisterEventCallback = (registerEvent: RegisterEvent) => void;

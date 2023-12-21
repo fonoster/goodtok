@@ -40,7 +40,7 @@ export async function updateUser(
 
   if (!userFromDB) throw new TRPCError({ code: "NOT_FOUND" });
 
-  const updatedUser = await ctx.prisma.user.update({
+  return await ctx.prisma.user.update({
     where: {
       id: ctx.userId
     },
@@ -50,6 +50,4 @@ export async function updateUser(
       updatedAt: new Date()
     }
   });
-
-  return updatedUser;
 }

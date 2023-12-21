@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getLogger } from "@fonoster/logger";
 import { JWT_SECURITY_SALT } from "../envs";
+import { getLogger } from "@fonoster/logger";
 import jwt from "jsonwebtoken";
 
 type InviteTokenClaims = {
