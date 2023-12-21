@@ -19,6 +19,7 @@ Next, create a `.env` file with the following content:
 
 ```bash
 # General config
+API_ENDPOINT=http://localhost:6789/v1
 APP_URL=http://localhost:8080
 LOGS_LEVEL=verbose
 
@@ -44,12 +45,13 @@ SMTP_SENDER=Goodtok Info <info@goodtok.local>
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
-CLOAK_ENCRYPTION_KEY=/* Generate a new key with cloack cli or https://cloak.47ng.com/ */
+CLOAK_ENCRYPTION_KEY=k1.aesgcm256.MmPSvzCG9fk654bAbl30tsqq4h9d3N4F11hlue8bGAY=
 ```
 
 Few important things to note:
 
 - Please be sure to update all secrets with your own values
+- The `API_ENDPOINT` must be the URL where the API will be accessible. For example, if you are running the application locally, you can use `http://localhost:6789/v1`. If you are running the application on a server, you can use, for example, `https://api.goodtok.example.com/v1`
 - The `APP_URL` must be the URL where the application will be accessible. For example, if you are running the application locally, you can use `http://localhost:8080`. If you are running the application on a server, you can use, for example, `https://goodtok.example.com`
 - The `SIGNALING_HOST` must be the URL where the signaling server will be accessible. For example, if you are running the application locally, you can use `localhost`. If you are running the application on a server, you can use, for example, `goodtok.example.com`
 - The `SIGNALLING_PORT` must be the port where the signaling server will be accessible. For example, if you are running the application locally, you can use `9000`. If you are running the application on a server, you can use, for example, `443`

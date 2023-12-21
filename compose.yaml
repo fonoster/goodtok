@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     environment:
       # Must be accessible from the browser
-      API_ENDPOINT: http://localhost:6789/v1
+      API_ENDPOINT: ${API_ENDPOINT}
       LOGS_LEVEL: ${LOGS_LEVEL}
     ports:
       - 8080:8080
@@ -21,11 +21,13 @@ services:
       OWNER_PASSWORD: ${OWNER_PASSWORD}
       CLOAK_ENCRYPTION_KEY: ${CLOAK_ENCRYPTION_KEY}
       DATABASE_URL: ${DATABASE_URL}
-      LOGS_LEVEL: ${LOGS_LEVEL}
+      SIGNALING_HOST: ${SIGNALING_HOST}
+      SIGNALING_PORT: ${SIGNALING_PORT}
       SMTP_HOST: ${SMTP_HOST}
       SMTP_AUTH_USER: ${SMTP_AUTH_USER}
       SMTP_AUTH_PASS: ${SMTP_AUTH_PASS}
       SMTP_SENDER: ${SMTP_SENDER}
+      LOGS_LEVEL: ${LOGS_LEVEL}
     ports:
       - 6789:6789
 

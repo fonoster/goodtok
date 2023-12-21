@@ -71,7 +71,7 @@ SMTP_SENDER=Goodtok Info <info@goodtok.local>
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
-CLOAK_ENCRYPTION_KEY=/* Generate a new key with cloack cli or https://cloak.47ng.com/ */
+CLOAK_ENCRYPTION_KEY=k1.aesgcm256.MmPSvzCG9fk654bAbl30tsqq4h9d3N4F11hlue8bGAY= 
 ```
 
 Finally, run the following command to start the application:
