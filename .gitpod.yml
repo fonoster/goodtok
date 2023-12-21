@@ -10,19 +10,15 @@
 tasks:
   - name: Initial Setup
     init: |
-      npm install @47ng/cloak
-      CLOAK_ENCRYPTION_KEY=$(node -e "const { generateKey } = require('@47ng/cloak'); console.log(generateKey());")
       APP_URL=$(gp url 8080)
       SIGNALING_HOST=$(gp url 9000 | sed 's/https:\/\///g')
       SIGNALING_PORT=443
       cp .env.example .env
       sed -i "s|APP_URL=.*|APP_URL=$APP_URL|g" .env
-      sed -i "s|CLOAK_ENCRYPTION_KEY=.*|CLOAK_ENCRYPTION_KEY=$CLOAK_ENCRYPTION_KEY|g" .env
       sed -i "s|SIGNALING_HOST=.*|SIGNALING_HOST=$SIGNALING_HOST|g" .env
       sed -i "s|SIGNALING_PORT=.*|SIGNALING_PORT=$SIGNALING_PORT|g" .env
       sed -i "s|postgresql://postgres:postgres@postgres:5432/goodtok|postgresql://postgres:postgres@localhost:5432/goodtok|g" .env
       sed -i "s|DOCKER_HOST_ADDRESS=.*|DOCKER_HOST_ADDRESS=$(gp url 5062 | sed 's|https://||')|g" .env
-      npm uninstall @47ng/cloak
       npm install
       npm run build
       touch /workspace/.init_done

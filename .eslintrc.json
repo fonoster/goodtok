@@ -9,15 +9,17 @@
     "@typescript-eslint",
     "no-loops",
     "prettier",
-    "notice"
+    "notice",
+    "sonarjs"
   ],
   "extends": [
-    "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "google",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "plugin:storybook/recommended"
+    "plugin:sonarjs/recommended",
+    "plugin:storybook/recommended",
+    "eslint:recommended",
+    "google",
+    "prettier"
   ],
   "rules": {
     "require-jsdoc": "off",
