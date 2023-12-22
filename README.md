@@ -46,6 +46,7 @@ Next, create a `.env` file with the following content:
 
 ```bash
 # General config
+API_ENDPOINT=http://localhost:6789/v1
 APP_URL=http://localhost:8080
 LOGS_LEVEL=verbose
 
@@ -68,6 +69,7 @@ SMTP_AUTH_PASS=secret
 SMTP_SENDER=Goodtok Info <info@goodtok.local>
 
 # Database and encryption config
+# Create a new encryption key with cloack (https://cloack.47ng.com)
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
