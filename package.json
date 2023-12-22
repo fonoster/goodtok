@@ -10,7 +10,7 @@
     "mods/*"
   ],
   "scripts": {
-    "start:services": "docker-compose -f compose.yaml -f compose.dev.yaml up mailhog postgres peerjs -d",
+    "start:services": "docker-compose -f compose.yaml -f compose.dev.yaml up adminer mailhog postgres peerjs -d --remove-orphans",
     "start:apiserver": "cross-env SECURITY_PATH_TO_KEYS=./.keys LOGS_LEVEL=verbose NODE_ENV=dev nodemon mods/apiserver/src/index.ts",
     "start:frontoffice": "NODE_ENV=dev cd mods/frontoffice && npm start",
     "start:widget": "NODE_ENV=dev cd mods/widget && npm start",

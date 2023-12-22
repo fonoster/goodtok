@@ -28,4 +28,4 @@ services:
     environment:
       ADMINER_DEFAULT_SERVER: postgres
     ports:
-      - 8181:8080
+      - 8282:8080

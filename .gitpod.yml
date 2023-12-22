@@ -93,3 +93,8 @@ ports:
     port: 5432
     visibility: private
     onOpen: ignore
+  - name: Adminer
+    description: Adminer database management tool
+    port: 8282
+    visibility: public
+    onOpen: ignore
