@@ -18,6 +18,7 @@
  */
 import { getLogger } from "@fonoster/logger";
 import { prisma } from "../db";
+import { getGravatarURL } from "./getGravatar";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -59,6 +60,7 @@ async function upsertDefaultUser(request: { email: string; password: string }) {
       create: {
         name: "Admin",
         email,
+        avatar: getGravatarURL(email),
         password,
         createdAt: today,
         updatedAt: today

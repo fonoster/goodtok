@@ -24,10 +24,13 @@ import {
 } from "./types";
 import { Context } from "../context";
 import { getLogger } from "@fonoster/logger";
-import { WorkspaceMemberStatus as PrismaWorkspaceMemberStatus } from "@prisma/client";
-import { WorkspaceMemberRole as PrismaWorkspaceMemberRole } from "@prisma/client";
+import {
+  WorkspaceMemberStatus as PrismaWorkspaceMemberStatus,
+  WorkspaceMemberRole as PrismaWorkspaceMemberRole
+} from "@prisma/client";
 import { customAlphabet } from "nanoid";
 import { sendInvite } from "../notifications/sendInvite";
+import { getGravatarURL } from "../users/getGravatar";
 
 const logger = getLogger({ service: "apiserver", filePath: __filename });
 
@@ -78,6 +81,7 @@ export async function addWorkspaceMember(
       data: {
         email,
         name,
+        avatar: getGravatarURL(email),
         password: oneTimePassword
       }
     });

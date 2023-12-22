@@ -27,8 +27,7 @@ export async function updateUser(
   ctx: Context,
   request: UpdateUserRequest
 ): Promise<User> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { password, ...rest } = request;
+  const { password } = request;
 
   logger.verbose("updating user", { id: ctx.userId });
 
@@ -46,7 +45,7 @@ export async function updateUser(
     },
     data: {
       ...request,
-      password: password ? password : userFromDB.password,
+      password: password || userFromDB.password,
       updatedAt: new Date()
     }
   });
