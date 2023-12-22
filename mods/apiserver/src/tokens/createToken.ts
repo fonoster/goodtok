@@ -39,7 +39,8 @@ export async function createToken(
     customerId: input.customerId,
     workspaceId: workspaceId,
     signalingHost: ctx.config.signalingHost,
-    signalingPort: ctx.config.signalingPort
+    signalingPort: ctx.config.signalingPort,
+    iceServers: ctx.config.iceServersConfig
   };
 
   return jwt.sign(

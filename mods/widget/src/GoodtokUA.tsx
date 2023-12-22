@@ -72,7 +72,10 @@ const GoodtokUA = () => {
 
       const peer = new Peer(connectionObject.customerId, {
         host: connectionObject.signalingHost,
-        port: connectionObject.signalingPort
+        port: connectionObject.signalingPort,
+        config: {
+          iceServers: connectionObject.iceServers
+        }
       });
 
       setPeer(peer);

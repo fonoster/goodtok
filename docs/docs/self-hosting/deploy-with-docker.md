@@ -32,6 +32,8 @@ OWNER_PASSWORD=changeme
 # PeerJs Server config
 SIGNALING_HOST=localhost
 SIGNALING_PORT=9000
+# Ucomment to use custom ICE servers
+# ICE_SERVERS_CONFIG='[{"url": "stun:stun.l.google.com:19302"}, {"url": "turn:us-turn4.xirsys.com:80?transport=udp", "username": "xirsys", "credential": "xirsys"}]'
 
 # SMTP config
 SMTP_HOST=localhost
@@ -57,6 +59,8 @@ Few important things to note:
 - The `SIGNALLING_PORT` must be the port where the signaling server will be accessible. For example, if you are running the application locally, you can use `9000`. If you are running the application on a server, you can use, for example, `443`
 - You must point your SMTP variables to a valid SMTP server
 - Goodtok will use the `OWNER_EMAIL` and `OWNER_PASSWORD` variables to create the first user. The server will create a new owner if the email does not exist. Goodtok will update the password if the email exists. You can use any email address and password for this purpose.
+- The `CLOAK_ENCRYPTION_KEY` must be a valid encryption key. You can use [Cloack](https://cloack.47ng.com) to generate a new key.
+- Uncomment the `ICE_SERVERS_CONFIG` variable to enable ICE servers. You can use [Xirsys](https://xirsys.com) to get a free account.
 
 Finally, run the following command to start the application:
 

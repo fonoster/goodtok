@@ -51,6 +51,9 @@ export const JWT_SIGN_OPTIONS = e.JWT_SIGN_OPTIONS
 // PeerJS server configurations
 export const SIGNALING_HOST = e.SIGNALING_HOST;
 export const SIGNALING_PORT = e.SIGNALING_PORT ?? "443";
+export const ICE_SERVERS_CONFIG = e.ICE_SERVERS_CONFIG
+  ? JSON.parse(e.ICE_SERVERS_CONFIG)
+  : [{ urls: "stun:stun.l.google.com:19302" }];
 
 // SMTP configurations
 export const SMTP_HOST = e.SMTP_HOST;

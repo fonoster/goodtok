@@ -77,7 +77,9 @@ function ChatContainer() {
         const peer = new Peer(undefined!, {
           host: connectionObject.signalingHost,
           port: connectionObject.signalingPort,
-          debug: 3
+          config: {
+            iceServers: connectionObject.iceServers
+          }
         });
 
         setConnectionObject(connectionObject);

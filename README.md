@@ -59,6 +59,8 @@ OWNER_PASSWORD=changeme
 # PeerJs Server config
 SIGNALING_HOST=localhost
 SIGNALING_PORT=9000
+# Ucomment to use custom ICE servers
+# ICE_SERVERS_CONFIG='[{"url": "stun:stun.l.google.com:19302"}, {"url": "turn:turn.bistri.com:80", "username": "homeo", "credential": "homeo"}]'
 
 # SMTP config
 SMTP_HOST=localhost

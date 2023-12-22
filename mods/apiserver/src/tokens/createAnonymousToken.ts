@@ -41,6 +41,7 @@ export async function createAnonymousToken(
     ref: ref,
     signalingHost: ctx.config.signalingHost,
     signalingPort: ctx.config.signalingPort,
+    iceServers: ctx.config.iceServersConfig,
     // Use the same ref as the customerId (only for annonymous users)
     customerId: ref,
     workspaceId,

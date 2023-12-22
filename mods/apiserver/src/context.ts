@@ -25,7 +25,8 @@ import {
   JWT_SIGN_OPTIONS,
   JWT_SECURITY_SALT,
   SIGNALING_HOST,
-  SIGNALING_PORT
+  SIGNALING_PORT,
+  ICE_SERVERS_CONFIG
 } from "./envs";
 import jwt from "jsonwebtoken";
 
@@ -53,7 +54,8 @@ export async function createContext(opts: ContextOptions) {
       jwtSecuritySalt: JWT_SECURITY_SALT,
       jwtSignOptions: JWT_SIGN_OPTIONS,
       signalingHost: SIGNALING_HOST,
-      signalingPort: SIGNALING_PORT
+      signalingPort: SIGNALING_PORT,
+      iceServersConfig: ICE_SERVERS_CONFIG
     }
   };
 }
@@ -68,5 +70,10 @@ export type Context = {
     jwtSignOptions: jwt.SignOptions;
     signalingHost: string;
     signalingPort: string;
+    iceServersConfig?: {
+      urls: string | string[];
+      username?: string;
+      credential?: string;
+    }[];
   };
 };
