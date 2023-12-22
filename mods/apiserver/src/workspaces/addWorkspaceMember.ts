@@ -68,7 +68,7 @@ export async function addWorkspaceMember(
     }
   });
 
-  let oneTimePassword;
+  let oneTimePassword: string;
 
   if (!user) {
     oneTimePassword = customAlphabet("1234567890abcdef", 10)();

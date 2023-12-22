@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import { SMTP_HOST, SMTP_PORT, SMTP_AUTH_USER, SMTP_AUTH_PASS } from "../envs";
 import { createTransporter } from "./createTransporter";
 import { createEmailSender } from "./sendEmail";
