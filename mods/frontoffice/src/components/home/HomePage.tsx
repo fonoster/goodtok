@@ -86,9 +86,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       </StyledHomePageTitle>
 
       <Box sx={{ mb: 2, width: 440, textAlign: "center" }}>
-        <StyledHomePageSubTitle sx={{ mt: 4 }}>
+        {/* <StyledHomePageSubTitle sx={{ mt: 4 }}>
           Ready to engage your customers better and faster?
-        </StyledHomePageSubTitle>
+        </StyledHomePageSubTitle> */}
         <StyleHomePageDescription sx={{ mt: 2, mb: 1 }}>
           Create a new workspace or use an existing one to begin interacting
           your customer now.{" "}

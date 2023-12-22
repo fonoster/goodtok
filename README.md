@@ -125,7 +125,7 @@ A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to 
   "calendarUrl": "https://cal.com/placeholder",
   "signalingHost": "peerjs.goodtok.io",
   "signalingPort": 443,
-  "iceServers": { ... }
+  "iceServers": {...}
   "metadata": {
     "name": "Peter",
     "email": "peter@example.com",
