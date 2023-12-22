@@ -172,11 +172,11 @@ const GoodtokUA = () => {
   const handleSubmitContactForm = async (values: Record<string, string>) => {
     const workspaceId = getWorkspaceId(document);
     const server = getAPIServer(document);
-    let customerRef = sessionStorage.getItem("customerRef");
+    let customerRef = localStorage.getItem("customerRef");
 
     if (!customerRef) {
       customerRef = Math.random().toString(36).substring(7);
-      sessionStorage.setItem("customerRef", customerRef);
+      localStorage.setItem("customerRef", customerRef);
     }
 
     const client = new SDK.Client({
