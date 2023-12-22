@@ -16,26 +16,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { EMAIL_TEMPLATES_DIR } from "../envs";
 import handlebars from "handlebars";
 import fs from "fs";
 import path from "path";
-
-const TEMPLATE_DIR = path.join(__dirname, "templates");
 
 enum TemplateName {
   INVITE_NEW_USER = "inviteNewUserTemplate",
   INVITE_EXISTING_USER = "inviteExistingUserTemplate"
 }
 
-const compileTemplate = (
-  templateName: string,
-  data: Record<string, string>
-) => {
-  const filePath = path.join(TEMPLATE_DIR, `${templateName}.hbs`);
+function compileTemplate(templateName: string, data: Record<string, string>) {
+  let filePath = path.join(EMAIL_TEMPLATES_DIR, `${templateName}.hbs`);
+  if (!fs.existsSync(filePath)) {
+    filePath = path.join(__dirname, "templates", `${templateName}.hbs`);
+  }
+
   const source = fs.readFileSync(filePath, "utf-8").toString();
   const template = handlebars.compile(source);
   return template(data);
-};
+}
 
 export function createInviteBody(data: Record<string, string>) {
   if (data.oneTimePassword) {

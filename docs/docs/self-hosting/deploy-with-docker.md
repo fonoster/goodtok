@@ -48,6 +48,11 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
 CLOAK_ENCRYPTION_KEY=k1.aesgcm256.MmPSvzCG9fk654bAbl30tsqq4h9d3N4F11hlue8bGAY=
+
+# Uncomment to enable custom email templates
+#  See api/src/notifications/templates for available templates
+#  If not set, the default templates will be used
+# EMAIL_TEMPLATES_DIR=/path/to/email/templates
 ```
 
 Few important things to note:
@@ -74,3 +79,49 @@ The previous command will start all the services, including the Front Office. Yo
 ## Securing the application
 
 Comming soon...
+
+## Custom Email Templates
+
+Goodtok use handlebars to render email templates. You can customize the templates by setting the `EMAIL_TEMPLATES_DIR` variable to the path where your templates are located. The following templates are available:
+
+The `inviteExistingUserTemplate.hbs` and `inviteNewUserTemplate.hbs` templates are used to send invitations to users. The `inviteExistingUserTemplate.hbs` template is used when the user already exists in the system. The `inviteNewUserTemplate.hbs` template is used when the user does not exist in the system.
+
+If a template is not set at the path specified by the `EMAIL_TEMPLATES_DIR` variable, the default template will be used.
+
+Available variables for the `inviteExistingUserTemplate.hbs` and `inviteNewUserTemplate.hbs` templates:
+
+- `{{workspaceName}}`: The name of the store
+- `{{inviteUrl}}`: The URL where the user can accept the invitation
+- `{{oneTimePassword}}`: The one-time password that the user can use to accept the invitation (only available in the `inviteNewUserTemplate.hbs` template)
+
+An example of the `inviteExistingUserTemplate.hbs` template:
+
+```html
+<html>
+  <head>
+    <title>Invite</title>
+  </head>
+  <body>
+    <p>Welcome to Goodtok</p>
+    <p>To accept the invitation, please click the following link:
+      <a href="{{inviteUrl}}">{{inviteUrl}}</a>
+    </p>
+  </body>
+</html>
+```
+
+An example of the `inviteNewUserTemplate.hbs` template:
+
+```html
+<html>
+  <head>
+    <title>Invite</title>
+  </head>
+  <body>
+    <p>Welcome to Goodtok</p>
+    <p>Your one-time password is: <b>{{oneTimePassword}}</b></p>
+    <p>You can use it at the following URL:
+      <a href="{{inviteUrl}}">{{inviteUrl}}</a></p>
+  </body>
+</html>
+```

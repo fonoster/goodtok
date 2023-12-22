@@ -75,7 +75,12 @@ SMTP_SENDER=Goodtok Info <info@goodtok.local>
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/goodtok
-CLOAK_ENCRYPTION_KEY=k1.aesgcm256.MmPSvzCG9fk654bAbl30tsqq4h9d3N4F11hlue8bGAY= 
+CLOAK_ENCRYPTION_KEY=k1.aesgcm256.MmPSvzCG9fk654bAbl30tsqq4h9d3N4F11hlue8bGAY=
+
+# Uncomment to enable custom email templates
+#  See api/src/notifications/templates for available templates
+#  If not set, the default templates will be used
+# EMAIL_TEMPLATES_DIR=/path/to/email/templates
 ```
 
 Finally, run the following command to start the application:
@@ -120,6 +125,7 @@ A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to 
   "calendarUrl": "https://cal.com/placeholder",
   "signalingHost": "peerjs.goodtok.io",
   "signalingPort": 443,
+  "iceServers": { ... }
   "metadata": {
     "name": "Peter",
     "email": "peter@example.com",
