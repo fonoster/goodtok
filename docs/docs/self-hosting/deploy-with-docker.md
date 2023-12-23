@@ -33,7 +33,7 @@ OWNER_PASSWORD=changeme
 SIGNALING_HOST=localhost
 SIGNALING_PORT=9000
 # Ucomment to use custom ICE servers
-# ICE_SERVERS_CONFIG='[{"url": "stun:stun.l.google.com:19302"}, {"url": "turn:us-turn4.xirsys.com:80?transport=udp", "username": "xirsys", "credential": "xirsys"}]'
+# ICE_SERVERS_CONFIG='[{"urls": "stun:stun.l.google.com:19302"}, {"urls": "turn:us-turn4.xirsys.com:80?transport=udp", "username": "xirsys", "credential": "xirsys"}]'
 
 # SMTP config
 SMTP_HOST=localhost
