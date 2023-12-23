@@ -1,11 +1,48 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Invite</title>
-  </head>
-  <body>
-    <p>You have been invited to joint the workspace <b>{{workspaceName}}</b> on Goodtok</p>
-    <p>Your one-time password is: <b>{{oneTimePassword}}</b></p>
-    <p>You can use it at the following URL:
-      <a href="{{inviteUrl}}">{{inviteUrl}}</a></p>
-  </body>
+<head>
+  <title>Invite</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+      border-radius: 5px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      line-height: 20px; /* Centering text vertically */
+      background: linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center; /* Centering text horizontally */
+    }
+    .button:hover {
+      background: linear-gradient(323deg, #e88b59 30.56%, #c75e25 118.19%);
+    }
+    .goodtok-brown {
+      color: #27150C; /* Custom color for workspace name */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p>You have been invited to join the workspace <b class="goodtok-brown">{{workspaceName}}</b> on Goodtok.</p>
+    <p>Assigned one-time password: <b class="goodtok-brown">{{oneTimePassword}}</b></p>
+    <p>For access, please click on the button below:</p>
+    <a href="{{inviteUrl}}" class="button">Access Workspace</a>
+  </div>
+</body>
 </html>
