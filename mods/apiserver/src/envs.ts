@@ -64,4 +64,4 @@ export const SMTP_AUTH_PASS = e.SMTP_AUTH_PASS;
 export const SMTP_SENDER = e.SMTP_SENDER;
 
 // Custom email templates
-export const EMAIL_TEMPLATES_DIR = e.EMAIL_TEMPLATES_DIR
+export const EMAIL_TEMPLATES_DIR = e.EMAIL_TEMPLATES_DIR;

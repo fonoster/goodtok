@@ -19,7 +19,11 @@
 export type ConnectionObject = {
   signalingHost: string;
   signalingPort: number;
-  iceServers: { urls: string | string[]; username?: string; credential?: string }[];
+  iceServers: {
+    urls: string | string[];
+    username?: string;
+    credential?: string;
+  }[];
   customerId: string;
   workspaceId: string;
   calendarUrl: string;
