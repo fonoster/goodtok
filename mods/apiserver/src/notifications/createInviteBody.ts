@@ -27,7 +27,10 @@ enum TemplateName {
 }
 
 function compileTemplate(templateName: string, data: Record<string, string>) {
-  let filePath = path.join(EMAIL_TEMPLATES_DIR, `${templateName}.hbs`);
+  const templatesDir = EMAIL_TEMPLATES_DIR || path.join(__dirname, "templates");
+
+  let filePath = path.join(templatesDir, `${templateName}.hbs`);
+
   if (!fs.existsSync(filePath)) {
     filePath = path.join(__dirname, "templates", `${templateName}.hbs`);
   }
