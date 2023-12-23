@@ -11,29 +11,36 @@
       padding: 20px;
     }
     .container {
-      max-width: 600px;
-      margin: auto;
       background: #fff;
       padding: 20px;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-      border-radius: 5px;
     }
     .button {
       display: inline-block;
       padding: 10px 20px;
-      line-height: 20px; /* Centering text vertically */
+      line-height: 20px;
       background: linear-gradient(323deg, #FF9965 30.56%, #DF682B 118.19%);
-      color: white;
+      color: white !important;
       text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
-      text-align: center; /* Centering text horizontally */
-    }
-    .button:hover {
-      background: linear-gradient(323deg, #e88b59 30.56%, #c75e25 118.19%);
+      text-align: center;
+      border: none;
+      cursor: pointer;
     }
     .goodtok-brown {
-      color: #27150C; /* Custom color for workspace name */
+      color: #27150C;
+    }
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #27150C;
+        color: #f4f4f4;
+      }
+      .container {
+        background: #27150C;
+      }
+      .goodtok-brown {
+        color: #f4f4f4;
+      }
     }
   </style>
 </head>
