@@ -3,7 +3,6 @@ node_modules/*
 .scripts
 docs
 mods/widget
-mods/common
 mods/frontoffice
 mods/apiserver
 mods/sdk
