@@ -122,13 +122,17 @@ export async function addWorkspaceMember(
       workspaceId: input.workspaceId,
       role: role as WorkspaceMemberRole,
       status: WorkspaceMemberStatus.PENDING
+    },
+    include: {
+      workspace: true
     }
   });
 
   sendInvite({
     recipient: email,
     oneTimePassword,
-    workspaceId
+    workspaceId,
+    workspaceName: newMember.workspace.name
   }).catch((err) => {
     logger.error(err);
   });

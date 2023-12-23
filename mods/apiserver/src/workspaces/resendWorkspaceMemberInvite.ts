@@ -33,14 +33,16 @@ export async function resendWorkspaceMemberInvite(
       id: memberId
     },
     include: {
-      user: true
+      user: true,
+      workspace: true
     }
   });
 
   sendInvite({
     recipient: member.user.email,
     oneTimePassword: member.user.password,
-    workspaceId: member.workspaceId
+    workspaceId: member.workspaceId,
+    workspaceName: member.workspace.name
   }).catch((err) => {
     logger.error(err);
   });

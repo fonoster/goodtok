@@ -25,10 +25,11 @@ type SendInviteInput = {
   recipient: string;
   oneTimePassword: string;
   workspaceId: string;
+  workspaceName: string;
 };
 
 export async function sendInvite(request: SendInviteInput) {
-  const { recipient, oneTimePassword, workspaceId } = request;
+  const { recipient, oneTimePassword, workspaceId, workspaceName } = request;
 
   const token = await createInviteToken({
     workspaceId,
@@ -40,6 +41,7 @@ export async function sendInvite(request: SendInviteInput) {
     to: recipient,
     subject: "Invite to join a Goodtok workspace",
     html: createInviteBody({
+      workspaceName,
       oneTimePassword,
       inviteUrl: `${APP_URL}/accept-invite?token=${token}`
     })
