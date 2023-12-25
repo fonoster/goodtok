@@ -23,7 +23,8 @@ Goodtok helps businesses enhance their customer service right from their website
 - [Architecture](#architecture)
 - [Contact us](#contact-us)
 - [Bugs and Feature Requests](#bugs-and-feature-requests)
-- [Contributing](#contributing)
+- [Contributors](#contributors)
+- [Contributing](https://goodtok.io/docs/contributing/guide)
 - [Authors](#authors)
 - [License](#license)
 
@@ -167,7 +168,11 @@ Meet our sales team for any commercial inquiries.
 
 For bugs or feature requests, please create an issue [here](https://github.com/fonoster/goodtok/issues). For questions, please see the [Discussions](https://github.com/fonoster/goodtok/discussions) section.
 
-### Contributors
+## Known Issues
+
+- When running Goodtok without a TLS certificate, you must add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or equivalent for your browser, because the camera will not work on an insecure origin.
+
+## Contributors
 
 <table>
 <tr>
@@ -187,16 +192,6 @@ For bugs or feature requests, please create an issue [here](https://github.com/f
     </td>
 </tr>
 </table>
-
-## Contributing
-
-If you want to contribute to this project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
-
-(I am still working on this section; please come soon.)
-
-## Known Issues
-
-- When running Goodtok without a TLS certificate, you must add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or equivalent for your browser, because the camera will not work on an insecure origin.
 
 ## Authors
 
