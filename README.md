@@ -167,6 +167,8 @@ Meet our sales team for any commercial inquiries.
 
 For bugs or feature requests, please create an issue [here](https://github.com/fonoster/goodtok/issues). For questions, please see the [Discussions](https://github.com/fonoster/goodtok/discussions) section.
 
+### Contributors
+
 ## Contributing
 
 If you want to contribute to this project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
