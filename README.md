@@ -23,8 +23,7 @@ Goodtok helps businesses enhance their customer service right from their website
 - [Architecture](#architecture)
 - [Contact us](#contact-us)
 - [Bugs and Feature Requests](#bugs-and-feature-requests)
-- [Contributors](#contributors)
-- [Contributing](https://goodtok.io/docs/contributing/guide)
+- [Contributing](#contributing)
 - [Authors](#authors)
 - [License](#license)
 
@@ -172,26 +171,14 @@ For bugs or feature requests, please create an issue [here](https://github.com/f
 
 - When running Goodtok without a TLS certificate, you must add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or equivalent for your browser, because the camera will not work on an insecure origin.
 
-## Contributors
+## Contributing
 
-<table>
-<tr>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/psanders>
-            <img src=https://avatars.githubusercontent.com/u/539774?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Pedro Sanders/>
-            <br />
-            <sub style="font-size:14px"><b>Pedro Sanders</b></sub>
-        </a>
-    </td>
-    <td align="center" style="word-wrap: break-word; width: 150.0; height: 150.0">
-        <a href=https://github.com/obrucheoghene>
-            <img src=https://avatars.githubusercontent.com/u/111436934?v=4 width="100;"  style="border-radius:50%;align-items:center;justify-content:center;overflow:hidden;padding-top:10px" alt=Obruche Wilfred  Oghenechohwo/>
-            <br />
-            <sub style="font-size:14px"><b>Obruche Wilfred  Oghenechohwo</b></sub>
-        </a>
-    </td>
-</tr>
-</table>
+For contributing, please see the following links:
+
+ - [Contribution Documents](https://github.com/fonoster/goodtok/blob/master/CONTRIBUTING.md)
+ - [Contributors](https://github.com/fonoster/goodtok/contributors)
+
+<!--contributors:start-->
 
 ## Authors
 
