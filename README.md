@@ -19,6 +19,7 @@ Goodtok helps businesses enhance their customer service right from their website
 
 - [Give a star!](#give-a-star-)
 - [Installation](#installation)
+- [Development Mode](#development-mode-with-gitpod)
 - [Usage](#usage)
 - [Architecture](#architecture)
 - [Contact us](#contact-us)
@@ -91,6 +92,12 @@ docker compose up -d
 ```
 
 The previous command will start all the services, including the Front Office. You can then open the application at [http://localhost:8080](http://localhost:8080) and access the dashboard.
+
+## Development mode with Gitpod
+
+Goodtok's one-click interactive deployment will familiarize you with the server in development mode.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/fonoster/goodtok)
 
 ## Usage
 
