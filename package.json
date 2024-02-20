@@ -70,7 +70,6 @@
     "eslint-plugin-sonarjs": "^0.23.0",
     "eslint-plugin-storybook": "^0.6.15",
     "esm": "^3.2.25",
-    "http-server": "^14.1.1",
     "husky": "^8.0.1",
     "jsdoc-to-markdown": "^7.1.1",
     "jsonwebtoken": "^9.0.2",
