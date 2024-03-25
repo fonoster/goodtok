@@ -20,7 +20,7 @@
     "postgenerate:readme": "npm run build"
   },
   "dependencies": {
-    "@fonoster/logger": "0.4.9",
+    "@fonoster/logger": "^0.4.22",
     "@goodtok/apiserver": "^0.1.18",
     "@trpc/client": "^10.38.5",
     "@trpc/server": "^10.38.5",
@@ -29,17 +29,6 @@
     "jwt-decode": "^4.0.0",
     "ws": "^8.14.2"
   },
-  "keywords": [
-    "Goodtok",
-    "VoIP",
-    "WebRTC",
-    "Fonoster",
-    "SIP.js",
-    "Web Phone",
-    "Phone",
-    "PeerJS",
-    "Contact Center"
-  ],
   "files": [
     "dist"
   ],

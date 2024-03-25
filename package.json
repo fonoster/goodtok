@@ -101,10 +101,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/psanders/goodtok.git"
+    "url": "git+https://github.com/fonoster/goodtok.git"
   },
   "bugs": {
-    "url": "https://github.com/psanders/goodtok/issues"
+    "url": "https://github.com/fonoster/goodtok/issues"
   },
   "nodemonConfig": {
     "watch": [

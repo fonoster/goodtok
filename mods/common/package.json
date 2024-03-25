@@ -19,17 +19,6 @@
   "dependencies": {
     "@fonoster/logger": "^0.4.9"
   },
-  "keywords": [
-    "Goodtok",
-    "VoIP",
-    "WebRTC",
-    "Fonoster",
-    "SIP.js",
-    "Web Phone",
-    "Phone",
-    "PeerJS",
-    "Contact Center"
-  ],
   "files": [
     "dist"
   ],
