@@ -1,5 +1,5 @@
 FROM node:lts-alpine
-LABEL Fonoster Team <fonosterteam@fonoster.com>
+LABEL Fonoster Team <team@fonoster.com>
 
 WORKDIR /service
 COPY mods/apiserver .
