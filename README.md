@@ -11,7 +11,7 @@
 <a href="https://gitpod.io/#https://github.com/fonoster/goodtok"> <img src="https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod" alt="Contribute with Gitpod" />
 </a> [![Sponsor this](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/fonoster)](https://github.com/sponsors/fonoster) [![Discord](https://img.shields.io/discord/1016419835455996076?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/4QWgSz4hTC) ![GitHub](https://img.shields.io/github/license/fonoster/goodtok?color=%2347b96d) ![Twitter Follow](https://img.shields.io/twitter/follow/fonoster?style=social)
 
-Goodtok helps businesses enhance their customer service right from their website. The video application lets customers connect with your staff in real time. You can integrate this simple and easy-to-use application into any website.
+Goodtok helps businesses enhance their customer service right from their website. The video application lets customers connect with your staff in real-time. You can integrate this simple and easy-to-use application into any website.
 
 > This project is just starting and is not ready for production use yet 🚧
 
@@ -34,7 +34,7 @@ It would mean a lot to me if you could give this project a star. It helps me ide
 
 ## Installation
 
-We are aiming to make this as easy as possible to install. For now, you can use the following instructions to get started.
+We aim to make this as easy to install as possible. For now, you can use the following instructions to get started.
 
 First, create a new directory called `goodtok` and change to that directory:
 
@@ -80,7 +80,7 @@ CLOAK_ENCRYPTION_KEY=k1.aesgcm256.MmPSvzCG9fk654bAbl30tsqq4h9d3N4F11hlue8bGAY=
 
 # Uncomment to enable custom email templates
 #  See mods/apiserver/src/notifications/templates for available templates
-#  If not set, the default templates will be used
+#  If not set, Goodtok will use the default templates
 # EMAIL_TEMPLATES_DIR=/path/to/email/templates
 ```
 
@@ -120,9 +120,9 @@ The key is a base64 encoded value containing the account `gtid` and `server` of 
 echo -n '{"gtid":"g-7b7c46fb05","server":"http://localhost:6789/v1"}' | base64
 ```
 
-If no server is specified, the client will default to `https://api.goodtok.io/v1`.
+The client will default to `https://api.goodtok.io/v1` if no server is specified.
 
-A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to authenticate the user and connect to the signaling server. Here is an example of the claims for a customer token:
+A customer token is a [JSON Web Token](https://jwt.io/) with necessary claims to authenticate the user and connect to the signaling server. Here is an example of the claims for a customer token:
 
 ```json
 {
@@ -143,13 +143,13 @@ A customer token is a [JSON Web Token](https://jwt.io/) with necessay claims to 
 }
 ```
 
-When no customer token is provided, the video widget will show a form, requesting the user to enter their name, email and a message. The video widget will then request an anonymous token from the server. When possible we recommend you to provide a customer token to the video widget to avoid the form.
+When no customer token is provided, the video widget will show a form requesting the user to enter their name, email, and a message. The video widget will then request an anonymous token from the server. We recommend providing a customer token to the video widget to avoid the form.
 
 To learn more about customer tokens, see the [customer tokens](https://goodtok.io/docs/video-widget/customer-tokens) section in the documentation.
 
 ## Architecture
 
-Goodtok uses a combination of open source tools to provide a video application that can be integrated into any website. If the tools exist and it is well maintained, we will use and support that tool. If the tool doesn't exist, we build and open source it ourselves.
+Goodtok uses a combination of open-source tools to provide a video application that can be integrated into any website. If the tool exists and is well maintained, we will use and support it. If the tool doesn't exist, we build and open-source it ourselves.
 
 Goodtok is a [hosted platform](https://goodtok.io). You can sign up and start using Goodtok without installing anything. You can also self-host and develop locally.
 
@@ -159,7 +159,7 @@ Goodtok is a [hosted platform](https://goodtok.io). You can sign up and start us
   </p>
 </div>
 
-- [Postgres](https://www.postgresql.org/) is a popular open source database with a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness.
+- [Postgres](https://www.postgresql.org/) is a popular open-source database with a proven architecture that has earned it a strong reputation for reliability, data integrity, and correctness.
 - [tRPC](https://trpc.io) is a library for building end-to-end type-safe APIs with TypeScript and Node.js. We connect all the services using tRPC.
 - [SMTP](https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol) is an Internet standard for email transmission. We use SMTP to send emails to customers and agents.
 - [PeerJS](https://peerjs.com/) simplifies WebRTC peer-to-peer data, video, and audio calls. We use PeerJS to establish a WebRTC connection between the customer and the agent.
@@ -172,11 +172,11 @@ Meet our sales team for any commercial inquiries.
 
 ## Bugs and Feature Requests
 
-For bugs or feature requests, please create an issue [here](https://github.com/fonoster/goodtok/issues). For questions, please see the [Discussions](https://github.com/fonoster/goodtok/discussions) section.
+For bugs or feature requests, please create an issue [here](https://github.com/fonoster/goodtok/issues). For questions, please see the [Discussions] section (https://github.com/fonoster/goodtok/discussions).
 
 ## Known Issues
 
-- When running Goodtok without a TLS certificate, you must add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or equivalent for your browser, because the camera will not work on an insecure origin.
+When running Goodtok without a TLS certificate, you must add the following to your browser to allow the camera to work: `chrome://flags/#unsafely-treat-insecure-origin-as-secure` or an equivalent for your browser. The camera will not work on an insecure origin.
 
 ## Contributing
 
