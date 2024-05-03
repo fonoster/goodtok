@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2023 by Fonoster Inc (https://fonoster.com)
+# Copyright (C) 2024 by Fonoster Inc (https://fonoster.com)
 # http://github.com/fonoster/goodtok
 #
 # This file is part of Goodtok
