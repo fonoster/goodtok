@@ -17,7 +17,7 @@ Goodtok helps businesses enhance their customer service right from their website
 
 ## Table of Contents
 
-- [Give a star!](#give-a-star-)
+- [Give a Star!](#give-a-star-)
 - [Installation](#installation)
 - [Development Mode](#development-mode-with-gitpod)
 - [Usage](#usage)
