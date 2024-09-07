@@ -13,7 +13,8 @@
 
 Goodtok helps businesses enhance their customer service right from their website. The video application lets customers connect with your staff in real-time. You can integrate this simple and easy-to-use application into any website.
 
-> This project is just starting and is not ready for production use yet 🚧
+> [!WARNING]
+> This project is just starting and is not ready for production use yet.
 
 ## Table of Contents
 
