@@ -172,7 +172,7 @@ Meet our sales team for any commercial inquiries.
 
 ## Bugs and Feature Requests
 
-For bugs or feature requests, please create an issue [here](https://github.com/fonoster/goodtok/issues). For questions, please see the [Discussions] section (https://github.com/fonoster/goodtok/discussions).
+For bugs or feature requests, please create an issue [here](https://github.com/fonoster/goodtok/issues). For questions, take a look at the [Discussions](https://github.com/fonoster/goodtok/discussions) section.
 
 ## Known Issues
 
