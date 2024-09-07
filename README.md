@@ -30,11 +30,11 @@ Goodtok helps businesses enhance their customer service right from their website
 
 ## Give a star! ⭐
 
-It would mean a lot to me if you could give this project a star. It helps me identify if I'm doing a good job or not. Also, it helps me attract potential contributors and users. 🙏
+It would mean a lot to us if you could give this project a star. It helps us identify if we are doing a good job and attract potential contributors, users, and investors. Thanks 🙏
 
 ## Installation
 
-We aim to make this as easy to install as possible. For now, you can use the following instructions to get started.
+We aim to make this as easy to install as possible. For now, follow the following instructions to get started.
 
 First, create a new directory called `goodtok` and change to that directory:
 
