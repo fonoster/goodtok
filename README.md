@@ -28,7 +28,7 @@ Goodtok helps businesses enhance their customer service right from their website
 - [Authors](#authors)
 - [License](#license)
 
-## Give a star! ⭐
+## Give a Star! ⭐
 
 It would mean a lot to us if you could give this project a star. It helps us identify if we are doing a good job and attract potential contributors, users, and investors. Thanks 🙏
 
